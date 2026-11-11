@@ -1,0 +1,234 @@
+/* ---------- каркас: телефон (по умолчанию) ---------- */
+.shell {
+  min-height: 100dvh;
+}
+.shell.has-timer {
+  --timer-h: 92px;
+}
+
+main {
+  display: block;
+  max-width: 980px;
+  margin: 0 auto;
+  padding-left: calc(var(--gutter) + var(--safe-l));
+  padding-right: calc(var(--gutter) + var(--safe-r));
+  /* место под таб-бар, home indicator и таймер */
+  padding-bottom: calc(var(--tabbar-h) + var(--safe-b) + var(--timer-h) + 32px);
+  outline: none;
+}
+.topbar {
+  margin-left: calc(-1 * (var(--gutter) + var(--safe-l)));
+  margin-right: calc(-1 * (var(--gutter) + var(--safe-r)));
+  padding-left: calc(var(--gutter) + var(--safe-l));
+  padding-right: calc(var(--gutter) + var(--safe-r));
+}
+
+.swipe {
+  touch-action: pan-y pinch-zoom;
+}
+
+/* нижняя таб-панель — в зоне большого пальца */
+.nav {
+  position: fixed;
+  z-index: 30;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  padding: 0 var(--safe-r) var(--safe-b) var(--safe-l);
+  background: color-mix(in srgb, var(--card) 96%, transparent);
+  -webkit-backdrop-filter: saturate(1.6) blur(20px);
+  backdrop-filter: saturate(1.6) blur(20px);
+  border-top: 1px solid var(--line);
+}
+.nav-brand,
+.nav-install {
+  display: none;
+}
+.nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  height: var(--tabbar-h);
+  color: var(--muted);
+  text-decoration: none;
+  font-size: 11px;
+  font-weight: 700;
+}
+.nav-item.on {
+  color: var(--accent-ink);
+}
+.nav-ic {
+  position: relative;
+}
+.nav-live {
+  position: absolute;
+  top: -2px;
+  right: -6px;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 0 2px var(--card);
+  animation: pulse 1.6s ease-in-out infinite;
+}
+@keyframes pulse {
+  50% {
+    transform: scale(0.7);
+    opacity: 0.6;
+  }
+}
+
+/* в установленном приложении нет панели Safari — чуть больше воздуха снизу */
+@media (display-mode: standalone) {
+  .hide-standalone {
+    display: none !important;
+  }
+}
+
+/* ---------- узкие телефоны ---------- */
+@media (max-width: 380px) {
+  :root {
+    --gutter: 12px;
+  }
+  .seg-btn {
+    font-size: 13px;
+  }
+  .rest-row {
+    grid-template-columns: 50px 1fr 50px 44px;
+  }
+  .rest-time {
+    font-size: 34px;
+  }
+}
+
+/* ---------- планшет / широкий телефон ---------- */
+@media (min-width: 640px) {
+  .ex-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .rules {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .flow {
+    grid-template-columns: 1fr 1fr;
+  }
+  .pic {
+    height: auto;
+    aspect-ratio: 200 / 120;
+  }
+}
+
+@media (min-width: 760px) {
+  .stats,
+  .days {
+    grid-template-columns: repeat(4, 1fr);
+  }
+  .rules {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 759px) {
+  .hide-sm {
+    display: none;
+  }
+}
+
+/* ---------- ПК: боковая навигация ---------- */
+@media (min-width: 960px) {
+  :root {
+    --tabbar-h: 0px;
+    --gutter: 32px;
+    --side-w: 232px;
+  }
+  .nav {
+    top: 0;
+    right: auto;
+    width: var(--side-w);
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 24px 14px;
+    border-top: 0;
+    border-right: 1px solid var(--line);
+  }
+  .nav-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 0 10px 18px;
+    font-weight: 800;
+    font-size: 16px;
+  }
+  .brand-mark {
+    display: grid;
+    place-items: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 11px;
+    background: var(--accent-fill);
+    color: #fff;
+    font-size: 13px;
+    letter-spacing: -0.04em;
+  }
+  .nav-item {
+    flex-direction: row;
+    justify-content: flex-start;
+    gap: 12px;
+    height: 46px;
+    padding: 0 12px;
+    border-radius: 12px;
+    font-size: 15px;
+  }
+  .nav-item:hover {
+    background: var(--soft);
+    color: var(--ink);
+  }
+  .nav-item.on {
+    background: color-mix(in srgb, var(--accent) 12%, transparent);
+  }
+  .nav-install {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: auto;
+    min-height: 44px;
+    padding: 0 12px;
+    border-radius: 12px;
+    font-weight: 700;
+    background: var(--accent-fill);
+    color: #fff;
+  }
+  main {
+    margin-left: var(--side-w);
+    max-width: none;
+    padding-top: 8px;
+  }
+  main > .screen {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .rest {
+    left: auto;
+    right: 24px;
+    bottom: 24px;
+    width: 400px;
+  }
+  .toasts {
+    left: calc(50% + var(--side-w) / 2);
+    bottom: calc(var(--timer-h) + 24px);
+  }
+  .scrim {
+    align-items: center;
+  }
+}
+
+@media (min-width: 1280px) {
+  .ex-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}

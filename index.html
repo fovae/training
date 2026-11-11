@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>Тренировки · Сплит 3+1</title>
+    <meta
+      name="description"
+      content="Тренировочная программа «Сплит 3+1»: журнал подходов, таймер отдыха, история и прогресс. Работает офлайн."
+    />
+
+    <!-- Цвет системных панелей: по теме системы, затем уточняется скриптом по ручной теме -->
+    <meta name="theme-color" content="#F3F1EC" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#111114" media="(prefers-color-scheme: dark)" />
+    <meta name="color-scheme" content="light dark" />
+
+    <!-- iOS: запуск как приложение -->
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Тренировки" />
+    <meta name="format-detection" content="telephone=no" />
+
+    <link rel="icon" href="/icons/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/icons/icon-192.png" sizes="192x192" type="image/png" />
+    <link rel="apple-touch-icon" href="/icons/apple-touch-icon-180.png" sizes="180x180" />
+    <!-- apple-touch-startup-image для iPhone 11–18 добавляет плагин в vite.config.ts -->
+
+    <script>
+      // Тема применяется до отрисовки, чтобы не было вспышки светлого фона.
+      (function () {
+        try {
+          var s = JSON.parse(localStorage.getItem('tp-settings') || '{}');
+          if (s.theme === 'light' || s.theme === 'dark') document.documentElement.dataset.theme = s.theme;
+        } catch (e) {}
+      })();
+    </script>
+  </head>
+  <body>
+    <div id="app">
+      <div id="boot" aria-hidden="true"></div>
+    </div>
+    <noscript>Для работы приложения нужен JavaScript.</noscript>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

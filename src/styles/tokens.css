@@ -1,0 +1,84 @@
+/* Цвета 1:1 из исходной одностраничной версии */
+:root {
+  --bg: #f3f1ec;
+  --card: #ffffff;
+  --ink: #16161a;
+  --muted: #6b6b73;
+  --line: #e7e4dd;
+  --soft: #f7f6f2;
+  --shadow: 0 1px 2px rgba(20, 20, 30, 0.04), 0 8px 24px rgba(20, 20, 30, 0.06);
+  --c1: #e5603f;
+  --c2: #3466db;
+  --c3: #7553db;
+  --c4: #16916b;
+  --accent: var(--c1);
+  /* Фоны под белым текстом и цветной текст — те же оттенки, контраст ≥ 4.5:1 */
+  --c1-fill: #d2411c;
+  --c2-fill: #3466db;
+  --c3-fill: #7553db;
+  --c4-fill: #148461;
+  --c1-ink: #be3b19;
+  --c2-ink: #295ed9;
+  --c3-ink: #6e4bd9;
+  --c4-ink: #106b4f;
+  --accent-fill: var(--c1-fill);
+  --accent-ink: var(--c1-ink);
+  --danger: #b42424;
+
+  --font: 'Manrope Variable', Manrope, system-ui, -apple-system, sans-serif;
+  --r-lg: 24px;
+  --r-md: 20px;
+  --r-sm: 14px;
+
+  --safe-t: env(safe-area-inset-top, 0px);
+  --safe-b: env(safe-area-inset-bottom, 0px);
+  --safe-l: env(safe-area-inset-left, 0px);
+  --safe-r: env(safe-area-inset-right, 0px);
+  --gutter: 16px;
+  --tabbar-h: 60px;
+  --timer-h: 0px;
+
+  color-scheme: light;
+}
+
+/* Тёмная тема: по системе (если не выбрана светлая вручную) или вручную */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    --bg: #111114;
+    --card: #1b1b20;
+    --ink: #f2f1ee;
+    --muted: #9c9ca6;
+    --line: #2a2a31;
+    --soft: #222228;
+    --shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 8px 24px rgba(0, 0, 0, 0.25);
+    --c1: #ff7a5a;
+    --c2: #5b8bff;
+    --c3: #9b7bff;
+    --c4: #2fc497;
+    --c1-ink: #ff7a5a;
+    --c2-ink: #5b8bff;
+    --c3-ink: #9b7bff;
+    --c4-ink: #2fc497;
+    --danger: #ff6b6b;
+    color-scheme: dark;
+  }
+}
+:root[data-theme='dark'] {
+  --bg: #111114;
+  --card: #1b1b20;
+  --ink: #f2f1ee;
+  --muted: #9c9ca6;
+  --line: #2a2a31;
+  --soft: #222228;
+  --shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 8px 24px rgba(0, 0, 0, 0.25);
+  --c1: #ff7a5a;
+  --c2: #5b8bff;
+  --c3: #9b7bff;
+  --c4: #2fc497;
+  --c1-ink: #ff7a5a;
+  --c2-ink: #5b8bff;
+  --c3-ink: #9b7bff;
+  --c4-ink: #2fc497;
+  --danger: #ff6b6b;
+  color-scheme: dark;
+}
