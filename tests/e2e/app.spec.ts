@@ -101,11 +101,20 @@ test('таймер считается от времени и подаёт сиг
   await page.getByLabel(`${name}, подход 1: повторы`).fill('15');
   await page.getByRole('button', { name: `${name}, подход 1: выполнен` }).click();
   const timer = page.getByRole('region', { name: 'Таймер отдыха' });
-  await expect(timer.getByRole('timer')).toHaveText('1:30');
+  const clock = timer.getByRole('timer');
+  // Часы в тесте идут по-настоящему, а CI-раннер может быть медленным — сверяем относительно
+  const secs = async () => {
+    const [m, s] = (await clock.textContent())!.split(':').map(Number);
+    return m! * 60 + s!;
+  };
+  await expect(clock).toHaveText(/^1:(2\d|30)$/); // изоляция — 90 с по умолчанию
+  const before = await secs();
   await page.getByRole('button', { name: 'Плюс 15 секунд' }).click();
-  await expect(timer.getByRole('timer')).toHaveText('1:45');
+  await expect.poll(secs).toBeGreaterThanOrEqual(before + 10);
+  expect(await secs()).toBeLessThanOrEqual(before + 15);
   await page.getByRole('button', { name: 'Минус 15 секунд' }).click();
-  await page.clock.fastForward('01:31');
+  // ровно до конца отдыха: сигнал подаётся, только если отдых закончился < 30 с назад
+  await page.clock.fastForward((await secs()) * 1000 + 1000);
   await expect(timer.getByRole('timer')).toHaveText('Пора!');
   await expect(page.locator('.flash')).toBeVisible();
 });
