@@ -1,40 +1,57 @@
 import { signal } from '@preact/signals';
 import * as store from '../db';
-import type { BackupFile, SetEntry, Workout } from '../db/types';
-import { sanitize, settings } from '../state/settings';
-import { active, history, reloadAll } from '../state/workout';
+import { migrateSettingsV1, migrateWorkoutV1, type V1Settings, type V1Workout } from '../db/migrations';
+import { t } from '../i18n';
+import type { Plan, Session, SessionEntry, SessionSet, Settings } from '../types';
+import { loadSessions } from '../state/session';
+import { plan, setPlan } from '../state/plan';
+import { profile, sanitizeSettings, settings } from '../state/settings';
 
-export const BACKUP_SCHEMA = 1;
+/**
+ * Экспорт и импорт JSON — как в первой версии, на новой схеме.
+ * Полноценный бэкап (кнопка «Сохранить копию», напоминание, SHA-256, строгая схема) — этап 2.
+ * Импорт принимает и файлы первой версии (schema 1) — они мигрируются.
+ */
+export const BACKUP_SCHEMA = 2;
 
-export function buildBackup(): BackupFile {
+export interface BackupFile {
+  app: 'training-pwa';
+  schema: number;
+  exportedAt: string;
+  appVersion: string;
+  sessions: Session[];
+  active: Session | null;
+  plan: Plan | null;
+  settings: Settings;
+}
+
+export function buildBackup(sessions: Session[], active: Session | null): BackupFile {
   return {
     app: 'training-pwa',
     schema: BACKUP_SCHEMA,
     exportedAt: new Date().toISOString(),
     appVersion: __APP_VERSION__,
-    workouts: history.value,
-    active: active.value,
+    sessions,
+    active,
+    plan: plan.value,
     settings: settings.value,
   };
 }
 
-/**
- * Экспорт: на iPhone — через share sheet (Сохранить в Файлы / AirDrop / Telegram),
- * если он недоступен — обычное скачивание файла.
- */
+/** Профиль в файл не кладём: он вводится заново и не нужен для истории */
 export async function exportData(): Promise<'shared' | 'downloaded' | 'cancelled'> {
-  const json = JSON.stringify(buildBackup(), null, 2);
+  const [sessions, active] = await Promise.all([store.listSessions(), store.getActive()]);
+  const json = JSON.stringify(buildBackup(sessions, active), null, 2);
   const name = `training-backup-${new Date().toISOString().slice(0, 10)}.json`;
   const file = new File([json], name, { type: 'application/json' });
   const nav = navigator as Navigator & { canShare?: (d: ShareData) => boolean };
   const coarse = matchMedia('(pointer: coarse)').matches;
   if (coarse && nav.share && nav.canShare?.({ files: [file] })) {
     try {
-      await nav.share({ files: [file], title: 'Резервная копия тренировок' });
+      await nav.share({ files: [file], title: t('backup.shareTitle') });
       return 'shared';
     } catch (e) {
       if ((e as DOMException).name === 'AbortError') return 'cancelled';
-      // иначе — пробуем скачивание
     }
   }
   const url = URL.createObjectURL(file);
@@ -50,46 +67,93 @@ export async function exportData(): Promise<'shared' | 'downloaded' | 'cancelled
 
 // ---------- импорт ----------
 
-const isNum = (v: unknown): v is number => typeof v === 'number' && Number.isFinite(v);
-const numOrNull = (v: unknown): number | null => (isNum(v) && v >= 0 ? v : null);
+const isNum = (v: unknown): v is number => typeof v === 'number' && Number.isFinite(v) && v >= 0;
+const isIso = (v: unknown): v is string => typeof v === 'string' && !Number.isNaN(Date.parse(v));
+const str = (v: unknown, max = 1000): string | undefined =>
+  typeof v === 'string' && v.trim() ? v.slice(0, max) : undefined;
 
-function cleanSet(s: unknown): SetEntry | null {
+function cleanSet(s: unknown): SessionSet | null {
   if (!s || typeof s !== 'object') return null;
   const r = s as Record<string, unknown>;
-  const out: SetEntry = { weight: numOrNull(r.weight), reps: numOrNull(r.reps), done: r.done === true };
-  if (isNum(r.doneAt)) out.doneAt = r.doneAt;
+  const out: SessionSet = { done: r.done === true };
+  if (isNum(r.weightKg)) out.weightKg = r.weightKg;
+  if (isNum(r.reps)) out.reps = r.reps;
+  if (isNum(r.seconds)) out.seconds = r.seconds;
+  if (isIso(r.doneAt)) out.doneAt = r.doneAt;
   return out;
 }
 
-function cleanWorkout(w: unknown): Workout | null {
-  if (!w || typeof w !== 'object') return null;
-  const r = w as Record<string, unknown>;
-  if (typeof r.id !== 'string' || typeof r.dayId !== 'string' || !isNum(r.startedAt)) return null;
-  if (!Array.isArray(r.exercises)) return null;
-  return {
-    id: r.id,
-    dayId: r.dayId,
+function cleanSession(v: unknown): Session | null {
+  if (!v || typeof v !== 'object') return null;
+  const r = v as Record<string, unknown>;
+  if (typeof r.id !== 'string' || typeof r.dayId !== 'string' || !isIso(r.startedAt)) return null;
+  if (!Array.isArray(r.entries)) return null;
+  const s: Session = {
+    id: r.id.slice(0, 100),
+    dayId: r.dayId.slice(0, 100),
     startedAt: r.startedAt,
-    finishedAt: isNum(r.finishedAt) ? r.finishedAt : null,
-    exercises: r.exercises.flatMap((e) => {
+    entries: r.entries.flatMap((e): SessionEntry[] => {
       if (!e || typeof e !== 'object') return [];
       const x = e as Record<string, unknown>;
-      if (typeof x.exId !== 'string' || !Array.isArray(x.sets)) return [];
-      return [
-        {
-          exId: x.exId,
-          skipped: x.skipped === true,
-          sets: x.sets.map(cleanSet).filter((s): s is SetEntry => s !== null),
-        },
-      ];
+      if (typeof x.exerciseId !== 'string' || !Array.isArray(x.sets)) return [];
+      const entry: SessionEntry = {
+        exerciseId: x.exerciseId.slice(0, 100),
+        sets: x.sets.map(cleanSet).filter((q): q is SessionSet => q !== null),
+      };
+      if (x.skipped === true) entry.skipped = true;
+      const note = str(x.note);
+      if (note) entry.note = note;
+      return [entry];
     }),
   };
+  if (isIso(r.endedAt)) s.endedAt = r.endedAt;
+  const note = str(r.note);
+  if (note) s.note = note;
+  return s;
+}
+
+function cleanPlan(v: unknown): Plan | null {
+  if (!v || typeof v !== 'object') return null;
+  const r = v as Record<string, unknown>;
+  if (!Array.isArray(r.days) || !r.days.length) return null;
+  const days = r.days.slice(0, 7).flatMap((d): Plan['days'] => {
+    if (!d || typeof d !== 'object') return [];
+    const x = d as Record<string, unknown>;
+    if (typeof x.id !== 'string' || !Array.isArray(x.items)) return [];
+    const day: Plan['days'][number] = {
+      id: x.id.slice(0, 100),
+      items: x.items.flatMap((i) => {
+        if (!i || typeof i !== 'object') return [];
+        const it = i as Record<string, unknown>;
+        if (typeof it.exerciseId !== 'string' || !isNum(it.sets) || !isNum(it.repsMin) || !isNum(it.repsMax))
+          return [];
+        const item: Plan['days'][number]['items'][number] = {
+          exerciseId: it.exerciseId.slice(0, 100),
+          sets: Math.min(10, Math.max(1, Math.round(it.sets))),
+          repsMin: Math.round(it.repsMin),
+          repsMax: Math.round(it.repsMax),
+        };
+        if (isNum(it.targetWeightKg)) item.targetWeightKg = it.targetWeightKg;
+        if (isNum(it.restSec)) item.restSec = Math.min(600, Math.round(it.restSec));
+        if (it.optional === true) item.optional = true;
+        return [item];
+      }),
+    };
+    const label = str(x.label, 40);
+    if (label) day.label = label;
+    if (typeof x.labelKey === 'string' && /^tpl\.[\w.-]+$/.test(x.labelKey)) day.labelKey = x.labelKey;
+    if (isNum(x.weekday) && x.weekday <= 6) day.weekday = Math.round(x.weekday) as 0;
+    return [day];
+  });
+  if (!days.length) return null;
+  return { mode: r.mode === 'weekdays' ? 'weekdays' : 'cycle', days };
 }
 
 export interface ParsedBackup {
-  workouts: Workout[];
-  active: Workout | null;
-  settings: ReturnType<typeof sanitize> | null;
+  sessions: Session[];
+  active: Session | null;
+  plan: Plan | null;
+  settings: Settings | null;
   exportedAt: string | null;
 }
 
@@ -99,36 +163,52 @@ export function parseBackup(text: string): ParsedBackup {
   try {
     raw = JSON.parse(text);
   } catch {
-    throw new Error('Файл не похож на JSON.');
+    throw new Error(t('backup.errNotJson'));
   }
-  const r = raw as Partial<BackupFile> | null;
-  if (!r || r.app !== 'training-pwa' || !Array.isArray(r.workouts)) {
-    throw new Error('Это не резервная копия этого приложения.');
+  const r = raw as Record<string, unknown> | null;
+  if (!r || r.app !== 'training-pwa') throw new Error(t('backup.errForeign'));
+  if (!isNum(r.schema) || r.schema > BACKUP_SCHEMA) throw new Error(t('backup.errNewer'));
+  const exportedAt = isIso(r.exportedAt) ? r.exportedAt : null;
+
+  if (r.schema < 2) {
+    // Файл первой версии приложения
+    if (!Array.isArray(r.workouts)) throw new Error(t('backup.errForeign'));
+    const conv = (w: unknown) => {
+      if (!w || typeof w !== 'object') return null;
+      const x = w as V1Workout;
+      if (typeof x.id !== 'string' || typeof x.dayId !== 'string' || !isNum(x.startedAt)) return null;
+      return cleanSession(
+        migrateWorkoutV1({ ...x, exercises: Array.isArray(x.exercises) ? x.exercises : [] }),
+      );
+    };
+    const sessions = r.workouts.map(conv).filter((s): s is Session => !!s?.endedAt);
+    const act = conv(r.active);
+    return {
+      sessions,
+      active: act && !act.endedAt ? act : null,
+      plan: null,
+      settings: r.settings ? migrateSettingsV1(r.settings as V1Settings) : null,
+      exportedAt,
+    };
   }
-  if (!isNum(r.schema) || r.schema > BACKUP_SCHEMA) {
-    throw new Error('Копия сделана более новой версией приложения. Сначала обнови приложение.');
-  }
-  // Здесь будут миграции формата: if (r.schema < 2) { ... }
-  const workouts = r.workouts
-    .map(cleanWorkout)
-    .filter((w): w is Workout => w !== null && w.finishedAt !== null);
-  const act = cleanWorkout(r.active);
+
+  if (!Array.isArray(r.sessions)) throw new Error(t('backup.errForeign'));
+  const sessions = r.sessions.map(cleanSession).filter((s): s is Session => !!s?.endedAt);
+  const act = cleanSession(r.active);
   return {
-    workouts,
-    active: act && act.finishedAt === null ? act : null,
-    settings: r.settings ? sanitize(r.settings) : null,
-    exportedAt: typeof r.exportedAt === 'string' ? r.exportedAt : null,
+    sessions,
+    active: act && !act.endedAt ? act : null,
+    plan: cleanPlan(r.plan),
+    settings: r.settings ? sanitizeSettings(r.settings) : null,
+    exportedAt,
   };
 }
 
 export async function applyBackup(b: ParsedBackup): Promise<void> {
-  await store.replaceAll(b.workouts, b.active);
+  await store.replaceSessions(b.sessions, b.active);
+  if (b.plan) await setPlan(b.plan);
   if (b.settings) settings.value = b.settings;
-  await reloadAll();
-}
-
-export function readFile(file: File): Promise<string> {
-  return file.text();
+  await loadSessions();
 }
 
 // ---------- постоянное хранилище ----------
@@ -160,7 +240,10 @@ export async function requestPersist(): Promise<void> {
   }
 }
 
+/** Сброс: удаляет всё, приложение возвращается к онбордингу */
 export async function resetAll(): Promise<void> {
   await store.clearAll();
-  await reloadAll();
+  profile.value = null;
+  plan.value = null;
+  await loadSessions();
 }

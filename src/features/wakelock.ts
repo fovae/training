@@ -1,6 +1,6 @@
 import { effect, signal } from '@preact/signals';
 import { settings } from '../state/settings';
-import { active } from '../state/workout';
+import { active } from '../state/session';
 
 /**
  * Screen Wake Lock во время тренировки.

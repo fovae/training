@@ -1,29 +1,34 @@
 import { computed, effect, signal } from '@preact/signals';
 import type { ComponentChildren } from 'preact';
-import { PROGRAM, findDay } from '../data/program';
 import { settings } from './settings';
-import { active, suggestedDayId } from './workout';
+import { dayColor, plan } from './plan';
+import { active, suggestedDayId } from './session';
 
 // ---------- маршрутизация (hash — работает на GitHub Pages без настроек сервера) ----------
 
-export type Tab = 'today' | 'program' | 'history' | 'settings';
+export type Tab = 'today' | 'plan' | 'library' | 'history' | 'settings' | 'legal';
 export interface Route {
   tab: Tab;
-  /** history/exercise/<id>, history/workout/<id> */
-  sub?: { kind: 'exercise' | 'workout'; id: string };
+  /** history/exercise/<id>, history/workout/<id>, library/<id>, legal/<doc> */
+  sub?: { kind: string; id: string };
 }
 
-function parse(hash: string): Route {
-  const [tab, kind, id] = hash.replace(/^#\/?/, '').split('/');
-  const t: Tab = tab === 'program' || tab === 'history' || tab === 'settings' ? tab : 'today';
-  if (t === 'history' && (kind === 'exercise' || kind === 'workout') && id)
-    return { tab: t, sub: { kind, id: decodeURIComponent(id) } };
+const TABS: Tab[] = ['today', 'plan', 'library', 'history', 'settings', 'legal'];
+
+export function parseRoute(hash: string): Route {
+  const [tab, a, b] = hash.replace(/^#\/?/, '').split('/');
+  // Старый адрес «Программа» ведёт в план
+  const t: Tab = tab === 'program' ? 'plan' : TABS.includes(tab as Tab) ? (tab as Tab) : 'today';
+  if (t === 'history' && (a === 'exercise' || a === 'workout') && b)
+    return { tab: t, sub: { kind: a, id: decodeURIComponent(b) } };
+  if (t === 'library' && a) return { tab: t, sub: { kind: 'exercise', id: decodeURIComponent(a) } };
+  if (t === 'legal') return { tab: t, sub: { kind: 'doc', id: a === 'terms' ? 'terms' : 'privacy' } };
   return { tab: t };
 }
 
-export const route = signal<Route>(parse(location.hash));
+export const route = signal<Route>(parseRoute(location.hash));
 addEventListener('hashchange', () => {
-  route.value = parse(location.hash);
+  route.value = parseRoute(location.hash);
   window.scrollTo(0, 0);
 });
 
@@ -33,21 +38,21 @@ export function go(path: string): void {
 
 // ---------- выбранный день (вне активной тренировки) ----------
 
-/** null — следовать подсказке цикла */
+/** null — следовать подсказке плана */
 export const pickedDayId = signal<string | null>(null);
 
-export const todayDayId = computed(() => active.value?.dayId ?? pickedDayId.value ?? suggestedDayId.value);
+export const todayDayId = computed<string | null>(() => {
+  const days = plan.value?.days ?? [];
+  const ok = (id: string | null | undefined) => (id && days.some((d) => d.id === id) ? id : null);
+  return active.value?.dayId ?? ok(pickedDayId.value) ?? suggestedDayId.value;
+});
 
-/** День на экране «Программа» */
-export const programDayId = signal<string>(PROGRAM[0]!.id);
-
-export const accentDayId = computed(() =>
-  route.value.tab === 'program' ? programDayId.value : todayDayId.value,
-);
+/** День на экране «План» */
+export const planDayId = signal<string | null>(null);
 
 effect(() => {
-  const d = findDay(accentDayId.value);
-  const c = d?.color ?? 'c1';
+  const id = route.value.tab === 'plan' ? planDayId.value : todayDayId.value;
+  const c = id ? dayColor(id) : 'c1';
   const st = document.documentElement.style;
   st.setProperty('--accent', `var(--${c})`);
   st.setProperty('--accent-fill', `var(--${c}-fill)`);
@@ -62,20 +67,19 @@ export const systemDark = signal(mq.matches);
 mq.addEventListener('change', (e) => (systemDark.value = e.matches));
 
 export const resolvedTheme = computed<'light' | 'dark'>(() => {
-  const t = settings.value.theme;
-  return t === 'system' ? (systemDark.value ? 'dark' : 'light') : t;
+  const th = settings.value.theme;
+  return th === 'light' || th === 'dark' ? th : systemDark.value ? 'dark' : 'light';
 });
 
 effect(() => {
-  const t = settings.value.theme;
+  const th = settings.value.theme;
+  const manual = th === 'light' || th === 'dark';
   const root = document.documentElement;
-  if (t === 'system') delete root.dataset.theme;
-  else root.dataset.theme = t;
-  // theme-color: при ручной теме обе meta получают цвет выбранной темы
-  const metas = document.querySelectorAll<HTMLMetaElement>('meta[name="theme-color"]');
-  metas.forEach((m) => {
+  if (manual) root.dataset.theme = th;
+  else delete root.dataset.theme;
+  document.querySelectorAll<HTMLMetaElement>('meta[name="theme-color"]').forEach((m) => {
     const isDarkMeta = (m.media || '').includes('dark');
-    m.content = t === 'system' ? (isDarkMeta ? THEME_BG.dark : THEME_BG.light) : THEME_BG[t];
+    m.content = manual ? THEME_BG[th] : isDarkMeta ? THEME_BG.dark : THEME_BG.light;
   });
 });
 
@@ -91,17 +95,17 @@ export const toasts = signal<Toast[]>([]);
 let tid = 0;
 
 export function toast(text: string, opts: Omit<Toast, 'id' | 'text'> = {}): void {
-  const t: Toast = { id: ++tid, text, ...opts };
-  toasts.value = [...toasts.value.slice(-2), t];
+  const item: Toast = { id: ++tid, text, ...opts };
+  toasts.value = [...toasts.value.slice(-2), item];
   const ttl = opts.ttl ?? (opts.action ? 6000 : 3200);
-  if (ttl > 0) setTimeout(() => dismissToast(t.id), ttl);
+  if (ttl > 0) setTimeout(() => dismissToast(item.id), ttl);
 }
 
 export function dismissToast(id: number): void {
-  toasts.value = toasts.value.filter((t) => t.id !== id);
+  toasts.value = toasts.value.filter((x) => x.id !== id);
 }
 
-// ---------- модальные диалоги (вместо confirm()) ----------
+// ---------- модальные диалоги ----------
 
 export interface DialogSpec {
   title: string;
@@ -109,7 +113,6 @@ export interface DialogSpec {
   confirm: string;
   cancel?: string;
   danger?: boolean;
-  /** Третья кнопка (например, «Отменить тренировку») */
   extra?: { label: string; danger?: boolean };
 }
 
@@ -131,5 +134,3 @@ export function ask(spec: DialogSpec): Promise<'confirm' | 'cancel' | 'extra'> {
     };
   });
 }
-
-export const confirmDialog = async (spec: DialogSpec): Promise<boolean> => (await ask(spec)) === 'confirm';

@@ -25,7 +25,11 @@
   --accent-ink: var(--c1-ink);
   --danger: #b42424;
 
-  --font: 'Manrope Variable', Manrope, system-ui, -apple-system, sans-serif;
+  /* Латиница и кириллица — Manrope (своя копия). CJK — системные шрифты, свои не грузим. */
+  --font:
+    'Manrope Variable', Manrope, system-ui, -apple-system, 'PingFang SC', 'Hiragino Sans',
+    'Apple SD Gothic Neo', 'Noto Sans CJK SC', 'Noto Sans CJK JP', 'Noto Sans CJK KR', 'Malgun Gothic',
+    'Microsoft YaHei', sans-serif;
   --r-lg: 24px;
   --r-md: 20px;
   --r-sm: 14px;

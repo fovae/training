@@ -1,44 +1,58 @@
-import { settings } from '../state/settings';
+import { fmtNum, t } from '../i18n';
+import { units } from '../state/settings';
 
 const LB = 2.2046226218;
+const IN = 2.54;
 
-/** кг → число в выбранных единицах (для отображения и полей ввода) */
+/** кг → число в выбранных единицах (для показа и полей ввода) */
 export function toUnit(kg: number | null | undefined): number | null {
   if (kg == null) return null;
-  if (settings.value.units === 'lb') return Math.round(kg * LB * 2) / 2;
+  if (units.value === 'imperial') return Math.round(kg * LB * 2) / 2;
   return Math.round(kg * 100) / 100;
 }
 
 /** число в выбранных единицах → кг (для хранения) */
 export function fromUnit(v: number | null): number | null {
   if (v == null || !Number.isFinite(v)) return null;
-  if (settings.value.units === 'lb') return Math.round((v / LB) * 1000) / 1000;
+  if (units.value === 'imperial') return Math.round((v / LB) * 1000) / 1000;
   return Math.round(v * 100) / 100;
 }
 
-export const unitLabel = (): string => (settings.value.units === 'lb' ? 'фунт' : 'кг');
-
-export function fmtNum(n: number): string {
-  return new Intl.NumberFormat('ru-RU', { maximumFractionDigits: 1 }).format(n);
-}
+export const unitLabel = (): string => t(units.value === 'imperial' ? 'unit.lb' : 'unit.kg');
 
 export function fmtWeight(kg: number | null | undefined): string {
   const v = toUnit(kg);
   return v == null ? '—' : `${fmtNum(v)} ${unitLabel()}`;
 }
 
+/** Вес тела — точнее, чем вес снаряда */
+export const kgToLb = (kg: number): number => Math.round(kg * LB * 10) / 10;
+export const lbToKg = (lb: number): number => Math.round((lb / LB) * 10) / 10;
+export const cmToFtIn = (cm: number): { ft: number; inch: number } => {
+  const total = Math.round(cm / IN);
+  return { ft: Math.floor(total / 12), inch: total % 12 };
+};
+export const ftInToCm = (ft: number, inch: number): number => Math.round((ft * 12 + inch) * IN);
+
 /** Парсинг ввода: принимает и запятую, и точку */
 export function parseDecimal(s: string): number | null {
-  const t = s.replace(',', '.').trim();
-  if (!t) return null;
-  const n = Number(t);
+  const v = s.replace(',', '.').trim();
+  if (!v) return null;
+  const n = Number(v);
   return Number.isFinite(n) && n >= 0 ? n : null;
+}
+
+/** Число в поле ввода: десятичный разделитель как в языке интерфейса */
+export function inputNum(n: number | null | undefined): string {
+  if (n == null) return '';
+  const sep = fmtNum(1.5).includes(',') ? ',' : '.';
+  return String(n).replace('.', sep);
 }
 
 export function fmtDuration(ms: number): string {
   const min = Math.max(0, Math.round(ms / 60000));
-  if (min < 60) return `${min} мин`;
-  return `${Math.floor(min / 60)} ч ${min % 60} мин`;
+  if (min < 60) return t('fmt.minutes', { n: min });
+  return t('fmt.hoursMinutes', { h: Math.floor(min / 60), m: min % 60 });
 }
 
 export function fmtClock(sec: number): string {
@@ -46,20 +60,11 @@ export function fmtClock(sec: number): string {
   return `${Math.floor(s / 60)}:${String(s % 60).padStart(2, '0')}`;
 }
 
-const dateFmt = new Intl.DateTimeFormat('ru-RU', { day: 'numeric', month: 'long', weekday: 'short' });
-const shortFmt = new Intl.DateTimeFormat('ru-RU', { day: 'numeric', month: 'short' });
-const timeFmt = new Intl.DateTimeFormat('ru-RU', { hour: '2-digit', minute: '2-digit' });
-
-export const fmtDate = (t: number): string => dateFmt.format(t);
-export const fmtShortDate = (t: number): string => shortFmt.format(t).replace('.', '');
-export const fmtTime = (t: number): string => timeFmt.format(t);
-
-export function plural(n: number, one: string, few: string, many: string): string {
-  const m10 = n % 10;
-  const m100 = n % 100;
-  if (m10 === 1 && m100 !== 11) return one;
-  if (m10 >= 2 && m10 <= 4 && (m100 < 12 || m100 > 14)) return few;
-  return many;
+/** «2–3 мин», «90 с» — для подписи отдыха */
+export function fmtRest(sec: number): string {
+  if (sec >= 120 && sec % 60 === 0) return t('fmt.restMin', { n: sec / 60 });
+  if (sec > 60) return fmtClock(sec);
+  return t('fmt.restSec', { n: sec });
 }
 
 /** Начало текущей недели (понедельник 00:00) */
@@ -75,3 +80,10 @@ export const uid = (): string =>
   typeof crypto !== 'undefined' && 'randomUUID' in crypto
     ? crypto.randomUUID()
     : Date.now().toString(36) + Math.random().toString(36).slice(2);
+
+export const ms = (iso: string | undefined): number => (iso ? Date.parse(iso) : 0);
+
+/** Убирает поля со значением undefined (в IndexedDB храним без пустых ключей) */
+export function compact<T extends object>(o: T): T {
+  return Object.fromEntries(Object.entries(o).filter(([, v]) => v !== undefined)) as T;
+}

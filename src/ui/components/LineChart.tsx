@@ -1,4 +1,4 @@
-import { fmtNum, fmtShortDate } from '../../lib/format';
+import { fmtNum, fmtShortDate } from '../../i18n';
 
 export interface Series {
   name: string;

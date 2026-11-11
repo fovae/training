@@ -1,3 +1,4 @@
+import { t } from '../../i18n';
 import { useEffect, useState } from 'preact/hooks';
 import { adjustRest, flash, remainingMs, stopRest, timer, togglePause } from '../../features/timer';
 import { fmtClock } from '../../lib/format';
@@ -5,17 +6,17 @@ import { Icon } from './Icon';
 
 /** Нижняя плашка таймера отдыха поверх контента */
 export function RestTimerBar() {
-  const t = timer.value;
-  if (!t) return null;
+  const rt = timer.value;
+  if (!rt) return null;
   const left = remainingMs.value;
-  const pct = t.total ? Math.min(100, (1 - left / t.total) * 100) : 100;
-  const paused = t.pausedLeft != null;
-  const finished = t.fired || left <= 0;
+  const pct = rt.total ? Math.min(100, (1 - left / rt.total) * 100) : 100;
+  const paused = rt.pausedLeft != null;
+  const finished = rt.fired || left <= 0;
 
   return (
     <section
       class={'rest' + (finished ? ' finished' : '') + (paused ? ' paused' : '')}
-      aria-label="Таймер отдыха"
+      aria-label={t('timer.region')}
     >
       <div class="rest-bar" aria-hidden="true">
         <i style={{ width: `${pct}%` }} />
@@ -26,7 +27,7 @@ export function RestTimerBar() {
           class="rest-adj"
           onClick={() => adjustRest(-15)}
           disabled={finished}
-          aria-label="Минус 15 секунд"
+          aria-label={t('timer.minus15')}
         >
           −15
         </button>
@@ -35,11 +36,13 @@ export function RestTimerBar() {
           class="rest-main"
           onClick={togglePause}
           disabled={finished}
-          aria-label={paused ? 'Продолжить отдых' : 'Пауза'}
+          aria-label={paused ? t('timer.resume') : t('timer.pause')}
         >
-          <span class="rest-label">{finished ? 'Отдых окончен' : paused ? 'Пауза' : t.label}</span>
+          <span class="rest-label">
+            {finished ? t('timer.over') : paused ? t('timer.paused') : rt.label || t('timer.rest')}
+          </span>
           <span class="rest-time" role="timer" aria-live="off">
-            {finished ? 'Пора!' : fmtClock(left / 1000)}
+            {finished ? t('timer.go') : fmtClock(left / 1000)}
           </span>
         </button>
         <button
@@ -47,7 +50,7 @@ export function RestTimerBar() {
           class="rest-adj"
           onClick={() => adjustRest(15)}
           disabled={finished}
-          aria-label="Плюс 15 секунд"
+          aria-label={t('timer.plus15')}
         >
           +15
         </button>
@@ -55,13 +58,13 @@ export function RestTimerBar() {
           type="button"
           class="rest-skip"
           onClick={stopRest}
-          aria-label={finished ? 'Закрыть' : 'Пропустить отдых'}
+          aria-label={finished ? t('common.close') : t('timer.skip')}
         >
           <Icon name={finished ? 'close' : 'skip'} size={20} />
         </button>
       </div>
       <span class="sr-only" aria-live="assertive">
-        {finished ? 'Отдых окончен' : ''}
+        {finished ? t('timer.over') : ''}
       </span>
     </section>
   );

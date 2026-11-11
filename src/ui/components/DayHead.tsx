@@ -1,6 +1,8 @@
 import type { ComponentChildren } from 'preact';
-import type { Day } from '../../data/types';
-import { dayIndex } from '../../data/program';
+import { t } from '../../i18n';
+import { dayColor } from '../../state/plan';
+import type { Day } from '../../types';
+import { dayEyebrow, dayMeta, dayTitle } from '../labels';
 
 interface Props {
   day: Day;
@@ -8,23 +10,20 @@ interface Props {
   children?: ComponentChildren;
 }
 
-/** Цветная шапка дня — как в исходной программе */
+/** Цветная шапка дня */
 export function DayHead({ day, progress, children }: Props) {
-  const i = dayIndex(day.id);
   const pct = progress && progress.total ? (progress.done / progress.total) * 100 : 0;
   return (
-    <div class="dayhead" style={{ background: `var(--${day.color}-fill)` }}>
-      <div class="eyebrow">
-        День {i + 1} · {day.status}
-      </div>
-      <h2 class="dayhead-title">{day.title}</h2>
-      <p>{day.intro}</p>
+    <div class="dayhead" style={{ background: `var(--${dayColor(day.id)}-fill)` }}>
+      <div class="eyebrow">{dayEyebrow(day)}</div>
+      <h2 class="dayhead-title">{dayTitle(day)}</h2>
+      <p>{dayMeta(day)}</p>
       {progress && (
         <div class="prog">
           <div
             class="track"
             role="progressbar"
-            aria-label="Выполнено упражнений"
+            aria-label={t('today.progress')}
             aria-valuemin={0}
             aria-valuemax={progress.total}
             aria-valuenow={progress.done}

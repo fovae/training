@@ -1,0 +1,299 @@
+{
+  "ex": {
+    "incline-db-press": {
+      "name": "Incline dumbbell press",
+      "desc": "An angled press that focuses on the upper chest. Dumbbells allow a free path and make both arms work equally.",
+      "cues": [
+        "Set the bench to 20–30°: higher shifts the work to the shoulders.",
+        "Keep your shoulder blades pulled together and pressed into the bench, feet flat on the floor.",
+        "Lower the dumbbells under control to chest level and don't clank them at the top."
+      ],
+      "mistakes": [
+        "Bench angle too steep, turning it into a shoulder press.",
+        "Elbows flared straight out, shoulders rolling forward."
+      ],
+      "safety": "Pick a weight you can safely lower onto your thighs after the set. Shoulder pain: shorten the range or reduce the weight."
+    },
+    "flat-press": {
+      "name": "Machine chest press or flat dumbbell press",
+      "desc": "A compound press for the middle chest. Choose the version where you control the range better: machine or dumbbells.",
+      "cues": [
+        "Keep your shoulder blades pulled together and steady for the whole set.",
+        "Elbows at about 45–60° from your body, not straight out to the sides.",
+        "Press smoothly without lifting your hips off the bench."
+      ],
+      "mistakes": [
+        "Shoulders creeping up to the ears at the top.",
+        "Bouncing the weight off the chest instead of lowering it under control."
+      ],
+      "safety": "On a machine, set the seat so the handles are level with the middle of your chest. With dumbbells, don't go to failure without a spotter."
+    },
+    "high-to-low-cable-fly": {
+      "name": "High-to-low cable fly",
+      "desc": "An isolation move for the lower chest. The handles travel down and towards each other.",
+      "cues": [
+        "Step forward, lean slightly, keep a small, fixed bend in the elbows.",
+        "Sweep the handles down in an arc and bring them together in front of your lower chest.",
+        "Return slowly and feel the stretch in your chest."
+      ],
+      "mistakes": [
+        "Turning it into a press by bending and straightening the elbows.",
+        "Too much weight pulling the shoulders back and forth."
+      ],
+      "safety": "Don't let your arms travel too far back in the stretch, especially if your shoulders are sensitive."
+    },
+    "rope-pushdown": {
+      "name": "Rope triceps pushdown",
+      "desc": "Triceps isolation, especially the lateral and medial heads.",
+      "cues": [
+        "Elbows stay pinned to your sides; only the forearms move.",
+        "At the bottom, spread the rope ends apart and hold for a second.",
+        "Keep your torso still, no swinging."
+      ],
+      "mistakes": [
+        "Elbows drifting forward and back, bringing in the shoulders.",
+        "Leaning the whole body over the weight."
+      ],
+      "safety": "If your elbow hurts, reduce the weight and don't snap the arm straight."
+    },
+    "overhead-cable-extension": {
+      "name": "Overhead cable triceps extension",
+      "desc": "Extending the arms overhead works the triceps in a stretched position, with a focus on the long head.",
+      "cues": [
+        "Stand facing away from the cable, elbows pointing forward and staying in place.",
+        "Don't arch your lower back: lightly brace your abs.",
+        "Work in a comfortable range, no jerk at the bottom."
+      ],
+      "mistakes": ["Elbows flaring out to the sides.", "Arching the lower back to lift more."],
+      "safety": "If your shoulder feels uncomfortable, shorten the range or switch to the rope pushdown."
+    },
+    "single-arm-pushdown": {
+      "name": "Single-arm cable pushdown",
+      "desc": "A one-arm pushdown on the high cable. Helps even out strength between arms and control each side.",
+      "cues": ["Upper arm still, elbow by your side.", "Straighten the arm fully and return slowly."],
+      "mistakes": ["Torso twisting along with the arm.", "Rushing the reps without control."],
+      "safety": "Optional exercise: if your triceps are already fried from pressing, skip it."
+    },
+    "lat-pulldown": {
+      "name": "Lat pulldown",
+      "desc": "A vertical pull for the lats. A good stand-in for pull-ups with adjustable weight.",
+      "cues": [
+        "Start by pulling your shoulder blades down, then drive the elbows down.",
+        "Pull the bar to your upper chest with a slight lean back.",
+        "At the top, straighten your arms fully but keep the shoulders engaged."
+      ],
+      "mistakes": ["Pulling behind the neck.", "Swinging the torso to move the weight."],
+      "safety": "Lock your thighs under the pads. Don't let the bar yank your arms up at the top."
+    },
+    "seated-cable-row": {
+      "name": "Seated cable row",
+      "desc": "A seated row to the stomach for the mid-back, rhomboids and lats.",
+      "cues": [
+        "Long spine, torso almost still.",
+        "Pull the handle to your lower stomach, elbows close to your body.",
+        "Squeeze your shoulder blades together at the end, without shrugging."
+      ],
+      "mistakes": ["Rocking the torso back and forth.", "Rounding the back at the start of each rep."],
+      "safety": "Keep the knees slightly bent. If your lower back feels strained, reduce the weight and keep the torso steadier."
+    },
+    "chest-supported-db-row": {
+      "name": "Chest-supported dumbbell row",
+      "desc": "A row lying chest-down on an incline bench. The support takes load off the lower back; works the upper back and rear delts.",
+      "cues": [
+        "Lie chest-down on a bench set to 30–45°, arms hanging freely.",
+        "Drive the elbows back and slightly out, no jerking.",
+        "No bench? A chest-supported row machine works too."
+      ],
+      "mistakes": [
+        "Chest lifting off the bench on every rep.",
+        "Pulling with the arms only, without moving the shoulder blades."
+      ],
+      "safety": "Pick up and put down the dumbbells carefully, without twisting off the bench."
+    },
+    "incline-db-curl": {
+      "name": "Incline dumbbell curl",
+      "desc": "Curls seated on an incline bench: arms behind the body, biceps stretched, focus on the long head.",
+      "cues": [
+        "Back against the bench, shoulders behind your torso.",
+        "Don't let the elbows travel forward as you lift.",
+        "Lower slowly to almost straight arms."
+      ],
+      "mistakes": [
+        "Shoulders rolling forward to help lift the weight.",
+        "Dropping the dumbbells on the way down."
+      ],
+      "safety": "Start light: the stretched position puts more load on the biceps tendon."
+    },
+    "preacher-curl": {
+      "name": "Preacher curl or machine curl",
+      "desc": "Curls with the upper arm resting on a pad. Removes cheating and focuses on the short head of the biceps.",
+      "cues": [
+        "Keep your upper arm firmly on the pad the whole time.",
+        "Don't snap the elbow straight at the bottom."
+      ],
+      "mistakes": ["Lifting the upper arm off the pad at the top.", "Lowering too fast."],
+      "safety": "The bottom position is the most vulnerable for the elbow: lower slowly and never drop the weight."
+    },
+    "hammer-curl": {
+      "name": "Hammer curl",
+      "desc": "Curls with a neutral grip. Load the brachialis and brachioradialis.",
+      "cues": ["Palms face each other through the whole movement.", "No swinging, shoulders stay down."],
+      "mistakes": ["Elbows moving forward.", "Swinging the back on the last reps."],
+      "safety": "Keep your wrists straight, don't bend them back."
+    },
+    "wrist-curl": {
+      "name": "Seated wrist curl",
+      "desc": "Isolation for the forearm flexors. Strengthens your grip.",
+      "cues": [
+        "Forearms rest on your thighs or a bench; only the hands move.",
+        "Moderate weight, full and smooth range."
+      ],
+      "mistakes": ["Forearms lifting off the support.", "Too heavy, with a short range."],
+      "safety": "If your wrists or elbows feel uncomfortable, reduce the weight or drop the exercise."
+    },
+    "reverse-wrist-curl": {
+      "name": "Seated reverse wrist curl",
+      "desc": "Isolation for the forearm extensors. Balances out wrist curls.",
+      "cues": ["Overhand grip, forearms resting on the support.", "Slow, no jerking."],
+      "mistakes": [
+        "Jerking instead of a smooth movement.",
+        "Using the same weight as for wrist curls: the extensors are much weaker."
+      ],
+      "safety": "If your wrists or elbows feel uncomfortable, reduce the weight or drop the exercise."
+    },
+    "seated-shoulder-press": {
+      "name": "Seated dumbbell or machine shoulder press",
+      "desc": "A compound overhead press for the front and side delts.",
+      "cues": [
+        "Back against the pad, don't arch your lower back.",
+        "Don't lower the elbows past a comfortable depth.",
+        "Press up and slightly in, without clanking the dumbbells."
+      ],
+      "mistakes": ["Strong arch in the lower back.", "Taking every set to failure."],
+      "safety": "Set the backrest almost upright. Shoulder pain: shorten the range or reduce the weight."
+    },
+    "lateral-raise": {
+      "name": "Dumbbell lateral raise",
+      "desc": "Isolation for the side delts.",
+      "cues": [
+        "Raise to about shoulder height.",
+        "Elbows slightly bent and leading the movement.",
+        "Torso stays still."
+      ],
+      "mistakes": ["Swinging the body to throw the dumbbells up.", "Shrugging, so the traps take over."],
+      "safety": "A light weight with clean form beats a heavy one. Don't raise above shoulder height if it feels uncomfortable."
+    },
+    "reverse-pec-deck": {
+      "name": "Reverse pec deck",
+      "desc": "Opening the arms on a machine while facing the pad. Isolation for the rear delts.",
+      "cues": [
+        "Open the arms using the shoulders; don't squeeze the shoulder blades hard.",
+        "Neck relaxed, chest against the pad."
+      ],
+      "mistakes": [
+        "Squeezing the shoulder blades instead of working the rear delts.",
+        "Jerking and pulling too far back."
+      ],
+      "safety": "Adjust the seat height so the handles are at shoulder level."
+    },
+    "db-shrug": {
+      "name": "Dumbbell shrug",
+      "desc": "Raising the shoulders while holding dumbbells. Loads the upper traps.",
+      "cues": ["Shoulders straight up, no rolling.", "Short pause at the top, slow on the way down."],
+      "mistakes": ["Rolling the shoulders.", "Bending the elbows."],
+      "safety": "Keep your neck neutral; don't push the chin forward."
+    },
+    "incline-y-raise": {
+      "name": "Incline Y-raise",
+      "desc": "Raising the arms in a Y shape while lying chest-down on a bench. Strengthens the lower traps and shoulder-blade stabilisers. You can alternate it with cable face pulls.",
+      "cues": [
+        "Very light dumbbells or no weight at all.",
+        "Raise the arms in a Y shape, thumbs pointing up.",
+        "Don't tense the neck; keep the shoulder blades down."
+      ],
+      "mistakes": ["Too heavy, so the movement turns into a jerk.", "Shoulders creeping up to the ears."],
+      "safety": "This is about control, not strength: stop if your shoulder hurts."
+    },
+    "cable-crunch": {
+      "name": "Kneeling cable crunch",
+      "desc": "A kneeling crunch with a rope. Loads the abs with adjustable weight.",
+      "cues": [
+        "Curl your ribcage towards your pelvis; don't pull the rope with your arms.",
+        "Hips stay almost still; the movement comes from the upper spine."
+      ],
+      "mistakes": ["Bending forward at the hips instead of crunching.", "Pulling with the arms."],
+      "safety": "Breathe out as you crunch. If your lower back feels strained, reduce the weight and range."
+    },
+    "hanging-knee-raise": {
+      "name": "Hanging or supported knee raise",
+      "desc": "Raising the knees to the chest while hanging from a bar or supported on a dip station. Works the abs, especially at the end of the movement.",
+      "cues": [
+        "At the top, tuck the pelvis rather than just lifting the knees.",
+        "Lower the legs slowly, no swinging.",
+        "If it's too hard, start on the dip station."
+      ],
+      "mistakes": [
+        "Swinging the whole body.",
+        "Lifting the legs with the hip flexors only, without tucking the pelvis."
+      ],
+      "safety": "Get down from the bar carefully. If your shoulders hurt while hanging, use the dip station."
+    },
+    "side-plank": {
+      "name": "Side plank",
+      "desc": "A static hold on one forearm, side-on. Works the obliques and side stability of the torso.",
+      "cues": ["Body in a straight line from head to feet.", "Elbow under the shoulder, hips don't sag."],
+      "mistakes": ["Hips dropping or drifting back.", "Holding your breath."],
+      "safety": "Stop if your shoulder or lower back hurts. An easier version is with the bottom knee down."
+    },
+    "pallof-press": {
+      "name": "Pallof press",
+      "desc": "Pressing a cable handle away from your chest while standing side-on to the machine. Trains resisting rotation of the torso.",
+      "cues": [
+        "Stand side-on to the cable, feet shoulder-width apart.",
+        "Press the handle straight out and hold for 1–2 seconds.",
+        "Don't let your torso turn towards the cable."
+      ],
+      "mistakes": ["Torso rotating with the cable.", "Too much weight, losing control."],
+      "safety": "You can use a resistance band. Keep the shoulders down and elbows soft."
+    },
+    "dead-bug": {
+      "name": "Dead bug",
+      "desc": "Lying on your back, you lower the opposite arm and leg in turns. Trains the deep core stabilisers.",
+      "cues": [
+        "Lower back pressed into the floor the whole time.",
+        "Slowly lower the opposite arm and leg.",
+        "Breathe out as you lower them."
+      ],
+      "mistakes": ["Lower back lifting off the floor.", "Moving too fast."],
+      "safety": "If your lower back lifts, shorten the range: don't lower the leg as far."
+    },
+    "leg-press": {
+      "name": "Leg press",
+      "desc": "A compound machine exercise for the quads and glutes, with back support.",
+      "cues": [
+        "Feet shoulder-width apart in the middle of the platform.",
+        "Lower the platform under control, knees tracking over the toes.",
+        "Don't lock the knees at the top."
+      ],
+      "mistakes": [
+        "Going so deep that the pelvis tucks under and the lower back lifts.",
+        "Knees caving inwards."
+      ],
+      "safety": "Hips and lower back stay against the pad the whole time. Use the machine's safety stops."
+    },
+    "leg-curl": {
+      "name": "Machine leg curl",
+      "desc": "Isolation for the hamstrings, lying or seated.",
+      "cues": ["Smooth, no jerking.", "You don't need maximum weight; control at the bottom matters more."],
+      "mistakes": ["Hips lifting off the seat.", "Dropping the weight on the way down."],
+      "safety": "Set the pad just above your heels and the machine's pivot level with your knee."
+    },
+    "calf-raise": {
+      "name": "Calf raise",
+      "desc": "Rising onto the toes, standing or on a machine. Works the calves.",
+      "cues": ["Full, comfortable range of motion.", "Pause at the top, slow on the way down."],
+      "mistakes": ["Bouncing reps with no pause.", "Bending the knees to help."],
+      "safety": "Without a machine, hold on to something for balance."
+    }
+  }
+}

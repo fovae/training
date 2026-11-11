@@ -1,7 +1,8 @@
+import { t } from '../../i18n';
 import { useEffect, useRef } from 'preact/hooks';
 import { dialog, dismissToast, toasts } from '../../state/ui';
 import { applyUpdate, needRefresh } from '../../features/update';
-import { active } from '../../state/workout';
+import { active } from '../../state/session';
 import { Icon } from './Icon';
 
 export function Toasts() {
@@ -11,33 +12,33 @@ export function Toasts() {
     <div class="toasts" aria-live="polite">
       {showUpdate && (
         <div class="toast" role="status">
-          <span>Доступно обновление</span>
+          <span>{t('update.available')}</span>
           <button type="button" class="toast-act" onClick={() => void applyUpdate()}>
-            Обновить
+            {t('update.reload')}
           </button>
           <button
             type="button"
             class="toast-x"
-            aria-label="Позже"
+            aria-label={t('update.later')}
             onClick={() => (needRefresh.value = false)}
           >
             <Icon name="close" size={18} />
           </button>
         </div>
       )}
-      {list.map((t) => (
-        <div class="toast" key={t.id} role="status">
-          <span>{t.text}</span>
-          {t.action && (
+      {list.map((x) => (
+        <div class="toast" key={x.id} role="status">
+          <span>{x.text}</span>
+          {x.action && (
             <button
               type="button"
               class="toast-act"
               onClick={() => {
-                t.action!.run();
-                dismissToast(t.id);
+                x.action!.run();
+                dismissToast(x.id);
               }}
             >
-              {t.action.label}
+              {x.action.label}
             </button>
           )}
         </div>
@@ -121,7 +122,7 @@ export function DialogHost() {
             </button>
           )}
           <button type="button" class="btn secondary" onClick={() => d.resolve('cancel')}>
-            {d.cancel ?? 'Отмена'}
+            {d.cancel ?? t('common.cancel')}
           </button>
         </div>
       </div>

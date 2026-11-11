@@ -90,7 +90,7 @@ document.addEventListener('visibilitychange', () => {
   if (document.visibilityState === 'visible') tick();
 });
 
-export function startRest(sec: number, label = 'Отдых'): void {
+export function startRest(sec: number, label = ''): void {
   const ms = sec * 1000;
   timer.value = { endAt: Date.now() + ms, total: ms, pausedLeft: null, label, fired: false };
   now.value = Date.now();

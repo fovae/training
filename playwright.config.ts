@@ -1,7 +1,8 @@
 import { defineConfig, devices } from '@playwright/test';
 
 /**
- * E2E на эмуляции iPhone (WebKit — движок Safari).
+ * E2E на эмуляции iPhone (WebKit — движок Safari) и Pixel (Chromium).
+ * locale ru-RU специально: приложение не должно подставлять язык телефона.
  * Новее iPhone 17 Pro Max пресетов в Playwright пока нет — у iPhone 18 Pro Max тот же экран 440×956.
  * Тесты гоняются на production-сборке (vite preview), чтобы работал service worker.
  */
@@ -25,6 +26,12 @@ export default defineConfig({
       testIgnore: /(offline|desktop)\.spec\.ts/,
       use: { ...devices[name], browserName: 'webkit' as const },
     })),
+    {
+      // Android: Chromium с эмуляцией Pixel
+      name: 'Pixel 7',
+      testIgnore: /(offline|desktop|a11y)\.spec\.ts/,
+      use: { ...devices['Pixel 7'] },
+    },
     {
       // Service worker + офлайн надёжнее всего проверяются в Chromium; viewport как у iPhone
       name: 'offline-chromium',

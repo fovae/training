@@ -1,0 +1,526 @@
+{
+  "app": {
+    "name": "Simple Training",
+    "skipToContent": "Skip to content",
+    "offlineReady": "The app is ready to work offline",
+    "storageError": "Couldn't open storage. Private browsing may be on, so your log won't be saved."
+  },
+  "nav": {
+    "label": "Sections",
+    "today": "Today",
+    "plan": "Plan",
+    "library": "Exercises",
+    "history": "History",
+    "settings": "Settings",
+    "live": "workout in progress"
+  },
+  "common": {
+    "back": "Back",
+    "next": "Next",
+    "continue": "Continue",
+    "cancel": "Cancel",
+    "close": "Close",
+    "save": "Save",
+    "delete": "Delete",
+    "remove": "Remove",
+    "undo": "Undo",
+    "saveFailed": "Couldn't save. Please try again.",
+    "decrease": "{what}: less",
+    "increase": "{what}: more"
+  },
+  "unit": {
+    "kg": "kg",
+    "lb": "lb",
+    "sec": "s"
+  },
+  "fmt": {
+    "minutes": "{n} min",
+    "hoursMinutes": "{h} h {m} min",
+    "restMin": "{n} min",
+    "restSec": "{n} s"
+  },
+  "per": {
+    "arm": "per arm",
+    "side": "per side"
+  },
+  "level": {
+    "first": "I'm a beginner, this is my first time",
+    "few": "I'm a beginner, but I've been to the gym a few times",
+    "intermediate": "Intermediate",
+    "veteran": "Experienced"
+  },
+  "day": {
+    "n": "Day {n}",
+    "empty": "Empty day",
+    "unknown": "Workout"
+  },
+  "category": {
+    "chest": "Chest",
+    "back": "Back",
+    "shoulders": "Shoulders",
+    "arms": "Arms",
+    "core": "Core",
+    "legs": "Legs"
+  },
+  "exType": {
+    "compound": "Compound (longer rest)",
+    "isolation": "Isolation (shorter rest)"
+  },
+  "muscle": {
+    "chest": "Chest",
+    "lats": "Lats",
+    "upper-back": "Upper back",
+    "traps": "Traps",
+    "front-delts": "Front delts",
+    "side-delts": "Side delts",
+    "rear-delts": "Rear delts",
+    "biceps": "Biceps",
+    "triceps": "Triceps",
+    "forearms": "Forearms",
+    "abs": "Abs",
+    "obliques": "Obliques",
+    "deep-core": "Deep core",
+    "lower-back": "Lower back",
+    "quads": "Quads",
+    "hamstrings": "Hamstrings",
+    "glutes": "Glutes",
+    "calves": "Calves"
+  },
+  "equip": {
+    "bodyweight": "Bodyweight",
+    "dumbbell": "Dumbbells",
+    "barbell": "Barbell",
+    "machine": "Machine",
+    "cable": "Cable",
+    "kettlebell": "Kettlebell",
+    "band": "Resistance band",
+    "bench": "Bench",
+    "pullup-bar": "Pull-up bar",
+    "dip-station": "Dip station"
+  },
+  "onb": {
+    "step": "Step {n} of {total}",
+    "finish": "Start training",
+    "emptyPlanToast": "Add exercises to your days to get started",
+    "language": {
+      "title": "Language",
+      "lead": "Choose the app language. You can change it any time in Settings."
+    },
+    "terms": {
+      "title": "Before you start",
+      "adult": "I am 16 or older",
+      "adultRequired": "Please confirm that you are 16 or older to continue.",
+      "noBirthdate": "We don't ask for or store your date of birth.",
+      "readMore": "Read more:"
+    },
+    "profile": {
+      "title": "Your profile",
+      "lead": "Everything stays on this device. Weight and height are needed for future tips; the rest is optional."
+    },
+    "level": {
+      "title": "Your level",
+      "lead": "This only changes how many hints you see. You can change it later."
+    },
+    "plan": {
+      "title": "Your plan",
+      "days": "Workouts per week",
+      "start": "Start with",
+      "keep": "Keep my current plan",
+      "keepDesc": {
+        "one": "Split 3+1 from the previous version and {count} saved workout",
+        "other": "Split 3+1 from the previous version and {count} saved workouts"
+      },
+      "empty": "Empty days",
+      "emptyDesc": "Build every day yourself from the exercise library.",
+      "fixedDays": {
+        "one": "{count} day.",
+        "other": "{count} days."
+      },
+      "later": "Everything can be edited later on the Plan tab."
+    }
+  },
+  "profile": {
+    "units": "Units",
+    "metric": "kg, cm",
+    "imperial": "lb, in",
+    "weightKg": "Body weight, kg",
+    "weightLb": "Body weight, lb",
+    "heightCm": "Height, cm",
+    "heightFtIn": "Height, ft and in",
+    "heightFt": "Height, feet",
+    "heightIn": "Height, inches",
+    "optionalNote": "Optional:",
+    "name": "Name or nickname",
+    "age": "Age",
+    "sex": "Sex",
+    "female": "Female",
+    "male": "Male",
+    "unspecified": "Prefer not to say",
+    "err": {
+      "weightRequired": "Enter your body weight.",
+      "weightRange": "Check the number: it looks unusual for body weight.",
+      "heightRequired": "Enter your height.",
+      "heightRange": "Check the number: it looks unusual for height.",
+      "age": "Age should be a number from 16 to 100, or leave it empty."
+    }
+  },
+  "today": {
+    "inProgress": "Workout in progress",
+    "nextInCycle": "Next in your cycle",
+    "scheduled": "Today's workout",
+    "offSchedule": "Off schedule",
+    "restDay": "Rest day",
+    "restDayText": "No workout is planned for today. Rest is part of training too.",
+    "nextScheduled": "Next workout: {day}",
+    "trainAnyway": "Train anyway",
+    "weekChipTitle": "Workouts this week",
+    "ofPerWeek": "of {n}",
+    "pickDay": "Choose a workout",
+    "suggestedMark": "suggested for today",
+    "suggestedIs": "Suggested: {day}",
+    "start": "Start workout",
+    "finish": "Finish",
+    "finishWorkout": "Finish workout",
+    "cancelWorkout": "Cancel workout",
+    "progress": "Exercises done",
+    "emptyDay": "This day has no exercises yet.",
+    "toPlan": "Open the plan",
+    "emptyTitle": "No sets checked",
+    "emptyBody": "There is nothing to save yet. Cancel this workout?",
+    "finishTitle": "Finish the workout?",
+    "finishLeft": {
+      "one": "{count} exercise is left. Unchecked sets won't be saved to history.",
+      "other": "{count} exercises are left. Unchecked sets won't be saved to history."
+    },
+    "finishAll": "All exercises are done. Great work!",
+    "saved": "Workout saved 💪",
+    "saveFailed": "Couldn't save. Try again or export your data.",
+    "cancelTitle": "Cancel the workout?",
+    "cancelBody": "The sets you entered for this workout will be deleted.",
+    "sessionNote": "Workout note",
+    "sessionNotePh": "How did it go? (optional)"
+  },
+  "ex": {
+    "optional": "optional",
+    "skipped": "skipped",
+    "skip": "Skip",
+    "unskip": "Bring back",
+    "technique": "Technique",
+    "fullCard": "Full exercise card",
+    "lastTime": "Last time:",
+    "addSet": "Set",
+    "removeSet": "Remove",
+    "repsShort": "reps",
+    "setLabel": "{name}, set {n}",
+    "weightOf": "{set}: weight, {unit}",
+    "repsOf": "{set}: reps",
+    "secondsOf": "{set}: seconds",
+    "setDone": "{set}: done",
+    "setUndo": "{set}: uncheck",
+    "addNote": "Note",
+    "notePlaceholder": "Note for this exercise",
+    "noteFor": "Note: {name}"
+  },
+  "advice": {
+    "progression": "If you like, you can add a little weight: last time you hit the top of the range in every set."
+  },
+  "timer": {
+    "region": "Rest timer",
+    "rest": "Rest",
+    "minus15": "Minus 15 seconds",
+    "plus15": "Plus 15 seconds",
+    "pause": "Pause",
+    "paused": "Paused",
+    "resume": "Resume rest",
+    "skip": "Skip rest",
+    "over": "Rest is over",
+    "go": "Go!"
+  },
+  "plan": {
+    "eyebrow": "Your week",
+    "title": "Plan",
+    "mode": "Schedule",
+    "modeWeekdays": "Weekdays",
+    "modeCycle": "Cycle",
+    "modeWeekdaysHint": "Each workout is tied to a day of the week.",
+    "modeCycleHint": "Workouts go in a loop: after the last one comes the first. Skipped a day? Just carry on.",
+    "days": {
+      "one": "{count} day",
+      "other": "{count} days"
+    },
+    "daysLabel": "Plan days",
+    "swipeHint": "Swipe to switch",
+    "addDay": "Add day",
+    "exercisesCount": {
+      "one": "{count} exercise",
+      "other": "{count} exercises"
+    },
+    "setsCount": {
+      "one": "{count} set",
+      "other": "{count} sets"
+    },
+    "emptyDay": "No exercises yet. Add them from the library.",
+    "addExercise": "Add exercise",
+    "weekday": "Day of week",
+    "rename": "Rename",
+    "renameTitle": "Day name",
+    "dayName": "Day name",
+    "copyTo": "Copy to…",
+    "copyTitle": "Copy exercises to",
+    "copyHint": "The exercises of the chosen day will be replaced.",
+    "copied": "Exercises copied",
+    "clear": "Clear",
+    "clearTitle": "Clear this day?",
+    "clearBody": {
+      "one": "{count} exercise will be removed from the day.",
+      "other": "{count} exercises will be removed from the day."
+    },
+    "deleteDay": "Delete day",
+    "deleteDayTitle": "Delete this day?",
+    "deleteDayBody": "The day and its exercises will be removed from the plan. Your history stays.",
+    "sets": "Sets",
+    "setsOf": "{name}: sets",
+    "repsRange": "Reps",
+    "secondsRange": "Seconds",
+    "min": "{name}: minimum",
+    "max": "{name}: maximum",
+    "weight": "Working weight",
+    "weightHint": "optional",
+    "weightOf": "{name}: working weight, {unit}",
+    "rest": "Rest",
+    "restOf": "{name}: rest",
+    "restAuto": "Auto ({time})",
+    "optional": "Optional",
+    "optionalHint": "can be skipped during a workout",
+    "optionalOf": "{name}: optional",
+    "up": "Up",
+    "down": "Down",
+    "moveUp": "Move {name} up",
+    "moveDown": "Move {name} down",
+    "removed": "Removed: {name}",
+    "pickerTitle": "Add exercise",
+    "pickerDone": {
+      "one": "Done · {count} added",
+      "other": "Done · {count} added"
+    },
+    "added": "Added: {name}",
+    "alreadyInDay": "already in this day"
+  },
+  "rules": {
+    "title": "Rules",
+    "items": [
+      "Warm-up|5–8 minutes of light cardio plus 1–3 warm-up sets of the first exercise. They don't count as working sets.",
+      "Intensity|Finish most sets with 1–3 reps in reserve. You don't need to go to failure every time.",
+      "Progression|Hit the top of the range in every set with clean form? Add a little weight and start again from the bottom of the range.",
+      "Rest|Compound lifts (presses, rows, leg press): 2–3 minutes. Isolation: 60–120 seconds.",
+      "Recovery|Very sore, form getting worse, or joints aching? Move the workout to another day.",
+      "Missed days|Missed a couple of days? Don't start over, just continue with the next workout."
+    ],
+    "stopTitle": "Stop signals.",
+    "stopText": "Sharp pain, joint pain, numbness or any unusual sensation: stop the exercise and find out the cause."
+  },
+  "library": {
+    "eyebrow": "Library",
+    "title": "Exercises",
+    "search": "Search exercises",
+    "searchPh": "Search",
+    "muscle": "Muscle",
+    "allMuscles": "All muscles",
+    "equipment": "Equipment",
+    "allEquipment": "Any equipment",
+    "found": {
+      "one": "{count} exercise",
+      "other": "{count} exercises"
+    },
+    "nothing": "Nothing found. Try another search or filter.",
+    "notFound": "Exercise not found",
+    "primary": "Main muscles",
+    "secondary": "Also works",
+    "type": "Type",
+    "mistakes": "Common mistakes",
+    "safety": "Safety",
+    "myHistory": "My history for this exercise"
+  },
+  "history": {
+    "eyebrow": "Log",
+    "title": "History",
+    "thisWeek": "This week",
+    "ofWorkouts": {
+      "one": "of {count} workout",
+      "other": "of {count} workouts"
+    },
+    "empty": "Finished workouts will appear here: date, duration and volume.",
+    "toWorkout": "Go to workout",
+    "workouts": "Workouts",
+    "records": {
+      "one": "{count} record",
+      "other": "{count} records"
+    },
+    "workout": "Workout",
+    "volumeUnit": "{unit} volume",
+    "byExercise": "Progress by exercise",
+    "notFound": "Not found",
+    "notFoundText": "This workout was deleted or hasn't loaded yet.",
+    "deleteTitle": "Delete this workout?",
+    "deleteBody": "{date}: the record will disappear from history and charts.",
+    "deleted": "Workout deleted",
+    "duration": "duration",
+    "volume": "volume",
+    "notDone": "not done",
+    "delete": "Delete workout",
+    "chartTitle": "Working weight and best set",
+    "chartLabel": "Weight chart: {name}",
+    "seriesTop": "Working weight, {unit}",
+    "seriesBest": "Best set (est. 1RM), {unit}",
+    "noWeight": "This exercise was done without weight; the chart is based on weight.",
+    "noData": "No data yet. Check off sets during a workout.",
+    "best": "best:",
+    "working": "working"
+  },
+  "settings": {
+    "eyebrow": "App",
+    "title": "Settings",
+    "profile": "Profile",
+    "profileSaved": "Profile saved",
+    "level": "Level",
+    "languageAndLook": "Language and appearance",
+    "language": "Language",
+    "theme": "Theme",
+    "themeAuto": "Auto",
+    "themeLight": "Light",
+    "themeDark": "Dark",
+    "timer": "Rest timer",
+    "restBase": "Compound exercises",
+    "restBaseHint": "usually 2–3 min",
+    "restIso": "Isolation",
+    "restIsoHint": "usually 60–120 s",
+    "sound": "Sound when rest ends",
+    "soundHint": "On iPhone the sound is muted in silent mode; the screen flash stays.",
+    "soundNone": "Sound isn't available; there will be a screen flash only.",
+    "test": "Test",
+    "wake": "Keep screen on",
+    "wakeLabel": "Keep the screen on during a workout",
+    "wake_unsupported": "Not supported by this browser (iPhone needs iOS 16.4+, installed app 18.4+).",
+    "wake_off": "Turns on during a workout.",
+    "wake_on": "Active: the screen won't turn off.",
+    "wake_error": "The system declined the request; the screen may turn off.",
+    "data": "Data",
+    "dataHint": "iOS may clear app storage if you don't use it for a long time. Export your data every few weeks; you can save the file to Files or iCloud.",
+    "persist": "Persistent storage",
+    "persist_persisted": "On: the browser won't delete data when space runs low.",
+    "persist_not-persisted": "Off: the browser may clear data. Export regularly.",
+    "persist_unsupported": "Not supported by this browser. Export regularly.",
+    "persist_unknown": "Checking…",
+    "request": "Request"
+  },
+  "backup": {
+    "export": "Export JSON",
+    "import": "Import",
+    "shareTitle": "Workout backup",
+    "downloaded": "File saved to Downloads",
+    "shared": "Backup ready",
+    "exportFailed": "Export failed",
+    "restoreTitle": "Restore from backup?",
+    "restoreCount": {
+      "one": "The file has {count} workout.",
+      "other": "The file has {count} workouts."
+    },
+    "restoreDate": "Backup from {date}.",
+    "restoreReplace": {
+      "one": "Your current data ({count} workout) will be replaced.",
+      "other": "Your current data ({count} workouts) will be replaced."
+    },
+    "replace": "Replace",
+    "restored": "Data restored",
+    "errNotJson": "This file doesn't look like JSON.",
+    "errForeign": "This isn't a backup from this app.",
+    "errNewer": "The backup was made by a newer version of the app. Update the app first.",
+    "errTooBig": "The file is too large.",
+    "errRead": "Couldn't read the file"
+  },
+  "reset": {
+    "button": "Delete all data",
+    "title": "Delete all data?",
+    "body": "Your profile, plan, history and current workout will be deleted for good. Export first if you need them.",
+    "confirm": "Delete everything",
+    "exportFirst": "Export first",
+    "done": "Data deleted"
+  },
+  "install": {
+    "title": "Install",
+    "button": "Install",
+    "app": "Install the app",
+    "done": "The app is installed ✓",
+    "iosTitle": "Install on iPhone",
+    "hintTitle": "Add to Home Screen",
+    "dismiss": "Close the hint for good",
+    "step1a": "Tap",
+    "share": "Share",
+    "step1b": "in the Safari toolbar.",
+    "step2": "Choose “Add to Home Screen” (scroll down if you don't see it).",
+    "step3": "Tap “Add”. The app opens full screen and works offline."
+  },
+  "update": {
+    "available": "An update is available",
+    "reload": "Update",
+    "later": "Later"
+  },
+  "about": {
+    "title": "About",
+    "version": "Version",
+    "privacy": "Works offline. No accounts, ads, cookies or tracking. Your data stays only on this device.",
+    "contact": "Contact",
+    "credits": "Created by Fovae & Claude"
+  },
+  "legal": {
+    "draft": "Draft. The final text will be published in a later version of the app.",
+    "disclaimer": "This app is not medical advice. Talk to a doctor before starting to train if you have any health concerns. You train at your own risk.",
+    "controllerTitle": "Who is responsible",
+    "controller": "Fovae (sole trader, Ireland) is responsible for the app and is the data controller. Contact:",
+    "privacy": {
+      "title": "Privacy policy",
+      "body": [
+        "The app has no accounts, ads, cookies or tracking.",
+        "Your profile, plan, workouts and notes are stored only on your device and are never sent to any server.",
+        "The app makes no requests to third-party services: fonts and scripts are served from our own site.",
+        "The hosting provider (GitHub Pages) may log IP addresses on its side when the site is opened.",
+        "You can delete all your data at any time in Settings."
+      ]
+    },
+    "terms": {
+      "title": "Terms of use",
+      "body": [
+        "The app is free and provided as is, without warranties.",
+        "You must be 16 or older to use the app.",
+        "The app helps you plan and log workouts. It does not give advice on body weight, nutrition or appearance.",
+        "Listen to your body: stop an exercise if you feel pain or discomfort."
+      ]
+    }
+  },
+  "tpl": {
+    "day": {
+      "a": "Workout A",
+      "b": "Workout B"
+    },
+    "full-body": {
+      "name": "Full body",
+      "desc": "Every workout covers the whole body; A and B alternate."
+    },
+    "maintenance": {
+      "name": "Stay in shape",
+      "desc": "Short workouts with fewer sets."
+    },
+    "strength": {
+      "name": "Build strength",
+      "desc": "Fewer reps, more sets and longer rest in the main lifts."
+    },
+    "split31": {
+      "name": "Split 3+1",
+      "desc": "Three main days (chest, back, shoulders) and an extra core and legs day.",
+      "d1": "Chest + triceps",
+      "d2": "Back + biceps + forearms",
+      "d3": "Shoulders + traps",
+      "d4": "Abs + core + legs"
+    }
+  }
+}

@@ -1,8 +1,9 @@
-import { useEffect, useRef } from 'preact/hooks';
-import changelog from '../../../CHANGELOG.md?raw';
-import { settings, updateSettings, type Settings as S } from '../../state/settings';
+import { useEffect, useRef, useState } from 'preact/hooks';
+import { LOCALES, fmtDate, locale, setLocale, t } from '../../i18n';
+import { CONTACT_EMAIL } from '../../lib/meta';
+import { profile, saveProfile, settings, updateProfile, updateSettings } from '../../state/settings';
 import { ask, toast } from '../../state/ui';
-import { history } from '../../state/workout';
+import { history } from '../../state/session';
 import {
   applyBackup,
   checkPersist,
@@ -15,117 +16,11 @@ import {
 import { wakeStatus, wakeSupported } from '../../features/wakelock';
 import { audioAvailable, beep } from '../../features/audio';
 import { installPrompt, installed, isIOS, isStandalone, promptInstall } from '../../features/install';
-import { fmtClock, fmtDate, plural } from '../../lib/format';
+import type { Level, Settings as S } from '../../types';
 import { Icon } from '../components/Icon';
 import { IosInstallSteps } from '../components/InstallHint';
-
-function Seg<T extends string>({
-  value,
-  options,
-  onChange,
-  label,
-}: {
-  value: T;
-  options: { v: T; t: string }[];
-  onChange: (v: T) => void;
-  label: string;
-}) {
-  return (
-    <div class="seg mini" role="radiogroup" aria-label={label}>
-      {options.map((o) => (
-        <button
-          key={o.v}
-          type="button"
-          role="radio"
-          aria-checked={value === o.v}
-          class={'seg-btn' + (value === o.v ? ' on' : '')}
-          onClick={() => onChange(o.v)}
-        >
-          {o.t}
-        </button>
-      ))}
-    </div>
-  );
-}
-
-function Toggle({
-  on,
-  onChange,
-  label,
-  disabled,
-}: {
-  on: boolean;
-  onChange: (v: boolean) => void;
-  label: string;
-  disabled?: boolean;
-}) {
-  return (
-    <button
-      type="button"
-      role="switch"
-      aria-checked={on}
-      aria-label={label}
-      disabled={disabled}
-      class={'switch' + (on ? ' on' : '')}
-      onClick={() => onChange(!on)}
-    >
-      <i />
-    </button>
-  );
-}
-
-function Stepper({
-  value,
-  onChange,
-  label,
-  min = 15,
-  max = 600,
-  step = 15,
-}: {
-  value: number;
-  onChange: (v: number) => void;
-  label: string;
-  min?: number;
-  max?: number;
-  step?: number;
-}) {
-  return (
-    <div class="stepper" role="group" aria-label={label}>
-      <button
-        type="button"
-        aria-label={`${label}: меньше`}
-        disabled={value <= min}
-        onClick={() => onChange(Math.max(min, value - step))}
-      >
-        <Icon name="minus" size={18} />
-      </button>
-      <output aria-live="polite">{fmtClock(value)}</output>
-      <button
-        type="button"
-        aria-label={`${label}: больше`}
-        disabled={value >= max}
-        onClick={() => onChange(Math.min(max, value + step))}
-      >
-        <Icon name="plus" size={18} />
-      </button>
-    </div>
-  );
-}
-
-const PERSIST_TEXT = {
-  persisted: 'Включено — iOS/браузер не удалит данные при нехватке места.',
-  'not-persisted': 'Не включено — браузер может очистить данные. Регулярно делай экспорт.',
-  unsupported: 'Браузер не поддерживает. Регулярно делай экспорт.',
-  unknown: 'Проверяем…',
-} as const;
-
-const WAKE_TEXT = {
-  unsupported:
-    'Не поддерживается этим браузером (на iPhone нужна iOS 16.4+, в установленном приложении — 18.4+).',
-  off: 'Включится во время тренировки.',
-  on: 'Активно: экран не погаснет.',
-  error: 'Система отклонила запрос — экран может гаснуть. Обнови iOS или держи приложение открытым.',
-} as const;
+import { Seg, Stepper, Toggle } from '../components/Controls';
+import { ProfileForm, draftFrom, validateProfile, type ProfileDraft } from '../components/ProfileForm';
 
 export function Settings() {
   const s = settings.value;
@@ -139,11 +34,11 @@ export function Settings() {
   const onExport = async () => {
     try {
       const r = await exportData();
-      if (r === 'downloaded') toast('Файл сохранён в «Загрузки»');
-      if (r === 'shared') toast('Резервная копия готова');
+      if (r === 'downloaded') toast(t('backup.downloaded'));
+      if (r === 'shared') toast(t('backup.shared'));
     } catch (e) {
       console.error(e);
-      toast('Не удалось сделать экспорт');
+      toast(t('backup.exportFailed'));
     }
   };
 
@@ -153,36 +48,39 @@ export function Settings() {
     input.value = '';
     if (!file) return;
     try {
+      if (file.size > 20 * 1024 * 1024) throw new Error(t('backup.errTooBig'));
       const parsed = parseBackup(await file.text());
-      const n = parsed.workouts.length;
+      const n = parsed.sessions.length;
       const ok = await ask({
-        title: 'Восстановить из копии?',
+        title: t('backup.restoreTitle'),
         body: (
           <>
-            В файле {n} {plural(n, 'тренировка', 'тренировки', 'тренировок')}
-            {parsed.exportedAt ? ` (копия от ${fmtDate(Date.parse(parsed.exportedAt))})` : ''}.
+            {t('backup.restoreCount', { count: n })}
+            {parsed.exportedAt
+              ? ' ' + t('backup.restoreDate', { date: fmtDate(Date.parse(parsed.exportedAt)) })
+              : ''}
             <br />
-            Текущие данные ({history.value.length}) будут заменены.
+            {t('backup.restoreReplace', { count: history.value.length })}
           </>
         ),
-        confirm: 'Заменить',
+        confirm: t('backup.replace'),
         danger: true,
       });
       if (ok !== 'confirm') return;
       await applyBackup(parsed);
-      toast('Данные восстановлены');
+      toast(t('backup.restored'));
     } catch (err) {
-      toast(err instanceof Error ? err.message : 'Не удалось прочитать файл');
+      toast(err instanceof Error ? err.message : t('backup.errRead'));
     }
   };
 
   const onReset = async () => {
     const r = await ask({
-      title: 'Удалить все данные?',
-      body: 'История тренировок и текущая тренировка будут удалены без возможности восстановления. Сначала сделай экспорт, если данные нужны.',
-      confirm: 'Удалить всё',
+      title: t('reset.title'),
+      body: t('reset.body'),
+      confirm: t('reset.confirm'),
       danger: true,
-      extra: { label: 'Сначала экспорт' },
+      extra: { label: t('reset.exportFirst') },
     });
     if (r === 'extra') {
       await onExport();
@@ -190,7 +88,8 @@ export function Settings() {
     }
     if (r !== 'confirm') return;
     await resetAll();
-    toast('Данные удалены');
+    location.hash = '#/';
+    toast(t('reset.done'));
   };
 
   const showIosInstall = isIOS && !isStandalone();
@@ -198,80 +97,94 @@ export function Settings() {
   return (
     <div class="screen settings">
       <header class="topbar">
-        <div class="eyebrow">Приложение</div>
-        <h1 class="screen-title">Настройки</h1>
+        <div class="eyebrow">{t('settings.eyebrow')}</div>
+        <h1 class="screen-title">{t('settings.title')}</h1>
       </header>
 
+      <ProfileCard />
+
       <section class="card group-card">
-        <h2 class="card-t">Внешний вид и единицы</h2>
+        <h2 class="card-t">{t('settings.languageAndLook')}</h2>
         <div class="srow">
-          <span>Тема</span>
+          <span>{t('settings.language')}</span>
+          <label class="select">
+            <span class="sr-only">{t('settings.language')}</span>
+            <select
+              aria-label={t('settings.language')}
+              value={locale.value}
+              onChange={(e) => {
+                const code = e.currentTarget.value;
+                void setLocale(code).then(() => updateProfile({ locale: code }));
+              }}
+            >
+              {LOCALES.map((l) => (
+                <option key={l.code} value={l.code} lang={l.code}>
+                  {l.native}
+                </option>
+              ))}
+            </select>
+          </label>
+        </div>
+        <div class="srow">
+          <span>{t('settings.theme')}</span>
           <Seg
-            label="Тема"
+            label={t('settings.theme')}
             value={s.theme}
             onChange={(v) => set('theme', v)}
             options={[
-              { v: 'system', t: 'Авто' },
-              { v: 'light', t: 'Светлая' },
-              { v: 'dark', t: 'Тёмная' },
-            ]}
-          />
-        </div>
-        <div class="srow">
-          <span>Единицы веса</span>
-          <Seg
-            label="Единицы веса"
-            value={s.units}
-            onChange={(v) => set('units', v)}
-            options={[
-              { v: 'kg', t: 'кг' },
-              { v: 'lb', t: 'фунты' },
+              { v: 'system', t: t('settings.themeAuto') },
+              { v: 'light', t: t('settings.themeLight') },
+              { v: 'dark', t: t('settings.themeDark') },
             ]}
           />
         </div>
       </section>
 
       <section class="card group-card">
-        <h2 class="card-t">Таймер отдыха</h2>
+        <h2 class="card-t">{t('settings.timer')}</h2>
         <div class="srow">
           <span>
-            Базовые упражнения
-            <small>программа: 2–3 мин</small>
+            {t('settings.restBase')}
+            <small>{t('settings.restBaseHint')}</small>
           </span>
-          <Stepper label="Отдых в базовых" value={s.restBase} onChange={(v) => set('restBase', v)} />
+          <Stepper
+            label={t('settings.restBase')}
+            value={s.restBaseSec}
+            onChange={(v) => set('restBaseSec', v)}
+          />
         </div>
         <div class="srow">
           <span>
-            Изоляция
-            <small>программа: 60–120 с</small>
+            {t('settings.restIso')}
+            <small>{t('settings.restIsoHint')}</small>
           </span>
-          <Stepper label="Отдых в изоляции" value={s.restIso} onChange={(v) => set('restIso', v)} />
+          <Stepper
+            label={t('settings.restIso')}
+            value={s.restIsoSec}
+            onChange={(v) => set('restIsoSec', v)}
+          />
         </div>
         <div class="srow">
           <span>
-            Звук по окончании
-            <small>
-              {audioAvailable()
-                ? 'На iPhone звук не слышен в беззвучном режиме — останется вспышка.'
-                : 'Звук недоступен — будет только вспышка.'}
-            </small>
+            {t('settings.sound')}
+            <small>{audioAvailable() ? t('settings.soundHint') : t('settings.soundNone')}</small>
           </span>
           <span class="srow-act">
             {s.sound && audioAvailable() && (
               <button type="button" class="btn-ghost sm" onClick={beep}>
-                Проверить
+                {t('settings.test')}
               </button>
             )}
-            <Toggle label="Звук" on={s.sound} onChange={(v) => set('sound', v)} />
+            <Toggle label={t('settings.sound')} on={s.sound} onChange={(v) => set('sound', v)} />
           </span>
         </div>
         <div class="srow">
           <span>
-            Не гасить экран
-            <small>{WAKE_TEXT[wakeStatus.value]}</small>
+            {t('settings.wake')}
+            <small>{t(`settings.wake_${wakeStatus.value}`)}</small>
           </span>
           <Toggle
-            label="Не гасить экран во время тренировки"
+            label={t('settings.wakeLabel')}
             on={s.wakeLock && wakeSupported}
             disabled={!wakeSupported}
             onChange={(v) => set('wakeLock', v)}
@@ -280,28 +193,25 @@ export function Settings() {
       </section>
 
       <section class="card group-card">
-        <h2 class="card-t">Данные</h2>
-        <p class="muted small">
-          iOS может очистить хранилище приложения, если им долго не пользоваться. Делай экспорт раз в
-          несколько недель — файл можно сохранить в «Файлы» или iCloud.
-        </p>
+        <h2 class="card-t">{t('settings.data')}</h2>
+        <p class="muted small">{t('settings.dataHint')}</p>
         <div class="srow">
           <span>
-            Постоянное хранилище
-            <small>{PERSIST_TEXT[persistStatus.value]}</small>
+            {t('settings.persist')}
+            <small>{t(`settings.persist_${persistStatus.value}`)}</small>
           </span>
           {persistStatus.value === 'not-persisted' && (
             <button type="button" class="btn-ghost sm" onClick={() => void requestPersist()}>
-              Запросить
+              {t('settings.request')}
             </button>
           )}
         </div>
         <div class="btn-row">
           <button type="button" class="btn secondary" onClick={() => void onExport()}>
-            <Icon name="share" size={18} /> Экспорт JSON
+            <Icon name="share" size={18} /> {t('backup.export')}
           </button>
           <button type="button" class="btn secondary" onClick={() => fileRef.current?.click()}>
-            <Icon name="upload" size={18} /> Импорт
+            <Icon name="upload" size={18} /> {t('backup.import')}
           </button>
           <input
             ref={fileRef}
@@ -313,18 +223,18 @@ export function Settings() {
           />
         </div>
         <button type="button" class="btn danger-ghost block" onClick={() => void onReset()}>
-          <Icon name="trash" size={18} /> Сбросить все данные
+          <Icon name="trash" size={18} /> {t('reset.button')}
         </button>
       </section>
 
       {(showIosInstall || installPrompt.value || installed.value) && (
         <section class="card group-card">
-          <h2 class="card-t">Установка</h2>
+          <h2 class="card-t">{t('install.title')}</h2>
           {installed.value || isStandalone() ? (
-            <p class="muted small">Приложение установлено ✓</p>
+            <p class="muted small">{t('install.done')}</p>
           ) : installPrompt.value ? (
             <button type="button" class="btn primary" onClick={() => void promptInstall()}>
-              <Icon name="download" size={18} /> Установить приложение
+              <Icon name="download" size={18} /> {t('install.app')}
             </button>
           ) : (
             <IosInstallSteps />
@@ -332,16 +242,89 @@ export function Settings() {
         </section>
       )}
 
-      <section class="card group-card">
-        <h2 class="card-t">О приложении</h2>
-        <p class="muted small">
-          Версия {__APP_VERSION__} · работает офлайн · данные хранятся только на этом устройстве
-        </p>
-        <details class="changelog">
-          <summary>Что нового</summary>
-          <pre>{changelog.replace(/^# .*\n+/, '')}</pre>
-        </details>
+      <section class="card group-card about">
+        <h2 class="card-t">{t('about.title')}</h2>
+        <div class="srow">
+          <span>{t('about.version')}</span>
+          <b>{__APP_VERSION__}</b>
+        </div>
+        <p class="muted small">{t('about.privacy')}</p>
+        <div class="srow">
+          <span>{t('about.contact')}</span>
+          <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>
+        </div>
+        <ul class="list">
+          <li>
+            <a class="row" href="#/legal/privacy">
+              <span class="row-main">
+                <b>{t('legal.privacy.title')}</b>
+              </span>
+              <Icon name="chevron" size={18} />
+            </a>
+          </li>
+          <li>
+            <a class="row" href="#/legal/terms">
+              <span class="row-main">
+                <b>{t('legal.terms.title')}</b>
+              </span>
+              <Icon name="chevron" size={18} />
+            </a>
+          </li>
+        </ul>
+        <p class="credits">{t('about.credits')}</p>
       </section>
     </div>
+  );
+}
+
+function ProfileCard() {
+  const p = profile.value;
+  const [draft, setDraft] = useState<ProfileDraft>(() => draftFrom(p));
+  const [tried, setTried] = useState(false);
+  if (!p) return null;
+  const errors = tried ? validateProfile(draft).errors : {};
+  const dirty = JSON.stringify(draft) !== JSON.stringify(draftFrom(p));
+
+  const onSave = async () => {
+    setTried(true);
+    const { value } = validateProfile(draft);
+    if (!value) return;
+    const next = { ...p, ...value };
+    if (!value.name) delete next.name;
+    if (!value.age) delete next.age;
+    if (!value.sex) delete next.sex;
+    await saveProfile(next);
+    setDraft(draftFrom(next));
+    setTried(false);
+    toast(t('settings.profileSaved'));
+  };
+
+  return (
+    <section class="card group-card">
+      <h2 class="card-t">{t('settings.profile')}</h2>
+      <ProfileForm draft={draft} update={setDraft} errors={errors} />
+      <div class="field">
+        <span class="field-lb">{t('settings.level')}</span>
+        <label class="select">
+          <span class="sr-only">{t('settings.level')}</span>
+          <select
+            aria-label={t('settings.level')}
+            value={p.level}
+            onChange={(e) => updateProfile({ level: e.currentTarget.value as Level })}
+          >
+            {(['first', 'few', 'intermediate', 'veteran'] as const).map((v) => (
+              <option key={v} value={v}>
+                {t(`level.${v}`)}
+              </option>
+            ))}
+          </select>
+        </label>
+      </div>
+      {dirty && (
+        <button type="button" class="btn primary block" onClick={() => void onSave()}>
+          {t('common.save')}
+        </button>
+      )}
+    </section>
   );
 }

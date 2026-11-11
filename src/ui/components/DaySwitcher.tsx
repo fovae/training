@@ -1,35 +1,49 @@
 import type { ComponentChildren } from 'preact';
 import { useRef } from 'preact/hooks';
-import { PROGRAM, dayIndex } from '../../data/program';
+import { t, weekdayShort } from '../../i18n';
+import { dayColor, planDays } from '../../state/plan';
 
 interface Props {
-  value: string;
+  value: string | null;
   onChange: (id: string) => void;
-  /** Отметка «следующая по циклу» */
-  suggested?: string | undefined;
+  /** Отметка «предложено на сегодня» */
+  suggested?: string | null | undefined;
   disabled?: boolean;
   label?: string;
 }
 
-/** Сегментированный контрол «День 1…4» */
-export function DaySwitcher({ value, onChange, suggested, disabled, label = 'Выбор тренировки' }: Props) {
+/** Сегментированный контрол «День 1…N» (до 7 дней) */
+export function DaySwitcher({ value, onChange, suggested, disabled, label }: Props) {
+  const days = planDays.value;
   return (
-    <div class="seg" role="tablist" aria-label={label}>
-      {PROGRAM.map((d, i) => {
+    <div
+      class={'seg' + (days.length > 4 ? ' many' : '')}
+      role="tablist"
+      aria-label={label ?? t('today.pickDay')}
+    >
+      {days.map((d, i) => {
         const on = d.id === value;
+        const c = dayColor(d.id);
         return (
           <button
             key={d.id}
             type="button"
             role="tab"
             aria-selected={on}
+            aria-label={t('day.n', { n: i + 1 }) + (d.weekday != null ? `, ${weekdayShort(d.weekday)}` : '')}
             disabled={disabled && !on}
             class={'seg-btn' + (on ? ' on' : '')}
-            style={{ '--dc': `var(--${d.color})`, '--dcf': `var(--${d.color}-fill)` }}
+            style={{ '--dc': `var(--${c})`, '--dcf': `var(--${c}-fill)` }}
             onClick={() => onChange(d.id)}
           >
-            <span class="seg-num">День {i + 1}</span>
-            {suggested === d.id && <span class="seg-dot" aria-label="следующая по циклу" />}
+            <span class="seg-num" aria-hidden="true">
+              {d.weekday != null
+                ? weekdayShort(d.weekday)
+                : days.length > 4
+                  ? i + 1
+                  : t('day.n', { n: i + 1 })}
+            </span>
+            {suggested === d.id && <span class="seg-dot" aria-label={t('today.suggestedMark')} />}
           </button>
         );
       })}
@@ -37,9 +51,14 @@ export function DaySwitcher({ value, onChange, suggested, disabled, label = 'В�
   );
 }
 
-export const shiftDay = (id: string, dir: 1 | -1): string => {
-  const n = PROGRAM.length;
-  return PROGRAM[(dayIndex(id) + dir + n) % n]!.id;
+export const shiftDay = (id: string | null, dir: 1 | -1): string | null => {
+  const days = planDays.value;
+  if (!days.length) return null;
+  const i = Math.max(
+    0,
+    days.findIndex((d) => d.id === id),
+  );
+  return days[(i + dir + days.length) % days.length]!.id;
 };
 
 /** Область, в которой горизонтальный свайп переключает день */
@@ -49,7 +68,7 @@ export function SwipeDays({
   enabled = true,
   children,
 }: {
-  value: string;
+  value: string | null;
   onChange: (id: string) => void;
   enabled?: boolean;
   children: ComponentChildren;
@@ -57,21 +76,21 @@ export function SwipeDays({
   const start = useRef<{ x: number; y: number; t: number } | null>(null);
 
   const onStart = (e: TouchEvent) => {
-    const t = e.touches[0];
-    if (!enabled || !t || e.touches.length > 1) return;
-    // Не перехватываем свайпы по полям ввода и горизонтальным скроллам
-    if ((e.target as HTMLElement).closest('input, textarea, .no-swipe')) return;
-    start.current = { x: t.clientX, y: t.clientY, t: Date.now() };
+    const p = e.touches[0];
+    if (!enabled || !p || e.touches.length > 1) return;
+    if ((e.target as HTMLElement).closest('input, textarea, select, .no-swipe')) return;
+    start.current = { x: p.clientX, y: p.clientY, t: Date.now() };
   };
   const onEnd = (e: TouchEvent) => {
     const s = start.current;
     start.current = null;
-    const t = e.changedTouches[0];
-    if (!s || !t) return;
-    const dx = t.clientX - s.x;
-    const dy = t.clientY - s.y;
+    const p = e.changedTouches[0];
+    if (!s || !p) return;
+    const dx = p.clientX - s.x;
+    const dy = p.clientY - s.y;
     if (Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy) * 1.6 && Date.now() - s.t < 700) {
-      onChange(shiftDay(value, dx < 0 ? 1 : -1));
+      const next = shiftDay(value, dx < 0 ? 1 : -1);
+      if (next) onChange(next);
     }
   };
 

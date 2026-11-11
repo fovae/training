@@ -1,63 +1,68 @@
-import { effect, signal } from '@preact/signals';
+import { computed, effect, signal } from '@preact/signals';
+import * as store from '../db';
+import { saveBoot } from '../i18n';
+import { compact } from '../lib/format';
+import { DEFAULT_SETTINGS, type Profile, type Settings } from '../types';
 
-export interface Settings {
-  theme: 'system' | 'light' | 'dark';
-  units: 'kg' | 'lb';
-  /** Отдых в базовых упражнениях, сек (программа: 2–3 мин) */
-  restBase: number;
-  /** Отдых в изоляции, сек (программа: 60–120 с) */
-  restIso: number;
-  sound: boolean;
-  wakeLock: boolean;
-}
+// ---------- настройки ----------
 
-export const DEFAULT_SETTINGS: Settings = {
-  theme: 'system',
-  units: 'kg',
-  restBase: 150,
-  restIso: 90,
-  sound: true,
-  wakeLock: true,
-};
-
-const KEY = 'tp-settings';
-
-function load(): Settings {
-  try {
-    const raw = JSON.parse(localStorage.getItem(KEY) ?? '{}') as Partial<Settings>;
-    return sanitize(raw);
-  } catch {
-    return { ...DEFAULT_SETTINGS };
-  }
-}
-
-export function sanitize(raw: unknown): Settings {
+export function sanitizeSettings(raw: unknown): Settings {
   const r = (raw && typeof raw === 'object' ? raw : {}) as Partial<Record<keyof Settings, unknown>>;
-  const num = (v: unknown, d: number, min: number, max: number) =>
-    typeof v === 'number' && Number.isFinite(v) ? Math.min(max, Math.max(min, Math.round(v))) : d;
-  return {
+  const num = (v: unknown, d: number) =>
+    typeof v === 'number' && Number.isFinite(v) ? Math.min(600, Math.max(15, Math.round(v))) : d;
+  const bool = (v: unknown, d: boolean) => (typeof v === 'boolean' ? v : d);
+  const out: Settings = {
     theme: r.theme === 'light' || r.theme === 'dark' ? r.theme : 'system',
-    units: r.units === 'lb' ? 'lb' : 'kg',
-    restBase: num(r.restBase, DEFAULT_SETTINGS.restBase, 15, 600),
-    restIso: num(r.restIso, DEFAULT_SETTINGS.restIso, 15, 600),
-    sound: typeof r.sound === 'boolean' ? r.sound : DEFAULT_SETTINGS.sound,
-    wakeLock: typeof r.wakeLock === 'boolean' ? r.wakeLock : DEFAULT_SETTINGS.wakeLock,
+    tipsEnabled: bool(r.tipsEnabled, DEFAULT_SETTINGS.tipsEnabled),
+    restBaseSec: num(r.restBaseSec, DEFAULT_SETTINGS.restBaseSec),
+    restIsoSec: num(r.restIsoSec, DEFAULT_SETTINGS.restIsoSec),
+    sound: bool(r.sound, DEFAULT_SETTINGS.sound),
+    wakeLock: bool(r.wakeLock, DEFAULT_SETTINGS.wakeLock),
   };
+  if (typeof r.lastBackupAt === 'string') out.lastBackupAt = r.lastBackupAt;
+  return out;
 }
 
-export const settings = signal<Settings>(load());
+export const settings = signal<Settings>({ ...DEFAULT_SETTINGS });
+let settingsLoaded = false;
 
 export function updateSettings(patch: Partial<Settings>): void {
   settings.value = { ...settings.value, ...patch };
 }
 
 effect(() => {
-  try {
-    localStorage.setItem(KEY, JSON.stringify(settings.value));
-  } catch {
-    /* приватный режим — настройки живут до перезапуска */
-  }
+  const s = settings.value;
+  if (!settingsLoaded) return;
+  saveBoot({ theme: s.theme });
+  void store.saveSettings(s).catch((e) => console.error('[settings] save failed', e));
 });
+
+// ---------- профиль ----------
+
+export const profile = signal<Profile | null>(null);
+
+/** Единицы до появления профиля (онбординг) */
+export const draftUnits = signal<Profile['units']>('metric');
+export const units = computed(() => profile.value?.units ?? draftUnits.value);
+
+export async function saveProfile(p: Profile): Promise<void> {
+  profile.value = p;
+  await store.saveProfile(p);
+}
+
+export function updateProfile(patch: Partial<Profile>): void {
+  const cur = profile.value;
+  if (!cur) return;
+  const next = compact({ ...cur, ...patch });
+  void saveProfile(next).catch((e) => console.error('[profile] save failed', e));
+}
+
+export async function loadSettingsAndProfile(): Promise<void> {
+  const [s, p] = await Promise.all([store.getSettings(), store.getProfile()]);
+  settings.value = sanitizeSettings(s);
+  profile.value = p;
+  settingsLoaded = true;
+}
 
 // ---------- маленькие флаги UI (localStorage) ----------
 

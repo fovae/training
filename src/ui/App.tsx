@@ -1,33 +1,37 @@
 import { useEffect } from 'preact/hooks';
-import { route, pickedDayId, programDayId, todayDayId } from '../state/ui';
-import { active } from '../state/workout';
+import { t } from '../i18n';
+import { route, pickedDayId, planDayId, todayDayId, toast } from '../state/ui';
+import { booted, needsOnboarding } from '../state/app';
+import { active } from '../state/session';
 import { settings } from '../state/settings';
 import { startRest, timer, togglePause } from '../features/timer';
 import { offlineReady } from '../features/update';
-import { toast } from '../state/ui';
 import { Nav } from './components/Nav';
 import { Flash, RestTimerBar } from './components/RestTimerBar';
 import { DialogHost, Toasts } from './components/Overlays';
 import { shiftDay } from './components/DaySwitcher';
 import { Today } from './screens/Today';
-import { Program } from './screens/Program';
+import { Plan } from './screens/Plan';
+import { Library, LibraryDetail } from './screens/Library';
 import { ExerciseDetail, History, WorkoutDetail } from './screens/History';
 import { Settings } from './screens/Settings';
+import { Legal } from './screens/Legal';
+import { Onboarding } from './screens/Onboarding';
 
-const isTyping = (t: EventTarget | null) =>
-  t instanceof HTMLElement && !!t.closest('input, textarea, select, [contenteditable="true"]');
+const isTyping = (el: EventTarget | null) =>
+  el instanceof HTMLElement && !!el.closest('input, textarea, select, [contenteditable="true"]');
 
 /** Клавиатура на ПК: ← → — смена дня, пробел — старт/пауза таймера */
 function useKeyboard() {
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (e.defaultPrevented || e.metaKey || e.ctrlKey || e.altKey || isTyping(e.target)) return;
-      if (document.body.classList.contains('modal-open')) return;
+      if (document.body.classList.contains('modal-open') || needsOnboarding.value) return;
       const tab = route.value.tab;
       if ((e.key === 'ArrowLeft' || e.key === 'ArrowRight') && !route.value.sub) {
         const dir = e.key === 'ArrowRight' ? 1 : -1;
-        if (tab === 'program') {
-          programDayId.value = shiftDay(programDayId.value, dir);
+        if (tab === 'plan') {
+          planDayId.value = shiftDay(planDayId.value, dir);
           e.preventDefault();
         } else if (tab === 'today' && !active.value) {
           pickedDayId.value = shiftDay(todayDayId.value, dir);
@@ -35,13 +39,12 @@ function useKeyboard() {
         }
       }
       if (e.code === 'Space' || e.key === ' ') {
-        // Пробел на сфокусированной кнопке/ссылке — её собственное действие
         if (e.target instanceof HTMLElement && e.target.closest('button, a, summary')) return;
         if (timer.value) {
           togglePause();
           e.preventDefault();
         } else if (active.value) {
-          startRest(settings.value.restBase);
+          startRest(settings.value.restBaseSec);
           e.preventDefault();
         }
       }
@@ -51,37 +54,45 @@ function useKeyboard() {
   }, []);
 }
 
+function Screen() {
+  const r = route.value;
+  if (r.tab === 'legal') return <Legal doc={r.sub?.id === 'terms' ? 'terms' : 'privacy'} />;
+  if (needsOnboarding.value) return <Onboarding />;
+  switch (r.tab) {
+    case 'plan':
+      return <Plan />;
+    case 'library':
+      return r.sub ? <LibraryDetail id={r.sub.id} /> : <Library />;
+    case 'history':
+      if (r.sub?.kind === 'workout') return <WorkoutDetail id={r.sub.id} />;
+      if (r.sub?.kind === 'exercise') return <ExerciseDetail id={r.sub.id} />;
+      return <History />;
+    case 'settings':
+      return <Settings />;
+    default:
+      return <Today />;
+  }
+}
+
 export function App() {
   useKeyboard();
 
   useEffect(() => {
-    if (offlineReady.value) toast('Приложение готово к работе офлайн');
+    if (offlineReady.value) toast(t('app.offlineReady'));
   }, [offlineReady.value]);
 
-  const r = route.value;
-  let screen;
-  if (r.tab === 'program') screen = <Program />;
-  else if (r.tab === 'history')
-    screen =
-      r.sub?.kind === 'workout' ? (
-        <WorkoutDetail id={r.sub.id} />
-      ) : r.sub?.kind === 'exercise' ? (
-        <ExerciseDetail id={r.sub.id} />
-      ) : (
-        <History />
-      );
-  else if (r.tab === 'settings') screen = <Settings />;
-  else screen = <Today />;
+  if (!booted.value) return <div id="boot" aria-hidden="true" />;
+  const onboarding = needsOnboarding.value;
 
   return (
-    <div class={'shell' + (timer.value ? ' has-timer' : '')}>
+    <div class={'shell' + (timer.value ? ' has-timer' : '') + (onboarding ? ' no-nav' : '')}>
       <div class="status-shim" aria-hidden="true" />
       <a class="skip-link" href="#main">
-        К содержимому
+        {t('app.skipToContent')}
       </a>
-      <Nav />
+      {!onboarding && <Nav />}
       <main id="main" tabIndex={-1}>
-        {screen}
+        <Screen />
       </main>
       <RestTimerBar />
       <Toasts />

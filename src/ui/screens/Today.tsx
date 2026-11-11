@@ -1,100 +1,112 @@
 import { useEffect, useState } from 'preact/hooks';
-import { PROGRAM, dayIndex, findDay, isOptional } from '../../data/program';
-import { fmtDate, fmtDuration, plural } from '../../lib/format';
-import { ask, pickedDayId, todayDayId, toast } from '../../state/ui';
+import { fmtDate, t, weekdayLong } from '../../i18n';
+import { fmtDuration } from '../../lib/format';
+import { ask, go, pickedDayId, todayDayId, toast } from '../../state/ui';
+import { findDay, plan } from '../../state/plan';
 import {
   active,
   activeProgress,
-  cancelWorkout,
-  finishWorkout,
+  cancelSession,
+  finishSession,
   loadError,
-  loaded,
-  startWorkout,
+  nextWeekdayDayId,
+  setSessionNote,
+  startSession,
   suggestedDayId,
+  targetFor,
   weekCount,
-} from '../../state/workout';
+} from '../../state/session';
 import { stopRest } from '../../features/timer';
 import { DayHead } from '../components/DayHead';
 import { DaySwitcher, SwipeDays } from '../components/DaySwitcher';
 import { ExerciseCard } from '../components/ExerciseCard';
 import { InstallHint } from '../components/InstallHint';
 import { Icon } from '../components/Icon';
+import { dayNumber } from '../labels';
 
-function useElapsed(from: number | undefined): number {
+function useElapsed(fromIso: string | undefined): number {
   const [now, setNow] = useState(Date.now());
   useEffect(() => {
-    if (!from) return;
+    if (!fromIso) return;
     const id = setInterval(() => setNow(Date.now()), 15_000);
     return () => clearInterval(id);
-  }, [from]);
-  return from ? now - from : 0;
+  }, [fromIso]);
+  return fromIso ? now - Date.parse(fromIso) : 0;
 }
 
 export function Today() {
-  const w = active.value;
+  const s = active.value;
+  const p = plan.value;
   const dayId = todayDayId.value;
-  const day = findDay(dayId) ?? PROGRAM[0]!;
+  const day = dayId ? findDay(dayId) : undefined;
   const suggested = suggestedDayId.value;
-  const elapsed = useElapsed(w?.startedAt);
+  const elapsed = useElapsed(s?.startedAt);
+  const perWeek = p?.days.length ?? 0;
 
   const setDay = (id: string) => {
-    if (w) return;
+    if (s) return;
     pickedDayId.value = id === suggested ? null : id;
   };
 
   const onFinish = async () => {
-    const p = activeProgress.value;
-    const anyDone = w?.exercises.some((e) => e.sets.some((s) => s.done));
+    const pr = activeProgress.value;
+    const anyDone = s?.entries.some((e) => e.sets.some((x) => x.done));
     if (!anyDone) {
       const r = await ask({
-        title: 'Ни одного подхода не отмечено',
-        body: 'Сохранять пустую тренировку нет смысла. Отменить её?',
-        confirm: 'Отменить тренировку',
+        title: t('today.emptyTitle'),
+        body: t('today.emptyBody'),
+        confirm: t('today.cancelWorkout'),
         danger: true,
-        cancel: 'Продолжить',
+        cancel: t('common.continue'),
       });
       if (r === 'confirm') {
-        await cancelWorkout();
+        await cancelSession();
         stopRest();
       }
       return;
     }
-    const left = p.total - p.done;
+    const left = pr.total - pr.done;
     const r = await ask({
-      title: 'Завершить тренировку?',
-      body:
-        left > 0
-          ? `Осталось ${left} ${plural(left, 'упражнение', 'упражнения', 'упражнений')}. Неотмеченные подходы не попадут в историю.`
-          : 'Все упражнения выполнены. Отличная работа!',
-      confirm: 'Завершить',
-      cancel: 'Продолжить',
+      title: t('today.finishTitle'),
+      body: left > 0 ? t('today.finishLeft', { count: left }) : t('today.finishAll'),
+      confirm: t('today.finish'),
+      cancel: t('common.continue'),
     });
     if (r !== 'confirm') return;
     try {
-      await finishWorkout();
+      await finishSession();
       stopRest();
       pickedDayId.value = null;
-      toast('Тренировка сохранена 💪');
+      toast(t('today.saved'));
       window.scrollTo({ top: 0, behavior: 'smooth' });
     } catch (e) {
       console.error(e);
-      toast('Не удалось сохранить. Попробуй ещё раз или сделай экспорт данных.');
+      toast(t('today.saveFailed'));
     }
   };
 
   const onCancel = async () => {
     const ok = await ask({
-      title: 'Отменить тренировку?',
-      body: 'Введённые подходы этой тренировки будут удалены.',
-      confirm: 'Удалить',
+      title: t('today.cancelTitle'),
+      body: t('today.cancelBody'),
+      confirm: t('common.delete'),
       danger: true,
-      cancel: 'Назад',
+      cancel: t('common.back'),
     });
     if (ok === 'confirm') {
-      await cancelWorkout();
+      await cancelSession();
       stopRest();
     }
   };
+
+  const restDay = !s && !day && p?.mode === 'weekdays';
+  const title = s
+    ? t('today.inProgress')
+    : restDay
+      ? t('today.restDay')
+      : dayId === suggested
+        ? t(p?.mode === 'weekdays' ? 'today.scheduled' : 'today.nextInCycle')
+        : t('today.offSchedule');
 
   return (
     <div class="screen today">
@@ -102,83 +114,111 @@ export function Today() {
         <div class="topbar-row">
           <div>
             <div class="eyebrow">{fmtDate(Date.now())}</div>
-            <h1 class="screen-title">
-              {w ? 'Идёт тренировка' : day.id === suggested ? 'Следующая по циклу' : 'Вне очереди'}
-            </h1>
+            <h1 class="screen-title">{title}</h1>
           </div>
-          <div class="week-chip" title="Тренировок на этой неделе">
+          <div class="week-chip" title={t('today.weekChipTitle')}>
             <b>{weekCount.value}</b>
-            <span>из 3–4</span>
+            <span>{t('today.ofPerWeek', { n: perWeek })}</span>
           </div>
         </div>
-        <DaySwitcher value={day.id} onChange={setDay} suggested={w ? undefined : suggested} disabled={!!w} />
+        {!!p && p.days.length > 1 && (
+          <DaySwitcher value={dayId} onChange={setDay} suggested={s ? undefined : suggested} disabled={!!s} />
+        )}
       </header>
 
       <InstallHint />
-      {loadError.value && <div class="note warn">{loadError.value}</div>}
+      {loadError.value && <div class="note warn">{t('app.storageError')}</div>}
 
-      <SwipeDays value={day.id} onChange={setDay} enabled={!w}>
-        <DayHead day={day} progress={w ? activeProgress.value : undefined}>
-          {loaded.value && !w && (
-            <div class="dayhead-cta">
-              <button type="button" class="btn on-color" onClick={() => startWorkout(day.id)}>
-                <Icon name="play" size={18} /> Начать тренировку
+      {restDay && <RestDay onPick={setDay} />}
+
+      {day && (
+        <SwipeDays value={day.id} onChange={setDay} enabled={!s}>
+          <DayHead day={day} progress={s ? activeProgress.value : undefined}>
+            {!s && day.items.length > 0 && (
+              <div class="dayhead-cta">
+                <button type="button" class="btn on-color" onClick={() => startSession(day.id)}>
+                  <Icon name="play" size={18} /> {t('today.start')}
+                </button>
+                {suggested && day.id !== suggested && (
+                  <span class="dayhead-note">{t('today.suggestedIs', { day: dayNumber(suggested) })}</span>
+                )}
+              </div>
+            )}
+            {s && (
+              <div class="dayhead-cta">
+                <span class="dayhead-note">⏱ {fmtDuration(elapsed)}</span>
+                <button type="button" class="btn on-color" onClick={() => void onFinish()}>
+                  <Icon name="check" size={18} /> {t('today.finish')}
+                </button>
+              </div>
+            )}
+          </DayHead>
+
+          {!s && !day.items.length && (
+            <div class="empty">
+              <p>{t('today.emptyDay')}</p>
+              <button type="button" class="btn primary" onClick={() => go('plan')}>
+                {t('today.toPlan')}
               </button>
-              {day.id !== suggested && (
-                <span class="dayhead-note">По циклу следующая — День {dayIndex(suggested) + 1}</span>
-              )}
             </div>
           )}
-          {w && (
-            <div class="dayhead-cta">
-              <span class="dayhead-note">⏱ {fmtDuration(elapsed)}</span>
-              <button type="button" class="btn on-color" onClick={() => void onFinish()}>
-                <Icon name="check" size={18} /> Завершить
-              </button>
-            </div>
-          )}
-        </DayHead>
 
-        {day.groups.map((g) => (
-          <section class="group" key={g.name}>
-            <div class="group-h">
-              <h3>{g.name}</h3>
-              <span class={'tag' + (g.optional ? ' opt' : '')}>
-                {g.label ?? `${g.exercises.length} упр.`}
-              </span>
-            </div>
-            <div class="ex-grid">
-              {g.exercises.map((ex, ei) => {
-                // Ищем запись по id — устойчиво, даже если программу поменяли посреди тренировки
-                const entryIdx = w?.exercises.findIndex((e) => e.exId === ex.id) ?? -1;
-                const entry = w?.exercises[entryIdx];
-                const log = w && entry ? { exIdx: entryIdx, entry } : undefined;
-                return (
+          <div class="ex-grid">
+            {s
+              ? s.entries.map((entry, i) => (
                   <ExerciseCard
-                    key={ex.id}
-                    ex={ex}
-                    num={ei + 1}
-                    optional={isOptional(day, ex.id)}
-                    log={log}
-                    showHints
+                    key={entry.exerciseId + i}
+                    item={targetFor(s.dayId, entry.exerciseId)}
+                    num={i + 1}
+                    log={{ idx: i, entry }}
                   />
-                );
-              })}
-            </div>
-          </section>
-        ))}
-
-        {w && (
-          <div class="finish-zone">
-            <button type="button" class="btn primary block" onClick={() => void onFinish()}>
-              <Icon name="check" size={18} /> Завершить тренировку
-            </button>
-            <button type="button" class="btn danger-ghost block" onClick={() => void onCancel()}>
-              Отменить тренировку
-            </button>
+                ))
+              : day.items.map((item, i) => (
+                  <ExerciseCard key={item.exerciseId + i} item={item} num={i + 1} />
+                ))}
           </div>
-        )}
-      </SwipeDays>
+
+          {s && (
+            <div class="finish-zone">
+              <label class="field">
+                <span class="field-lb">{t('today.sessionNote')}</span>
+                <textarea
+                  class="note-in"
+                  rows={2}
+                  maxLength={1000}
+                  placeholder={t('today.sessionNotePh')}
+                  defaultValue={s.note ?? ''}
+                  onChange={(e) => setSessionNote(e.currentTarget.value)}
+                />
+              </label>
+              <button type="button" class="btn primary block" onClick={() => void onFinish()}>
+                <Icon name="check" size={18} /> {t('today.finishWorkout')}
+              </button>
+              <button type="button" class="btn danger-ghost block" onClick={() => void onCancel()}>
+                {t('today.cancelWorkout')}
+              </button>
+            </div>
+          )}
+        </SwipeDays>
+      )}
+    </div>
+  );
+}
+
+function RestDay({ onPick }: { onPick: (id: string) => void }) {
+  const next = nextWeekdayDayId.value;
+  const nd = next ? findDay(next) : undefined;
+  return (
+    <div class="card rest-day">
+      <p>{t('today.restDayText')}</p>
+      {nd?.weekday != null && (
+        <p class="muted small">{t('today.nextScheduled', { day: weekdayLong(nd.weekday) })}</p>
+      )}
+      {nd && (
+        <button type="button" class="btn secondary" onClick={() => onPick(nd.id)}>
+          {t('today.trainAnyway')}
+        </button>
+      )}
     </div>
   );
 }

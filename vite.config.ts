@@ -45,10 +45,11 @@ export default defineConfig({
       includeAssets: ['icons/*.png', 'icons/*.svg', 'splash/*.png'],
       manifest: {
         id: base,
-        name: 'Тренировочная программа · Сплит 3+1',
-        short_name: 'Тренировки',
-        description: 'Сплит 3+1: журнал тренировок, таймер отдыха и прогресс. Работает офлайн.',
-        lang: 'ru',
+        name: 'Simple Training',
+        short_name: 'Training',
+        description:
+          'Plan your training week and log your sets. Works offline; your data stays on your device.',
+        lang: 'en',
         dir: 'ltr',
         start_url: `${base}#/today`,
         scope: base,
@@ -69,7 +70,8 @@ export default defineConfig({
         ],
       },
       workbox: {
-        // Весь app shell + шрифт Manrope (кириллица и латиница) + иконки + splash
+        // Весь app shell (включая словари языков — это JS-чанки) + шрифт Manrope (латиница, кириллица
+        // и их расширения для польского и украинского) + иконки + splash
         // (splash-экраны лёгкие, ~15 КБ каждый — пусть будут доступны офлайн).
         globPatterns: ['**/*.{js,css,html,woff2}'],
         globIgnores: ['**/*-greek-*', '**/*-vietnamese-*'],

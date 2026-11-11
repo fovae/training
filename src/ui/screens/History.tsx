@@ -1,52 +1,50 @@
-import { PROGRAM, dayIndex, findDay, findExercise } from '../../data/program';
-import type { Workout } from '../../db/types';
-import {
-  fmtDate,
-  fmtDuration,
-  fmtNum,
-  fmtShortDate,
-  fmtTime,
-  fmtWeight,
-  plural,
-  toUnit,
-  unitLabel,
-} from '../../lib/format';
+import { findExercise } from '../../data/exercises';
+import { adviceFor } from '../../advice';
+import { fmtDate, fmtNum, fmtShortDate, fmtTime, t } from '../../i18n';
+import { fmtDuration, fmtWeight, ms, toUnit, unitLabel } from '../../lib/format';
+import { dayColor, findDay, plan } from '../../state/plan';
 import { ask, go, toast } from '../../state/ui';
 import {
   exerciseSeries,
   history,
-  progressionReady,
-  removeWorkout,
+  removeSession,
+  sessionVolume,
+  targetFor,
   weekCount,
-  workoutVolume,
-} from '../../state/workout';
+} from '../../state/session';
+import type { Session } from '../../types';
 import { Icon } from '../components/Icon';
 import { LineChart } from '../components/LineChart';
 import { Pic } from '../components/Pic';
+import { fmtSets } from '../components/ExerciseCard';
+import { dayNumber, dayTitleById, exName, muscleName } from '../labels';
 
 function DayChip({ dayId }: { dayId: string }) {
-  const d = findDay(dayId);
-  if (!d) return <span class="chip">?</span>;
+  if (!findDay(dayId)) return <span class="chip neutral">—</span>;
   return (
-    <span class="chip" style={{ background: `var(--${d.color}-fill)` }}>
-      День {dayIndex(dayId) + 1}
+    <span class="chip" style={{ background: `var(--${dayColor(dayId)}-fill)` }}>
+      {dayNumber(dayId)}
     </span>
   );
 }
 
+const sessionTitle = (s: Session) => (findDay(s.dayId) ? dayTitleById(s.dayId) : t('history.workout'));
+const duration = (s: Session) => ms(s.endedAt ?? s.startedAt) - ms(s.startedAt);
+
 function WeekCard() {
   const n = weekCount.value;
+  const goal = plan.value?.days.length ?? 0;
   return (
     <div class="card week">
       <div>
-        <div class="eyebrow">Эта неделя</div>
+        <div class="eyebrow">{t('history.thisWeek')}</div>
         <div class="week-big">
-          {n} <span>из 3–4 тренировок</span>
+          {n} <span>{t('history.ofWorkouts', { count: goal, n: goal })}</span>
         </div>
       </div>
       <div class="week-dots" aria-hidden="true">
-        {[0, 1, 2, 3].map((i) => (
-          <i key={i} class={i < n ? 'on' : i === 3 ? 'opt' : ''} />
+        {Array.from({ length: goal }, (_, i) => (
+          <i key={i} class={i < n ? 'on' : ''} />
         ))}
       </div>
     </div>
@@ -55,24 +53,26 @@ function WeekCard() {
 
 export function History() {
   const list = history.value;
-  const exIds = new Set(
-    list.flatMap((w) => w.exercises.filter((e) => e.sets.some((s) => s.done)).map((e) => e.exId)),
-  );
+  const exIds = [
+    ...new Set(
+      list.flatMap((s) => s.entries.filter((e) => e.sets.some((x) => x.done)).map((e) => e.exerciseId)),
+    ),
+  ];
 
   return (
     <div class="screen history">
       <header class="topbar">
-        <div class="eyebrow">Журнал</div>
-        <h1 class="screen-title">История</h1>
+        <div class="eyebrow">{t('history.eyebrow')}</div>
+        <h1 class="screen-title">{t('history.title')}</h1>
       </header>
 
       <WeekCard />
 
       {!list.length && (
         <div class="empty">
-          <p>Здесь появятся завершённые тренировки: дата, длительность и объём.</p>
+          <p>{t('history.empty')}</p>
           <button type="button" class="btn primary" onClick={() => go('today')}>
-            К тренировке
+            {t('history.toWorkout')}
           </button>
         </div>
       )}
@@ -80,25 +80,23 @@ export function History() {
       {!!list.length && (
         <section>
           <div class="sec-h">
-            <h2>Тренировки</h2>
-            <span class="eyebrow">
-              {list.length} {plural(list.length, 'запись', 'записи', 'записей')}
-            </span>
+            <h2>{t('history.workouts')}</h2>
+            <span class="eyebrow">{t('history.records', { count: list.length })}</span>
           </div>
           <ul class="list">
-            {list.map((w) => (
-              <li key={w.id}>
-                <a class="row" href={`#/history/workout/${encodeURIComponent(w.id)}`}>
-                  <DayChip dayId={w.dayId} />
+            {list.map((s) => (
+              <li key={s.id}>
+                <a class="row" href={`#/history/workout/${encodeURIComponent(s.id)}`}>
+                  <DayChip dayId={s.dayId} />
                   <span class="row-main">
-                    <b>{findDay(w.dayId)?.title ?? 'Тренировка'}</b>
+                    <b>{sessionTitle(s)}</b>
                     <span class="muted">
-                      {fmtDate(w.startedAt)} · {fmtDuration((w.finishedAt ?? w.startedAt) - w.startedAt)}
+                      {fmtDate(ms(s.startedAt))} · {fmtDuration(duration(s))}
                     </span>
                   </span>
                   <span class="row-side">
-                    <b>{fmtNum(toUnit(workoutVolume(w)) ?? 0)}</b>
-                    <span class="muted">{unitLabel()} объём</span>
+                    <b>{fmtNum(toUnit(sessionVolume(s)) ?? 0)}</b>
+                    <span class="muted">{t('history.volumeUnit', { unit: unitLabel() })}</span>
                   </span>
                 </a>
               </li>
@@ -107,35 +105,23 @@ export function History() {
         </section>
       )}
 
-      {exIds.size > 0 && (
+      {exIds.length > 0 && (
         <section>
           <div class="sec-h">
-            <h2>Прогресс по упражнениям</h2>
+            <h2>{t('history.byExercise')}</h2>
           </div>
-          {PROGRAM.map((d) => {
-            const exs = d.groups.flatMap((g) => g.exercises).filter((e) => exIds.has(e.id));
-            if (!exs.length) return null;
-            return (
-              <div key={d.id} class="ex-links">
-                <div class="ex-links-h">
-                  <DayChip dayId={d.id} /> {d.title}
-                </div>
-                <ul class="list">
-                  {exs.map((e) => (
-                    <li key={e.id}>
-                      <a class="row" href={`#/history/exercise/${encodeURIComponent(e.id)}`}>
-                        <span class="row-main">
-                          <b>{e.name}</b>
-                          {progressionReady(e) && <span class="up">Пора добавить вес</span>}
-                        </span>
-                        <Icon name="chevron" size={18} />
-                      </a>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            );
-          })}
+          <ul class="list">
+            {exIds.map((id) => (
+              <li key={id}>
+                <a class="row" href={`#/history/exercise/${encodeURIComponent(id)}`}>
+                  <span class="row-main">
+                    <b>{exName(id)}</b>
+                  </span>
+                  <Icon name="chevron" size={18} />
+                </a>
+              </li>
+            ))}
+          </ul>
         </section>
       )}
     </div>
@@ -146,7 +132,7 @@ function BackBar({ title }: { title: string }) {
   return (
     <header class="topbar">
       <a class="back" href="#/history">
-        <Icon name="back" size={20} /> История
+        <Icon name="back" size={20} /> {t('history.title')}
       </a>
       <h1 class="screen-title sm">{title}</h1>
     </header>
@@ -154,117 +140,114 @@ function BackBar({ title }: { title: string }) {
 }
 
 export function WorkoutDetail({ id }: { id: string }) {
-  const w: Workout | undefined = history.value.find((x) => x.id === id);
-  if (!w) {
+  const s = history.value.find((x) => x.id === id);
+  if (!s) {
     return (
       <div class="screen">
-        <BackBar title="Не найдено" />
-        <p class="muted">Эта тренировка удалена или ещё не загружена.</p>
+        <BackBar title={t('history.notFound')} />
+        <p class="muted">{t('history.notFoundText')}</p>
       </div>
     );
   }
-  const day = findDay(w.dayId);
+  const started = ms(s.startedAt);
   const onDelete = async () => {
     const r = await ask({
-      title: 'Удалить тренировку?',
-      body: `${fmtDate(w.startedAt)} — запись исчезнет из истории и графиков.`,
-      confirm: 'Удалить',
+      title: t('history.deleteTitle'),
+      body: t('history.deleteBody', { date: fmtDate(started) }),
+      confirm: t('common.delete'),
       danger: true,
     });
     if (r !== 'confirm') return;
-    await removeWorkout(w.id);
+    await removeSession(s.id);
     go('history');
-    toast('Тренировка удалена');
+    toast(t('history.deleted'));
   };
 
   return (
     <div class="screen">
-      <BackBar title={day?.title ?? 'Тренировка'} />
+      <BackBar title={sessionTitle(s)} />
       <div class="card summary">
-        <DayChip dayId={w.dayId} />
+        <DayChip dayId={s.dayId} />
         <div class="summary-grid">
           <div>
-            <b>{fmtDate(w.startedAt)}</b>
+            <b>{fmtDate(started)}</b>
             <span>
-              {fmtTime(w.startedAt)}–{fmtTime(w.finishedAt ?? w.startedAt)}
+              {fmtTime(started)}–{fmtTime(ms(s.endedAt ?? s.startedAt))}
             </span>
           </div>
           <div>
-            <b>{fmtDuration((w.finishedAt ?? w.startedAt) - w.startedAt)}</b>
-            <span>длительность</span>
+            <b>{fmtDuration(duration(s))}</b>
+            <span>{t('history.duration')}</span>
           </div>
           <div>
-            <b>{fmtWeight(workoutVolume(w))}</b>
-            <span>объём</span>
+            <b>{fmtWeight(sessionVolume(s))}</b>
+            <span>{t('history.volume')}</span>
           </div>
         </div>
+        {s.note && <p class="session-note">{s.note}</p>}
       </div>
       <ul class="detail">
-        {w.exercises.map((e) => {
-          const info = findExercise(e.exId);
-          const done = e.sets.filter((s) => s.done);
-          const sec = info?.ex.unit === 'sec';
+        {s.entries.map((e, i) => {
+          const ex = findExercise(e.exerciseId);
+          const txt = fmtSets(e.sets, ex);
           return (
-            <li key={e.exId} class={e.skipped || !done.length ? 'dim' : ''}>
-              <a href={`#/history/exercise/${encodeURIComponent(e.exId)}`}>{info?.ex.name ?? e.exId}</a>
-              <span class="muted">
-                {e.skipped
-                  ? 'пропущено'
-                  : done.length
-                    ? done
-                        .map((s) =>
-                          s.weight != null
-                            ? `${fmtNum(toUnit(s.weight) ?? 0)}×${s.reps ?? '—'}${sec ? ' с' : ''}`
-                            : `${s.reps ?? '—'}${sec ? ' с' : ''}`,
-                        )
-                        .join(' · ')
-                    : 'не выполнено'}
-              </span>
+            <li key={e.exerciseId + i} class={e.skipped || !txt ? 'dim' : ''}>
+              <a href={`#/history/exercise/${encodeURIComponent(e.exerciseId)}`}>{exName(e.exerciseId)}</a>
+              <span class="muted">{e.skipped ? t('ex.skipped') : txt || t('history.notDone')}</span>
+              {e.note && <span class="entry-note">{e.note}</span>}
             </li>
           );
         })}
       </ul>
       <button type="button" class="btn danger-ghost block" onClick={() => void onDelete()}>
-        <Icon name="trash" size={18} /> Удалить тренировку
+        <Icon name="trash" size={18} /> {t('history.delete')}
       </button>
     </div>
   );
 }
 
 export function ExerciseDetail({ id }: { id: string }) {
-  const info = findExercise(id);
-  if (!info) {
-    return (
-      <div class="screen">
-        <BackBar title="Упражнение не найдено" />
-      </div>
-    );
-  }
-  const { ex } = info;
+  const ex = findExercise(id);
+  const name = exName(id);
   const pts = exerciseSeries(id);
   const u = unitLabel();
   const withWeight = pts.filter((p) => p.top > 0);
+  const isTime = ex?.metric === 'time';
+  const advice = adviceFor(targetFor(history.value[0]?.dayId ?? '', id));
 
   return (
     <div class="screen">
-      <BackBar title={ex.name} />
+      <BackBar title={name} />
       <div class="card ex-detail-top">
-        <Pic pic={ex.pic} />
-        <div class="muted">{ex.focus}</div>
-        {progressionReady(ex) && <div class="hint-up">📈 Пора добавить вес</div>}
+        <Pic pic={ex?.pictogram} />
+        {ex && <div class="muted">{ex.primaryMuscles.map(muscleName).join(', ')}</div>}
+        {advice.map((a) => (
+          <div class="hint-up" key={a.id}>
+            📈 {t(a.textKey)}
+          </div>
+        ))}
+        {ex && (
+          <a class="more" href={`#/library/${encodeURIComponent(id)}`}>
+            {t('ex.fullCard')} <Icon name="chevron" size={14} />
+          </a>
+        )}
       </div>
 
       {withWeight.length > 0 ? (
         <div class="card">
-          <h2 class="card-t">Рабочий вес и лучший подход</h2>
+          <h2 class="card-t">{t('history.chartTitle')}</h2>
           <LineChart
-            label={`График веса: ${ex.name}`}
+            label={t('history.chartLabel', { name })}
             unit={u}
             dates={withWeight.map((p) => p.t)}
             series={[
-              { name: `Рабочий вес, ${u}`, cls: 's1', values: withWeight.map((p) => toUnit(p.top) ?? 0) },
               {
-                name: `Лучший подход (расч. 1ПМ), ${u}`,
+                name: t('history.seriesTop', { unit: u }),
+                cls: 's1',
+                values: withWeight.map((p) => toUnit(p.top) ?? 0),
+              },
+              {
+                name: t('history.seriesBest', { unit: u }),
                 cls: 's2',
                 values: withWeight.map((p) => Math.round(toUnit(p.best) ?? 0)),
               },
@@ -273,11 +256,7 @@ export function ExerciseDetail({ id }: { id: string }) {
         </div>
       ) : (
         <div class="empty">
-          <p>
-            {pts.length
-              ? 'Упражнение выполнялось без веса — график строится по весу.'
-              : 'Пока нет данных. Отметь подходы во время тренировки.'}
-          </p>
+          <p>{pts.length ? t('history.noWeight') : t('history.noData')}</p>
         </div>
       )}
 
@@ -289,16 +268,20 @@ export function ExerciseDetail({ id }: { id: string }) {
                 <span class="row-main">
                   <b>{fmtShortDate(p.t)}</b>
                   <span class="muted">
-                    лучший:{' '}
-                    {p.bestSet.weight
-                      ? `${fmtWeight(p.bestSet.weight)} × ${p.bestSet.reps}`
-                      : `${p.bestSet.reps}`}
+                    {t('history.best')}{' '}
+                    {isTime
+                      ? `${p.bestSet.reps} ${t('unit.sec')}`
+                      : p.bestSet.weight
+                        ? `${fmtWeight(p.bestSet.weight)} × ${p.bestSet.reps}`
+                        : `${p.bestSet.reps}`}
                   </span>
                 </span>
-                <span class="row-side">
-                  <b>{fmtWeight(p.top)}</b>
-                  <span class="muted">рабочий</span>
-                </span>
+                {!isTime && (
+                  <span class="row-side">
+                    <b>{fmtWeight(p.top)}</b>
+                    <span class="muted">{t('history.working')}</span>
+                  </span>
+                )}
               </div>
             </li>
           ))}

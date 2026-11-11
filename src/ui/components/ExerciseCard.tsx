@@ -1,64 +1,46 @@
-import { useRef } from 'preact/hooks';
-import type { Exercise } from '../../data/types';
-import type { SetEntry, WorkoutExercise } from '../../db/types';
-import { restLabel, schemeText } from '../../data/program';
-import { fmtNum, fromUnit, parseDecimal, toUnit, unitLabel } from '../../lib/format';
-import { settings } from '../../state/settings';
+import { useRef, useState } from 'preact/hooks';
+import { findExercise } from '../../data/exercises';
+import { adviceFor } from '../../advice';
+import { fmtNum, t } from '../../i18n';
+import { fromUnit, inputNum, parseDecimal, toUnit, unitLabel } from '../../lib/format';
+import type { Exercise, PlanItem, SessionEntry, SessionSet } from '../../types';
 import {
   addSet,
-  exerciseState,
+  entryState,
   lastPerformance,
-  progressionReady,
   removeSet,
+  restFor,
+  setEntryNote,
   toggleSetDone,
   toggleSkip,
   updateSet,
-} from '../../state/workout';
+} from '../../state/session';
 import { startRest } from '../../features/timer';
-import { go, toast } from '../../state/ui';
+import { go } from '../../state/ui';
+import { exName, muscleName, restText, schemeText } from '../labels';
 import { Icon } from './Icon';
 import { Pic } from './Pic';
 
 interface Props {
-  ex: Exercise;
+  item: PlanItem;
   num: number;
-  optional: boolean;
   /** Режим журнала во время тренировки */
-  log?: { exIdx: number; entry: WorkoutExercise } | undefined;
-  /** Показывать подсказку прогрессии */
-  showHints?: boolean;
+  log?: { idx: number; entry: SessionEntry } | undefined;
 }
 
-export function DemoLink({ href, label }: { href: string; label: string }) {
-  return (
-    <a
-      class="demo"
-      href={href}
-      target="_blank"
-      rel="noopener noreferrer"
-      onClick={(e) => {
-        if (!navigator.onLine) {
-          e.preventDefault();
-          toast('Нет интернета — демонстрация откроется, когда появится сеть.');
-        }
-      }}
-    >
-      ▶ {label}
-    </a>
-  );
-}
-
-export function ExerciseCard({ ex, num, optional, log, showHints }: Props) {
-  const state = log ? exerciseState(log.entry) : 'todo';
-  const hint = showHints && progressionReady(ex);
-  const last = showHints && !log ? lastPerformance(ex.id) : null;
+export function ExerciseCard({ item, num, log }: Props) {
+  const ex = findExercise(item.exerciseId);
+  const name = exName(item.exerciseId);
+  const state = log ? entryState(log.entry) : 'todo';
+  const advice = adviceFor(item);
+  const last = !log ? lastPerformance(item.exerciseId) : null;
 
   return (
     <article
       class={'ex' + (state === 'done' ? ' done' : '') + (state === 'skipped' ? ' skipped' : '')}
-      aria-label={ex.name}
+      aria-label={name}
     >
-      <Pic pic={ex.pic} />
+      <Pic pic={ex?.pictogram} />
       <div class="ex-top">
         {log && (
           <span class={'chk' + (state === 'done' ? ' on' : '')} aria-hidden="true">
@@ -67,112 +49,151 @@ export function ExerciseCard({ ex, num, optional, log, showHints }: Props) {
         )}
         <div class="ex-head">
           <h4 class="ex-name">
-            {num}. {ex.name}
+            {num}. {name}
           </h4>
-          <div class="ex-focus">{ex.focus}</div>
+          {ex && <div class="ex-focus">{ex.primaryMuscles.map(muscleName).join(', ')}</div>}
         </div>
       </div>
       <div class="pills">
-        <span class="pill main">
-          {schemeText(ex)}
-          {ex.per ? ' ' + ex.per : ''}
-        </span>
-        <span class="pill">⏱ {restLabel(ex)}</span>
-        {(ex.optional || (optional && log)) && <span class="pill opt">по желанию</span>}
-        {state === 'skipped' && <span class="pill">пропущено</span>}
+        <span class="pill main">{schemeText(item, ex)}</span>
+        <span class="pill">⏱ {restText(item, ex)}</span>
+        {item.targetWeightKg != null && (
+          <span class="pill">
+            {fmtNum(toUnit(item.targetWeightKg) ?? 0)} {unitLabel()}
+          </span>
+        )}
+        {item.optional && <span class="pill opt">{t('ex.optional')}</span>}
+        {state === 'skipped' && <span class="pill">{t('ex.skipped')}</span>}
       </div>
 
-      {hint && (
-        <div class="hint-up" role="note">
-          <span aria-hidden="true">📈</span> Пора добавить вес — в прошлый раз верх диапазона во всех
-          подходах.
+      {advice.map((a) => (
+        <div class="hint-up" role="note" key={a.id}>
+          <span aria-hidden="true">📈</span> {t(a.textKey, a.params)}
         </div>
-      )}
+      ))}
 
       {last && <LastLine ex={ex} sets={last.sets} />}
 
-      {log && state !== 'skipped' && <SetTable ex={ex} exIdx={log.exIdx} sets={log.entry.sets} />}
+      {log && state !== 'skipped' && (
+        <SetTable ex={ex} item={item} name={name} idx={log.idx} sets={log.entry.sets} />
+      )}
+
+      {log && <EntryNote idx={log.idx} note={log.entry.note} name={name} />}
 
       {log && (
         <div class="ex-actions">
-          {optional && (
-            <button type="button" class="btn-ghost sm" onClick={() => toggleSkip(log.exIdx)}>
+          {item.optional && (
+            <button type="button" class="btn-ghost sm" onClick={() => toggleSkip(log.idx)}>
               <Icon name="skip" size={16} />
-              {state === 'skipped' ? 'Вернуть' : 'Пропустить'}
+              {state === 'skipped' ? t('ex.unskip') : t('ex.skip')}
             </button>
           )}
           <button
             type="button"
             class="btn-ghost sm"
-            onClick={() => go('history/exercise/' + encodeURIComponent(ex.id))}
+            onClick={() => go('history/exercise/' + encodeURIComponent(item.exerciseId))}
           >
-            История
+            {t('nav.history')}
             <Icon name="chevron" size={16} />
           </button>
         </div>
       )}
 
-      <details class="tech">
-        <summary>
-          <b>Техника</b>
-          {ex.alt ? ' и замена' : ''}
-        </summary>
-        <p>
-          {ex.tech}
-          {ex.alt && (
-            <>
-              <br />
-              <b>Замена.</b> {ex.alt}
-            </>
-          )}
-        </p>
-      </details>
-      {(ex.link || ex.link2) && (
-        <div class="demos">
-          {ex.link && <DemoLink href={ex.link} label="Демонстрация техники" />}
-          {ex.link2 && <DemoLink href={ex.link2.href} label={ex.link2.label} />}
-        </div>
+      {ex && (
+        <details class="tech">
+          <summary>
+            <b>{t('ex.technique')}</b>
+          </summary>
+          <ul class="cues">
+            {ex.cueKeys.map((k) => (
+              <li key={k}>{t(k)}</li>
+            ))}
+          </ul>
+          <a class="more" href={`#/library/${encodeURIComponent(ex.id)}`}>
+            {t('ex.fullCard')}
+            <Icon name="chevron" size={14} />
+          </a>
+        </details>
       )}
     </article>
   );
 }
 
-function LastLine({ ex, sets }: { ex: Exercise; sets: SetEntry[] }) {
-  const done = sets.filter((s) => s.done);
-  if (!done.length) return null;
-  const u = ex.unit === 'sec' ? ' с' : '';
+function fmtSet(s: SessionSet, ex: Exercise | undefined): string {
+  if (ex?.metric === 'time') return `${s.seconds ?? '—'} ${t('unit.sec')}`;
+  if (s.weightKg) return `${fmtNum(toUnit(s.weightKg) ?? 0)}×${s.reps ?? '—'}`;
+  return `${s.reps ?? '—'}`;
+}
+
+export const fmtSets = (sets: SessionSet[], ex: Exercise | undefined): string =>
+  sets
+    .filter((s) => s.done)
+    .map((s) => fmtSet(s, ex))
+    .join(' · ');
+
+function LastLine({ ex, sets }: { ex: Exercise | undefined; sets: SessionSet[] }) {
+  const txt = fmtSets(sets, ex);
+  if (!txt) return null;
   return (
     <div class="last">
-      В прошлый раз:{' '}
-      {done
-        .map((s) =>
-          s.weight ? `${fmtNum(toUnit(s.weight) ?? 0)}×${s.reps ?? '—'}${u}` : `${s.reps ?? '—'}${u}`,
-        )
-        .join(' · ')}
+      {t('ex.lastTime')} {txt}
     </div>
   );
 }
 
-function SetTable({ ex, exIdx, sets }: { ex: Exercise; exIdx: number; sets: SetEntry[] }) {
-  const repsLabel = ex.unit === 'sec' ? 'сек' : 'повт.';
+function EntryNote({ idx, note, name }: { idx: number; note: string | undefined; name: string }) {
+  const [open, setOpen] = useState(!!note);
+  if (!open)
+    return (
+      <button type="button" class="btn-ghost sm note-btn" onClick={() => setOpen(true)}>
+        <Icon name="plus" size={16} /> {t('ex.addNote')}
+      </button>
+    );
   return (
-    <div class="sets no-swipe">
+    <textarea
+      class="note-in"
+      rows={2}
+      maxLength={1000}
+      placeholder={t('ex.notePlaceholder')}
+      aria-label={t('ex.noteFor', { name })}
+      defaultValue={note ?? ''}
+      onChange={(e) => setEntryNote(idx, e.currentTarget.value)}
+    />
+  );
+}
+
+function SetTable({
+  ex,
+  item,
+  name,
+  idx,
+  sets,
+}: {
+  ex: Exercise | undefined;
+  item: PlanItem;
+  name: string;
+  idx: number;
+  sets: SessionSet[];
+}) {
+  const metric = ex?.metric ?? 'weight_reps';
+  return (
+    <div class={'sets no-swipe' + (metric !== 'weight_reps' ? ' one' : '')}>
       <div class="sets-h" aria-hidden="true">
         <span>#</span>
-        <span>{unitLabel()}</span>
-        <span>{repsLabel}</span>
+        {metric === 'weight_reps' && <span>{unitLabel()}</span>}
+        <span>{metric === 'time' ? t('unit.sec') : t('ex.repsShort')}</span>
         <span />
       </div>
       {sets.map((s, i) => (
-        <SetRow key={i} ex={ex} exIdx={exIdx} setIdx={i} set={s} />
+        <SetRow key={i} ex={ex} item={item} name={name} idx={idx} setIdx={i} set={s} />
       ))}
       <div class="sets-more">
-        <button type="button" class="btn-ghost sm" onClick={() => addSet(exIdx)}>
-          <Icon name="plus" size={16} /> Подход
+        <button type="button" class="btn-ghost sm" onClick={() => addSet(idx)}>
+          <Icon name="plus" size={16} /> {t('ex.addSet')}
         </button>
         {sets.length > 1 && !sets[sets.length - 1]!.done && (
-          <button type="button" class="btn-ghost sm" onClick={() => removeSet(exIdx)}>
-            <Icon name="minus" size={16} /> Убрать
+          <button type="button" class="btn-ghost sm" onClick={() => removeSet(idx)}>
+            <Icon name="minus" size={16} /> {t('ex.removeSet')}
           </button>
         )}
       </div>
@@ -180,47 +201,68 @@ function SetTable({ ex, exIdx, sets }: { ex: Exercise; exIdx: number; sets: SetE
   );
 }
 
-function SetRow({ ex, exIdx, setIdx, set }: { ex: Exercise; exIdx: number; setIdx: number; set: SetEntry }) {
+function SetRow({
+  ex,
+  item,
+  name,
+  idx,
+  setIdx,
+  set,
+}: {
+  ex: Exercise | undefined;
+  item: PlanItem;
+  name: string;
+  idx: number;
+  setIdx: number;
+  set: SessionSet;
+}) {
   const wRef = useRef<HTMLInputElement>(null);
   const rRef = useRef<HTMLInputElement>(null);
-  const units = settings.value.units;
-  const wVal = toUnit(set.weight);
-  const name = `${ex.name}, подход ${setIdx + 1}`;
+  const metric = ex?.metric ?? 'weight_reps';
+  const isTime = metric === 'time';
+  const wVal = toUnit(set.weightKg);
+  const count = isTime ? set.seconds : set.reps;
+  const label = t('ex.setLabel', { name, n: setIdx + 1 });
 
   const commit = () => {
-    const w = fromUnit(parseDecimal(wRef.current?.value ?? ''));
+    const patch: Partial<SessionSet> = {};
+    if (metric === 'weight_reps') {
+      const w = fromUnit(parseDecimal(wRef.current?.value ?? ''));
+      patch.weightKg = w ?? undefined;
+    }
     const r = parseDecimal(rRef.current?.value ?? '');
-    const reps = r == null ? null : Math.round(r);
-    if (w !== set.weight || reps !== set.reps) updateSet(exIdx, setIdx, { weight: w, reps });
+    const v = r == null ? undefined : Math.round(r);
+    if (isTime) patch.seconds = v;
+    else patch.reps = v;
+    const changed = (Object.keys(patch) as (keyof SessionSet)[]).some((k) => patch[k] !== set[k]);
+    if (changed) updateSet(idx, setIdx, patch);
   };
 
   const onDone = () => {
     commit();
-    const nowDone = toggleSetDone(exIdx, setIdx);
-    if (nowDone) {
-      const s = settings.value;
-      startRest(ex.base ? s.restBase : s.restIso, ex.name);
-    }
+    if (toggleSetDone(idx, setIdx)) startRest(restFor(ex, item), name);
   };
 
   return (
     <div class={'set' + (set.done ? ' done' : '')}>
       <span class="set-n">{setIdx + 1}</span>
+      {metric === 'weight_reps' && (
+        <input
+          key={`w-${wVal}`}
+          ref={wRef}
+          class="num-in"
+          type="text"
+          inputMode="decimal"
+          enterKeyHint="next"
+          autoComplete="off"
+          placeholder={unitLabel()}
+          defaultValue={inputNum(wVal)}
+          aria-label={t('ex.weightOf', { set: label, unit: unitLabel() })}
+          onChange={commit}
+        />
+      )}
       <input
-        key={`w-${wVal}-${units}`}
-        ref={wRef}
-        class="num-in"
-        type="text"
-        inputMode="decimal"
-        enterKeyHint="next"
-        autoComplete="off"
-        placeholder={unitLabel()}
-        defaultValue={wVal == null ? '' : String(wVal).replace('.', ',')}
-        aria-label={`${name}: вес, ${unitLabel()}`}
-        onChange={commit}
-      />
-      <input
-        key={`r-${set.reps}`}
+        key={`r-${count}`}
         ref={rRef}
         class="num-in"
         type="text"
@@ -228,16 +270,16 @@ function SetRow({ ex, exIdx, setIdx, set }: { ex: Exercise; exIdx: number; setId
         pattern="[0-9]*"
         enterKeyHint="done"
         autoComplete="off"
-        placeholder={`${ex.reps[0]}–${ex.reps[1]}`}
-        defaultValue={set.reps == null ? '' : String(set.reps)}
-        aria-label={`${name}: ${ex.unit === 'sec' ? 'секунды' : 'повторы'}`}
+        placeholder={`${item.repsMin}–${item.repsMax}`}
+        defaultValue={count == null ? '' : String(count)}
+        aria-label={t(isTime ? 'ex.secondsOf' : 'ex.repsOf', { set: label })}
         onChange={commit}
       />
       <button
         type="button"
         class={'set-done' + (set.done ? ' on' : '')}
         aria-pressed={set.done}
-        aria-label={set.done ? `${name}: снять отметку` : `${name}: выполнен`}
+        aria-label={t(set.done ? 'ex.setUndo' : 'ex.setDone', { set: label })}
         onClick={onDone}
       >
         <Icon name="check" size={20} />

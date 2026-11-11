@@ -4,13 +4,7 @@ import globals from 'globals';
 
 export default tseslint.config(
   {
-    ignores: [
-      'dist',
-      'dev-dist',
-      'node_modules',
-      'test-results',
-      'playwright-report',
-    ],
+    ignores: ['dist', 'dev-dist', 'node_modules', 'test-results', 'playwright-report'],
   },
   js.configs.recommended,
   ...tseslint.configs.strict,

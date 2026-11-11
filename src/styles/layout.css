@@ -35,7 +35,7 @@ main {
   right: 0;
   bottom: 0;
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(5, 1fr);
   padding: 0 var(--safe-r) var(--safe-b) var(--safe-l);
   background: color-mix(in srgb, var(--card) 96%, transparent);
   -webkit-backdrop-filter: saturate(1.6) blur(20px);
@@ -57,6 +57,18 @@ main {
   text-decoration: none;
   font-size: 11px;
   font-weight: 700;
+  min-width: 0;
+}
+.nav-lb {
+  max-width: 100%;
+  padding: 0 2px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+/* онбординг: без таб-бара */
+.shell.no-nav main {
+  padding-bottom: calc(var(--safe-b) + var(--timer-h) + 32px);
 }
 .nav-item.on {
   color: var(--accent-ink);
@@ -211,6 +223,12 @@ main {
   main > .screen {
     max-width: 1200px;
     margin: 0 auto;
+  }
+  .shell.no-nav main {
+    margin-left: 0;
+  }
+  main > .screen.onboarding {
+    max-width: 640px;
   }
   .rest {
     left: auto;
