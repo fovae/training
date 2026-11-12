@@ -63,23 +63,3 @@ export async function loadSettingsAndProfile(): Promise<void> {
   profile.value = p;
   settingsLoaded = true;
 }
-
-// ---------- маленькие флаги UI (localStorage) ----------
-
-export const flags = {
-  get(name: string): boolean {
-    try {
-      return localStorage.getItem('tp-flag-' + name) === '1';
-    } catch {
-      return false;
-    }
-  },
-  set(name: string, v = true): void {
-    try {
-      if (v) localStorage.setItem('tp-flag-' + name, '1');
-      else localStorage.removeItem('tp-flag-' + name);
-    } catch {
-      /* ignore */
-    }
-  },
-};

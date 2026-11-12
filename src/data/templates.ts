@@ -203,7 +203,3 @@ export function buildPlan(opts: { templateId?: string | null; days: number; mode
   if (tpl) plan.templateId = tpl.id;
   return plan;
 }
-
-export function templateDayCount(t: Template, wanted: number): number {
-  return t.fixedDays ?? wanted;
-}

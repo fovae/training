@@ -94,13 +94,6 @@ main {
   }
 }
 
-/* в установленном приложении нет панели Safari — чуть больше воздуха снизу */
-@media (display-mode: standalone) {
-  .hide-standalone {
-    display: none !important;
-  }
-}
-
 /* ---------- узкие телефоны ---------- */
 @media (max-width: 380px) {
   :root {
@@ -125,9 +118,6 @@ main {
   .rules {
     grid-template-columns: repeat(2, 1fr);
   }
-  .flow {
-    grid-template-columns: 1fr 1fr;
-  }
   .pic {
     height: auto;
     aspect-ratio: 200 / 120;
@@ -135,7 +125,6 @@ main {
 }
 
 @media (min-width: 760px) {
-  .stats,
   .days {
     grid-template-columns: repeat(4, 1fr);
   }

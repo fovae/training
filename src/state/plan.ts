@@ -135,15 +135,6 @@ export function copyDayTo(fromId: string, toId: string): void {
   });
 }
 
-export function moveDay(dayId: string, dir: -1 | 1): void {
-  mutate((p) => {
-    const i = p.days.findIndex((d) => d.id === dayId);
-    const j = i + dir;
-    if (i < 0 || j < 0 || j >= p.days.length) return;
-    [p.days[i], p.days[j]] = [p.days[j]!, p.days[i]!];
-  });
-}
-
 // ---------- упражнения дня ----------
 
 export function addItem(dayId: string, exerciseId: string): void {
@@ -203,8 +194,6 @@ const clampInt = (v: number, min: number, max: number) =>
   Math.min(max, Math.max(min, Math.round(Number.isFinite(v) ? v : min)));
 
 // ---------- производные ----------
-
-export const daySetCount = (d: Day): number => d.items.reduce((a, i) => a + i.sets, 0);
 
 /** Сегодняшний день недели 0 = пн … 6 = вс */
 export const todayWeekday = (now = new Date()): Weekday => ((now.getDay() + 6) % 7) as Weekday;

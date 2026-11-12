@@ -31,7 +31,6 @@ export const platform: Platform = detectPlatform({
 });
 export const browser: Browser = detectBrowser(ua, platform);
 export const iosSafariVersion = safariVersion(ua);
-export const isIOS = platform === 'ios';
 
 export const isStandalone = (): boolean =>
   isStandaloneEnv({

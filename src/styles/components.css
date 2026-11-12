@@ -203,35 +203,6 @@
 }
 
 /* ---------- группы и карточки упражнений (оригинал) ---------- */
-.group {
-  margin-top: 22px;
-}
-.group-h {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin: 0 4px 10px;
-}
-.group-h h3 {
-  font-size: 15px;
-  font-weight: 800;
-}
-.group-h .tag {
-  margin-left: auto;
-}
-.tag {
-  display: inline-block;
-  font-size: 11px;
-  font-weight: 700;
-  padding: 3px 8px;
-  border-radius: 99px;
-  background: var(--soft);
-  color: var(--muted);
-}
-.tag.opt {
-  background: color-mix(in srgb, var(--c4) 14%, transparent);
-  color: var(--c4-ink);
-}
 
 .ex-grid {
   display: grid;
@@ -356,25 +327,6 @@
 }
 .tech p {
   padding-bottom: 4px;
-}
-
-.demos {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 4px 16px;
-}
-.demo {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  min-height: 36px;
-  font-size: 12.5px;
-  font-weight: 700;
-  text-decoration: none;
-  color: var(--accent-ink);
-}
-.demo:hover {
-  text-decoration: underline;
 }
 
 .hint-up {
@@ -619,41 +571,6 @@ section + .card {
 }
 
 /* ---------- подсказка установки ---------- */
-.install-hint {
-  margin-bottom: 14px;
-  padding: 14px 16px;
-  border-radius: var(--r-md);
-  background: var(--card);
-  box-shadow: var(--shadow);
-  border: 1.5px solid color-mix(in srgb, var(--accent) 35%, transparent);
-}
-.install-hint-h {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin: -8px -10px 2px 0;
-}
-.steps {
-  padding-left: 20px;
-  font-size: 14px;
-  color: var(--muted);
-  display: grid;
-  gap: 6px;
-}
-.steps b {
-  color: var(--ink);
-}
-.kbd {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  vertical-align: middle;
-  padding: 1px 8px;
-  border-radius: 8px;
-  background: var(--soft);
-  color: var(--accent-ink);
-  font-weight: 700;
-}
 
 /* ---------- таймер отдыха ---------- */
 .rest {

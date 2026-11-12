@@ -116,10 +116,6 @@ export async function listSessions(): Promise<Session[]> {
   return all.reverse();
 }
 
-export async function putSession(s: Session): Promise<void> {
-  await (await db()).put('sessions', s);
-}
-
 export async function deleteSession(id: string): Promise<void> {
   await (await db()).delete('sessions', id);
 }

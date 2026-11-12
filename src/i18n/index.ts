@@ -30,7 +30,6 @@ const BOOT_KEY = 'tp-boot';
 
 export const locale = signal<string>(DEFAULT_LOCALE);
 const dict = signal<Dict>({});
-export const i18nReady = signal(false);
 
 export const localeInfo = computed(() => LOCALES.find((l) => l.code === locale.value) ?? LOCALES[0]!);
 
@@ -87,7 +86,6 @@ export async function setLocale(code: string): Promise<void> {
   locale.value = target;
   document.documentElement.lang = target;
   saveBoot({ locale: target });
-  i18nReady.value = true;
 }
 
 function lookup(key: string): unknown {

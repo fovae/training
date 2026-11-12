@@ -63,14 +63,6 @@ effect(() => {
 // ---------- тема ----------
 
 const THEME_BG = { light: '#F3F1EC', dark: '#111114' };
-const mq = matchMedia('(prefers-color-scheme: dark)');
-export const systemDark = signal(mq.matches);
-mq.addEventListener('change', (e) => (systemDark.value = e.matches));
-
-export const resolvedTheme = computed<'light' | 'dark'>(() => {
-  const th = settings.value.theme;
-  return th === 'light' || th === 'dark' ? th : systemDark.value ? 'dark' : 'light';
-});
 
 effect(() => {
   const th = settings.value.theme;

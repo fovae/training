@@ -2,7 +2,7 @@ import { computed, signal } from '@preact/signals';
 import * as store from '../db';
 import type { LegacyPrefs } from '../db/migrations';
 import { bootLocale, isSupported, setLocale } from '../i18n';
-import { loadPlan, plan } from './plan';
+import { loadPlan } from './plan';
 import { loadSessions, loadError } from './session';
 import { draftUnits, loadSettingsAndProfile, profile } from './settings';
 
@@ -38,5 +38,3 @@ function hasBoot(): boolean {
     return false;
   }
 }
-
-export const hasPlan = computed(() => !!plan.value?.days.length);
