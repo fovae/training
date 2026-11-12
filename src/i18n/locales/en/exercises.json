@@ -1050,6 +1050,358 @@
       ],
       "mistakes": ["Upper arm dropping down.", "Swinging the dumbbell."],
       "safety": "Use a light dumbbell and keep the supporting arm straight."
+    },
+    "plank": {
+      "name": "Plank",
+      "desc": "Holding a straight body on the forearms and toes. Trains the core to keep the trunk stable.",
+      "cues": [
+        "Elbows under the shoulders, forearms on the floor.",
+        "Body in one line from head to heels, glutes tight.",
+        "Breathe calmly and hold for the planned time."
+      ],
+      "mistakes": ["Hips sagging toward the floor.", "Hips pushed high up."],
+      "safety": "Start on the knees if a full plank is too hard. Stop if the lower back hurts."
+    },
+    "hanging-leg-raise": {
+      "name": "Hanging leg raise",
+      "desc": "Raising straight legs while hanging from a bar. A hard exercise for the abs.",
+      "cues": [
+        "Hang with the shoulders active, not relaxed.",
+        "Raise the legs in front of you by tilting the pelvis up.",
+        "Lower slowly without swinging."
+      ],
+      "mistakes": [
+        "Swinging the whole body.",
+        "Lifting the legs only with the hip flexors, the pelvis stays still."
+      ],
+      "safety": "Learn the hanging knee raise first. Step down onto a box, don't drop from the bar."
+    },
+    "crunch": {
+      "name": "Crunch",
+      "desc": "Lifting the shoulders off the floor while lying on the back. Works the abs.",
+      "cues": [
+        "Knees bent, feet on the floor.",
+        "Curl the shoulder blades off the floor, lower back stays down.",
+        "Lower slowly."
+      ],
+      "mistakes": ["Pulling the head with the hands.", "Sitting up all the way with momentum."],
+      "safety": "Keep the neck relaxed; lightly support the head with the fingertips if needed."
+    },
+    "reverse-crunch": {
+      "name": "Reverse crunch",
+      "desc": "Curling the pelvis up toward the chest while lying on the back. Works the lower part of the abs.",
+      "cues": [
+        "Start with the knees bent at 90° over the hips.",
+        "Curl the pelvis up off the floor using the abs.",
+        "Lower slowly to the start."
+      ],
+      "mistakes": ["Swinging the legs to get up.", "Dropping the pelvis fast."],
+      "safety": "Lie on a mat and hold the edge of a bench behind you if you need support."
+    },
+    "russian-twist": {
+      "name": "Russian twist",
+      "desc": "Turning the torso from side to side while sitting leaning back. Works the obliques.",
+      "cues": [
+        "Sit leaning back, back straight, heels on the floor.",
+        "Turn the shoulders and hands to one side, then the other.",
+        "Move slowly, the pelvis stays still."
+      ],
+      "mistakes": ["Moving only the arms, not the torso.", "Rounding the back."],
+      "safety": "Keep the heels on the floor until you are comfortable. Use light weight or none."
+    },
+    "bird-dog": {
+      "name": "Bird dog",
+      "desc": "Reaching one arm forward and the opposite leg back on all fours. Trains stability of the trunk.",
+      "cues": [
+        "Hands under the shoulders, knees under the hips.",
+        "Reach one arm and the opposite leg out to a straight line.",
+        "Pause, return and switch sides."
+      ],
+      "mistakes": ["Hips tilting to the side.", "Arching the lower back to lift the leg higher."],
+      "safety": "Use a mat under the knees. Move slowly, balance matters more than height."
+    },
+    "bicycle-crunch": {
+      "name": "Bicycle crunch",
+      "desc": "Bringing the elbow toward the opposite knee in turn while lying on the back. Works the abs and obliques.",
+      "cues": [
+        "Shoulders off the floor, hands lightly at the head.",
+        "Bring one knee in and turn the opposite shoulder toward it, the other leg straightens.",
+        "Switch sides at a steady pace."
+      ],
+      "mistakes": ["Pulling the head forward with the hands.", "Rushing and only moving the elbows."],
+      "safety": "Keep the lower back against the floor; raise the straight leg higher if it arches."
+    },
+    "hollow-hold": {
+      "name": "Hollow hold",
+      "desc": "Holding the shoulders and legs off the floor with the lower back pressed down. Static work for the abs.",
+      "cues": [
+        "Press the lower back into the floor.",
+        "Lift the shoulders and the legs a little off the floor.",
+        "Hold the position and breathe."
+      ],
+      "mistakes": ["Lower back lifting off the floor.", "Holding the breath."],
+      "safety": "Bend the knees or raise the legs higher to make it easier."
+    },
+    "cable-woodchop": {
+      "name": "Cable woodchop",
+      "desc": "Pulling a cable handle diagonally across the body from high to low. Works the obliques and trains rotation control.",
+      "cues": [
+        "Stand side-on to the cable, feet wider than the hips.",
+        "Pull the handle diagonally down across the body with straight arms.",
+        "Turn the torso and the back foot, return slowly."
+      ],
+      "mistakes": ["Pulling only with the arms.", "Twisting the lower back without the hips moving."],
+      "safety": "Choose a weight you can turn smoothly without jerks."
+    },
+    "kettlebell-swing": {
+      "name": "Kettlebell swing",
+      "desc": "Swinging a kettlebell to chest height by driving the hips forward. Works the glutes and the back of the legs.",
+      "cues": [
+        "Hinge at the hips, back flat, kettlebell between the legs.",
+        "Drive the hips forward sharply; the arms only guide the bell.",
+        "Let it swing to chest height and fall back into the hinge.",
+        "Stand tall at the top, glutes tight."
+      ],
+      "mistakes": [
+        "Squatting instead of hinging.",
+        "Lifting the bell with the arms.",
+        "Rounding the back at the bottom."
+      ],
+      "safety": "Start with a light kettlebell and learn the hip hinge first. Keep a clear space in front and behind, and grip the handle firmly."
+    },
+    "kettlebell-push-press": {
+      "name": "Kettlebell push press",
+      "desc": "Pressing a kettlebell overhead from the shoulder with a short knee dip. Works the shoulders and triceps.",
+      "cues": [
+        "Bell resting on the forearm at the shoulder.",
+        "Short dip of the knees, then drive up and press.",
+        "Lower the bell to the shoulder under control."
+      ],
+      "mistakes": ["Deep squat instead of a short dip.", "Leaning back under the bell."],
+      "safety": "Use a light kettlebell and a clear space overhead. Skip the set if you can't control the bell."
+    },
+    "burpee": {
+      "name": "Burpee",
+      "desc": "Moving from standing to a push-up position and back with a jump. Works the whole body.",
+      "cues": [
+        "Squat, put the hands on the floor, step or jump back to a plank.",
+        "Bring the feet back under you.",
+        "Stand up and jump lightly with the arms overhead."
+      ],
+      "mistakes": ["Hips sagging in the plank.", "Landing hard on stiff legs."],
+      "safety": "Step back and forth instead of jumping if you need an easier version."
+    },
+    "jump-rope": {
+      "name": "Jump rope",
+      "desc": "Jumping over a turning rope. Trains the calves, coordination and endurance.",
+      "cues": [
+        "Elbows close to the body, turn the rope with the wrists.",
+        "Small, light jumps on the balls of the feet.",
+        "Keep a steady rhythm."
+      ],
+      "mistakes": ["Jumping too high.", "Turning the rope with the whole arms."],
+      "safety": "Jump on a flat, non-slip surface. Adjust the rope length to your height."
+    },
+    "rowing-machine": {
+      "name": "Rowing machine",
+      "desc": "Rowing strokes on a machine: legs, then torso, then arms. Works the whole body.",
+      "cues": [
+        "Push with the legs first, then lean back slightly, then pull the handle to the ribs.",
+        "Return in reverse: arms, torso, legs.",
+        "Keep the back straight throughout."
+      ],
+      "mistakes": ["Pulling with the arms before the legs.", "Rounding the back at the catch."],
+      "safety": "Fasten the foot straps. Start at an easy pace."
+    },
+    "treadmill-walk": {
+      "name": "Brisk treadmill walk",
+      "desc": "Walking at a brisk pace on a treadmill. A steady movement for the legs and endurance.",
+      "cues": [
+        "Walk upright, arms swinging naturally.",
+        "Land on the heel and roll through the foot.",
+        "Choose a pace where you can still talk."
+      ],
+      "mistakes": ["Holding on to the handrails all the time.", "Very long steps."],
+      "safety": "Clip on the safety key and start at a low speed."
+    },
+    "stationary-bike": {
+      "name": "Stationary bike",
+      "desc": "Pedalling on an exercise bike. A steady movement for the legs and endurance.",
+      "cues": [
+        "Seat height: the knee is slightly bent at the bottom.",
+        "Pedal smoothly in circles.",
+        "Keep the shoulders relaxed."
+      ],
+      "mistakes": ["Seat too low.", "Rocking the hips on the seat."],
+      "safety": "Adjust the seat and handlebar before you start."
+    },
+    "farmer-carry": {
+      "name": "Farmer's carry",
+      "desc": "Walking with heavy dumbbells or kettlebells in the hands. Trains grip, the core and posture.",
+      "cues": [
+        "Stand tall, shoulders down and back.",
+        "Short, even steps.",
+        "Put the weights down with a straight back."
+      ],
+      "mistakes": ["Leaning to one side.", "Shrugging the shoulders."],
+      "safety": "Plan a clear route. Lift and lower the weights like a deadlift, not with a round back."
+    },
+    "mountain-climber": {
+      "name": "Mountain climber",
+      "desc": "Driving the knees to the chest in turn from a push-up position. Works the core and raises the heart rate.",
+      "cues": [
+        "Hands under the shoulders, body straight.",
+        "Drive one knee toward the chest, then switch.",
+        "Keep the hips level."
+      ],
+      "mistakes": ["Hips going high.", "Bouncing the hips up and down."],
+      "safety": "Slow down or step instead of jumping if the wrists or shoulders complain."
+    },
+    "jumping-jack": {
+      "name": "Jumping jack",
+      "desc": "Jumping the feet apart while raising the arms, then back together. A simple warm-up movement.",
+      "cues": [
+        "Land softly on the balls of the feet.",
+        "Arms go up as the feet go apart.",
+        "Keep a steady rhythm."
+      ],
+      "mistakes": ["Landing on stiff legs.", "Arms only half-way up."],
+      "safety": "Step to the side instead of jumping for a gentler version."
+    },
+    "cat-cow": {
+      "name": "Cat-cow",
+      "desc": "Rounding and arching the back on all fours. Mobility for the spine.",
+      "cues": [
+        "Hands under the shoulders, knees under the hips.",
+        "Round the back up, chin toward the chest.",
+        "Then gently arch, chest forward, gaze ahead."
+      ],
+      "mistakes": ["Moving only the neck.", "Rushing the movement."],
+      "safety": "Move in a comfortable range, without pain."
+    },
+    "hip-flexor-stretch": {
+      "name": "Kneeling hip flexor stretch",
+      "desc": "Shifting the hips forward in a half kneel. Stretches the front of the hip.",
+      "cues": [
+        "Half kneel, knee of the back leg on a mat.",
+        "Tuck the pelvis slightly and squeeze the glute of the back leg.",
+        "Shift the hips forward until you feel the stretch."
+      ],
+      "mistakes": [
+        "Arching the lower back instead of moving the hips.",
+        "Front knee going far past the toes."
+      ],
+      "safety": "Put a mat or a folded towel under the knee."
+    },
+    "hamstring-stretch": {
+      "name": "Seated hamstring stretch",
+      "desc": "Leaning forward to the toes, sitting with straight legs. Stretches the back of the thighs.",
+      "cues": [
+        "Sit with the legs straight, toes up.",
+        "Lean forward from the hips with a long back.",
+        "Stop at a comfortable stretch and breathe."
+      ],
+      "mistakes": ["Rounding the back to reach further.", "Bouncing."],
+      "safety": "Bend the knees slightly if the stretch is too strong."
+    },
+    "thoracic-rotation": {
+      "name": "Quadruped thoracic rotation",
+      "desc": "Rotating the upper back on all fours with one hand behind the head. Mobility for the upper back.",
+      "cues": [
+        "On all fours, one hand behind the head.",
+        "Turn the elbow down toward the other arm.",
+        "Then rotate it up toward the ceiling, following it with the eyes."
+      ],
+      "mistakes": ["Moving the hips instead of the upper back.", "Rushing."],
+      "safety": "Move slowly and stay in a comfortable range."
+    },
+    "band-pull-apart": {
+      "name": "Band pull-apart",
+      "desc": "Stretching a band across the chest with straight arms. Warm-up for the upper back and the back of the shoulders.",
+      "cues": [
+        "Arms straight in front at shoulder height.",
+        "Pull the band apart until it touches the chest.",
+        "Return slowly."
+      ],
+      "mistakes": ["Shrugging the shoulders.", "Bending the elbows a lot."],
+      "safety": "Check the band for tears and hold it firmly so it can't snap toward the face."
+    },
+    "childs-pose": {
+      "name": "Child's pose",
+      "desc": "Sitting back on the heels with the arms reaching forward on the floor. A gentle stretch for the back and hips.",
+      "cues": [
+        "Knees on the mat, sit back toward the heels.",
+        "Reach the arms forward, forehead toward the floor.",
+        "Breathe slowly into the back."
+      ],
+      "mistakes": ["Forcing the hips down to the heels.", "Holding the breath."],
+      "safety": "Put a pillow under the hips or the knees if the position is uncomfortable."
+    },
+    "doorway-chest-stretch": {
+      "name": "Doorway chest stretch",
+      "desc": "Leaning forward with the forearm on a door frame. Stretches the chest and the front of the shoulder.",
+      "cues": [
+        "Forearm on the frame, elbow at shoulder height.",
+        "Step forward until you feel the stretch across the chest.",
+        "Hold and breathe, then switch sides."
+      ],
+      "mistakes": ["Elbow higher than the shoulder.", "Pushing into pain."],
+      "safety": "The stretch should feel gentle. Stop at any tingling in the arm."
+    },
+    "calf-stretch": {
+      "name": "Wall calf stretch",
+      "desc": "Leaning on a wall with one leg back. Stretches the calf.",
+      "cues": [
+        "Hands on the wall, one leg back.",
+        "Back heel on the floor, back knee straight.",
+        "Lean forward until you feel the stretch."
+      ],
+      "mistakes": ["Back heel lifting.", "Back foot turned out."],
+      "safety": "Wear shoes with grip or stand barefoot on a non-slip floor."
+    },
+    "arm-circles": {
+      "name": "Arm circles",
+      "desc": "Circling straight arms forward and back. A warm-up for the shoulders.",
+      "cues": [
+        "Arms out to the sides at shoulder height.",
+        "Start with small circles, make them gradually bigger.",
+        "Change direction halfway."
+      ],
+      "mistakes": ["Shrugging the shoulders.", "Swinging fast from the start."],
+      "safety": "Stay in a range that feels comfortable for the shoulders."
+    },
+    "figure-four-stretch": {
+      "name": "Figure-four glute stretch",
+      "desc": "Leaning forward with one ankle on the opposite knee, seated. Stretches the glute.",
+      "cues": [
+        "Sit on a bench, ankle on the opposite knee.",
+        "Lean forward with a long back.",
+        "Hold where you feel the stretch in the glute."
+      ],
+      "mistakes": ["Rounding the back.", "Pushing the knee down hard."],
+      "safety": "Keep the foot of the crossed leg flexed to protect the knee."
+    },
+    "quad-stretch": {
+      "name": "Standing quad stretch",
+      "desc": "Pulling the heel toward the glute while standing on one leg. Stretches the front of the thigh.",
+      "cues": [
+        "Hold a wall with one hand.",
+        "Hold the ankle and bring the heel toward the glute.",
+        "Knees together, pelvis slightly tucked."
+      ],
+      "mistakes": ["Arching the lower back.", "Knee drifting out to the side."],
+      "safety": "Hold on for balance. Don't pull hard on the knee."
+    },
+    "leg-swing": {
+      "name": "Leg swings",
+      "desc": "Swinging a straight leg forward and back while holding a support. Warm-up for the hips.",
+      "cues": [
+        "Stand side-on to a wall, hold it with one hand.",
+        "Swing the leg forward and back in a comfortable range.",
+        "Torso upright, make the swings gradually bigger."
+      ],
+      "mistakes": ["Leaning the torso to swing higher.", "Kicking hard from the start."],
+      "safety": "Keep a clear space around the leg."
     }
   }
 }

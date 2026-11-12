@@ -4,22 +4,24 @@ import type { Exercise } from '../../types';
 import { PICS_B1 } from '../../pics/sets/b1';
 import { PICS_B2 } from '../../pics/sets/b2';
 import { PICS_B3 } from '../../pics/sets/b3';
+import { PICS_B4 } from '../../pics/sets/b4';
 import { BASE } from './base';
 import { B1 } from './b1-chest-back';
 import { B2 } from './b2-legs';
 import { B3 } from './b3-shoulders-arms';
+import { B4 } from './b4-core-cardio-mobility';
 
 /**
  * База упражнений и схем — отдельный ленивый чанк (грузится при запуске вместе с языком,
  * см. loadCatalog в ../exercises.ts). Основной чанк от размера базы не растёт.
  */
 
-export const EXERCISES: Exercise[] = [...BASE, ...B1, ...B2, ...B3];
+export const EXERCISES: Exercise[] = [...BASE, ...B1, ...B2, ...B3, ...B4];
 
 /** id исходных упражнений (этапы 1–2) — для контактного листа и тестов */
 export const BASE_IDS: string[] = BASE.map((e) => e.id);
 
-export const PICS: Record<string, PicDef> = { ...BASE_PICS, ...PICS_B1, ...PICS_B2, ...PICS_B3 };
+export const PICS: Record<string, PicDef> = { ...BASE_PICS, ...PICS_B1, ...PICS_B2, ...PICS_B3, ...PICS_B4 };
 
 const cache = new Map<string, string>();
 

@@ -334,9 +334,9 @@ export const env = {
 export const band = (from: Pt, to: Pt): string =>
   `<line class="band" x1="${from[0]}" y1="${from[1]}" x2="${to[0]}" y2="${to[1]}"/>`;
 
-/** Скакалка: дуга от кистей через верх/низ */
+/** Скакалка: дуга от кисти через точку via (над головой или под стопами) к второй точке */
 export const rope = (w: Pt, via: Pt, w2: Pt): string =>
-  `<path class="rope" d="M${w[0]} ${w[1]} Q${via[0]} ${via[1]} ${w2[0]} ${w2[1]}"/>`;
+  `<path class="rope" d="M${w[0]} ${w[1]} Q${w[0]} ${via[1]} ${via[0]} ${via[1]} Q${w2[0]} ${via[1]} ${w2[0]} ${w2[1]}"/>`;
 
 /** Добавить к позе разметку, зависящую от суставов (рычаг Т-грифа, резинка, скакалка) */
 export function withProps(P: Pose, fn: (j: Record<string, Pt>) => string, under = false): Pose {
