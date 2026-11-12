@@ -846,6 +846,210 @@
       ],
       "mistakes": ["Swinging the leg.", "Arching the lower back to go higher."],
       "safety": "Fasten the ankle strap firmly. Choose a weight you can move without swinging."
+    },
+    "overhead-press": {
+      "name": "Standing barbell overhead press",
+      "desc": "Pressing a barbell from the shoulders to overhead while standing. Works the shoulders and triceps, the core holds the position.",
+      "cues": [
+        "Bar on the front of the shoulders, grip just outside them.",
+        "Glutes and abs tight, ribs down.",
+        "Press straight up, moving the head back slightly to let the bar pass.",
+        "Finish with the bar over the middle of the foot, arms straight."
+      ],
+      "mistakes": [
+        "Leaning back and turning it into an incline press.",
+        "Bar travelling forward away from the face.",
+        "Pushing with the legs."
+      ],
+      "safety": "Take the bar from a rack at shoulder height and put collars on it. Use safety arms or a spotter for heavy sets. Skip the set if you can't control the movement."
+    },
+    "bent-over-lateral-raise": {
+      "name": "Bent-over lateral raise",
+      "desc": "Raising dumbbells out to the sides while bent forward. Works the rear delts and upper back.",
+      "cues": [
+        "Hinge forward with a flat back, knees soft.",
+        "Raise the arms out to the sides with slightly bent elbows.",
+        "Lower slowly without swinging."
+      ],
+      "mistakes": ["Standing up during the set.", "Swinging the weight with the torso."],
+      "safety": "Use light dumbbells: the rear delts are small. Sit on a bench and lean forward if the lower back gets tired."
+    },
+    "front-raise": {
+      "name": "Front raise",
+      "desc": "Raising dumbbells or a cable handle in front to shoulder height. Works the front delts.",
+      "cues": ["Arms almost straight, palms down.", "Raise to shoulder height, no higher.", "Lower slowly."],
+      "mistakes": ["Leaning back to swing the weight up.", "Shrugging the shoulders."],
+      "safety": "Light weight is enough: the front delts already work in all presses."
+    },
+    "upright-row": {
+      "name": "Upright row",
+      "desc": "Pulling a bar or dumbbells up along the body to chest height. Works the side delts and traps.",
+      "cues": [
+        "Grip about shoulder-width or wider, not narrow.",
+        "Lead with the elbows, pull to lower chest height.",
+        "Lower slowly."
+      ],
+      "mistakes": [
+        "Narrow grip with the elbows above the shoulders.",
+        "Pulling up to the chin.",
+        "Jerking the weight."
+      ],
+      "safety": "Start light: some shoulders don't tolerate this exercise. Use a wide grip, pull only to lower chest height and stop at any pinching or pain in the shoulder; lateral raises work the same muscles."
+    },
+    "face-pull": {
+      "name": "Face pull",
+      "desc": "Pulling a cable rope toward the face with the elbows high. Works the rear delts and upper back.",
+      "cues": [
+        "Cable at upper chest height or a bit higher, rope grip.",
+        "Pull the rope toward the eyes, elbows high and wide.",
+        "Pull the ends apart and pause, then return slowly."
+      ],
+      "mistakes": ["Pulling to the chest with the elbows low.", "Leaning back to move more weight."],
+      "safety": "Keep the weight light and the movement smooth."
+    },
+    "arnold-press": {
+      "name": "Arnold press",
+      "desc": "Seated dumbbell press that starts with the palms facing you and turns them out on the way up. Works the shoulders.",
+      "cues": [
+        "Start with the dumbbells in front of the shoulders, palms toward you.",
+        "Turn the palms out as you press up.",
+        "Reverse the turn on the way down."
+      ],
+      "mistakes": ["Arching the lower back off the bench.", "Rushing the turn."],
+      "safety": "Choose a lighter weight than for a regular shoulder press. Shoulder pain means a shorter range."
+    },
+    "cable-lateral-raise": {
+      "name": "Cable lateral raise",
+      "desc": "Raising one arm out to the side with a low cable. Steady tension for the side delts.",
+      "cues": [
+        "Stand side-on to the cable, handle in the far hand.",
+        "Raise the arm out to shoulder height, elbow slightly bent.",
+        "Lower slowly to the front of the hip."
+      ],
+      "mistakes": ["Leaning away to swing the weight.", "Raising the shoulder toward the ear."],
+      "safety": "Start light: the cable gives tension at the bottom where dumbbells don't."
+    },
+    "band-external-rotation": {
+      "name": "Band external rotation",
+      "desc": "Rotating the forearm outward against a band with the elbow at the side. A light exercise for the back of the shoulder.",
+      "cues": [
+        "Elbow at the side, bent at 90°.",
+        "Rotate the forearm outward, keep the elbow in place.",
+        "Return slowly."
+      ],
+      "mistakes": ["Elbow moving away from the body.", "Twisting the torso instead of rotating the arm."],
+      "safety": "Use a light band. This is a gentle exercise: no pain, no jerks."
+    },
+    "barbell-curl": {
+      "name": "Barbell curl",
+      "desc": "Curling a barbell from the thighs to the shoulders while standing. Works the biceps.",
+      "cues": [
+        "Grip shoulder-width, palms forward.",
+        "Elbows stay at the sides.",
+        "Curl up, lower slowly to straight arms."
+      ],
+      "mistakes": ["Swinging the torso.", "Elbows drifting forward.", "Half reps at the bottom."],
+      "safety": "Put collars on the bar if you use plates. Reduce the weight if you need to swing."
+    },
+    "db-curl": {
+      "name": "Dumbbell curl",
+      "desc": "Curling dumbbells while standing, both arms or alternating. Works the biceps.",
+      "cues": [
+        "Elbows at the sides, palms forward.",
+        "Curl up while turning the palm slightly up.",
+        "Lower slowly to straight arms."
+      ],
+      "mistakes": ["Swinging the dumbbells.", "Lifting the elbows forward."],
+      "safety": "Choose a weight you can lift without leaning back."
+    },
+    "cable-curl": {
+      "name": "Cable curl",
+      "desc": "Curling a low cable handle. Steady tension for the biceps.",
+      "cues": [
+        "Stand close to the cable, elbows at the sides.",
+        "Curl the handle to the shoulders.",
+        "Lower slowly without letting the stack touch."
+      ],
+      "mistakes": ["Leaning back.", "Elbows moving forward."],
+      "safety": "Hold the handle until the weight stack is down."
+    },
+    "concentration-curl": {
+      "name": "Concentration curl",
+      "desc": "Seated one-arm curl with the elbow against the inner thigh. Strict work for the biceps.",
+      "cues": [
+        "Sit on a bench, elbow against the inner thigh.",
+        "Curl the dumbbell up toward the shoulder.",
+        "Lower all the way down slowly."
+      ],
+      "mistakes": ["Lifting the elbow off the thigh.", "Helping with the shoulder."],
+      "safety": "Use a moderate weight: the point is control."
+    },
+    "reverse-curl": {
+      "name": "Reverse curl",
+      "desc": "Curling a bar with the palms facing down. Works the forearms and biceps.",
+      "cues": ["Overhand grip, shoulder-width.", "Elbows at the sides, curl up.", "Lower slowly."],
+      "mistakes": ["Wrists bending back.", "Swinging the body."],
+      "safety": "Use a lighter weight than for a regular curl."
+    },
+    "skull-crusher": {
+      "name": "Lying triceps extension (skull crusher)",
+      "desc": "Lowering a bar toward the forehead and straightening the arms, lying on a bench. Works the triceps.",
+      "cues": [
+        "Upper arms vertical or slightly angled toward the head.",
+        "Bend only at the elbows, lower the bar toward the forehead.",
+        "Straighten the arms without moving the shoulders."
+      ],
+      "mistakes": ["Elbows flaring out.", "Upper arms moving back and forth.", "Dropping the bar fast."],
+      "safety": "Lower the bar slowly and never let it fall toward the face. Start light; ask for a spotter when you go heavier."
+    },
+    "close-grip-bench-press": {
+      "name": "Close-grip bench press",
+      "desc": "Bench press with the hands about shoulder-width. Puts more work on the triceps.",
+      "cues": [
+        "Grip about shoulder-width, not narrower.",
+        "Elbows close to the body on the way down.",
+        "Touch the lower chest and press up.",
+        "Shoulder blades back, feet on the floor."
+      ],
+      "mistakes": [
+        "Grip so narrow the wrists hurt.",
+        "Elbows flaring out.",
+        "Bouncing the bar off the chest."
+      ],
+      "safety": "Use a rack with safety arms or a spotter and put collars on the bar. Skip the set if you can't control the movement."
+    },
+    "bench-dip": {
+      "name": "Bench dip",
+      "desc": "Lowering and pushing up with the hands on a bench behind you. Works the triceps.",
+      "cues": [
+        "Hands on the bench edge, fingers forward.",
+        "Lower until the elbows are about 90°, back close to the bench.",
+        "Push up until the arms are straight."
+      ],
+      "mistakes": ["Going too deep and straining the shoulders.", "Elbows flaring out."],
+      "safety": "Bend the knees to make it easier. Stop at any pain in the front of the shoulder."
+    },
+    "overhead-db-extension": {
+      "name": "Overhead dumbbell extension",
+      "desc": "Lowering one dumbbell behind the head with both hands and straightening the arms. Works the long head of the triceps.",
+      "cues": [
+        "Hold one dumbbell with both hands overhead.",
+        "Lower it behind the head, elbows pointing up.",
+        "Straighten the arms."
+      ],
+      "mistakes": ["Elbows flaring wide.", "Arching the lower back."],
+      "safety": "Hold the dumbbell securely by the plate. Sit on a bench with a back support if you want more stability."
+    },
+    "triceps-kickback": {
+      "name": "Triceps kickback",
+      "desc": "Straightening the arm backward with a dumbbell, bent over with support on a bench. Works the triceps.",
+      "cues": [
+        "Upper arm along the body, parallel to the floor.",
+        "Straighten the arm back, only the forearm moves.",
+        "Bend back slowly."
+      ],
+      "mistakes": ["Upper arm dropping down.", "Swinging the dumbbell."],
+      "safety": "Use a light dumbbell and keep the supporting arm straight."
     }
   }
 }
