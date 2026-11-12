@@ -32,6 +32,10 @@ export interface Pose {
   w: Pt;
   db: Dumbbell[] | null | undefined;
   j: Partial<Record<string, Pt>>;
+  /** Реквизит, который движется вместе с позой (штанга, гиря…) — готовая разметка из kit.ts */
+  props?: string;
+  /** Реквизит, который рисуется ПОД фигурой (блины штанги сбоку) */
+  under?: string;
 }
 
 export interface PicDef {
@@ -102,19 +106,19 @@ export function front(o: FrontOpts): Pose {
 
 const line = (pts: Pt[]): string => `<polyline points="${pts.map((q) => q.join(',')).join(' ')}"/>`;
 
-function dbSvg(x: number, y: number, o?: 'v' | 'h'): string {
+export function dbSvg(x: number, y: number, o?: 'v' | 'h'): string {
   return o === 'v'
     ? `<g class="db"><line x1="${x}" y1="${y - 8}" x2="${x}" y2="${y + 8}"/><rect x="${x - 5}" y="${y - 11}" width="10" height="5" rx="1.5"/><rect x="${x - 5}" y="${y + 6}" width="10" height="5" rx="1.5"/></g>`
     : `<g class="db"><line x1="${x - 8}" y1="${y}" x2="${x + 8}" y2="${y}"/><rect x="${x - 11}" y="${y - 5}" width="5" height="10" rx="1.5"/><rect x="${x + 6}" y="${y - 5}" width="5" height="10" rx="1.5"/></g>`;
 }
 
 function poseSvg(P: Pose, ghost: boolean): string {
-  let s = `<g class="${ghost ? 'ghost' : 'solid'}">`;
+  let s = `<g class="${ghost ? 'ghost' : 'solid'}">${P.under ?? ''}`;
   P.far.forEach((ch) => (s += `<g class="far">${line(ch)}</g>`));
   P.c.forEach((ch) => (s += line(ch)));
   s += `<circle cx="${P.h[0]}" cy="${P.h[1]}" r="8.5"/>`;
   (P.db ?? []).forEach((d) => (s += dbSvg(d[0], d[1], d[2])));
-  return s + '</g>';
+  return s + (P.props ?? '') + '</g>';
 }
 
 export function picSvg(def: PicDef): string {

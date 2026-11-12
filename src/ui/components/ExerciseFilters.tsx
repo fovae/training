@@ -1,11 +1,13 @@
 import { useState } from 'preact/hooks';
+import { useMemo } from 'preact/hooks';
 import {
-  EXERCISES,
-  USED_EQUIPMENT,
-  USED_MUSCLES,
+  allExercises,
   filterExercises,
+  usedEquipment,
+  usedMuscles,
   type ExerciseFilter,
 } from '../../data/exercises';
+import { locale } from '../../i18n';
 import { t } from '../../i18n';
 import type { Exercise } from '../../types';
 import { exName } from '../labels';
@@ -13,7 +15,12 @@ import { exName } from '../labels';
 /** Поиск + фильтры по мышцам и оборудованию; общий для библиотеки и выбора упражнения */
 export function useExerciseFilter(initial: ExerciseFilter = {}) {
   const [f, setF] = useState<ExerciseFilter>({ query: '', muscle: '', equipment: '', ...initial });
-  const list = filterExercises(EXERCISES, f, (e: Exercise) => exName(e.id));
+  const lang = locale.value;
+  // ~120 записей: фильтр дешёвый, но не пересчитываем его на каждый рендер без нужды
+  const list = useMemo(
+    () => filterExercises(allExercises(), f, (e: Exercise) => exName(e.id)),
+    [f.query, f.muscle, f.equipment, lang],
+  );
   return { f, setF, list };
 }
 
@@ -53,7 +60,7 @@ export function ExerciseFilters({
             onChange={(e) => setF({ ...f, muscle: e.currentTarget.value as ExerciseFilter['muscle'] })}
           >
             <option value="">{t('library.allMuscles')}</option>
-            {USED_MUSCLES.map((m) => (
+            {usedMuscles().map((m) => (
               <option key={m} value={m}>
                 {t(`muscle.${m}`)}
               </option>
@@ -68,7 +75,7 @@ export function ExerciseFilters({
             onChange={(e) => setF({ ...f, equipment: e.currentTarget.value as ExerciseFilter['equipment'] })}
           >
             <option value="">{t('library.allEquipment')}</option>
-            {USED_EQUIPMENT.map((q) => (
+            {usedEquipment().map((q) => (
               <option key={q} value={q}>
                 {t(`equip.${q}`)}
               </option>

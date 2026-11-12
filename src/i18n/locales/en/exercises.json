@@ -294,6 +294,308 @@
       "cues": ["Full, comfortable range of motion.", "Pause at the top, slow on the way down."],
       "mistakes": ["Bouncing reps with no pause.", "Bending the knees to help."],
       "safety": "Without a machine, hold on to something for balance."
+    },
+    "barbell-bench-press": {
+      "name": "Barbell bench press",
+      "desc": "Pressing a barbell up from the chest while lying on a flat bench. Works the chest, front delts and triceps.",
+      "cues": [
+        "Eyes under the bar, feet flat on the floor.",
+        "Shoulder blades pulled back and down, keep them there for the whole set.",
+        "Lower the bar under control to the lower chest, elbows slightly tucked.",
+        "Press up and slightly back, toward your shoulders."
+      ],
+      "mistakes": [
+        "Bouncing the bar off the chest.",
+        "Elbows flared straight out to the sides.",
+        "Hips lifting off the bench."
+      ],
+      "safety": "Use a rack with safety arms set just below the lowest point, or a spotter. Put collars on the bar. Skip the set if you can't control the movement. Unrack and rerack with straight arms."
+    },
+    "incline-barbell-press": {
+      "name": "Incline barbell press",
+      "desc": "Bench press on an incline bench. Shifts more work to the upper chest and front delts.",
+      "cues": [
+        "Set the bench at about 30°; higher turns it into a shoulder press.",
+        "Shoulder blades back, chest up.",
+        "Lower the bar to the upper chest, below the collarbones.",
+        "Press straight up, wrists stacked over elbows."
+      ],
+      "mistakes": [
+        "Bench angle too steep.",
+        "Bar drifting toward the face or neck.",
+        "Lifting the hips to make the press easier."
+      ],
+      "safety": "Use a rack with safety arms set just below the lowest point, or a spotter. Put collars on the bar. Skip the set if you can't control the movement."
+    },
+    "db-fly": {
+      "name": "Dumbbell fly",
+      "desc": "Opening the arms wide with dumbbells while lying on a bench. Stretches and works the chest.",
+      "cues": [
+        "Keep a slight, fixed bend in the elbows.",
+        "Open the arms in a wide arc until you feel a stretch across the chest.",
+        "Bring the dumbbells together as if hugging a big tree."
+      ],
+      "mistakes": [
+        "Bending and straightening the elbows, turning it into a press.",
+        "Going too deep, past a comfortable stretch."
+      ],
+      "safety": "Choose a lighter weight than for presses. Shoulder pain means a shorter range or less weight."
+    },
+    "pec-deck": {
+      "name": "Pec deck (machine fly)",
+      "desc": "Bringing the arms together in front of the chest on a machine. A controlled isolation for the chest.",
+      "cues": [
+        "Set the seat so the handles are at chest height.",
+        "Keep the elbows soft and the shoulders down.",
+        "Squeeze for a moment when the handles meet, then return slowly."
+      ],
+      "mistakes": ["Letting the weight pull the arms too far back.", "Shrugging the shoulders up."],
+      "safety": "Adjust the seat and the handle start position before the set so the stretch stays comfortable."
+    },
+    "chest-dip": {
+      "name": "Chest dip",
+      "desc": "Lowering and pushing yourself up on parallel bars with the torso leaning forward. Works the chest and triceps.",
+      "cues": [
+        "Lean forward slightly, elbows travel back and a little out.",
+        "Lower until the shoulders are just below the elbows, or as far as is comfortable.",
+        "Push up until the arms are straight without locking hard."
+      ],
+      "mistakes": [
+        "Dropping fast into the bottom.",
+        "Shoulders rolling forward and up toward the ears.",
+        "Going deeper than your shoulders allow."
+      ],
+      "safety": "Start with an assisted dip machine or a band if you can't control the bottom. Stop if you feel pain in the front of the shoulder."
+    },
+    "push-up": {
+      "name": "Push-up",
+      "desc": "Pushing yourself up from the floor with a straight body. Works the chest, triceps and shoulders and trains the core.",
+      "cues": [
+        "Hands a bit wider than the shoulders, under the chest.",
+        "Body in one line from head to heels, glutes tight.",
+        "Lower the chest close to the floor, then push away."
+      ],
+      "mistakes": [
+        "Hips sagging or sticking up.",
+        "Elbows flared out at 90°.",
+        "Half reps without lowering the chest."
+      ],
+      "safety": "If full push-ups are too hard, put your hands on a bench or do them from the knees."
+    },
+    "incline-push-up": {
+      "name": "Incline push-up",
+      "desc": "Push-up with the hands on a bench or a box. An easier version that teaches the same position.",
+      "cues": [
+        "Hands on a stable bench, slightly wider than the shoulders.",
+        "Body in one straight line, glutes and abs tight.",
+        "Touch the bench with the chest, then push away."
+      ],
+      "mistakes": ["Hips sagging.", "Head dropping toward the bench before the chest."],
+      "safety": "Make sure the bench or box can't slide or tip over."
+    },
+    "close-grip-push-up": {
+      "name": "Close-grip push-up",
+      "desc": "Push-up with the hands close together. Puts more work on the triceps.",
+      "cues": [
+        "Hands under the shoulders or a bit closer.",
+        "Elbows travel back along the body, not out to the sides.",
+        "Body in one line, push the floor away."
+      ],
+      "mistakes": ["Hands so close that the wrists hurt.", "Hips sagging."],
+      "safety": "If your wrists complain, put the hands slightly wider or use push-up handles."
+    },
+    "deadlift": {
+      "name": "Deadlift",
+      "desc": "Lifting a barbell from the floor to standing. Works the back of the legs, glutes and the whole back.",
+      "cues": [
+        "Bar over the middle of the foot, shins close to the bar.",
+        "Grip just outside the legs, back flat, chest up.",
+        "Push the floor away and keep the bar close to the legs all the way up.",
+        "Stand tall at the top, don't lean back."
+      ],
+      "mistakes": [
+        "Rounding the lower back.",
+        "Bar drifting away from the legs.",
+        "Jerking the bar off the floor."
+      ],
+      "safety": "Learn the movement with a light weight first. Put collars on the bar and lower it under control, don't drop it. Skip the set if you can't keep your back flat."
+    },
+    "romanian-deadlift": {
+      "name": "Romanian deadlift",
+      "desc": "Hip hinge from standing with a barbell: the hips move back, the bar slides down the legs. Works the hamstrings and glutes.",
+      "cues": [
+        "Start standing, knees slightly bent and staying that way.",
+        "Push the hips back and slide the bar down the thighs.",
+        "Go down until you feel a strong stretch in the back of the thighs, back flat.",
+        "Return by driving the hips forward."
+      ],
+      "mistakes": [
+        "Rounding the back to reach lower.",
+        "Bending the knees more and turning it into a squat.",
+        "Bar drifting away from the legs."
+      ],
+      "safety": "Put collars on the bar. Lower only as far as you can keep your back flat. Skip the set if you can't control the movement."
+    },
+    "barbell-row": {
+      "name": "Barbell row",
+      "desc": "Pulling a barbell to the belly while bent over. Works the upper back and lats.",
+      "cues": [
+        "Hinge at the hips, knees slightly bent, back flat.",
+        "Grip a bit wider than the shoulders.",
+        "Pull the bar to the lower ribs, elbows back.",
+        "Lower it under control without moving the torso."
+      ],
+      "mistakes": [
+        "Standing up more with every rep.",
+        "Jerking the weight with the whole body.",
+        "Rounding the back."
+      ],
+      "safety": "Put collars on the bar. Start light: the lower back works hard to hold the position. Skip the set if you can't keep your back flat."
+    },
+    "one-arm-db-row": {
+      "name": "One-arm dumbbell row",
+      "desc": "Pulling a dumbbell to the hip with one arm, the other hand and knee on a bench. Works the lats and upper back.",
+      "cues": [
+        "Hand and knee on the bench, back flat and parallel to the floor.",
+        "Pull the dumbbell toward the hip, elbow close to the body.",
+        "Lower it all the way down under control."
+      ],
+      "mistakes": [
+        "Twisting the torso to lift the weight.",
+        "Pulling with the arm only, shrugging the shoulder."
+      ],
+      "safety": "Keep the supporting arm straight and the back flat. Reduce the weight if the lower back rounds."
+    },
+    "t-bar-row": {
+      "name": "T-bar row",
+      "desc": "Rowing one end of a barbell fixed at the other end, or on a T-bar machine. Works the back.",
+      "cues": [
+        "Hinge at the hips, back flat, knees slightly bent.",
+        "Pull the handle toward the chest, elbows back.",
+        "Lower under control until the arms are straight."
+      ],
+      "mistakes": ["Lifting the torso with every rep.", "Rounding the back at the bottom."],
+      "safety": "Fix the end of the bar in a landmine or a corner so it can't slide. Put collars on the plates."
+    },
+    "pull-up": {
+      "name": "Pull-up",
+      "desc": "Pulling yourself up to a bar with an overhand grip. Works the lats and upper back.",
+      "cues": [
+        "Grip slightly wider than the shoulders, palms facing away.",
+        "Start from a hang with the shoulders pulled down.",
+        "Pull until the chin is above the bar, then lower slowly."
+      ],
+      "mistakes": [
+        "Swinging and kicking the legs.",
+        "Half reps without straightening the arms.",
+        "Dropping fast to the bottom."
+      ],
+      "safety": "If you can't do a full pull-up yet, use an assisted machine, a band or slow lowering only."
+    },
+    "chin-up": {
+      "name": "Chin-up",
+      "desc": "Pull-up with an underhand grip. More work for the biceps.",
+      "cues": [
+        "Grip shoulder-width, palms facing you.",
+        "Pull the chest toward the bar, elbows down and back.",
+        "Lower all the way down under control."
+      ],
+      "mistakes": ["Swinging to get up.", "Craning the neck toward the bar."],
+      "safety": "Elbow discomfort means a slightly wider grip or the assisted version."
+    },
+    "assisted-pull-up": {
+      "name": "Assisted pull-up",
+      "desc": "Pull-up on a machine with a knee pad that helps you up. Teaches the full movement.",
+      "cues": [
+        "Kneel on the pad, grip the handles above.",
+        "Pull the shoulders down first, then the chest up.",
+        "Lower slowly until the arms are straight."
+      ],
+      "mistakes": ["Bouncing off the pad at the bottom.", "Shrugging the shoulders up."],
+      "safety": "Step on and off the machine carefully: set the help level before getting on the pad."
+    },
+    "close-grip-pulldown": {
+      "name": "Close-grip pulldown",
+      "desc": "Pulldown with a narrow neutral handle. Works the lats through a long range.",
+      "cues": [
+        "Thighs under the pads, torso leaning back slightly.",
+        "Pull the handle to the upper chest, elbows down.",
+        "Let the arms straighten fully at the top."
+      ],
+      "mistakes": ["Leaning far back and turning it into a row.", "Pulling with the arms only."],
+      "safety": "Hold the handle until the weight stack is back down, don't let it fly up."
+    },
+    "straight-arm-pulldown": {
+      "name": "Straight-arm pulldown",
+      "desc": "Pushing a cable bar down in an arc with straight arms. Isolates the lats.",
+      "cues": [
+        "Stand a step back from the cable, lean forward slightly.",
+        "Arms almost straight, pull the bar down to the thighs in an arc.",
+        "Return slowly until you feel a stretch in the lats."
+      ],
+      "mistakes": [
+        "Bending the elbows and turning it into a pushdown.",
+        "Rocking the torso to move the weight."
+      ],
+      "safety": "Keep the weight moderate: this is a control exercise, not a strength one."
+    },
+    "inverted-row": {
+      "name": "Inverted row",
+      "desc": "Pulling the chest to a bar set at waist height, heels on the floor. Works the back.",
+      "cues": [
+        "Body in one straight line from head to heels.",
+        "Pull the chest to the bar, elbows back.",
+        "Lower until the arms are straight."
+      ],
+      "mistakes": ["Hips sagging.", "Pulling the chin instead of the chest to the bar."],
+      "safety": "Make sure the bar is fixed securely in the rack. Bend the knees to make it easier."
+    },
+    "machine-row": {
+      "name": "Machine row",
+      "desc": "Seated row on a machine with a chest pad. A stable way to work the back.",
+      "cues": [
+        "Chest against the pad, feet planted.",
+        "Pull the handles back, squeezing the shoulder blades together.",
+        "Return until the arms are straight, keep the chest on the pad."
+      ],
+      "mistakes": ["Leaning away from the pad to move more weight.", "Shrugging the shoulders."],
+      "safety": "Set the seat so the handles are level with the lower chest."
+    },
+    "db-pullover": {
+      "name": "Dumbbell pullover",
+      "desc": "Lowering a dumbbell behind the head and bringing it back over the chest, lying on a bench. Works the lats and chest.",
+      "cues": [
+        "Hold one dumbbell with both hands, arms almost straight.",
+        "Lower it behind the head in an arc until you feel a stretch.",
+        "Bring it back over the chest."
+      ],
+      "mistakes": [
+        "Bending the elbows a lot and turning it into a triceps exercise.",
+        "Arching the lower back at the bottom."
+      ],
+      "safety": "Hold the dumbbell securely by the plate. Start light: the end position stretches the shoulders."
+    },
+    "back-extension": {
+      "name": "Back extension",
+      "desc": "Lifting the torso on a back extension bench. Works the lower back and glutes.",
+      "cues": [
+        "Pad just below the hip bones, heels under the rollers.",
+        "Lower the torso with a flat back.",
+        "Rise until the body is in one line, no higher."
+      ],
+      "mistakes": ["Overarching at the top.", "Swinging with momentum."],
+      "safety": "Start without extra weight. Stop if you feel pain in the lower back."
+    },
+    "dead-hang": {
+      "name": "Dead hang",
+      "desc": "Hanging from a bar with straight arms. Trains grip and the shoulders.",
+      "cues": [
+        "Grip the bar a bit wider than the shoulders.",
+        "Hang with straight arms, keep the shoulders slightly active.",
+        "Breathe calmly and hold for the planned time."
+      ],
+      "mistakes": ["Jumping on and off the bar.", "Holding the breath."],
+      "safety": "Step down onto a box or the floor; don't drop from a height."
     }
   }
 }

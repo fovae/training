@@ -154,9 +154,12 @@ export type Muscle =
   | 'obliques'
   | 'deep-core'
   | 'lower-back'
+  | 'hip-flexors'
   | 'quads'
   | 'hamstrings'
   | 'glutes'
+  | 'adductors'
+  | 'abductors'
   | 'calves';
 
 export type Equipment =
@@ -169,9 +172,20 @@ export type Equipment =
   | 'band'
   | 'bench'
   | 'pullup-bar'
-  | 'dip-station';
+  | 'dip-station'
+  | 'jump-rope';
 
-export type Category = 'chest' | 'back' | 'shoulders' | 'arms' | 'core' | 'legs';
+export type Category =
+  | 'chest'
+  | 'back'
+  | 'shoulders'
+  | 'arms'
+  | 'core'
+  | 'legs'
+  /** Кардио и всё тело: как движение, без слов о сжигании и весе тела */
+  | 'cardio'
+  /** Растяжка и разминка, метрика «время» */
+  | 'mobility';
 
 export interface Exercise {
   /** Стабильный id. Никогда не меняется и не переиспользуется: по нему хранится история. */
@@ -185,7 +199,7 @@ export interface Exercise {
   type: 'compound' | 'isolation';
   metric: 'weight_reps' | 'reps' | 'time';
   levelHint: 'beginner' | 'intermediate' | 'advanced';
-  /** Ключ схемы из src/pics/defs.ts */
+  /** Ключ схемы: src/pics/defs.ts (исходные) или src/pics/sets/*.ts (генератор) */
   pictogram: string;
   descriptionKey: string;
   cueKeys: string[];

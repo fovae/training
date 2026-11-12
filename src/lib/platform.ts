@@ -17,7 +17,7 @@ export type Browser =
 
 export interface DeviceInfo {
   ua: string;
-  /** navigator.platform (устаревшее, но нужно для iPadOS) */
+  /** navigator.platform — только для журнала: на решение не влияет */
   platform?: string;
   maxTouchPoints?: number;
 }
@@ -26,16 +26,18 @@ const IN_APP =
   /FBAN|FBAV|FB_IAB|FBIOS|Instagram|Line\/|Telegram|TikTok|musical_ly|BytedanceWebview|Snapchat|Pinterest|LinkedInApp|Twitter|GSA\/|MicroMessenger|WhatsApp|Gmail|; wv\)/;
 
 /**
- * Строгое правило (сначала iOS: если совпали оба признака, побеждает iOS):
- *  iOS     — в UA есть iPhone|iPad|iPod, ИЛИ navigator.platform === 'MacIntel' и
- *            maxTouchPoints > 1 (iPadOS выдаёт себя за Mac);
- *  Android — в UA есть Android;
- *  иначе   — 'desktop' (ПК и всё неизвестное): инструкции установки нет.
+ * Строгое правило, проверки строго в таком порядке:
+ *  1. в UA есть «Android»                              → Android;
+ *  2. иначе в UA есть iPhone|iPad|iPod                  → iOS;
+ *  3. иначе в UA есть «Macintosh» и maxTouchPoints > 1 → iOS (iPadOS в режиме «как Mac»);
+ *  4. иначе                                             → 'desktop': инструкции установки нет.
+ * navigator.platform сам по себе ничего не решает: Android-браузер с «MacIntel» и касанием —
+ * всё равно Android.
  */
-export function detectPlatform({ ua, platform = '', maxTouchPoints = 0 }: DeviceInfo): Platform {
-  if (/iPhone|iPad|iPod/.test(ua)) return 'ios';
-  if (platform === 'MacIntel' && maxTouchPoints > 1) return 'ios';
+export function detectPlatform({ ua, maxTouchPoints = 0 }: DeviceInfo): Platform {
   if (/Android/.test(ua)) return 'android';
+  if (/iPhone|iPad|iPod/.test(ua)) return 'ios';
+  if (/Macintosh/.test(ua) && maxTouchPoints > 1) return 'ios';
   return 'desktop';
 }
 

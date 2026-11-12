@@ -120,7 +120,11 @@ for (const file of walk(SRC)) {
 }
 
 // 4. Тексты всех упражнений библиотеки
-const exSrc = readFileSync(join(SRC, 'data/exercises.ts'), 'utf8');
+const CAT = join(SRC, 'data/catalog');
+const exSrc = readdirSync(CAT)
+  .filter((f) => f.endsWith('.ts'))
+  .map((f) => readFileSync(join(CAT, f), 'utf8'))
+  .join('\n');
 let exCount = 0;
 for (const m of exSrc.matchAll(/make\(\{\s*id: '([\w-]+)'[\s\S]*?cues: (\d+),\s*mistakes: (\d+)/g)) {
   exCount++;

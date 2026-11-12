@@ -1,4 +1,5 @@
 import { expect, test } from '@playwright/test';
+import { EXERCISES } from '../../src/data/catalog';
 import { fresh, kv, onboard } from './helpers';
 
 const INCLINE = 'Incline dumbbell press';
@@ -347,9 +348,11 @@ test('library: search, filters and full card', async ({ page }) => {
   await fresh(page);
   await onboard(page);
   await page.getByRole('link', { name: 'Exercises' }).click();
-  await expect(page.getByText('27 exercises')).toBeVisible();
+  await expect(page.getByText(`${EXERCISES.length} exercises`)).toBeVisible();
   await page.getByLabel('Equipment').selectOption('bodyweight');
-  await expect(page.locator('.lib-card')).toHaveCount(3);
+  await expect(page.locator('.lib-card')).toHaveCount(
+    EXERCISES.filter((e) => e.equipment.includes('bodyweight')).length,
+  );
   await page.getByLabel('Equipment').selectOption('');
   await page.getByRole('searchbox').fill('plank');
   await page.getByRole('link', { name: /Side plank/ }).click();

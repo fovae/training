@@ -1,5 +1,6 @@
 import { computed, signal } from '@preact/signals';
 import { bootLocale, isSupported, setLocale } from '../i18n';
+import { loadCatalog } from '../data/exercises';
 import { loadPlan } from './plan';
 import { loadSessions, loadError } from './session';
 import { loadSettingsAndProfile, profile } from './settings';
@@ -12,7 +13,7 @@ export const needsOnboarding = computed(() => booted.value && !profile.value);
 export async function initApp(): Promise<void> {
   const localeP = setLocale(bootLocale());
   try {
-    await Promise.all([loadSettingsAndProfile(), loadPlan(), loadSessions()]);
+    await Promise.all([loadCatalog(), loadSettingsAndProfile(), loadPlan(), loadSessions()]);
   } catch (e) {
     console.error(e);
     loadError.value = true;

@@ -45,21 +45,36 @@ const UA = {
     'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36 Edg/142.0.0.0',
 };
 
-test('platform', () => {
+test('platform: strict order Android → iPhone/iPad/iPod → Macintosh+touch → none', () => {
+  // 1. Android всегда Android — даже с MacIntel и касанием
+  for (const k of [
+    'androidChrome',
+    'androidSamsung',
+    'androidFirefox',
+    'androidWebView',
+    'androidEdge',
+  ] as const)
+    expect(detectPlatform({ ua: UA[k] }), k).toBe('android');
+  expect(detectPlatform({ ua: UA.androidChrome, platform: 'MacIntel', maxTouchPoints: 5 })).toBe('android');
+  expect(detectPlatform({ ua: 'Mozilla/5.0 (iPhone; Android 15)' })).toBe('android');
+  expect(detectPlatform({ ua: 'Mozilla/5.0 (Macintosh; Android 15)', maxTouchPoints: 5 })).toBe('android');
+  // 2. iPhone / iPad / iPod
   for (const k of ['iphoneSafari26', 'iphoneChrome', 'iphoneInstagram', 'iphoneWebView'] as const)
     expect(detectPlatform({ ua: UA[k] }), k).toBe('ios');
-  // iPadOS выдаёт себя за Mac — отличаем по сенсорному экрану
+  expect(detectPlatform({ ua: 'Mozilla/5.0 (iPad; CPU OS 17_5 like Mac OS X) AppleWebKit/605.1.15' })).toBe(
+    'ios',
+  );
+  expect(detectPlatform({ ua: 'Mozilla/5.0 (iPod touch; CPU iPhone OS 15_0 like Mac OS X)' })).toBe('ios');
+  // 3. iPadOS «как Mac»: Macintosh + касание
   expect(detectPlatform({ ua: UA.ipadSafari, platform: 'MacIntel', maxTouchPoints: 5 })).toBe('ios');
+  expect(detectPlatform({ ua: UA.ipadSafari, maxTouchPoints: 5 })).toBe('ios');
+  // 4. Macintosh без касания — ПК, без инструкции
   expect(detectPlatform({ ua: UA.macSafari, platform: 'MacIntel', maxTouchPoints: 0 })).toBe('desktop');
-  for (const k of ['androidChrome', 'androidSamsung', 'androidFirefox', 'androidWebView'] as const)
-    expect(detectPlatform({ ua: UA[k] }), k).toBe('android');
+  expect(detectPlatform({ ua: UA.macSafari, maxTouchPoints: 1 })).toBe('desktop');
+  // Одного navigator.platform недостаточно
+  expect(detectPlatform({ ua: UA.winChrome, platform: 'MacIntel', maxTouchPoints: 5 })).toBe('desktop');
+  // ПК и неизвестное — без инструкции
   for (const k of ['winChrome', 'winEdge'] as const) expect(detectPlatform({ ua: UA[k] }), k).toBe('desktop');
-  // Сначала iOS: если совпали оба признака, побеждает iOS
-  expect(detectPlatform({ ua: 'Mozilla/5.0 (iPhone; Android 15)' })).toBe('ios');
-  expect(detectPlatform({ ua: UA.androidChrome, platform: 'MacIntel', maxTouchPoints: 5 })).toBe('ios');
-  // Mac с Macintosh в UA, но без платформы MacIntel — не iOS
-  expect(detectPlatform({ ua: UA.ipadSafari, platform: '', maxTouchPoints: 5 })).toBe('desktop');
-  // Неизвестное — без инструкции
   expect(detectPlatform({ ua: 'curl/8.0' })).toBe('desktop');
   expect(detectPlatform({ ua: '' })).toBe('desktop');
 });

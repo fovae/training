@@ -12,11 +12,13 @@ import {
 import { LEVELS, WEIGHT_LIMIT_MULTIPLIER, levelBehavior } from '../../src/advice/levels';
 import { TYPO_FACTOR, checkWeight, weightLimitKg } from '../../src/advice/weight';
 import { LIMIT_MARGIN, WEIGHT_LIMITS, findWeightLimit, ratioFor } from '../../src/data/weightLimits';
-import { findExercise } from '../../src/data/exercises';
+import { findExercise, loadCatalog } from '../../src/data/exercises';
 import { needsAcceptanceFor } from '../../src/content/legal/acceptance';
 import { exerciseRecords, weeklyStats } from '../../src/lib/stats';
 import { migrateProfileV2, migrateSettingsV2, migrateThemeV2 } from '../../src/db/migrations';
 import type { PlanItem, Session, SessionSet } from '../../src/types';
+
+test.beforeAll(() => loadCatalog());
 
 const H = 3_600_000;
 const NOW = Date.parse('2026-11-12T12:00:00Z');

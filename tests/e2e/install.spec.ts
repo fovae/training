@@ -17,7 +17,14 @@ async function scrollToEnd(page: Page) {
     });
     if (done) break;
   }
-  await page.evaluate(() => scrollTo(0, document.documentElement.scrollHeight));
+  // IntersectionObserver под нагрузкой иногда пропускает кадр — подталкиваем, пока не появятся кнопки
+  await expect(async () => {
+    await page.evaluate(() => {
+      scrollBy(0, -40);
+      scrollTo(0, document.documentElement.scrollHeight);
+    });
+    await expect(page.locator('.ig-actions')).toBeVisible({ timeout: 1500 });
+  }).toPass({ timeout: 15_000 });
 }
 
 test('mobile outside the installed app: gate first, no close, buttons only after scrolling', async ({
@@ -188,4 +195,51 @@ test('iOS in-app browser: one line "Open this link in Safari"', async ({ page, b
   await fresh(page, { gate: true });
   await expect(page.locator('.ig-step')).toHaveCount(1);
   await expect(page.getByText('Open this link in Safari.')).toBeVisible();
+});
+
+test('Android UA with MacIntel + touch: Android steps only, no iOS text', async ({ page }) => {
+  await page.addInitScript(() => {
+    const a =
+      'Mozilla/5.0 (Linux; Android 15; Pixel 9) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Mobile Safari/537.36';
+    Object.defineProperty(navigator, 'userAgent', { get: () => a });
+    Object.defineProperty(navigator, 'platform', { get: () => 'MacIntel' });
+    Object.defineProperty(navigator, 'maxTouchPoints', { get: () => 5 });
+  });
+  await fresh(page, { gate: true });
+  await expect(title(page)).toBeVisible();
+  const text = await page.locator('.install-gate').innerText();
+  expect(text).toContain('Open the browser menu');
+  for (const s of ['Open as Web App', 'Add to Home Screen', 'Safari', 'iPhone', '“Share”'])
+    expect(text, s).not.toContain(s);
+});
+
+test('every install step is fully visible and not covered (scroll hint / sticky buttons)', async ({
+  page,
+}) => {
+  await fresh(page, { gate: true });
+  await expect(title(page)).toBeVisible();
+  const steps = page.locator('.ig-step');
+  const n = await steps.count();
+  expect(n).toBeGreaterThanOrEqual(4);
+  const check = async () => {
+    for (let i = 0; i < n; i++) {
+      const step = steps.nth(i);
+      await step.scrollIntoViewIfNeeded();
+      for (const part of ['.ig-num', '.ig-txt p', '.ig-scenes figure']) {
+        const el = step.locator(part).first();
+        await expect(el).toBeInViewport({ ratio: 1 });
+        // Сверху ничего не лежит: точка в центре принадлежит самому шагу
+        const free = await el.evaluate((node) => {
+          const r = node.getBoundingClientRect();
+          const hit = document.elementFromPoint(r.left + r.width / 2, r.top + Math.min(r.height / 2, 20));
+          return !!hit && (node === hit || node.contains(hit) || hit.contains(node));
+        });
+        expect(free, `step ${i + 1} ${part}`).toBe(true);
+      }
+    }
+  };
+  await check(); // до прокрутки до конца (подсказка «Прокрути вниз»)
+  await page.evaluate(() => scrollTo(0, document.documentElement.scrollHeight));
+  await expect(installed(page)).toBeVisible();
+  await check(); // после: появилась липкая панель кнопок
 });

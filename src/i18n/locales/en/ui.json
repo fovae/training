@@ -66,7 +66,9 @@
     "shoulders": "Shoulders",
     "arms": "Arms",
     "core": "Core",
-    "legs": "Legs"
+    "legs": "Legs",
+    "cardio": "Cardio & full body",
+    "mobility": "Stretching & warm-up"
   },
   "exType": {
     "compound": "Compound (longer rest)",
@@ -90,7 +92,10 @@
     "quads": "Quads",
     "hamstrings": "Hamstrings",
     "glutes": "Glutes",
-    "calves": "Calves"
+    "calves": "Calves",
+    "hip-flexors": "Hip flexors",
+    "adductors": "Inner thighs",
+    "abductors": "Outer hips"
   },
   "equip": {
     "bodyweight": "Bodyweight",
@@ -102,7 +107,8 @@
     "band": "Resistance band",
     "bench": "Bench",
     "pullup-bar": "Pull-up bar",
-    "dip-station": "Dip station"
+    "dip-station": "Dip station",
+    "jump-rope": "Jump rope"
   },
   "onb": {
     "step": "Step {n} of {total}",
@@ -197,7 +203,7 @@
     },
     "finishAll": "All exercises are done. Great work!",
     "saved": "Workout saved 💪",
-    "saveFailed": "Couldn't save. Try again or export your data.",
+    "saveFailed": "Couldn't save. Try again or use “Save a copy”.",
     "cancelTitle": "Cancel the workout?",
     "cancelBody": "The sets you entered for this workout will be deleted.",
     "sessionNote": "Workout note",
@@ -415,8 +421,8 @@
     "data": "Data",
     "persist": "Persistent storage",
     "persist_persisted": "On: the browser won't delete data when space runs low.",
-    "persist_not-persisted": "Off: the browser may clear data. Export regularly.",
-    "persist_unsupported": "Not supported by this browser. Export regularly.",
+    "persist_not-persisted": "Off: the browser may clear data. Use “Save a copy” regularly.",
+    "persist_unsupported": "Not supported by this browser. Use “Save a copy” regularly.",
     "persist_unknown": "Checking…",
     "request": "Request",
     "switchToWeekdays": "Switch to weekdays",
