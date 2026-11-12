@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'preact/hooks';
 import { LOCALES, fmtDate, locale, setLocale, t } from '../../i18n';
 import { CONTACT_EMAIL } from '../../lib/meta';
 import { profile, saveProfile, settings, updateProfile, updateSettings } from '../../state/settings';
-import { ask, toast } from '../../state/ui';
+import { ask, route, toast } from '../../state/ui';
 import { history } from '../../state/session';
 import { plan, setMode } from '../../state/plan';
 import {
@@ -16,10 +16,16 @@ import {
 } from '../../features/backup';
 import { wakeStatus, wakeSupported } from '../../features/wakelock';
 import { audioAvailable, beep } from '../../features/audio';
-import { installPrompt, installed, isIOS, isStandalone, promptInstall } from '../../features/install';
+import {
+  installPrompt,
+  installed,
+  isStandalone,
+  platform,
+  promptInstall,
+  showInstructions,
+} from '../../features/install';
 import type { Level, Settings as S } from '../../types';
 import { Icon } from '../components/Icon';
-import { IosInstallSteps } from '../components/InstallHint';
 import { Seg, Stepper, Toggle } from '../components/Controls';
 import { ProfileForm, draftFrom, validateProfile, type ProfileDraft } from '../components/ProfileForm';
 
@@ -93,7 +99,7 @@ export function Settings() {
     toast(t('reset.done'));
   };
 
-  const showIosInstall = isIOS && !isStandalone();
+  const standalone = installed.value || isStandalone();
 
   return (
     <div class="screen settings">
@@ -229,21 +235,6 @@ export function Settings() {
         </button>
       </section>
 
-      {(showIosInstall || installPrompt.value || installed.value) && (
-        <section class="card group-card">
-          <h2 class="card-t">{t('install.title')}</h2>
-          {installed.value || isStandalone() ? (
-            <p class="muted small">{t('install.done')}</p>
-          ) : installPrompt.value ? (
-            <button type="button" class="btn primary" onClick={() => void promptInstall()}>
-              <Icon name="download" size={18} /> {t('install.app')}
-            </button>
-          ) : (
-            <IosInstallSteps />
-          )}
-        </section>
-      )}
-
       <section class="card group-card about">
         <h2 class="card-t">{t('about.title')}</h2>
         <div class="srow">
@@ -251,6 +242,26 @@ export function Settings() {
           <b>{__APP_VERSION__}</b>
         </div>
         <p class="muted small">{t('about.privacy')}</p>
+        {standalone ? (
+          <div class="srow">
+            <span>{t('install.title')}</span>
+            <span class="muted small">{t('install.installed')}</span>
+          </div>
+        ) : installPrompt.value ? (
+          <div class="srow">
+            <span>{t('install.title')}</span>
+            <button type="button" class="btn-ghost sm" onClick={() => void promptInstall()}>
+              <Icon name="download" size={16} /> {t('install.app')}
+            </button>
+          </div>
+        ) : platform !== 'desktop' ? (
+          <div class="srow">
+            <span>{t('install.title')}</span>
+            <button type="button" class="btn-ghost sm" onClick={() => showInstructions(true)}>
+              {t('install.howTo')}
+            </button>
+          </div>
+        ) : null}
         <div class="srow">
           <span>{t('about.contact')}</span>
           <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>
@@ -334,6 +345,14 @@ function ProfileCard() {
 /** Режим расписания: переключение с подтверждением, чтобы не сменить его случайно */
 function ScheduleCard() {
   const p = plan.value;
+  const ref = useRef<HTMLElement>(null);
+  // #/settings/schedule — прокрутить к карточке (переход с экрана «План»)
+  useEffect(() => {
+    if (route.value.sub?.id === 'schedule' && ref.current) {
+      ref.current.scrollIntoView({ block: 'center' });
+      ref.current.focus({ preventScroll: true });
+    }
+  }, [route.value.sub?.id, !!p]);
   if (!p) return null;
   const weekdays = p.mode === 'weekdays';
   const target = weekdays ? 'cycle' : 'weekdays';
@@ -350,7 +369,7 @@ function ScheduleCard() {
   };
 
   return (
-    <section class="card group-card">
+    <section class="card group-card" id="schedule" ref={ref} tabIndex={-1}>
       <h2 class="card-t">{t('plan.mode')}</h2>
       <div class="srow">
         <span>

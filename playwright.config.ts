@@ -6,7 +6,13 @@ import { defineConfig, devices } from '@playwright/test';
  * Новее iPhone 17 Pro Max пресетов в Playwright пока нет — у iPhone 18 Pro Max тот же экран 440×956.
  * Тесты гоняются на production-сборке (vite preview), чтобы работал service worker.
  */
-const iphones = ['iPhone 11', 'iPhone 13', 'iPhone 15 Pro Max', 'iPhone 17 Pro Max'] as const;
+const ALL_IPHONES = ['iPhone 11', 'iPhone 13', 'iPhone 15 Pro Max', 'iPhone 17 Pro Max'] as const;
+/**
+ * На CI по умолчанию — сокращённая матрица (самый маленький и самый большой iPhone).
+ * Полная: локально или в CI с FULL_MATRIX=1 (workflow_dispatch → full).
+ */
+const full = !process.env.CI || process.env.FULL_MATRIX === '1';
+const iphones = full ? ALL_IPHONES : (['iPhone 11', 'iPhone 17 Pro Max'] as const);
 
 export default defineConfig({
   testDir: 'tests/e2e',
@@ -23,15 +29,20 @@ export default defineConfig({
     timezoneId: 'Europe/Moscow',
   },
   projects: [
+    {
+      // Чистые функции без браузера (src/lib/platform.ts и т. п.)
+      name: 'unit',
+      testMatch: /\.unit\.spec\.ts/,
+    },
     ...iphones.map((name) => ({
       name,
-      testIgnore: /(offline|desktop)\.spec\.ts/,
+      testIgnore: /(offline|desktop|\.unit)\.spec\.ts/,
       use: { ...devices[name], browserName: 'webkit' as const },
     })),
     {
       // Android: Chromium с эмуляцией Pixel
       name: 'Pixel 7',
-      testIgnore: /(offline|desktop|a11y)\.spec\.ts/,
+      testIgnore: /(offline|desktop|a11y|\.unit)\.spec\.ts/,
       use: { ...devices['Pixel 7'] },
     },
     {

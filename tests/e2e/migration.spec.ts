@@ -63,7 +63,7 @@ test('v1 data survives the upgrade: history, active workout, settings, plan', as
           wakeLock: true,
         }),
       );
-      localStorage.setItem('tp-flag-ios-hint-shown', '1');
+      localStorage.setItem('tp-install-skip', new Date().toISOString());
       await new Promise<void>((res) => {
         const r = indexedDB.deleteDatabase('training-pwa');
         r.onsuccess = r.onerror = r.onblocked = () => res();

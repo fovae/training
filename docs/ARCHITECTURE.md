@@ -36,17 +36,23 @@ src/
     plan.ts               план и операции редактора
     session.ts            текущая тренировка, история, статистика
     ui.ts                 маршруты (#/…), тема, тосты, диалоги
-  features/               таймер (метки времени), звук, wake lock, установка, обновления, экспорт/импорт
+  lib/platform.ts         платформа, браузер, версия Safari, standalone — чистые функции (юнит-тесты на UA)
+  lib/focus.ts            ловушка фокуса для модальных окон (Safari по Tab пропускает кнопки)
+  features/install.ts     экран установки: когда показывать, «Продолжить в браузере» (7 дней), «Я установил»
+  features/               таймер (метки времени), звук, wake lock, обновления, экспорт/импорт
   ui/
     App.tsx               каркас и маршрутизация экранов
     labels.ts             общие переведённые подписи (название дня, схема подходов…)
     components/           карточка упражнения, переключатель дней, формы, лист выбора…
-    screens/              Onboarding, Today, Plan, Library, History, Settings, Legal
+    components/InstallScene.tsx  SVG-сцены установки (свои рисунки, без текста внутри)
+    screens/              InstallGate, Onboarding, Today, Plan, Library, History, Settings, Legal
   styles/                 tokens (цвета), base, components, screens, features (этап 1), layout
 scripts/
   i18n-check.mjs          проверка словарей (npm run i18n:check)
   generate-assets.mjs     иконки и splash-экраны
-tests/e2e/                Playwright: iPhone (WebKit), Pixel (Chromium), офлайн, ПК, axe, миграция, сеть
+tests/e2e/                Playwright: iPhone (WebKit), Pixel (Chromium), офлайн и обновление, ПК, axe,
+                          миграция, сеть, экран установки, скриншоты 375/390/430, русская версия
+tests/e2e/*.unit.spec.ts  юнит-тесты без браузера (проект `unit`)
 ```
 
 ## Данные и миграции
@@ -67,6 +73,13 @@ tests/e2e/                Playwright: iPhone (WebKit), Pixel (Chromium), офл�
 - хранилище `workouts` **не удаляется** — это страховочная копия.
 
 Профиль после миграции заполняет сам пользователь в онбординге (вес и рост обязательны).
+Пункт «Оставить мой текущий план» в онбординге показывается **только** если миграция нашла данные v1
+(`kv.legacyPrefs`); у нового пользователя его нет.
+
+> **Временный код.** Когда владелец перенёс свои данные (открыл новую версию в установленном приложении
+> и прошёл онбординг), шаг `oldVersion < 2` в `upgrade()`, функции v1 в `migrations.ts`, `kv.legacyPrefs`,
+> пункт «Оставить мой текущий план» и импорт файлов schema 1 можно удалить. Номер версии базы при этом
+> не уменьшать.
 Тест: `tests/e2e/migration.spec.ts` создаёт базу v1 на фикстуре и проверяет перенос.
 
 **Новая версия схемы:** увеличь `DB_VERSION`, добавь блок `if (oldVersion < N)` в `upgrade()` и
@@ -122,6 +135,30 @@ tests/e2e/                Playwright: iPhone (WebKit), Pixel (Chromium), офл�
 Каждый язык — отдельный чанк сборки, грузится только выбранный. Сейчас все чанки ещё и
 прекэшируются service worker'ом (их два, это ~15 КБ gzip), чтобы смена языка работала офлайн.
 При 11 языках стоит перевести словари на runtime-кэш — см. `workbox` в `vite.config.ts`.
+
+## Экран установки
+
+Правила — `docs/CONCEPT.md` → «Экран установки». Код: `features/install.ts` (состояние `gate`:
+`gate | done | off`), `screens/InstallGate.tsx`, `components/InstallScene.tsx`, `lib/platform.ts`.
+
+- Ключи `localStorage`: `tp-install-skip` — дата «Продолжить в браузере» (действует 7 дней; его же ставят
+  тесты через `fresh()` в `tests/e2e/helpers.ts`), `tp-install-claimed` — нажали «Я установил».
+- Кнопки внизу появляются, когда невидимый якорь `.ig-end` попадает в экран (IntersectionObserver).
+- Новый шаг или сцена: текст — `install.*` в словарях, сцена — новый `case` в `InstallScene.tsx` на общих
+  формах (`Phone`, `Ring`, `Row`…), без `<text>` внутри SVG.
+
+## Цвета дней
+
+7 дней — 7 цветов: `--c1…--c7` (декор), `--cN-fill` (фон под белым текстом), `--cN-ink` (цветной текст)
+в `styles/tokens.css`, отдельно для светлой и тёмной темы. Контраст ≥ 4.5:1 проверен для белого на fill и
+для ink на фонах `--bg`, `--card`, `--soft`.
+
+## CI
+
+`.github/workflows/deploy.yml`: lint → i18n:check → сборка → Playwright → сборка для Pages → деплой.
+Деплой только после зелёных тестов. На CI по умолчанию сокращённая матрица (iPhone 11, iPhone 17 Pro Max,
+Pixel 7, офлайн, ПК, юнит-тесты); полная — локально или Actions → Run workflow → «full». Таймаут теста на CI
+90 с, один повтор.
 
 ## Точки расширения (этапы 2–4, логики пока нет)
 

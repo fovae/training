@@ -126,6 +126,7 @@ export function ProfileForm({
             class="text-in"
             type="text"
             inputMode="decimal"
+            enterKeyHint="next"
             autoComplete="off"
             required
             value={draft.weight}
@@ -141,6 +142,7 @@ export function ProfileForm({
                 class="text-in"
                 type="text"
                 inputMode="numeric"
+                enterKeyHint="next"
                 autoComplete="off"
                 required
                 aria-label={t('profile.heightFt')}
@@ -152,6 +154,7 @@ export function ProfileForm({
                 class="text-in"
                 type="text"
                 inputMode="numeric"
+                enterKeyHint="next"
                 autoComplete="off"
                 aria-label={t('profile.heightIn')}
                 value={draft.heightIn}
@@ -165,7 +168,8 @@ export function ProfileForm({
               id="pf-height"
               class="text-in"
               type="text"
-              inputMode="numeric"
+              inputMode="decimal"
+              enterKeyHint="next"
               autoComplete="off"
               required
               value={draft.heightCm}
@@ -193,6 +197,7 @@ export function ProfileForm({
           class="text-in short"
           type="text"
           inputMode="numeric"
+          enterKeyHint="next"
           autoComplete="off"
           value={draft.age}
           onInput={(e) => set({ age: e.currentTarget.value })}

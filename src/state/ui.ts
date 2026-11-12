@@ -22,6 +22,7 @@ export function parseRoute(hash: string): Route {
   if (t === 'history' && (a === 'exercise' || a === 'workout') && b)
     return { tab: t, sub: { kind: a, id: decodeURIComponent(b) } };
   if (t === 'library' && a) return { tab: t, sub: { kind: 'exercise', id: decodeURIComponent(a) } };
+  if (t === 'settings' && a) return { tab: t, sub: { kind: 'section', id: a } };
   if (t === 'legal') return { tab: t, sub: { kind: 'doc', id: a === 'terms' ? 'terms' : 'privacy' } };
   return { tab: t };
 }

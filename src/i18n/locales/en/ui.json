@@ -305,7 +305,7 @@
     },
     "added": "Added: {name}",
     "alreadyInDay": "already in this day",
-    "scheduleLine": "Schedule: {mode}.",
+    "scheduleLine": "Schedule: {mode}",
     "changeInSettings": "Change in Settings"
   },
   "rules": {
@@ -459,16 +459,62 @@
   "install": {
     "title": "Install",
     "button": "Install",
-    "app": "Install the app",
-    "done": "The app is installed ✓",
-    "iosTitle": "Install on iPhone",
-    "hintTitle": "Add to Home Screen",
-    "dismiss": "Close the hint for good",
-    "step1a": "Tap",
-    "share": "Share",
-    "step1b": "in the Safari toolbar.",
-    "step2": "Choose “Add to Home Screen” (scroll down if you don't see it).",
-    "step3": "Tap “Add”. The app opens full screen and works offline."
+    "app": "Install app",
+    "installed": "Installed ✓",
+    "howTo": "How to install",
+    "openHome": "Open Simple Training from your Home Screen.",
+    "gate": {
+      "title": "Install Simple Training",
+      "lead": "Add the app to your Home Screen first. It takes about half a minute.",
+      "why": [
+        "Works offline, even with no signal at the gym.",
+        "Opens full screen, like a regular app.",
+        "Your data stays in the app on your phone."
+      ],
+      "warn": "Data in the browser and in the installed app are separate and don't carry over. Use the installed app so your workouts aren't lost.",
+      "yourPhone": "Your phone",
+      "orSteps": "Or follow the steps below.",
+      "stepsLabel": "Installation steps",
+      "translated": "Menu items are named in English here; on your phone they may be translated.",
+      "scrollHint": "Scroll down",
+      "installed": "I've installed it",
+      "continue": "Continue in browser",
+      "continueNoteIos": "Data in Safari may be deleted after 7 days without use.",
+      "continueNoteAndroid": "The browser may clear this site's data, and your workouts with it."
+    },
+    "ios": {
+      "openInApp": "This page is open inside another app. Open it in Safari: tap “⋯” or the share icon and choose “Open in Safari” or “Open in browser”.",
+      "openSafari": "Open this page in Safari: it's the most reliable way to install on iPhone. Copy the link and paste it into Safari.",
+      "dots": "Tap “⋯” next to the address bar.",
+      "share": "Tap “Share”.",
+      "shareAlt": "If your tabs are at the bottom or top of the screen (“Bottom” or “Top” layout), the “Share” button is right on the bar.",
+      "shareOld": "Tap “Share” (a square with an arrow up) on the bar at the bottom.",
+      "shareEither": "Tap “Share” (a square with an arrow up): in the “⋯” menu next to the address bar, or right on the bar at the bottom.",
+      "lookHere": "If you don't see it in one place, look in the other.",
+      "sceneNew": "iOS 26: “⋯” menu",
+      "sceneOld": "Earlier iOS: bottom bar",
+      "addHome": "Scroll down the list and tap “Add to Home Screen”.",
+      "editActions": "Not in the list? Tap “Edit Actions” at the very bottom and add it.",
+      "webApp": "Keep “Open as Web App” turned on, then tap “Add”.",
+      "addOld": "Tap “Add” in the top right corner."
+    },
+    "and": {
+      "openInApp": "This page is open inside another app. Open it in Chrome: tap “⋮” and choose “Open in Chrome” or “Open in browser”.",
+      "menu": "Tap the “⋮” menu in the top right corner.",
+      "item": "Tap “Add to home screen” or “Install app”, then “Install”.",
+      "confirm": "Confirm. The icon will appear on your Home Screen and in the app list.",
+      "otherTitle": "Another browser?",
+      "other": [
+        "Edge: “⋯” menu → “Add to phone”.",
+        "Firefox: “⋮” menu → “Add to Home screen”.",
+        "Samsung Internet: “≡” menu → “Add page to” → “Home screen”."
+      ]
+    },
+    "done": {
+      "title": "Done!",
+      "text": "Open Simple Training from your Home Screen. You can close this tab.",
+      "again": "Show the instructions again"
+    }
   },
   "update": {
     "available": "An update is available",

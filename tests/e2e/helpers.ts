@@ -1,16 +1,19 @@
 import { expect, type Page } from '@playwright/test';
 
-/** Чистый старт: без базы и localStorage. Подсказка установки iOS отмечена как показанная. */
-export async function fresh(page: Page): Promise<void> {
+/** Ключ «Продолжить в браузере» (src/features/install.ts) — тесты обходят экран установки так же */
+export const SKIP_KEY = 'tp-install-skip';
+
+/** Чистый старт: без базы и localStorage, экран установки пропущен. */
+export async function fresh(page: Page, opts: { gate?: boolean } = {}): Promise<void> {
   await page.goto('./');
-  await page.evaluate(async () => {
+  await page.evaluate(async (skip) => {
     localStorage.clear();
-    localStorage.setItem('tp-flag-ios-hint-shown', '1');
+    if (skip) localStorage.setItem('tp-install-skip', new Date().toISOString());
     await new Promise<void>((res) => {
       const r = indexedDB.deleteDatabase('training-pwa');
       r.onsuccess = r.onerror = r.onblocked = () => res();
     });
-  });
+  }, !opts.gate);
   await page.reload();
 }
 

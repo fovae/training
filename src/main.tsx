@@ -11,11 +11,10 @@ import { App } from './ui/App';
 import { initApp } from './state/app';
 import { installAudioUnlock } from './features/audio';
 import { installWakeLock } from './features/wakelock';
-import { initInstallPrompt, initIosHint } from './features/install';
+import { initInstallPrompt } from './features/install';
 import { initSW } from './features/update';
 
 initInstallPrompt();
-initIosHint();
 installAudioUnlock();
 
 render(<App />, document.getElementById('app')!);

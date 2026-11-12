@@ -1,3 +1,4 @@
+import { trapTab } from '../../lib/focus';
 import { t } from '../../i18n';
 import { useEffect, useRef } from 'preact/hooks';
 import { dialog, dismissToast, toasts } from '../../state/ui';
@@ -63,19 +64,7 @@ export function DialogHost() {
         e.preventDefault();
         d.resolve('cancel');
       }
-      if (e.key === 'Tab' && el) {
-        const f = [...el.querySelectorAll<HTMLElement>('button')];
-        const first = f[0];
-        const last = f[f.length - 1];
-        if (!first || !last) return;
-        if (e.shiftKey && document.activeElement === first) {
-          e.preventDefault();
-          last.focus();
-        } else if (!e.shiftKey && document.activeElement === last) {
-          e.preventDefault();
-          first.focus();
-        }
-      }
+      if (el) trapTab(e, el);
     };
     document.addEventListener('keydown', onKey, true);
     document.body.classList.add('modal-open');

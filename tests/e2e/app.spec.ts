@@ -133,7 +133,22 @@ test('plan editor: empty days, picker with search and filters, edit, reorder, co
   await expect(page.getByRole('button', { name: 'Add day' })).toHaveCount(0);
   // Переключателя расписания на экране плана нет — он в настройках
   await expect(page.getByRole('radio', { name: 'Weekdays' })).toHaveCount(0);
-  await expect(page.getByText('Schedule: Cycle.')).toBeVisible();
+  // Карточка расписания — в самом низу экрана, ниже правил
+  const card = page.getByRole('region', { name: 'Schedule: Cycle' });
+  await expect(card).toBeVisible();
+  const order = await page.evaluate(() => {
+    const main = document.querySelector('main .screen')!;
+    const kids = [...main.children];
+    const rules = kids.findIndex((k) => k.querySelector('.rules'));
+    const sched = kids.findIndex((k) => k.classList.contains('schedule-card'));
+    return { rules, sched, last: kids.length - 1 };
+  });
+  expect(order.sched).toBeGreaterThan(order.rules);
+  expect(order.sched).toBe(order.last);
+  await card.getByRole('link', { name: 'Change in Settings' }).click();
+  await expect(page).toHaveURL(/#\/settings\/schedule$/);
+  await expect(page.locator('#schedule')).toBeInViewport();
+  await page.getByRole('link', { name: 'Plan', exact: true }).click();
 
   // План переживает перезагрузку
   await page.reload();
@@ -313,7 +328,7 @@ test('schedule switch lives in Settings; weekday labels follow the mode', async 
   // Дни недели: подписи появились, выбираем свой день для дня 1
   await switchTo('Switch to weekdays');
   await page.getByRole('link', { name: 'Plan' }).click();
-  await expect(page.getByText('Schedule: Weekdays.')).toBeVisible();
+  await expect(page.getByRole('region', { name: 'Schedule: Weekdays' })).toBeVisible();
   await page.getByLabel('Day of week').selectOption('5'); // суббота
   await page.getByRole('link', { name: 'Today' }).click();
   await expect(weekdayMarks()).toHaveCount(4);
@@ -332,4 +347,107 @@ test('schedule switch lives in Settings; weekday labels follow the mode', async 
   await switchTo('Switch to weekdays');
   await page.getByRole('link', { name: 'Today' }).click();
   await expect(page.getByRole('tab', { name: 'Day 1, Sat' })).toBeVisible();
+});
+
+test('new profile: no "Keep my current plan" (only for v1 data)', async ({ page }) => {
+  await fresh(page);
+  await page.getByRole('button', { name: 'Next' }).click();
+  await page.getByRole('checkbox').check();
+  await page.getByRole('button', { name: 'Next' }).click();
+  await page.getByLabel('Body weight, kg').fill('70');
+  await page.getByLabel('Height, cm').fill('170');
+  await page.getByRole('button', { name: 'Next' }).click();
+  await page.getByRole('radio', { name: 'Intermediate' }).click();
+  await page.getByRole('button', { name: 'Next' }).click();
+  await expect(page.getByRole('radio', { name: /Keep my current plan/ })).toHaveCount(0);
+  const first = page.getByRole('radiogroup', { name: 'Start with' }).getByRole('radio').first();
+  await expect(first).toContainText('Empty days');
+  await expect(first).toHaveAttribute('aria-checked', 'true');
+  // Выбор расписания и числа дней — прямо в онбординге
+  await expect(page.getByRole('radio', { name: 'Cycle' })).toHaveAttribute('aria-checked', 'true');
+  await expect(page.getByRole('group', { name: 'Workouts per week' }).locator('output')).toHaveText('3');
+});
+
+test('onboarding: Next is full width without Back; last step clears the bottom bar', async ({ page }) => {
+  await fresh(page);
+  const next = page.getByRole('button', { name: 'Next' });
+  const bar = await page.locator('.ob-actions').boundingBox();
+  const btn = await next.boundingBox();
+  expect(btn!.width).toBeGreaterThan(bar!.width - 2 * 40);
+  await next.click();
+  await page.getByRole('checkbox').check();
+  await next.click();
+  await page.getByLabel('Body weight, kg').fill('70');
+  await page.getByLabel('Height, cm').fill('170');
+  await next.click();
+  // Шаг 4: отступ между вводным абзацем и первой карточкой
+  const lead = await page.locator('.onboarding section > p').first().boundingBox();
+  const choice = await page.locator('.choice').first().boundingBox();
+  expect(choice!.y - (lead!.y + lead!.height)).toBeGreaterThanOrEqual(12);
+  await page.getByRole('radio', { name: 'Intermediate' }).click();
+  await next.click();
+  // Шаг 5: последняя подпись при прокрутке до конца не закрыта панелью
+  await page.evaluate(() => scrollTo(0, document.body.scrollHeight));
+  const note = await page.getByText('Everything can be edited later').boundingBox();
+  const panel = await page.locator('.ob-actions').boundingBox();
+  expect(note!.y + note!.height).toBeLessThanOrEqual(panel!.y - 8);
+});
+
+test('inputs: numeric keyboards, enterkeyhint, no autocomplete, font ≥ 16px', async ({ page }) => {
+  await fresh(page);
+  await onboard(page);
+  await page.getByRole('link', { name: 'Settings', exact: true }).click();
+  await expect(page.getByLabel('Body weight, kg')).toHaveAttribute('inputmode', 'decimal');
+  await expect(page.getByLabel('Height, cm')).toHaveAttribute('inputmode', 'decimal');
+  await expect(page.getByLabel('Age', { exact: true })).toHaveAttribute('inputmode', 'numeric');
+  await page.getByRole('link', { name: 'Today' }).click();
+  await page.getByRole('button', { name: 'Start workout' }).click();
+  await expect(page.getByLabel(`${INCLINE}, set 1: weight, kg`)).toHaveAttribute('inputmode', 'decimal');
+  await expect(page.getByLabel(`${INCLINE}, set 1: reps`)).toHaveAttribute('inputmode', 'numeric');
+  for (const route of ['#/today', '#/settings', '#/plan', '#/library']) {
+    await page.goto('./' + route);
+    await page.waitForSelector('main .screen');
+    if (route === '#/plan') await page.locator('.item summary').first().click();
+    const bad = await page.$$eval('input:not([type=checkbox]):not([type=file]), select, textarea', (els) =>
+      els
+        .filter((e) => (e as HTMLElement).offsetParent !== null)
+        .map((e) => {
+          const el = e as HTMLInputElement;
+          const fs = parseFloat(getComputedStyle(el).fontSize);
+          const numeric = ['decimal', 'numeric'].includes(el.inputMode);
+          const issues = [];
+          if (fs < 16) issues.push(`font ${fs}`);
+          if (numeric && !el.enterKeyHint) issues.push('no enterkeyhint');
+          if (numeric && el.autocomplete !== 'off') issues.push('autocomplete');
+          return issues.length ? `${el.getAttribute('aria-label') ?? el.id}: ${issues.join(', ')}` : '';
+        })
+        .filter(Boolean),
+    );
+    expect(bad, route).toEqual([]);
+  }
+});
+
+test('exercise picker: focus stays inside, Escape closes, Close does not cover the list', async ({
+  page,
+}) => {
+  await fresh(page);
+  await onboard(page);
+  await page.getByRole('link', { name: 'Plan', exact: true }).click();
+  const open = page.getByRole('button', { name: 'Add exercise' });
+  await open.click();
+  const sheet = page.getByRole('dialog', { name: 'Add exercise' });
+  await expect(sheet.getByRole('searchbox')).toBeFocused();
+  for (let i = 0; i < 40; i++) {
+    await page.keyboard.press('Tab');
+    expect(await page.evaluate(() => !!document.activeElement?.closest('[role=dialog]'))).toBe(true);
+  }
+  // Последний пункт списка можно прокрутить выше нижней кнопки
+  const last = sheet.locator('.pick-list li').last();
+  await last.scrollIntoViewIfNeeded();
+  const lb = await last.boundingBox();
+  const fb = await sheet.locator('.sheet-f').boundingBox();
+  expect(lb!.y + lb!.height).toBeLessThanOrEqual(fb!.y + 1);
+  await page.keyboard.press('Escape');
+  await expect(sheet).toBeHidden();
+  await expect(open).toBeFocused();
 });

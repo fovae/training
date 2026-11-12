@@ -1,4 +1,4 @@
-import { useState } from 'preact/hooks';
+import { useRef, useState } from 'preact/hooks';
 import { findExercise } from '../../data/exercises';
 import { fmtNum, t, tList, weekdayLong, weekdayShort } from '../../i18n';
 import { fmtClock, fromUnit, inputNum, parseDecimal, toUnit, unitLabel } from '../../lib/format';
@@ -37,6 +37,7 @@ const REST_OPTIONS = [30, 45, 60, 75, 90, 120, 150, 180, 240, 300];
 export function Plan() {
   const p = plan.value;
   const [picker, setPicker] = useState(false);
+  const addBtn = useRef<HTMLButtonElement>(null);
   if (!p) return null;
   const day = (planDayId.value && findDay(planDayId.value)) || p.days[0]!;
   const select = (id: string) => (planDayId.value = id);
@@ -52,13 +53,6 @@ export function Plan() {
         <div class="eyebrow">{t('plan.eyebrow')}</div>
         <h1 class="screen-title">{t('plan.title')}</h1>
       </header>
-
-      <p class="muted small schedule-line">
-        {t('plan.scheduleLine', {
-          mode: t(p.mode === 'weekdays' ? 'plan.modeWeekdays' : 'plan.modeCycle'),
-        })}{' '}
-        <a href="#/settings">{t('plan.changeInSettings')}</a>
-      </p>
 
       <section>
         <div class="sec-h">
@@ -109,7 +103,7 @@ export function Plan() {
               <ItemEditor key={item.exerciseId + i} day={day} item={item} idx={i} count={day.items.length} />
             ))}
           </ol>
-          <button type="button" class="btn primary block" onClick={() => setPicker(true)}>
+          <button ref={addBtn} type="button" class="btn primary block" onClick={() => setPicker(true)}>
             <Icon name="plus" size={18} /> {t('plan.addExercise')}
           </button>
         </SwipeDays>
@@ -117,7 +111,32 @@ export function Plan() {
 
       <Rules />
 
-      {picker && <ExercisePicker day={day} onClose={() => setPicker(false)} />}
+      <section class="card schedule-card" aria-labelledby="schedule-h">
+        <div>
+          <h2 class="card-t" id="schedule-h">
+            {t('plan.scheduleLine', {
+              mode: t(p.mode === 'weekdays' ? 'plan.modeWeekdays' : 'plan.modeCycle'),
+            })}
+          </h2>
+          <p class="muted small">
+            {t(p.mode === 'weekdays' ? 'plan.modeWeekdaysHint' : 'plan.modeCycleHint')}
+          </p>
+        </div>
+        <a class="btn secondary" href="#/settings/schedule">
+          {t('plan.changeInSettings')}
+        </a>
+      </section>
+
+      {picker && (
+        <ExercisePicker
+          day={day}
+          onClose={() => {
+            setPicker(false);
+            // Safari не фокусирует кнопку по клику — возвращаем фокус явно
+            requestAnimationFrame(() => addBtn.current?.focus());
+          }}
+        />
+      )}
     </div>
   );
 }
@@ -307,6 +326,8 @@ function ItemEditor({ day, item, idx, count }: { day: Day; item: PlanItem; idx: 
                 class="num-in"
                 type="text"
                 inputMode="numeric"
+                enterKeyHint="done"
+                autoComplete="off"
                 aria-label={t('plan.min', { name })}
                 defaultValue={String(item.repsMin)}
                 key={'min' + item.repsMin}
@@ -317,6 +338,8 @@ function ItemEditor({ day, item, idx, count }: { day: Day; item: PlanItem; idx: 
                 class="num-in"
                 type="text"
                 inputMode="numeric"
+                enterKeyHint="done"
+                autoComplete="off"
                 aria-label={t('plan.max', { name })}
                 defaultValue={String(item.repsMax)}
                 key={'max' + item.repsMax}
@@ -334,6 +357,8 @@ function ItemEditor({ day, item, idx, count }: { day: Day; item: PlanItem; idx: 
                 class="num-in wide"
                 type="text"
                 inputMode="decimal"
+                enterKeyHint="done"
+                autoComplete="off"
                 placeholder={unitLabel()}
                 aria-label={t('plan.weightOf', { name, unit: unitLabel() })}
                 defaultValue={inputNum(toUnit(item.targetWeightKg))}

@@ -38,11 +38,11 @@ export const shownWeekday = (d: Day): Weekday | undefined =>
 export const findDay = (id: string): Day | undefined => plan.value?.days.find((d) => d.id === id);
 export const dayIndex = (id: string): number => plan.value?.days.findIndex((d) => d.id === id) ?? -1;
 
-/** Цвет дня: 4 цвета оригинала по кругу */
-export const dayColor = (id: string): 'c1' | 'c2' | 'c3' | 'c4' => {
-  const i = Math.max(0, dayIndex(id));
-  return (['c1', 'c2', 'c3', 'c4'] as const)[i % 4]!;
-};
+const DAY_COLORS = ['c1', 'c2', 'c3', 'c4', 'c5', 'c6', 'c7'] as const;
+export type DayColor = (typeof DAY_COLORS)[number];
+
+/** Цвет дня: у каждого из 7 дней свой (4 цвета оригинала + 3 новых) */
+export const dayColor = (id: string): DayColor => DAY_COLORS[Math.min(6, Math.max(0, dayIndex(id)))]!;
 
 // ---------- режим и дни ----------
 

@@ -20,7 +20,6 @@ import { stopRest } from '../../features/timer';
 import { DayHead } from '../components/DayHead';
 import { DaySwitcher, SwipeDays } from '../components/DaySwitcher';
 import { ExerciseCard } from '../components/ExerciseCard';
-import { InstallHint } from '../components/InstallHint';
 import { Icon } from '../components/Icon';
 import { dayNumber } from '../labels';
 
@@ -126,7 +125,6 @@ export function Today() {
         )}
       </header>
 
-      <InstallHint />
       {loadError.value && <div class="note warn">{t('app.storageError')}</div>}
 
       {restDay && <RestDay onPick={setDay} />}

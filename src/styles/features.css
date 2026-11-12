@@ -92,7 +92,7 @@
     calc(100% - 13px) 50%;
   background-size: 5px 5px;
   background-repeat: no-repeat;
-  font-size: 15px;
+  font-size: 16px; /* меньше 16px — iOS зумит при фокусе */
 }
 .check {
   display: flex;
@@ -135,6 +135,12 @@
 .onboarding section {
   margin-top: 8px;
 }
+.onboarding section > p:first-child {
+  margin: 0 0 16px;
+}
+.onboarding section > p:last-child {
+  margin: 16px 0 0;
+}
 .onboarding .card {
   display: grid;
   gap: 12px;
@@ -146,17 +152,26 @@
 }
 .ob-actions {
   position: sticky;
-  bottom: calc(var(--safe-b) + 12px);
+  z-index: 5;
+  bottom: 0;
   display: flex;
   gap: 10px;
-  justify-content: flex-end;
-  margin-top: 20px;
-  padding: 16px 0 0;
-  background: linear-gradient(to bottom, transparent, var(--bg) 14px);
+  /* отступ от последнего блока шага — чтобы подписи не упирались в панель */
+  margin: 28px calc(-1 * (var(--gutter) + var(--safe-r))) 0 calc(-1 * (var(--gutter) + var(--safe-l)));
+  padding: 12px calc(var(--gutter) + var(--safe-r)) calc(var(--safe-b) + 12px)
+    calc(var(--gutter) + var(--safe-l));
+  background: var(--bg);
+  border-top: 1px solid var(--line);
+}
+.ob-actions .btn {
+  flex: none;
 }
 .ob-actions .btn.primary {
   flex: 1;
-  max-width: 320px;
+}
+/* главный экран без таб-бара: панель кнопок сама прижата к низу */
+.shell.no-nav main:has(.onboarding) {
+  padding-bottom: 0;
 }
 .ob-actions .btn[aria-disabled='true'] {
   opacity: 0.5;
@@ -223,6 +238,13 @@
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
   animation: rest-in 0.2s ease-out;
   outline: none;
+}
+.sheet-grip {
+  width: 40px;
+  height: 5px;
+  margin: 8px auto 0;
+  border-radius: 3px;
+  background: var(--line);
 }
 .sheet-h {
   display: flex;
@@ -558,10 +580,390 @@
   font-weight: 700;
 }
 
-.schedule-line {
-  margin: 0 0 4px;
+.schedule-card {
+  display: grid;
+  gap: 12px;
+  margin-top: 16px;
 }
-.schedule-line a {
-  color: var(--accent-ink);
+.schedule-card .card-t {
+  margin-bottom: 4px;
+}
+.schedule-card p {
+  margin: 0;
+}
+.schedule-card .btn {
+  text-decoration: none;
+}
+@media (min-width: 760px) {
+  .schedule-card {
+    grid-template-columns: 1fr auto;
+    align-items: center;
+  }
+}
+
+/* ---------- экран установки ---------- */
+.install-gate {
+  min-height: 100dvh;
+}
+.install-gate > * + * {
+  margin-top: 12px;
+}
+.install-gate .screen-title:focus {
+  outline: none;
+}
+.ig-progress {
+  position: fixed;
+  z-index: 40;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: calc(var(--safe-t) + 3px);
+  pointer-events: none;
+}
+.ig-progress i {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 3px;
+  background: var(--accent-fill);
+  transform-origin: left;
+  transition: transform 0.1s linear;
+}
+.ig-why p {
+  margin: 0 0 10px;
   font-weight: 700;
+}
+.ig-why ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 8px;
+}
+.ig-why li {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+}
+.ig-why-ic {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 9px;
+  background: color-mix(in srgb, var(--accent) 14%, transparent);
+  color: var(--accent-ink);
+}
+.ig-os {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  font-weight: 700;
+}
+.ig-now {
+  display: grid;
+  gap: 6px;
+  text-align: center;
+}
+.btn.lg {
+  min-height: 56px;
+  font-size: 17px;
+}
+.ig-steps {
+  list-style: none;
+  margin: 12px 0 0;
+  padding: 0;
+  display: grid;
+  gap: 12px;
+}
+.ig-step {
+  display: grid;
+  grid-template-columns: 44px 1fr;
+  gap: 4px 12px;
+  align-items: start;
+}
+.ig-num {
+  grid-row: span 1;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 14px;
+  background: var(--accent-fill);
+  color: #fff;
+  font-size: 22px;
+  font-weight: 800;
+}
+.ig-txt p {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.4;
+}
+.ig-txt p + p {
+  margin-top: 6px;
+  font-weight: 500;
+}
+.ig-scenes {
+  grid-column: 1 / -1;
+  display: grid;
+  justify-items: center;
+  margin-top: 8px;
+}
+.ig-scenes.two {
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+.ig-scenes figure,
+.ig-done figure {
+  margin: 0;
+  display: grid;
+  justify-items: center;
+  gap: 4px;
+  width: 100%;
+}
+.ig-scenes figcaption {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--muted);
+  text-align: center;
+}
+.scene {
+  width: 100%;
+  max-width: 220px;
+  height: auto;
+  border-radius: 20px;
+  background: var(--soft);
+}
+.ig-scenes.two .scene {
+  max-width: 170px;
+}
+.ig-other ul {
+  margin: 0;
+  padding-left: 18px;
+  display: grid;
+  gap: 6px;
+}
+.ig-end {
+  height: 1px;
+}
+.ig-scroll-hint {
+  position: fixed;
+  z-index: 30;
+  left: 50%;
+  bottom: calc(var(--safe-b) + 14px);
+  transform: translateX(-50%);
+  padding: 10px 18px;
+  border-radius: 999px;
+  background: var(--card);
+  box-shadow: var(--shadow);
+  font-weight: 700;
+  font-size: 14px;
+  color: var(--muted);
+  white-space: nowrap;
+}
+.ig-bounce {
+  display: inline-block;
+  animation: ig-bounce 1.4s ease-in-out infinite;
+}
+@keyframes ig-bounce {
+  50% {
+    transform: translateY(3px);
+  }
+}
+.ig-actions {
+  position: sticky;
+  bottom: 0;
+  display: grid;
+  gap: 4px;
+  justify-items: center;
+  margin: 16px calc(-1 * (var(--gutter) + var(--safe-r))) 0 calc(-1 * (var(--gutter) + var(--safe-l)));
+  padding: 14px calc(var(--gutter) + var(--safe-r)) calc(var(--safe-b) + 12px)
+    calc(var(--gutter) + var(--safe-l));
+  background: var(--bg);
+  border-top: 1px solid var(--line);
+  box-shadow: 0 -8px 24px rgba(20, 20, 30, 0.06);
+  animation: rest-in 0.25s ease-out;
+}
+.ig-fine {
+  margin: 0;
+  text-align: center;
+}
+.link-btn {
+  min-height: 44px;
+  padding: 0 12px;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--accent-ink);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.install-gate.done .link-btn {
+  display: block;
+  margin: 12px auto 0;
+}
+.ig-done {
+  display: grid;
+  gap: 12px;
+}
+.ig-done p {
+  margin: 0;
+  font-size: 17px;
+  font-weight: 700;
+}
+button.back {
+  padding: 0;
+}
+.install-gate .ig-actions .btn {
+  max-width: 480px;
+}
+
+/* сцены: только токены темы */
+.sc-phone {
+  fill: var(--card);
+  stroke: var(--muted);
+  stroke-width: 2;
+}
+.sc-screen {
+  fill: var(--bg);
+}
+.sc-notch {
+  fill: var(--muted);
+  opacity: 0.55;
+}
+.sc-line {
+  fill: var(--line);
+}
+.sc-line.strong {
+  fill: var(--muted);
+  opacity: 0.6;
+}
+.sc-hero {
+  fill: color-mix(in srgb, var(--accent) 22%, var(--card));
+}
+.sc-card,
+.sc-bar {
+  fill: var(--card);
+  stroke: var(--line);
+  stroke-width: 1;
+}
+.sc-bar.flat {
+  stroke: none;
+}
+.sc-sheet {
+  fill: var(--card);
+}
+.sc-dim {
+  fill: rgba(10, 10, 14, 0.28);
+}
+.sc-row-hl {
+  fill: color-mix(in srgb, var(--accent) 14%, transparent);
+}
+.sc-icon,
+.sc-icon-r {
+  fill: none;
+  stroke: var(--muted);
+  stroke-width: 1.4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.sc-icon.hl {
+  stroke: var(--accent-ink);
+  stroke-width: 1.7;
+}
+.sc-icon-c {
+  fill: var(--line);
+}
+.sc-dots circle {
+  fill: var(--muted);
+}
+.sc-dots.hl circle {
+  fill: var(--accent-ink);
+}
+.sc-app {
+  fill: var(--line);
+}
+.sc-app.accent {
+  fill: var(--c1-fill);
+}
+.sc-app-mark {
+  stroke: #fff;
+  stroke-width: 2;
+  stroke-linecap: round;
+  fill: none;
+}
+.sc-wall {
+  fill: color-mix(in srgb, var(--accent) 10%, var(--soft));
+}
+.sc-dock {
+  fill: color-mix(in srgb, var(--card) 70%, transparent);
+}
+.sc-toggle {
+  fill: #34c759;
+}
+.sc-knob {
+  fill: #fff;
+}
+.sc-btn,
+.sc-btn-txt {
+  fill: var(--accent-fill);
+}
+.sc-ring {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 2.2;
+}
+.sc-pulse {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: sc-pulse 1.8s ease-out infinite;
+}
+@keyframes sc-pulse {
+  from {
+    opacity: 0.7;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(1.7);
+  }
+}
+.sc-arrow {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 2;
+  stroke-linecap: round;
+}
+.sc-head {
+  fill: var(--accent);
+}
+@media (prefers-reduced-motion: reduce) {
+  .sc-pulse,
+  .ig-bounce,
+  .ig-actions {
+    animation: none;
+  }
+  .sc-pulse {
+    display: none;
+  }
+  .ig-progress i {
+    transition: none;
+  }
+}
+@media (min-width: 760px) {
+  .ig-step {
+    grid-template-columns: 44px 1fr 200px;
+  }
+  .ig-scenes {
+    grid-column: 3;
+    grid-row: 1 / span 2;
+    margin-top: 0;
+  }
+  .ig-scenes.two {
+    grid-column: 2 / -1;
+    grid-row: auto;
+  }
 }

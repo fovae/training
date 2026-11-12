@@ -21,6 +21,16 @@
   --c2-ink: #295ed9;
   --c3-ink: #6e4bd9;
   --c4-ink: #106b4f;
+  /* Дни 5–7 (план до 7 дней). Контраст: белый на fill ≥ 5.4:1, ink на фоне ≥ 5.4:1 */
+  --c5: #e0457b;
+  --c6: #d08a1a;
+  --c7: #1a9bb0;
+  --c5-fill: #c2255c;
+  --c6-fill: #9a5b00;
+  --c7-fill: #0b7285;
+  --c5-ink: #b0204f;
+  --c6-ink: #8f5400;
+  --c7-ink: #0a6676;
   --accent-fill: var(--c1-fill);
   --accent-ink: var(--c1-ink);
   --danger: #b42424;
@@ -63,6 +73,12 @@
     --c2-ink: #5b8bff;
     --c3-ink: #9b7bff;
     --c4-ink: #2fc497;
+    --c5: #ff6b9d;
+    --c6: #f0a840;
+    --c7: #3cc8d8;
+    --c5-ink: #ff6b9d;
+    --c6-ink: #f0a840;
+    --c7-ink: #3cc8d8;
     --danger: #ff6b6b;
     color-scheme: dark;
   }
@@ -83,6 +99,12 @@
   --c2-ink: #5b8bff;
   --c3-ink: #9b7bff;
   --c4-ink: #2fc497;
+  --c5: #ff6b9d;
+  --c6: #f0a840;
+  --c7: #3cc8d8;
+  --c5-ink: #ff6b9d;
+  --c6-ink: #f0a840;
+  --c7-ink: #3cc8d8;
   --danger: #ff6b6b;
   color-scheme: dark;
 }

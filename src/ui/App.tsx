@@ -17,6 +17,8 @@ import { ExerciseDetail, History, WorkoutDetail } from './screens/History';
 import { Settings } from './screens/Settings';
 import { Legal } from './screens/Legal';
 import { Onboarding } from './screens/Onboarding';
+import { InstallGate } from './screens/InstallGate';
+import { gateVisible } from '../features/install';
 
 const isTyping = (el: EventTarget | null) =>
   el instanceof HTMLElement && !!el.closest('input, textarea, select, [contenteditable="true"]');
@@ -26,7 +28,8 @@ function useKeyboard() {
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (e.defaultPrevented || e.metaKey || e.ctrlKey || e.altKey || isTyping(e.target)) return;
-      if (document.body.classList.contains('modal-open') || needsOnboarding.value) return;
+      if (document.body.classList.contains('modal-open') || needsOnboarding.value || gateVisible.value)
+        return;
       const tab = route.value.tab;
       if ((e.key === 'ArrowLeft' || e.key === 'ArrowRight') && !route.value.sub) {
         const dir = e.key === 'ArrowRight' ? 1 : -1;
@@ -57,6 +60,8 @@ function useKeyboard() {
 function Screen() {
   const r = route.value;
   if (r.tab === 'legal') return <Legal doc={r.sub?.id === 'terms' ? 'terms' : 'privacy'} />;
+  // Экран установки — до онбординга и всего остального (кроме юридических страниц)
+  if (gateVisible.value) return <InstallGate />;
   if (needsOnboarding.value) return <Onboarding />;
   switch (r.tab) {
     case 'plan':
@@ -82,7 +87,7 @@ export function App() {
   }, [offlineReady.value]);
 
   if (!booted.value) return <div id="boot" aria-hidden="true" />;
-  const onboarding = needsOnboarding.value;
+  const onboarding = needsOnboarding.value || (gateVisible.value && route.value.tab !== 'legal');
 
   return (
     <div class={'shell' + (timer.value ? ' has-timer' : '') + (onboarding ? ' no-nav' : '')}>

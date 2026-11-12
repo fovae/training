@@ -41,7 +41,8 @@ export function Onboarding() {
   const s = step.value;
   const i = STEPS.indexOf(s);
   const headRef = useRef<HTMLHeadingElement>(null);
-  const hasMigratedPlan = !!plan.value;
+  // «Оставить мой план» — только если миграция нашла данные первой версии (docs/ARCHITECTURE.md)
+  const hasMigratedPlan = !!legacy.value && !!plan.value;
 
   useLayoutEffect(() => {
     // Фокус на заголовок шага — для экранных дикторов. До отрисовки, чтобы не перехватить ввод.
