@@ -1,7 +1,7 @@
 import { findExercise } from '../data/exercises';
 import { fmtNum, has, t, weekdayShort } from '../i18n';
 import { fmtRest } from '../lib/format';
-import { dayIndex, findDay } from '../state/plan';
+import { dayIndex, findDay, shownWeekday } from '../state/plan';
 import { restFor } from '../state/session';
 import type { Day, Exercise, Muscle, PlanItem } from '../types';
 
@@ -31,7 +31,8 @@ export const dayTitleById = (id: string): string => dayTitle(findDay(id));
 
 export function dayEyebrow(day: Day): string {
   const parts = [dayNumber(day.id)];
-  if (day.weekday != null) parts.push(weekdayShort(day.weekday));
+  const w = shownWeekday(day);
+  if (w != null) parts.push(weekdayShort(w));
   return parts.join(' · ');
 }
 

@@ -28,6 +28,13 @@ function mutate(fn: (p: Plan) => void): void {
   void store.savePlan(next).catch((e) => console.error('[plan] save failed', e));
 }
 
+/**
+ * День недели дня — только в режиме «Дни недели». В цикле назначения хранятся,
+ * но не показываются: при возврате в «Дни недели» вернутся прежние дни.
+ */
+export const shownWeekday = (d: Day): Weekday | undefined =>
+  plan.value?.mode === 'weekdays' ? d.weekday : undefined;
+
 export const findDay = (id: string): Day | undefined => plan.value?.days.find((d) => d.id === id);
 export const dayIndex = (id: string): number => plan.value?.days.findIndex((d) => d.id === id) ?? -1;
 

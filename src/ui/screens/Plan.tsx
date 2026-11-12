@@ -16,14 +16,14 @@ import {
   removeDay,
   removeItem,
   renameDay,
-  setMode,
+  shownWeekday,
   setWeekday,
   updateItem,
 } from '../../state/plan';
 import { active, restFor } from '../../state/session';
 import { ask, planDayId, toast } from '../../state/ui';
 import type { Day, PlanItem, Weekday } from '../../types';
-import { Seg, Stepper, Toggle } from '../components/Controls';
+import { Stepper, Toggle } from '../components/Controls';
 import { DayHead } from '../components/DayHead';
 import { SwipeDays } from '../components/DaySwitcher';
 import { ExerciseFilters, useExerciseFilter } from '../components/ExerciseFilters';
@@ -53,21 +53,12 @@ export function Plan() {
         <h1 class="screen-title">{t('plan.title')}</h1>
       </header>
 
-      <section class="card group-card">
-        <div class="srow">
-          <span>{t('plan.mode')}</span>
-          <Seg
-            label={t('plan.mode')}
-            value={p.mode}
-            onChange={setMode}
-            options={[
-              { v: 'weekdays', t: t('plan.modeWeekdays') },
-              { v: 'cycle', t: t('plan.modeCycle') },
-            ]}
-          />
-        </div>
-        <p class="muted small">{t(p.mode === 'weekdays' ? 'plan.modeWeekdaysHint' : 'plan.modeCycleHint')}</p>
-      </section>
+      <p class="muted small schedule-line">
+        {t('plan.scheduleLine', {
+          mode: t(p.mode === 'weekdays' ? 'plan.modeWeekdays' : 'plan.modeCycle'),
+        })}{' '}
+        <a href="#/settings">{t('plan.changeInSettings')}</a>
+      </p>
 
       <section>
         <div class="sec-h">
@@ -89,7 +80,7 @@ export function Plan() {
               >
                 <div class="num">
                   {t('day.n', { n: i + 1 })}
-                  {d.weekday != null ? ` · ${weekdayShort(d.weekday)}` : ''}
+                  {shownWeekday(d) != null ? ` · ${weekdayShort(shownWeekday(d)!)}` : ''}
                 </div>
                 <div class="ttl">{dayTitle(d)}</div>
                 <div class="meta">{dayMeta(d)}</div>

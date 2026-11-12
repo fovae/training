@@ -4,6 +4,7 @@ import { CONTACT_EMAIL } from '../../lib/meta';
 import { profile, saveProfile, settings, updateProfile, updateSettings } from '../../state/settings';
 import { ask, toast } from '../../state/ui';
 import { history } from '../../state/session';
+import { plan, setMode } from '../../state/plan';
 import {
   applyBackup,
   checkPersist,
@@ -102,6 +103,7 @@ export function Settings() {
       </header>
 
       <ProfileCard />
+      <ScheduleCard />
 
       <section class="card group-card">
         <h2 class="card-t">{t('settings.languageAndLook')}</h2>
@@ -325,6 +327,40 @@ function ProfileCard() {
           {t('common.save')}
         </button>
       )}
+    </section>
+  );
+}
+
+/** Режим расписания: переключение с подтверждением, чтобы не сменить его случайно */
+function ScheduleCard() {
+  const p = plan.value;
+  if (!p) return null;
+  const weekdays = p.mode === 'weekdays';
+  const target = weekdays ? 'cycle' : 'weekdays';
+
+  const onSwitch = async () => {
+    const r = await ask({
+      title: t(weekdays ? 'settings.toCycleTitle' : 'settings.toWeekdaysTitle'),
+      body: t(weekdays ? 'settings.toCycleBody' : 'settings.toWeekdaysBody'),
+      confirm: t('settings.switch'),
+    });
+    if (r !== 'confirm') return;
+    setMode(target);
+    toast(t('settings.switched', { mode: t(weekdays ? 'plan.modeCycle' : 'plan.modeWeekdays') }));
+  };
+
+  return (
+    <section class="card group-card">
+      <h2 class="card-t">{t('plan.mode')}</h2>
+      <div class="srow">
+        <span>
+          {t(weekdays ? 'plan.modeWeekdays' : 'plan.modeCycle')}
+          <small>{t(weekdays ? 'plan.modeWeekdaysHint' : 'plan.modeCycleHint')}</small>
+        </span>
+      </div>
+      <button type="button" class="btn secondary block" onClick={() => void onSwitch()}>
+        {t(weekdays ? 'settings.switchToCycle' : 'settings.switchToWeekdays')}
+      </button>
     </section>
   );
 }

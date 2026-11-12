@@ -304,7 +304,9 @@
       "other": "Done · {count} added"
     },
     "added": "Added: {name}",
-    "alreadyInDay": "already in this day"
+    "alreadyInDay": "already in this day",
+    "scheduleLine": "Schedule: {mode}.",
+    "changeInSettings": "Change in Settings"
   },
   "rules": {
     "title": "Rules",
@@ -411,7 +413,15 @@
     "persist_not-persisted": "Off: the browser may clear data. Export regularly.",
     "persist_unsupported": "Not supported by this browser. Export regularly.",
     "persist_unknown": "Checking…",
-    "request": "Request"
+    "request": "Request",
+    "switchToWeekdays": "Switch to weekdays",
+    "switchToCycle": "Switch to cycle",
+    "switch": "Switch",
+    "toWeekdaysTitle": "Switch to weekdays?",
+    "toWeekdaysBody": "Each day of your plan will be tied to a day of the week. You can choose the days on the Plan tab. Your exercises and history stay as they are.",
+    "toCycleTitle": "Switch to cycle?",
+    "toCycleBody": "Workouts will go in a loop without being tied to days of the week. Your chosen weekdays are kept in case you switch back. Your exercises and history stay as they are.",
+    "switched": "Schedule: {mode}"
   },
   "backup": {
     "export": "Export JSON",

@@ -1,7 +1,7 @@
 import type { ComponentChildren } from 'preact';
 import { useRef } from 'preact/hooks';
 import { t, weekdayShort } from '../../i18n';
-import { dayColor, planDays } from '../../state/plan';
+import { dayColor, planDays, shownWeekday } from '../../state/plan';
 
 interface Props {
   value: string | null;
@@ -24,24 +24,21 @@ export function DaySwitcher({ value, onChange, suggested, disabled, label }: Pro
       {days.map((d, i) => {
         const on = d.id === value;
         const c = dayColor(d.id);
+        const w = shownWeekday(d);
         return (
           <button
             key={d.id}
             type="button"
             role="tab"
             aria-selected={on}
-            aria-label={t('day.n', { n: i + 1 }) + (d.weekday != null ? `, ${weekdayShort(d.weekday)}` : '')}
+            aria-label={t('day.n', { n: i + 1 }) + (w != null ? `, ${weekdayShort(w)}` : '')}
             disabled={disabled && !on}
             class={'seg-btn' + (on ? ' on' : '')}
             style={{ '--dc': `var(--${c})`, '--dcf': `var(--${c}-fill)` }}
             onClick={() => onChange(d.id)}
           >
             <span class="seg-num" aria-hidden="true">
-              {d.weekday != null
-                ? weekdayShort(d.weekday)
-                : days.length > 4
-                  ? i + 1
-                  : t('day.n', { n: i + 1 })}
+              {w != null ? weekdayShort(w) : days.length > 4 ? i + 1 : t('day.n', { n: i + 1 })}
             </span>
             {suggested === d.id && <span class="seg-dot" aria-label={t('today.suggestedMark')} />}
           </button>

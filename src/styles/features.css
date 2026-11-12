@@ -557,3 +557,11 @@
   color: var(--accent-ink);
   font-weight: 700;
 }
+
+.schedule-line {
+  margin: 0 0 4px;
+}
+.schedule-line a {
+  color: var(--accent-ink);
+  font-weight: 700;
+}

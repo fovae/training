@@ -131,8 +131,9 @@ test('plan editor: empty days, picker with search and filters, edit, reorder, co
   for (let i = 0; i < 5; i++) await page.getByRole('button', { name: 'Add day' }).click();
   await expect(page.getByRole('tab')).toHaveCount(7);
   await expect(page.getByRole('button', { name: 'Add day' })).toHaveCount(0);
-  await page.getByRole('radio', { name: 'Weekdays' }).click();
-  await expect(page.getByLabel('Day of week')).toBeVisible();
+  // Переключателя расписания на экране плана нет — он в настройках
+  await expect(page.getByRole('radio', { name: 'Weekdays' })).toHaveCount(0);
+  await expect(page.getByText('Schedule: Cycle.')).toBeVisible();
 
   // План переживает перезагрузку
   await page.reload();
@@ -292,4 +293,43 @@ test('library: search, filters and full card', async ({ page }) => {
     await expect(page.getByRole('heading', { name: h })).toBeVisible();
   await expect(page.getByText('Safety.')).toBeVisible();
   await expect(page.locator('.pic svg')).toBeVisible();
+});
+
+test('schedule switch lives in Settings; weekday labels follow the mode', async ({ page }) => {
+  await fresh(page);
+  await onboard(page); // Сплит 3+1, цикл
+  const switchTo = async (btn: string) => {
+    await page.getByRole('link', { name: 'Settings', exact: true }).click();
+    await page.getByRole('button', { name: btn }).click();
+    await page.getByRole('alertdialog').getByRole('button', { name: 'Switch' }).click();
+  };
+  const weekdayMarks = () => page.locator('.seg .seg-num', { hasText: /^(Mon|Tue|Wed|Thu|Fri|Sat|Sun)$/ });
+
+  // Цикл: нет подписей дней недели
+  await page.getByRole('link', { name: 'Today' }).click();
+  await expect(page.getByRole('tab', { name: 'Day 1', exact: true })).toBeVisible();
+  await expect(weekdayMarks()).toHaveCount(0);
+
+  // Дни недели: подписи появились, выбираем свой день для дня 1
+  await switchTo('Switch to weekdays');
+  await page.getByRole('link', { name: 'Plan' }).click();
+  await expect(page.getByText('Schedule: Weekdays.')).toBeVisible();
+  await page.getByLabel('Day of week').selectOption('5'); // суббота
+  await page.getByRole('link', { name: 'Today' }).click();
+  await expect(weekdayMarks()).toHaveCount(4);
+  await expect(page.getByRole('tab', { name: 'Day 1, Sat' })).toBeVisible();
+
+  // Обратно в цикл: подписи пропали везде (баг: оставались)
+  await switchTo('Switch to cycle');
+  await page.getByRole('link', { name: 'Today' }).click();
+  await expect(weekdayMarks()).toHaveCount(0);
+  await expect(page.getByRole('tab', { name: 'Day 1', exact: true })).toBeVisible();
+  await page.getByRole('link', { name: 'Plan' }).click();
+  await expect(page.locator('.days .num', { hasText: '·' })).toHaveCount(0);
+  await expect(page.getByLabel('Day of week')).toHaveCount(0);
+
+  // Снова дни недели: выбранная суббота сохранилась
+  await switchTo('Switch to weekdays');
+  await page.getByRole('link', { name: 'Today' }).click();
+  await expect(page.getByRole('tab', { name: 'Day 1, Sat' })).toBeVisible();
 });
