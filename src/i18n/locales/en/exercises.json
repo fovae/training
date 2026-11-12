@@ -596,6 +596,256 @@
       ],
       "mistakes": ["Jumping on and off the bar.", "Holding the breath."],
       "safety": "Step down onto a box or the floor; don't drop from a height."
+    },
+    "back-squat": {
+      "name": "Barbell back squat",
+      "desc": "Squat with a barbell on the upper back. Works the quads and glutes, the whole body holds the position.",
+      "cues": [
+        "Bar on the upper back, not on the neck; grip firm, elbows down.",
+        "Feet about shoulder-width, toes slightly out.",
+        "Sit down between the heels, knees follow the toes, back flat.",
+        "Stand up by pushing the floor away, chest and hips rise together."
+      ],
+      "mistakes": [
+        "Knees caving in.",
+        "Heels lifting off the floor.",
+        "Rounding the lower back at the bottom."
+      ],
+      "safety": "Squat in a rack with safety arms set just below your lowest point, or with a spotter. Put collars on the bar. Skip the set if you can't control the movement."
+    },
+    "front-squat": {
+      "name": "Front squat",
+      "desc": "Squat with the barbell resting on the front of the shoulders. Keeps the torso upright and puts more work on the quads.",
+      "cues": [
+        "Bar on the front of the shoulders, elbows high, fingertips under the bar.",
+        "Torso stays as upright as possible.",
+        "Sit straight down, knees forward over the toes.",
+        "Drive up keeping the elbows high."
+      ],
+      "mistakes": [
+        "Elbows dropping so the bar rolls forward.",
+        "Leaning forward and turning it into a good morning.",
+        "Gripping the bar too hard and straining the wrists."
+      ],
+      "safety": "Squat in a rack with safety arms set just below your lowest point, or with a spotter. Put collars on the bar. Skip the set if you can't control the movement. If the bar slips forward, let it fall onto the safety arms and step back."
+    },
+    "goblet-squat": {
+      "name": "Goblet squat",
+      "desc": "Squat holding a kettlebell or a dumbbell at the chest. A good way to learn the squat.",
+      "cues": [
+        "Hold the weight close to the chest, elbows down.",
+        "Sit down between the heels, chest up.",
+        "Push the knees out in line with the toes and stand up."
+      ],
+      "mistakes": ["Weight drifting away from the chest.", "Heels lifting off the floor."],
+      "safety": "Choose a weight you can hold securely for the whole set."
+    },
+    "db-sumo-squat": {
+      "name": "Dumbbell sumo squat",
+      "desc": "Wide-stance squat with one dumbbell hanging between the legs. Works the quads, glutes and inner thighs.",
+      "cues": [
+        "Feet wider than the shoulders, toes turned out.",
+        "Hold the dumbbell with straight arms, torso upright.",
+        "Lower down with the knees following the toes, then stand up."
+      ],
+      "mistakes": ["Knees caving in.", "Leaning forward and rounding the back."],
+      "safety": "Use a stance width that feels comfortable in the hips."
+    },
+    "bulgarian-split-squat": {
+      "name": "Bulgarian split squat",
+      "desc": "One-leg squat with the rear foot on a bench. Works the quads and glutes of the front leg.",
+      "cues": [
+        "Rear foot on the bench, front foot far enough forward.",
+        "Lower straight down until the rear knee is close to the floor.",
+        "Push through the whole front foot to stand up."
+      ],
+      "mistakes": [
+        "Front foot too close to the bench.",
+        "Front knee caving in.",
+        "Pushing off with the rear leg."
+      ],
+      "safety": "Learn the position without weight first. Keep the bench stable and the floor clear around you."
+    },
+    "db-lunge": {
+      "name": "Dumbbell lunge",
+      "desc": "Step into a lunge and back with dumbbells in the hands. Works the legs and glutes, trains balance.",
+      "cues": [
+        "Long step, both knees bend to about 90°.",
+        "Torso upright, weight on the whole front foot.",
+        "Push back to the start with the front leg."
+      ],
+      "mistakes": ["Front knee caving in.", "Steps so short that the front heel lifts."],
+      "safety": "Do it without weight until you feel steady. Make sure there is room around you."
+    },
+    "walking-lunge": {
+      "name": "Walking lunge",
+      "desc": "Lunges moving forward step after step. Works the legs and trains balance.",
+      "cues": [
+        "Step forward and lower until the back knee is close to the floor.",
+        "Drive up and bring the back leg forward into the next step.",
+        "Keep the torso upright and the steps even."
+      ],
+      "mistakes": ["Narrow steps, like walking on a line.", "Rushing and losing balance."],
+      "safety": "You need a clear path. Start without weight."
+    },
+    "leg-extension": {
+      "name": "Leg extension",
+      "desc": "Straightening the knees on a machine. Isolation for the quads.",
+      "cues": [
+        "Align the knee with the machine's pivot.",
+        "Straighten the legs smoothly, pause briefly at the top.",
+        "Lower slowly without letting the weight bang."
+      ],
+      "mistakes": ["Kicking the weight up with momentum.", "Lifting the hips off the seat."],
+      "safety": "Set the ankle pad just above the feet. Knee discomfort means a lighter weight or a shorter range."
+    },
+    "seated-leg-curl": {
+      "name": "Seated leg curl",
+      "desc": "Bending the knees against resistance on a seated machine. Isolation for the hamstrings.",
+      "cues": [
+        "Thigh pad snug, knees in line with the pivot.",
+        "Pull the heels down and back smoothly.",
+        "Return slowly until the legs are almost straight."
+      ],
+      "mistakes": ["Jerking the weight.", "Sliding forward in the seat."],
+      "safety": "Adjust the seat and pads before the set so the knees line up with the pivot."
+    },
+    "glute-bridge": {
+      "name": "Glute bridge",
+      "desc": "Lifting the hips while lying on the back with bent knees. Works the glutes.",
+      "cues": [
+        "Feet flat, heels close to the hips.",
+        "Push through the heels and lift the hips until the body forms a line from knees to shoulders.",
+        "Squeeze the glutes at the top and lower slowly."
+      ],
+      "mistakes": ["Arching the lower back instead of using the glutes.", "Pushing through the toes."],
+      "safety": "Lie on a mat. If the lower back is uncomfortable, lift the hips a little lower."
+    },
+    "barbell-hip-thrust": {
+      "name": "Barbell hip thrust",
+      "desc": "Driving the hips up with a barbell on them, upper back on a bench. A strong exercise for the glutes.",
+      "cues": [
+        "Upper back against the bench edge, bar over the hip crease.",
+        "Feet flat, shins vertical at the top.",
+        "Drive the hips up until the torso is level, chin tucked.",
+        "Lower under control."
+      ],
+      "mistakes": [
+        "Arching the lower back at the top.",
+        "Feet too far, so the hamstrings take over.",
+        "Bench sliding back."
+      ],
+      "safety": "Put a pad on the bar and collars on the plates. Make sure the bench is stable and can't slide. Skip the set if you can't control the movement."
+    },
+    "seated-calf-raise": {
+      "name": "Seated calf raise",
+      "desc": "Raising the heels against a pad on the knees, seated. Works the calves.",
+      "cues": [
+        "Balls of the feet on the platform, pad on the knees.",
+        "Rise as high as possible, pause at the top.",
+        "Lower slowly to a stretch."
+      ],
+      "mistakes": ["Bouncing at the bottom.", "Short, fast reps."],
+      "safety": "Release the safety catch only when the pad is firmly on the knees."
+    },
+    "step-up": {
+      "name": "Step-up",
+      "desc": "Stepping up onto a bench or a box. Works the quads and glutes, trains balance.",
+      "cues": [
+        "Whole foot on the box.",
+        "Stand up using the top leg, without pushing off with the bottom one.",
+        "Step down under control."
+      ],
+      "mistakes": ["Box too high, the knee goes above the hip.", "Bouncing off the bottom foot."],
+      "safety": "Use a stable box or bench that can't slide. Start without weight."
+    },
+    "hip-adduction": {
+      "name": "Hip adduction machine",
+      "desc": "Squeezing the legs together against pads on a machine. Works the inner thighs.",
+      "cues": [
+        "Sit back, back against the pad.",
+        "Bring the legs together smoothly.",
+        "Return slowly to a comfortable opening."
+      ],
+      "mistakes": ["Opening wider than is comfortable.", "Letting the weight snap the legs open."],
+      "safety": "Set the starting width so the stretch stays comfortable."
+    },
+    "hip-abduction": {
+      "name": "Hip abduction machine",
+      "desc": "Pushing the legs apart against pads on a machine. Works the outer hips and glutes.",
+      "cues": [
+        "Sit back, back against the pad.",
+        "Push the knees out smoothly.",
+        "Return slowly, don't let the plates touch."
+      ],
+      "mistakes": ["Swinging with momentum.", "Leaning forward and back."],
+      "safety": "Choose a weight you can move smoothly through the whole range."
+    },
+    "hack-squat": {
+      "name": "Hack squat machine",
+      "desc": "Squat on a machine with an angled back pad. Works the quads with a stable back position.",
+      "cues": [
+        "Back and shoulders against the pads, feet in the middle of the platform.",
+        "Lower until the thighs are about parallel to the platform.",
+        "Push the platform away without locking the knees hard."
+      ],
+      "mistakes": ["Heels lifting.", "Knees caving in."],
+      "safety": "Release and set the safety handles carefully before and after the set."
+    },
+    "db-romanian-deadlift": {
+      "name": "Dumbbell Romanian deadlift",
+      "desc": "Hip hinge with dumbbells: the hips move back, the dumbbells slide down the legs. Works the hamstrings and glutes.",
+      "cues": [
+        "Knees slightly bent and fixed.",
+        "Push the hips back, dumbbells close to the legs.",
+        "Return by driving the hips forward."
+      ],
+      "mistakes": ["Rounding the back.", "Turning it into a squat.", "Dumbbells drifting forward."],
+      "safety": "Lower only as far as you can keep your back flat."
+    },
+    "single-leg-rdl": {
+      "name": "Single-leg Romanian deadlift",
+      "desc": "Hip hinge on one leg, the other leg reaches back. Works the hamstrings and glutes and trains balance.",
+      "cues": [
+        "Standing knee slightly bent.",
+        "Hinge forward as the free leg reaches back, hips stay level.",
+        "Return to standing under control."
+      ],
+      "mistakes": ["Hips twisting open.", "Rounding the back."],
+      "safety": "Start without weight and hold on to something for balance if needed."
+    },
+    "wall-sit": {
+      "name": "Wall sit",
+      "desc": "Holding a sitting position against a wall. Static work for the quads.",
+      "cues": [
+        "Back flat against the wall.",
+        "Slide down until the knees are close to 90°, feet under the knees.",
+        "Breathe calmly and hold."
+      ],
+      "mistakes": ["Knees going far past the toes.", "Holding the breath."],
+      "safety": "Wear shoes with grip so the feet don't slide. Stand up if the knees hurt."
+    },
+    "lateral-band-walk": {
+      "name": "Lateral band walk",
+      "desc": "Side steps in a half squat with a band around the legs. Works the outer hips and glutes.",
+      "cues": [
+        "Band above the knees or around the ankles.",
+        "Half squat, feet hip-width.",
+        "Step to the side keeping tension on the band."
+      ],
+      "mistakes": ["Feet coming together and the band going slack.", "Standing up between steps."],
+      "safety": "Check the band for tears before use."
+    },
+    "cable-kickback": {
+      "name": "Cable kickback",
+      "desc": "Kicking one leg back with an ankle strap on a low cable. Isolation for the glutes.",
+      "cues": [
+        "Hold the frame, slight forward lean.",
+        "Push the leg back without arching the lower back.",
+        "Return slowly."
+      ],
+      "mistakes": ["Swinging the leg.", "Arching the lower back to go higher."],
+      "safety": "Fasten the ankle strap firmly. Choose a weight you can move without swinging."
     }
   }
 }

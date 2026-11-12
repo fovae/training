@@ -349,3 +349,23 @@ export function withProps(P: Pose, fn: (j: Record<string, Pt>) => string, under 
 /** Рычаг (Т-гриф, мина): от точки опоры к кисти */
 export const lever = (from: Pt, to: Pt): string =>
   `<g class="bbf"><line x1="${from[0]}" y1="${from[1]}" x2="${to[0]}" y2="${to[1]}"/></g>`;
+
+/** Фигура спереди с произвольными ногами: колено и стопа левой ноги (правая — зеркально) */
+export function frontLegs(P: Pose, knee: Pt, foot: Pt, hip: Pt = [92, 88]): Pose {
+  const m = (q: Pt): Pt => [200 - q[0], q[1]];
+  const legL: Pt[] = [hip, knee, foot];
+  P.c[5] = legL;
+  P.c[6] = legL.map(m);
+  return P;
+}
+
+/** Опустить всю фигуру спереди на dy (полуприсед) — кроме ног, их задают отдельно */
+export function shiftFront(P: Pose, dy: number): Pose {
+  const sh = (q: Pt): Pt => [q[0], r1(q[1] + dy)];
+  P.h = sh(P.h);
+  P.c = P.c.map((ch, i) => (i >= 5 ? ch : ch.map(sh)));
+  P.w = sh(P.w);
+  if (P.db) P.db = P.db.map((d) => [d[0], r1(d[1] + dy), ...(d.length > 2 ? [d[2]] : [])] as Dumbbell);
+  P.j = Object.fromEntries(Object.entries(P.j).map(([k, v]) => [k, v ? sh(v) : v]));
+  return P;
+}
