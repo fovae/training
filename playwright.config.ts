@@ -11,6 +11,8 @@ const iphones = ['iPhone 11', 'iPhone 13', 'iPhone 15 Pro Max', 'iPhone 17 Pro M
 export default defineConfig({
   testDir: 'tests/e2e',
   fullyParallel: true,
+  // WebKit на CI-раннере в разы медленнее локального — длинным сценариям нужен запас
+  timeout: process.env.CI ? 90_000 : 30_000,
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 1 : 0,
   reporter: process.env.CI ? 'github' : 'list',
