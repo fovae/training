@@ -414,11 +414,12 @@ test('inputs: numeric keyboards, enterkeyhint, no autocomplete, font ≥ 16px', 
         .map((e) => {
           const el = e as HTMLInputElement;
           const fs = parseFloat(getComputedStyle(el).fontSize);
-          const numeric = ['decimal', 'numeric'].includes(el.inputMode);
+          // Атрибуты, а не DOM-свойства: WebKit под Linux не знает el.enterKeyHint
+          const numeric = ['decimal', 'numeric'].includes(el.getAttribute('inputmode') ?? '');
           const issues = [];
           if (fs < 16) issues.push(`font ${fs}`);
-          if (numeric && !el.enterKeyHint) issues.push('no enterkeyhint');
-          if (numeric && el.autocomplete !== 'off') issues.push('autocomplete');
+          if (numeric && !el.getAttribute('enterkeyhint')) issues.push('no enterkeyhint');
+          if (numeric && el.getAttribute('autocomplete') !== 'off') issues.push('autocomplete');
           return issues.length ? `${el.getAttribute('aria-label') ?? el.id}: ${issues.join(', ')}` : '';
         })
         .filter(Boolean),
