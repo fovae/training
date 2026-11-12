@@ -19,9 +19,18 @@ docs/                     CONCEPT.md (продукт), ARCHITECTURE.md (этот
 src/
   types/index.ts          схема данных: Profile, Plan, Day, PlanItem, Session, Settings, Exercise
   data/
-    exercises.ts          библиотека упражнений (метаданные; тексты — в словарях)
-    templates.ts          шаблоны планов: Всё тело, Поддержание формы, Рост силы, Сплит 3+1
-  pics/                   SVG-схемы движений: engine.ts (генератор), defs.ts (позы)
+    exercises.ts          доступ к базе: loadCatalog(), findExercise(), фильтр и поиск (основной чанк)
+    catalog/              САМА база (~120 упражнений) — отдельный ленивый чанк:
+      make.ts             запись упражнения make({…})
+      base.ts             27 упражнений этапов 1–2
+      b1-…b4-*.ts         этап 3А: грудь и спина, ноги, плечи и руки, корпус/кардио/растяжка
+      index.ts            EXERCISES, PICS, picMarkup()
+    templates.ts          шаблоны: Всё тело 3 дня, Верх и низ 4, Тянуть-толкать-ноги 3, Лёгкий 2, Сплит 3+1
+  pics/
+    engine.ts             движок SVG (холст 200×135, пол y = 127), общий для всех схем
+    defs.ts               25 исходных схем по точкам — не менять (тест сверяет SVG с fixtures/pics-stage2.json)
+    kit.ts                генератор «скелета» по углам суставов + реквизит (штанга, гиря, скамьи, стойка…)
+    sets/b1…b4.ts         схемы этапа 3А
   i18n/
     index.ts              t(), tList(), Intl для чисел и дат, PluralRules, загрузка языка
     locales/en/*.json     английский — источник истины
@@ -61,6 +70,7 @@ src/
   styles/                 tokens (цвета), base, components, screens, features (этап 1), layout
 scripts/
   i18n-check.mjs          проверка словарей (npm run i18n:check)
+  pics-sheet.mjs          контактный лист всех схем → docs/review/pictograms.html (npm run pics:sheet)
   generate-assets.mjs     иконки и splash-экраны
 tests/e2e/                Playwright: iPhone (WebKit), Pixel (Chromium), офлайн и обновление, ПК, axe,
                           миграция, сеть, экран установки, скриншоты 375/390/430, русская версия
@@ -98,39 +108,54 @@ tests/e2e/*.unit.spec.ts  юнит-тесты без браузера (прое�
 
 ## Как добавить упражнение
 
-1. Если нужна новая схема — добавь позы в `src/pics/defs.ts` (координаты суставов, см. `engine.ts`).
-2. Добавь запись в `EXERCISES` (`src/data/exercises.ts`):
+База живёт в ленивом чанке `src/data/catalog/` и грузится при запуске вместе со словарём
+(`loadCatalog()` в `state/app.ts`). Основной чанк от размера базы не растёт.
+
+1. **Схема.** Добавь позы в подходящий файл `src/pics/sets/*.ts` (или новый файл + строка в
+   `catalog/index.ts`). Позы задаются углами суставов через `body()` из `src/pics/kit.ts`:
+
+   ```ts
+   goblet_squat: {
+     env: '',                       // реквизит окружения: env.flat(), env.rack(), env.bar(), env.column()…
+     mv: 'hp',                      // стрелка движения от сустава начальной позы к конечной
+     poses: [                       // ВСЕГДА две позы: начало (бледная) и конец (яркая)
+       body({ at: [100, 125], root: 'foot', torso: 180, leg: [0, 0, 90], arm: [20, 164], hold: 'kb' }),
+       body({ at: [104, 125], root: 'foot', torso: 160, leg: [86, -28, 90], arm: [20, 164], hold: 'kb' }),
+     ],
+   },
+   ```
+
+   Углы абсолютные: 0 — вниз, 90 — вперёд (вправо), 180 — вверх, −90 — назад. `handAt` / `footAt`
+   привязывают кисть или стопу к точке (гриф, пол, рукоять). В руках: `db`, `dbv`, `bb` (штанга с
+   торца), `kb`, `handle` (для троса блока). Вид спереди — `facing()`, ноги — `frontLegs()`.
+2. **Запись** `make({…})` в `src/data/catalog/*.ts`:
 
    ```ts
    make({
      id: 'goblet-squat',            // стабильный id: никогда не меняй и не переиспользуй
      pic: 'goblet_squat',
-     category: 'legs',
+     category: 'legs',              // chest back shoulders arms core legs cardio mobility
      primary: ['quads', 'glutes'],
      secondary: ['deep-core'],
      equipment: ['kettlebell', 'dumbbell'],
      type: 'compound',              // compound → «базовый» отдых, isolation → «изоляция»
-     metric: 'weight_reps',         // или 'reps', 'time'
+     metric: 'weight_reps',         // или 'reps', 'time' (до 600 с на подход)
      per: 'side',                   // необязательно: «на руку» / «на сторону»
-     cues: 3, mistakes: 2,          // сколько строк техники и ошибок в словаре
+     cues: 3, mistakes: 2,          // сколько строк техники и ошибок в словаре (новые: 3–4 и 2–3)
      defaults: d(3, 8, 12),         // подходы и повторы при добавлении в план
    }),
    ```
 
-3. Добавь тексты во **все** языки, в `locales/<язык>/exercises.json`:
+   Новая мышца — в `Muscle` (`types`), `MUSCLES` (`data/exercises.ts`), `RECOVERY_GROUP`
+   (`advice/rules.ts`, TypeScript не даст забыть) и `muscle.*` в словарях.
+3. **Тексты** во **все** языки, `locales/<язык>/exercises.json` → `ex.<id>`: `name`, `desc`, `cues[]`,
+   `mistakes[]`, `safety`. Своими словами; ни слова о весе тела, питании, калориях, внешнем виде
+   (`tests/e2e/catalog.unit.spec.ts` проверяет). Для штанги в `safety` — упоры/страховка, замки, «не
+   делай, если не контролируешь движение», без цифр веса.
+4. Проверка: `npm run i18n:check`, `npm run pics:sheet` (посмотреть схему глазами),
+   `npx playwright test --project=unit` (две позы, схема в рамке, исходные схемы не изменились).
 
-   ```json
-   "goblet-squat": {
-     "name": "…", "desc": "…",
-     "cues": ["…", "…", "…"],
-     "mistakes": ["…", "…"],
-     "safety": "…"
-   }
-   ```
-
-4. `npm run i18n:check` — проверит, что у упражнения есть все тексты во всех языках.
-
-Тексты пишем сами, своими словами; ярлыков «дом» и «зал» нет — нужное оборудование видно в карточке.
+Ярлыков «дом» и «зал» нет — нужное оборудование видно в карточке и в фильтре.
 
 ## Как добавить язык
 
@@ -220,13 +245,20 @@ Pixel 7, офлайн, ПК, юнит-тесты); полная — локаль
 
 - Советы: `src/advice/rules.ts`. Не больше двух советов на тренировку. Закрытый совет не повторяется
   14 дней (`tipState`). Выключатель — `settings.tipsEnabled`.
-- Порог веса: `docs/WEIGHT_LIMITS.md`.
+- Порог веса: `docs/WEIGHT_LIMITS.md`. Штанга (этап 3А) — строки с `pending: true`, в боевой сборке
+  выключены до `BARBELL_LIMITS_APPROVED = true` (`src/data/weightLimits.ts`); в тестах — флаг
+  `localStorage['tp-test-flags'] = 'barbell-limits'`.
+- Восстановление (48 ч): сравниваются группы из `RECOVERY_GROUP`; растяжка и упражнения на время не
+  считаются нагрузкой (`countsForRecovery`).
+- Шаблоны подстраиваются под уровень (`byLevel`): «первый раз» — на подход меньше (не меньше 2),
+  «несколько раз» — до 3 подходов; для обоих тяжёлые упражнения со штангой заменяются простыми
+  (`EASIER` в `data/templates.ts`). «Сплит 3+1» не меняется. Вес не подставляется никогда.
 - Формат копии и восстановление: `docs/BACKUP.md`.
 - Статистика: тренировок в неделю и объём за 10 недель (`BarChart` с таблицей-альтернативой); по
   упражнению — график и рекорды (максимальный вес, максимум повторов, лучший подход).
 
 ## Точки расширения (этапы 3–4)
 
-- Штанга (этап 3): строки в `WEIGHT_LIMITS` с `basis: 'world-record'`.
+- База 300+ (этап 4): новые файлы `catalog/b5-…ts` + `pics/sets/b5.ts`, контактный лист для проверки.
 - Русские переводы документов: `src/content/legal/ru/`.
 - Шифрование копии паролем — позже (не сейчас).

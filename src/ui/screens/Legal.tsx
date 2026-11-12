@@ -53,23 +53,35 @@ function LegalDocument({ doc }: { doc: LegalDoc }) {
         </p>
         {md && md.headings.length > 0 && (
           <nav class="toc" aria-label={t('legal.toc')}>
-            <ol>
-              {md.headings.map((h) => (
-                <li key={h.id}>
-                  <button
-                    type="button"
-                    class="toc-link"
-                    onClick={() => {
-                      const el = document.getElementById(h.id);
-                      el?.scrollIntoView({ block: 'start' });
-                      el?.focus({ preventScroll: true });
-                    }}
-                  >
-                    {h.text}
-                  </button>
-                </li>
-              ))}
-            </ol>
+            {/* Номер уже есть в заголовке («1. …») — список без своей нумерации, номер в отдельной
+                колонке, чтобы «10.»–«14.» стояли ровно под «1.»–«9.» */}
+            <ul>
+              {md.headings.map((h) => {
+                const m = /^(\d+\.)\s+(.*)$/.exec(h.text);
+                return (
+                  <li key={h.id}>
+                    <button
+                      type="button"
+                      class="toc-link"
+                      onClick={() => {
+                        const el = document.getElementById(h.id);
+                        el?.scrollIntoView({ block: 'start' });
+                        el?.focus({ preventScroll: true });
+                      }}
+                    >
+                      {m ? (
+                        <>
+                          <span class="toc-n">{m[1]}</span>
+                          <span>{m[2]}</span>
+                        </>
+                      ) : (
+                        <span class="toc-t">{h.text}</span>
+                      )}
+                    </button>
+                  </li>
+                );
+              })}
+            </ul>
           </nav>
         )}
         {md ? md.nodes : <p class="muted">…</p>}

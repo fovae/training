@@ -57,7 +57,7 @@ for (const scheme of ['light', 'dark'] as const) {
       await fresh(page);
       await check(page, `${w}x${h}-${scheme}-onboarding`);
       await onboard(page, { lang: 'ru' });
-      for (const r of ['today', 'plan', 'library', 'settings']) {
+      for (const r of ['today', 'plan', 'library', 'library/barbell-hip-thrust', 'settings']) {
         await page.goto('./#/' + r);
         await check(page, `${w}x${h}-${scheme}-${r}`);
       }
@@ -111,7 +111,17 @@ test('Russian: no English UI strings on any screen', async ({ page }) => {
   await page.getByRole('radio', { name: /Сплит 3\+1/ }).click();
   await page.getByRole('button', { name: 'Начать' }).click();
   // Все экраны приложения
-  for (const r of ['today', 'plan', 'library', 'library/dead-bug', 'history', 'settings']) {
+  for (const r of [
+    'today',
+    'plan',
+    'library',
+    'library/dead-bug',
+    'library/back-squat',
+    'library/face-pull',
+    'library/doorway-chest-stretch',
+    'history',
+    'settings',
+  ]) {
     await page.goto('./#/' + r);
     if (r === 'plan') {
       await page.waitForSelector('.item summary');

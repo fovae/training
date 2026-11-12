@@ -302,6 +302,8 @@ test('Russian: legal documents open in English with a notice', async ({ page }) 
   await page.goto('./#/legal/terms');
   await expect(page).toHaveURL(/#\/legal\/terms$/);
   // текст документа — отдельный чанк
-  await expect(page.getByRole('heading', { name: 'Terms of Use', level: 1 })).toBeVisible({ timeout: 15_000 });
+  await expect(page.getByRole('heading', { name: 'Terms of Use', level: 1 })).toBeVisible({
+    timeout: 15_000,
+  });
   await expect(page.getByText('Юридические документы пока доступны только на английском')).toBeVisible();
 });

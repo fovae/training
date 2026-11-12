@@ -145,7 +145,8 @@
         "one": "{count} day.",
         "other": "{count} days."
       },
-      "later": "Everything can be edited later on the Plan tab."
+      "later": "Everything can be edited later on the Plan tab.",
+      "levelNote": "Sets, and for beginners the exercises, follow your level. You add the weights yourself."
     }
   },
   "profile": {
@@ -579,17 +580,33 @@
       "a": "Workout A",
       "b": "Workout B"
     },
-    "full-body": {
-      "name": "Full body",
-      "desc": "Every workout covers the whole body; A and B alternate."
+    "full-body-3": {
+      "name": "Full body, 3 days",
+      "desc": "For your first weeks: every workout covers the whole body with simple exercises.",
+      "d1": "Full body · 1",
+      "d2": "Full body · 2",
+      "d3": "Full body · 3"
     },
-    "maintenance": {
-      "name": "Stay in shape",
-      "desc": "Short workouts with fewer sets."
+    "upper-lower-4": {
+      "name": "Upper and lower, 4 days",
+      "desc": "Two upper-body days and two lower-body days.",
+      "d1": "Upper body · 1",
+      "d2": "Lower body · 1",
+      "d3": "Upper body · 2",
+      "d4": "Lower body · 2"
     },
-    "strength": {
-      "name": "Build strength",
-      "desc": "Fewer reps, more sets and longer rest in the main lifts."
+    "ppl-3": {
+      "name": "Push, pull, legs, 3 days",
+      "desc": "Pushing movements, pulling movements and a legs day.",
+      "d1": "Push",
+      "d2": "Pull",
+      "d3": "Legs"
+    },
+    "light-2": {
+      "name": "Light maintenance, 2 days",
+      "desc": "Two short workouts with fewer sets.",
+      "d1": "Light · 1",
+      "d2": "Light · 2"
     },
     "split31": {
       "name": "Split 3+1",

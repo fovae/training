@@ -85,6 +85,7 @@ export function Onboarding() {
             templateId: start.value === 'empty' ? null : start.value,
             days: dayCount.value,
             mode: mode.value,
+            level: level.value,
           }),
         );
       }
@@ -269,6 +270,7 @@ function PlanStep() {
         onChange={(v) => (start.value = v)}
         options={options}
       />
+      <p class="muted small">{t('onb.plan.levelNote')}</p>
       <p class="muted small">{t('onb.plan.later')}</p>
     </section>
   );

@@ -6,14 +6,23 @@ import {
   isSnoozed,
   lightStart,
   progression,
+  RECOVERY_GROUP,
   recovery,
   tipsFor,
 } from '../../src/advice/rules';
 import { LEVELS, WEIGHT_LIMIT_MULTIPLIER, levelBehavior } from '../../src/advice/levels';
 import { TYPO_FACTOR, checkWeight, weightLimitKg } from '../../src/advice/weight';
-import { LIMIT_MARGIN, WEIGHT_LIMITS, findWeightLimit, ratioFor } from '../../src/data/weightLimits';
-import { findExercise, loadCatalog } from '../../src/data/exercises';
+import {
+  BARBELL_LIMITS_APPROVED,
+  LIMIT_MARGIN,
+  TEST_FLAGS_KEY,
+  WEIGHT_LIMITS,
+  findWeightLimit,
+  ratioFor,
+} from '../../src/data/weightLimits';
+import { MUSCLES, allExercises, findExercise, loadCatalog } from '../../src/data/exercises';
 import { needsAcceptanceFor } from '../../src/content/legal/acceptance';
+import { EASIER, TEMPLATES, buildPlan, setsFor } from '../../src/data/templates';
 import { exerciseRecords, weeklyStats } from '../../src/lib/stats';
 import { migrateProfileV2, migrateSettingsV2, migrateThemeV2 } from '../../src/db/migrations';
 import type { PlanItem, Session, SessionSet } from '../../src/types';
@@ -97,6 +106,53 @@ test.describe('advice rules', () => {
     expect(recovery('day-1', day, [session(20, 'leg-press', reps(10))], NOW)).toBeNull();
   });
 
+  test('recovery: new muscles and exercises (stage 3A table)', () => {
+    // Таблица покрывает каждую мышцу базы
+    for (const m of MUSCLES) expect(RECOVERY_GROUP[m], m).toBeTruthy();
+    for (const e of allExercises())
+      for (const m of e.primaryMuscles) expect(RECOVERY_GROUP[m], `${e.id}: ${m}`).toBeTruthy();
+    // Присед вчера → гоблет-присед сегодня: квадрицепсы и ягодицы
+    const legs = [item('goblet-squat')];
+    expect(recovery('day-1', legs, [session(20, 'back-squat', reps(5))], NOW)?.muscles?.sort()).toEqual([
+      'glutes',
+      'quads',
+    ]);
+    // Становая вчера → румынская тяга сегодня: задняя поверхность бедра и ягодицы
+    expect(
+      recovery(
+        'day-1',
+        [item('romanian-deadlift')],
+        [session(30, 'deadlift', reps(5))],
+        NOW,
+      )?.muscles?.sort(),
+    ).toEqual(['glutes', 'hamstrings']);
+    // Разведение ног в тренажёре (отводящие) считается как ягодицы
+    expect(
+      recovery('day-1', [item('barbell-hip-thrust')], [session(10, 'hip-abduction', reps(15))], NOW)?.muscles,
+    ).toEqual(['glutes']);
+    // Сведение (приводящие) и сумо-присед
+    expect(
+      recovery('day-1', [item('db-sumo-squat')], [session(10, 'hip-adduction', reps(15))], NOW)?.muscles,
+    ).toEqual(['adductors']);
+    // Подтягивания вчера → тяга штанги сегодня: широчайшие
+    expect(
+      recovery('day-1', [item('barbell-row')], [session(20, 'pull-up', [{ reps: 8 }])], NOW)?.muscles,
+    ).toContain('lats');
+    // Растяжка, ходьба, скакалка, планка — не нагрузка для правила
+    for (const easy of ['hamstring-stretch', 'treadmill-walk', 'jump-rope', 'plank', 'wall-sit'])
+      expect(
+        recovery(
+          'day-1',
+          [item('romanian-deadlift'), item('back-squat'), item('crunch')],
+          [session(5, easy, [{ seconds: 30 }])],
+          NOW,
+        ),
+        easy,
+      ).toBeNull();
+    // …и в плане на сегодня тоже не вызывают совета
+    expect(recovery('day-1', [item('hamstring-stretch')], [session(5, 'deadlift', reps(5))], NOW)).toBeNull();
+  });
+
   test('tipsFor: max 2, priority, snooze 14 days, global switch', () => {
     const items = [
       item('incline-db-press'),
@@ -151,7 +207,7 @@ test.describe('levels', () => {
 });
 
 test.describe('weight limits', () => {
-  test('table: only dumbbell exercises with confirmed data, margin ≥ 15%', () => {
+  test('table: only free-weight exercises with confirmed data, margin ≥ 15%', () => {
     for (const w of WEIGHT_LIMITS) {
       const ex = findExercise(w.exerciseId)!;
       expect(ex, w.exerciseId).toBeTruthy();
@@ -159,7 +215,12 @@ test.describe('weight limits', () => {
         ex.equipment.some((q) => q === 'machine' || q === 'cable'),
         w.exerciseId,
       ).toBe(false);
-      expect(w.male).toBeGreaterThan(w.female);
+      expect(w.male, w.exerciseId).toBeGreaterThan(0);
+      expect(w.female, w.exerciseId).toBeGreaterThan(0);
+      expect(w.source.length).toBeGreaterThan(10);
+      expect(w.sourceDate).toMatch(/^\d{4}-\d{2}-\d{2}$/);
+      // Гантели — на одну гантель, штанга — общий вес
+      expect(w.perDumbbell, w.exerciseId).toBe(ex.equipment.includes('dumbbell'));
     }
     for (const m of Object.values(LIMIT_MARGIN)) expect(m).toBeGreaterThanOrEqual(0.15);
     // станки, блоки и смешанное оборудование — без предупреждений
@@ -200,6 +261,113 @@ test.describe('weight limits', () => {
     );
     // без прошлой записи проверки опечатки нет
     expect(checkWeight({ ...base, exerciseId: 'leg-press', weightKg: 500, lastWeightKg: null })).toBeNull();
+  });
+});
+
+test.describe('weight limits: barbell (stage 3A)', () => {
+  const BARBELL = [
+    'back-squat',
+    'barbell-bench-press',
+    'deadlift',
+    'overhead-press',
+    'barbell-row',
+    'barbell-hip-thrust',
+    'barbell-curl',
+    'romanian-deadlift',
+  ];
+  const withFlag = <T>(fn: () => T): T => {
+    const g = globalThis as { localStorage?: unknown };
+    const prev = g.localStorage;
+    g.localStorage = { getItem: (k: string) => (k === TEST_FLAGS_KEY ? 'other,barbell-limits' : null) };
+    try {
+      return fn();
+    } finally {
+      g.localStorage = prev;
+    }
+  };
+
+  test('rows exist, wait for the owner, off in production until approved', () => {
+    expect(BARBELL_LIMITS_APPROVED).toBe(false);
+    for (const id of BARBELL) {
+      const lim = findWeightLimit(id, { includePending: true });
+      expect(lim, id).toBeTruthy();
+      expect(lim!.pending, id).toBe(true);
+      expect(findWeightLimit(id), id).toBeUndefined();
+      expect(weightLimitKg(id, 80, 'male', 'veteran'), id).toBeNull();
+      expect(
+        checkWeight({
+          exerciseId: id,
+          weightKg: 2000,
+          bodyWeightKg: 80,
+          sex: 'male',
+          level: 'veteran',
+          lastWeightKg: null,
+          ignored: [],
+        }),
+      ).toBeNull();
+    }
+  });
+
+  test('test flag turns them on; powerlifting rows are ≥ 15% above the published records', () => {
+    withFlag(() => {
+      // Присед: рекорд 290 кг в категории до 52 кг (openpowerlifting.org/records)
+      const squat = weightLimitKg('back-squat', 52, 'male', 'veteran')!;
+      expect(squat).toBeGreaterThanOrEqual(290 * 1.15 - 0.5);
+      expect(weightLimitKg('barbell-bench-press', 52, 'male', 'veteran')!).toBeGreaterThanOrEqual(
+        177.5 * 1.15 - 0.5,
+      );
+      expect(weightLimitKg('deadlift', 59, 'male', 'veteran')!).toBeGreaterThanOrEqual(303 * 1.15 - 0.5);
+      expect(weightLimitKg('back-squat', 56, 'female', 'veteran')!).toBeGreaterThanOrEqual(260 * 1.15 - 0.5);
+      expect(weightLimitKg('barbell-bench-press', 56, 'female', 'veteran')!).toBeGreaterThanOrEqual(
+        132.5 * 1.15 - 0.5,
+      );
+      expect(weightLimitKg('deadlift', 47, 'female', 'veteran')!).toBeGreaterThanOrEqual(212.5 * 1.15 - 0.5);
+      for (const id of ['back-squat', 'barbell-bench-press', 'deadlift'])
+        expect(findWeightLimit(id)!.basis, id).toBe('world-record');
+      // Порог: отношение × запас × уровень × вес тела; «не указан» — среднее
+      expect(weightLimitKg('back-squat', 80, 'male', 'veteran')).toBeCloseTo(5.58 * 1.15 * 80);
+      expect(weightLimitKg('back-squat', 80, 'unspecified', 'few')).toBeCloseTo(
+        ((5.58 + 4.64) / 2) * 1.15 * 0.8 * 80,
+      );
+      expect(weightLimitKg('overhead-press', 80, 'female', 'first')).toBeCloseTo(1.125 * 1.5 * 0.6 * 80);
+      // Граница: ровно порог — без предупреждения, выше — предупреждение
+      const lim = weightLimitKg('deadlift', 80, 'male', 'intermediate')!;
+      const base = {
+        exerciseId: 'deadlift',
+        bodyWeightKg: 80,
+        sex: 'male' as const,
+        level: 'intermediate' as const,
+        lastWeightKg: null,
+        ignored: [],
+      };
+      expect(checkWeight({ ...base, weightKg: lim })).toBeNull();
+      expect(checkWeight({ ...base, weightKg: lim + 1 })?.kind).toBe('unrealistic');
+      expect(checkWeight({ ...base, weightKg: 200 })).toBeNull();
+      // Опечатка работает и для штанги: 1000 после 100 → «Ты имел(а) в виду 100?»
+      expect(checkWeight({ ...base, weightKg: 1000, lastWeightKg: 100 })).toEqual({
+        kind: 'typo',
+        suggestionKg: 100,
+      });
+    });
+  });
+
+  test('no data — no warning (null) for other barbell and new exercises', () => {
+    withFlag(() => {
+      for (const id of [
+        'front-squat',
+        'incline-barbell-press',
+        'close-grip-bench-press',
+        'skull-crusher',
+        'upright-row',
+        't-bar-row',
+        'reverse-curl',
+        'kettlebell-swing',
+        'goblet-squat',
+        'hack-squat',
+        'push-up',
+      ])
+        expect(weightLimitKg(id, 80, 'male', 'veteran'), id).toBeNull();
+    });
   });
 });
 
@@ -256,5 +424,65 @@ test.describe('stats', () => {
     expect(r.maxWeight?.value).toBe(25);
     expect(r.maxReps?.value).toBe(12);
     expect(r.maxSetVolume?.value).toBe(22 * 12);
+  });
+});
+
+test.describe('templates (stage 3A)', () => {
+  test('four new templates + Split 3+1; only exercises from the base; no weight', () => {
+    expect(TEMPLATES.map((x) => x.id)).toEqual([
+      'full-body-3',
+      'upper-lower-4',
+      'ppl-3',
+      'light-2',
+      'split31',
+    ]);
+    const days: Record<string, number> = {
+      'full-body-3': 3,
+      'upper-lower-4': 4,
+      'ppl-3': 3,
+      'light-2': 2,
+      split31: 4,
+    };
+    for (const tpl of TEMPLATES) {
+      for (const level of ['first', 'few', 'intermediate', 'veteran'] as const) {
+        const plan = buildPlan({ templateId: tpl.id, days: 5, mode: 'cycle', level });
+        expect(plan.days.length, tpl.id).toBe(days[tpl.id]);
+        for (const d of plan.days) {
+          expect(d.items.length, `${tpl.id} ${d.id}`).toBeGreaterThan(0);
+          for (const it of d.items) {
+            expect(findExercise(it.exerciseId), it.exerciseId).toBeTruthy();
+            expect(it.targetWeightKg, 'вес не подставляется').toBeUndefined();
+            expect(it.sets).toBeGreaterThanOrEqual(1);
+            expect(it.repsMin).toBeLessThanOrEqual(it.repsMax);
+          }
+          // без дублей в одном дне
+          expect(new Set(d.items.map((i) => i.exerciseId)).size).toBe(d.items.length);
+        }
+      }
+    }
+  });
+
+  test('levels: fewer sets and simpler exercises for beginners', () => {
+    const vet = buildPlan({ templateId: 'ppl-3', days: 3, mode: 'cycle', level: 'veteran' });
+    const first = buildPlan({ templateId: 'ppl-3', days: 3, mode: 'cycle', level: 'first' });
+    const few = buildPlan({ templateId: 'ppl-3', days: 3, mode: 'cycle', level: 'few' });
+    const ids = (p: typeof vet) => p.days.flatMap((d) => d.items.map((i) => i.exerciseId));
+    expect(ids(vet)).toContain('back-squat');
+    expect(ids(first)).not.toContain('back-squat');
+    expect(ids(first)).toContain('goblet-squat');
+    expect(ids(few)).toContain('flat-press');
+    for (const id of ids(first)) expect(Object.keys(EASIER), id).not.toContain(id);
+    const sets = (p: typeof vet) => p.days.flatMap((d) => d.items.map((i) => i.sets));
+    expect(Math.max(...sets(first))).toBeLessThanOrEqual(3);
+    expect(sets(first).reduce((a, b) => a + b)).toBeLessThan(sets(vet).reduce((a, b) => a + b));
+    expect(setsFor(3, 'first')).toBe(2);
+    expect(setsFor(4, 'first')).toBe(3);
+    expect(setsFor(1, 'first')).toBe(1);
+    expect(setsFor(4, 'few')).toBe(3);
+    expect(setsFor(4, 'veteran')).toBe(4);
+    // «Сплит 3+1» — личная программа, не подстраивается
+    const s1 = buildPlan({ templateId: 'split31', days: 4, mode: 'cycle', level: 'first' });
+    const s2 = buildPlan({ templateId: 'split31', days: 4, mode: 'cycle', level: 'veteran' });
+    expect(s1).toEqual(s2);
   });
 });

@@ -36,6 +36,48 @@ export const DELOAD_SESSIONS = 2;
 
 const ms = (iso: string | undefined) => (iso ? Date.parse(iso) : 0);
 
+/**
+ * Таблица соответствия для правила восстановления: мышца из базы → группа, по которой
+ * сравниваем «сегодня» и «последние 48 часов». Тип Record<Muscle, …> заставляет добавить сюда
+ * каждую новую мышцу. Мелкие соседние группы объединены, чтобы совет звучал понятно.
+ */
+export const RECOVERY_GROUP: Record<Muscle, Muscle> = {
+  chest: 'chest',
+  lats: 'lats',
+  'upper-back': 'upper-back',
+  traps: 'traps',
+  'front-delts': 'front-delts',
+  'side-delts': 'side-delts',
+  'rear-delts': 'rear-delts',
+  biceps: 'biceps',
+  triceps: 'triceps',
+  forearms: 'forearms',
+  abs: 'abs',
+  obliques: 'obliques',
+  'deep-core': 'deep-core',
+  'lower-back': 'lower-back',
+  'hip-flexors': 'hip-flexors',
+  quads: 'quads',
+  hamstrings: 'hamstrings',
+  glutes: 'glutes',
+  adductors: 'adductors',
+  abductors: 'glutes',
+  calves: 'calves',
+};
+
+/**
+ * Что считается нагрузкой для восстановления: растяжка и разминка — нет; упражнения на время
+ * (планка, ходьба, скакалка, удержания) — тоже нет: это не силовая нагрузка на мышцу.
+ */
+export function countsForRecovery(ex: { category: string; metric: string } | undefined): boolean {
+  return !!ex && ex.category !== 'mobility' && ex.metric !== 'time';
+}
+
+const loadGroups = (exerciseId: string): Muscle[] => {
+  const ex = findExercise(exerciseId);
+  return countsForRecovery(ex) ? ex!.primaryMuscles.map((m) => RECOVERY_GROUP[m]) : [];
+};
+
 /** Записи упражнения в истории с выполненными подходами, новые первыми */
 export function performances(history: Session[], exerciseId: string, beforeIso?: string): SessionEntry[] {
   const out: SessionEntry[] = [];
@@ -109,7 +151,7 @@ export function lightStart(
 
 /** Восстановление: основные мышцы дня нагружались меньше 48 часов назад */
 export function recovery(dayId: string, items: PlanItem[], history: Session[], now: number): Advice | null {
-  const today = new Set(items.flatMap((i) => findExercise(i.exerciseId)?.primaryMuscles ?? []));
+  const today = new Set(items.flatMap((i) => loadGroups(i.exerciseId)));
   if (!today.size) return null;
   const hit = new Set<Muscle>();
   for (const s of history) {
@@ -118,7 +160,7 @@ export function recovery(dayId: string, items: PlanItem[], history: Session[], n
     if (now < end) continue;
     for (const e of s.entries) {
       if (e.skipped || !e.sets.some((x) => x.done)) continue;
-      for (const m of findExercise(e.exerciseId)?.primaryMuscles ?? []) if (today.has(m)) hit.add(m);
+      for (const m of loadGroups(e.exerciseId)) if (today.has(m)) hit.add(m);
     }
   }
   if (!hit.size) return null;

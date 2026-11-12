@@ -24,6 +24,8 @@ for (const scheme of ['light', 'dark'] as const) {
       '#/plan',
       '#/library',
       '#/library/lat-pulldown',
+      '#/library/back-squat',
+      '#/library/hip-flexor-stretch',
       '#/history',
       '#/settings',
       '#/legal/privacy',
@@ -60,8 +62,8 @@ const THEMES = [
 ];
 
 test('accessibility in every theme on key screens', async ({ page }, info) => {
-  test.skip(info.project.name !== 'iPhone 11', 'один проект — 11 тем × 5 экранов');
-  test.setTimeout(240_000);
+  test.skip(info.project.name !== 'iPhone 11', 'один проект — 11 тем × 7 экранов');
+  test.setTimeout(360_000);
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await fresh(page);
   await onboard(page);
@@ -95,7 +97,15 @@ test('accessibility in every theme on key screens', async ({ page }, info) => {
       (theme) => localStorage.setItem('tp-boot', JSON.stringify({ locale: 'en', theme })),
       th,
     );
-    for (const route of ['#/today', '#/plan', '#/history', '#/settings', '#/legal/terms']) {
+    for (const route of [
+      '#/today',
+      '#/plan',
+      '#/library',
+      '#/library/barbell-hip-thrust',
+      '#/history',
+      '#/settings',
+      '#/legal/terms',
+    ]) {
       await page.goto('./' + route);
       await page.reload();
       await expect(page.locator('html')).toHaveAttribute('data-theme', th);

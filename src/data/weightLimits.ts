@@ -22,6 +22,28 @@ export interface WeightLimit {
   source: string;
   /** Дата данных источника */
   sourceDate: string;
+  /**
+   * Ждёт подтверждения владельца (штанга, этап 3А): в боевой сборке не действует, пока
+   * BARBELL_LIMITS_APPROVED = false. В тестах включается флагом (см. pendingLimitsEnabled).
+   */
+  pending?: boolean;
+}
+
+/**
+ * Пороги для штанги (этап 3А) — после подтверждения владельцем таблицы в docs/WEIGHT_LIMITS.md
+ * поменять на true. Это единственная строка, которую нужно изменить.
+ */
+export const BARBELL_LIMITS_APPROVED = false;
+
+/** Тестовый режим: localStorage['tp-test-flags'] содержит «barbell-limits» (ставят e2e-тесты) */
+export const TEST_FLAGS_KEY = 'tp-test-flags';
+export function pendingLimitsEnabled(): boolean {
+  if (BARBELL_LIMITS_APPROVED) return true;
+  try {
+    return (globalThis.localStorage?.getItem(TEST_FLAGS_KEY) ?? '').split(',').includes('barbell-limits');
+  } catch {
+    return false;
+  }
 }
 
 /**
@@ -35,6 +57,9 @@ export const LIMIT_MARGIN: Record<WeightLimit['basis'], number> = {
 
 const SL = (slug: string) => `Strength Level, ${slug} (kg), «Elite» по весу тела`;
 const SL_DATE = '2026-03-05';
+const OPL =
+  'OpenPowerlifting / OpenIPF, records (rank 1, full power), max(рекорд / верхняя граница категории)';
+const OPL_DATE = '2026-11-12';
 
 /** Отношения посчитаны как max(Elite / вес тела) по строкам таблиц (самый лёгкий вес тела) */
 export const WEIGHT_LIMITS: WeightLimit[] = [
@@ -110,10 +135,105 @@ export const WEIGHT_LIMITS: WeightLimit[] = [
     source: SL('dumbbell-reverse-wrist-curl'),
     sourceDate: SL_DATE,
   },
+  // ---------- штанга (этап 3А), ждёт подтверждения владельца ----------
+  // Силовое троеборье: опубликованные рекорды, запас +15%
+  {
+    exerciseId: 'back-squat',
+    male: 5.58, // 290 кг / 52 кг (openpowerlifting.org/records)
+    female: 4.64, // 260 кг / 56 кг (openpowerlifting.org/records/women)
+    perDumbbell: false,
+    basis: 'world-record',
+    source: OPL,
+    sourceDate: OPL_DATE,
+    pending: true,
+  },
+  {
+    exerciseId: 'barbell-bench-press',
+    male: 3.41, // 177,5 кг / 52 кг
+    female: 2.37, // 132,5 кг / 56 кг
+    perDumbbell: false,
+    basis: 'world-record',
+    source: OPL,
+    sourceDate: OPL_DATE,
+    pending: true,
+  },
+  {
+    exerciseId: 'deadlift',
+    male: 5.14, // 303 кг / 59 кг (openipf.org/records)
+    female: 4.52, // 212,5 кг / 47 кг (openipf.org/records/women)
+    perDumbbell: false,
+    basis: 'world-record',
+    source: OPL,
+    sourceDate: OPL_DATE,
+    pending: true,
+  },
+  // Остальное со штангой: федеративных рекордов нет — стандарты Strength Level (Elite), запас +50%
+  {
+    exerciseId: 'overhead-press',
+    male: 1.34, // 67 / 50
+    female: 1.125, // 45 / 40
+    perDumbbell: false,
+    basis: 'standards-elite',
+    source: SL('shoulder-press'),
+    sourceDate: SL_DATE,
+    pending: true,
+  },
+  {
+    exerciseId: 'barbell-row',
+    male: 1.88, // 94 / 50
+    female: 1.625, // 65 / 40
+    perDumbbell: false,
+    basis: 'standards-elite',
+    source: SL('bent-over-row'),
+    sourceDate: SL_DATE,
+    pending: true,
+  },
+  {
+    exerciseId: 'barbell-hip-thrust',
+    male: 3.86, // 193 / 50
+    female: 4.35, // 174 / 40
+    perDumbbell: false,
+    basis: 'standards-elite',
+    source: SL('hip-thrust'),
+    sourceDate: SL_DATE,
+    pending: true,
+  },
+  {
+    exerciseId: 'barbell-curl',
+    male: 1.16, // 58 / 50
+    female: 0.95, // 38 / 40
+    perDumbbell: false,
+    basis: 'standards-elite',
+    source: SL('barbell-curl'),
+    sourceDate: '2026-03-10',
+    pending: true,
+  },
+  {
+    exerciseId: 'romanian-deadlift',
+    male: 2.8, // 140 / 50
+    female: 2.525, // 101 / 40
+    perDumbbell: false,
+    basis: 'standards-elite',
+    source: SL('romanian-deadlift'),
+    sourceDate: SL_DATE,
+    pending: true,
+  },
 ];
 
 const INDEX = new Map(WEIGHT_LIMITS.map((w) => [w.exerciseId, w]));
-export const findWeightLimit = (exerciseId: string): WeightLimit | undefined => INDEX.get(exerciseId);
+
+/**
+ * Порог упражнения; undefined — данных нет (или строка ждёт подтверждения владельца).
+ * includePending — для тестов и документации.
+ */
+export const findWeightLimit = (
+  exerciseId: string,
+  opts: { includePending?: boolean } = {},
+): WeightLimit | undefined => {
+  const lim = INDEX.get(exerciseId);
+  if (lim?.pending && !opts.includePending && !pendingLimitsEnabled()) return undefined;
+  return lim;
+};
 
 /** Отношение для пола; «не указан» — среднее мужского и женского */
 export function ratioFor(limit: WeightLimit, sex: Sex | undefined): number {

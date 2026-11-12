@@ -35,7 +35,7 @@ test('onboarding: English by default, gentle validation, back steps', async ({ p
   await page.getByRole('button', { name: 'Next' }).click();
   await page.getByRole('radio', { name: /Full body/ }).click();
   await page.getByRole('button', { name: 'Start training' }).click();
-  await expect(page.getByRole('heading', { name: 'Workout A' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Full body · 1' })).toBeVisible();
   // Значения в настройках
   await page.getByRole('link', { name: 'Settings' }).click();
   await expect(page.getByLabel('Body weight, kg')).toHaveValue('72.5');
@@ -251,7 +251,7 @@ test('weekdays mode: today follows the day of the week', async ({ page }) => {
   // 2026-11-11 — среда (weekday 2)
   await page.clock.setFixedTime(new Date('2026-11-11T10:00:00'));
   await fresh(page);
-  await onboard(page, { start: /Full body/, mode: 'Weekdays', days: 2 }); // пн и чт
+  await onboard(page, { start: /Light maintenance/, mode: 'Weekdays' }); // 2 дня: пн и чт
   await expect(page.getByRole('heading', { name: 'Rest day' })).toBeVisible();
   await page.getByRole('button', { name: 'Train anyway' }).click();
   await expect(page.getByRole('button', { name: 'Start workout' })).toBeVisible();
@@ -305,7 +305,7 @@ test('backup: save a copy (download fallback), delete all data, restore, undo', 
   await page.getByRole('link', { name: 'History' }).click();
   await expect(page.getByText('Finished workouts will appear here')).toBeVisible();
   await page.getByRole('link', { name: 'Today' }).click();
-  await expect(page.getByRole('heading', { name: 'Workout A' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Full body · 1' })).toBeVisible();
 });
 
 test('themes: all 10 + auto switch, persist after reload, theme-color follows', async ({ page }) => {
