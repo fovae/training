@@ -19,6 +19,7 @@ import { LineChart } from '../components/LineChart';
 import { BarChart } from '../components/BarChart';
 import { exerciseRecords, weeklyStats } from '../../lib/stats';
 import { Pic } from '../components/Pic';
+import { SwipeRow, type RowAction } from '../components/SwipeRow';
 import { fmtSets } from '../components/ExerciseCard';
 import { dayNumber, dayTitleById, exName, muscleName } from '../labels';
 
@@ -83,6 +84,28 @@ function WeeklyCharts() {
   );
 }
 
+/** Меню тренировки в списке: открыть, удалить (после вопроса «Удалить?») */
+function workoutActions(s: Session): RowAction[] {
+  const href = `#/history/workout/${encodeURIComponent(s.id)}`;
+  return [
+    { label: t('menu.open'), run: () => void (location.hash = href) },
+    {
+      label: t('menu.delete'),
+      danger: true,
+      quick: true,
+      run: async () => {
+        const r = await ask({
+          title: t('menu.deleteWorkoutTitle'),
+          body: t('menu.deleteWorkoutBody'),
+          confirm: t('menu.delete'),
+          danger: true,
+        });
+        if (r === 'confirm') await removeSession(s.id);
+      },
+    },
+  ];
+}
+
 export function History() {
   const list = history.value;
   const exIds = [
@@ -119,19 +142,21 @@ export function History() {
           <ul class="list">
             {list.map((s) => (
               <li key={s.id}>
-                <a class="row" href={`#/history/workout/${encodeURIComponent(s.id)}`}>
-                  <DayChip dayId={s.dayId} />
-                  <span class="row-main">
-                    <b>{sessionTitle(s)}</b>
-                    <span class="muted">
-                      {fmtDate(ms(s.startedAt))} · {fmtDuration(duration(s))}
+                <SwipeRow title={sessionTitle(s)} actions={workoutActions(s)}>
+                  <a class="row" href={`#/history/workout/${encodeURIComponent(s.id)}`}>
+                    <DayChip dayId={s.dayId} />
+                    <span class="row-main">
+                      <b>{sessionTitle(s)}</b>
+                      <span class="muted">
+                        {fmtDate(ms(s.startedAt))} · {fmtDuration(duration(s))}
+                      </span>
                     </span>
-                  </span>
-                  <span class="row-side">
-                    <b>{fmtNum(toUnit(sessionVolume(s)) ?? 0)}</b>
-                    <span class="muted">{t('history.volumeUnit', { unit: unitLabel() })}</span>
-                  </span>
-                </a>
+                    <span class="row-side">
+                      <b>{fmtNum(toUnit(sessionVolume(s)) ?? 0)}</b>
+                      <span class="muted">{t('history.volumeUnit', { unit: unitLabel() })}</span>
+                    </span>
+                  </a>
+                </SwipeRow>
               </li>
             ))}
           </ul>

@@ -92,11 +92,17 @@ svg {
   background: var(--ink);
   color: var(--bg);
   font-weight: 700;
-  transform: translateY(-200%);
 }
-
-.skip-link:focus {
-  transform: none;
+/* Не в фокусе — полностью за пределами экрана (раньше краешек выглядывал под статус-баром и iOS 26
+   размывал его в «текстуру» у Dynamic Island) */
+.skip-link:not(:focus) {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
 }
 
 .muted {

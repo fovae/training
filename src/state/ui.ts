@@ -127,3 +127,24 @@ export function ask(spec: DialogSpec): Promise<'confirm' | 'cancel' | 'extra'> {
     };
   });
 }
+
+// ---------- меню действий (как на iOS: снизу, список действий + «Отменить») ----------
+
+export interface MenuAction {
+  label: string;
+  danger?: boolean;
+  disabled?: boolean;
+  run: () => void | Promise<void>;
+}
+export interface MenuSpec {
+  title?: string;
+  actions: MenuAction[];
+}
+export const actionMenu = signal<MenuSpec | null>(null);
+
+export function openMenu(spec: MenuSpec): void {
+  actionMenu.value = spec;
+}
+export function closeMenu(): void {
+  actionMenu.value = null;
+}

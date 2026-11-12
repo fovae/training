@@ -32,6 +32,7 @@ import { Icon } from '../components/Icon';
 import { Stepper, Toggle } from '../components/Controls';
 import { ThemePicker } from '../components/ThemePicker';
 import { ProfileForm, draftFrom, validateProfile, type ProfileDraft } from '../components/ProfileForm';
+import { askRestore } from '../components/RestoreDialog';
 
 export function Settings() {
   const s = settings.value;
@@ -60,43 +61,10 @@ export function Settings() {
     if (!file) return;
     try {
       const ready = await readBackupFile(file);
-      const sm = ready.summary;
-      // Всё из файла — только текстом (никакого HTML)
-      const ok = await ask({
+      const ok = await askRestore(ready, {
         title: t('legal.restoreTitle'),
-        body: (
-          <div class="restore-summary">
-            <dl class="facts">
-              <div>
-                <dt>{t('backup.sumWorkouts')}</dt>
-                <dd>{t('backup.workoutsCount', { count: sm.sessions })}</dd>
-              </div>
-              {sm.from && sm.to && (
-                <div>
-                  <dt>{t('backup.sumPeriod')}</dt>
-                  <dd>
-                    {fmtDate(Date.parse(sm.from))} – {fmtDate(Date.parse(sm.to))}
-                  </dd>
-                </div>
-              )}
-              {sm.locale && (
-                <div>
-                  <dt>{t('backup.sumLanguage')}</dt>
-                  <dd>{LOCALES.find((l) => l.code === sm.locale)?.native ?? sm.locale}</dd>
-                </div>
-              )}
-              {sm.appVersion && (
-                <div>
-                  <dt>{t('backup.sumVersion')}</dt>
-                  <dd>{sm.appVersion}</dd>
-                </div>
-              )}
-            </dl>
-            <p>{t('legal.restoreBody')}</p>
-          </div>
-        ),
+        body: t('legal.restoreBody'),
         confirm: t('backup.replace'),
-        danger: true,
       });
       if (ok !== 'confirm') return;
       await applyRestore(ready);

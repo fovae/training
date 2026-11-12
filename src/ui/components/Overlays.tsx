@@ -1,7 +1,7 @@
 import { trapTab } from '../../lib/focus';
 import { t } from '../../i18n';
 import { useEffect, useRef } from 'preact/hooks';
-import { dialog, dismissToast, toasts } from '../../state/ui';
+import { actionMenu, closeMenu, dialog, dismissToast, toasts } from '../../state/ui';
 import { applyUpdate, needRefresh } from '../../features/update';
 import { active } from '../../state/session';
 import { Icon } from './Icon';
@@ -114,6 +114,68 @@ export function DialogHost() {
             {d.cancel ?? t('common.cancel')}
           </button>
         </div>
+      </div>
+    </div>
+  );
+}
+
+/** Меню действий снизу (как action sheet на iOS): долгое нажатие на карточку или кнопка «Действия» */
+export function MenuHost() {
+  const m = actionMenu.value;
+  const ref = useRef<HTMLDivElement>(null);
+  const prevFocus = useRef<Element | null>(null);
+
+  useEffect(() => {
+    if (!m) return;
+    prevFocus.current = document.activeElement;
+    const el = ref.current;
+    el?.querySelector<HTMLButtonElement>('button:not([disabled])')?.focus();
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        e.preventDefault();
+        closeMenu();
+      }
+      if (el) trapTab(e, el);
+    };
+    document.addEventListener('keydown', onKey, true);
+    document.body.classList.add('modal-open');
+    return () => {
+      document.removeEventListener('keydown', onKey, true);
+      document.body.classList.remove('modal-open');
+      (prevFocus.current as HTMLElement | null)?.focus?.();
+    };
+  }, [m]);
+
+  if (!m) return null;
+  return (
+    <div class="scrim sheet-scrim" onClick={(e) => e.target === e.currentTarget && closeMenu()}>
+      <div
+        class="action-sheet"
+        role="dialog"
+        aria-modal="true"
+        aria-label={m.title ?? t('menu.title')}
+        ref={ref}
+      >
+        <div class="as-group">
+          {m.title && <p class="as-title">{m.title}</p>}
+          {m.actions.map((a) => (
+            <button
+              key={a.label}
+              type="button"
+              class={'as-btn' + (a.danger ? ' danger' : '')}
+              disabled={a.disabled}
+              onClick={() => {
+                closeMenu();
+                void a.run();
+              }}
+            >
+              {a.label}
+            </button>
+          ))}
+        </div>
+        <button type="button" class="as-btn as-cancel" onClick={closeMenu}>
+          {t('common.cancel')}
+        </button>
       </div>
     </div>
   );

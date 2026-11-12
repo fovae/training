@@ -148,6 +148,15 @@
       },
       "later": "Everything can be edited later on the Plan tab.",
       "levelNote": "Sets, and for beginners the exercises, follow your level. You add the weights yourself."
+    },
+    "restore": {
+      "lead": "Have a backup file?",
+      "hint": "Restore your profile, plan, history and settings instead of filling everything in again.",
+      "button": "I have a file",
+      "title": "Restore from the copy?",
+      "body": "Your profile, plan, workouts and settings will be taken from the file. You can change anything later in Settings.",
+      "confirm": "Restore",
+      "noProfile": "The file has no profile. Your plan and history are restored; fill in the profile to continue."
     }
   },
   "profile": {
@@ -265,7 +274,6 @@
       "other": "{count} days"
     },
     "daysLabel": "Plan days",
-    "swipeHint": "Swipe to switch",
     "addDay": "Add day",
     "exercisesCount": {
       "one": "{count} exercise",
@@ -653,5 +661,20 @@
     "maxReps": "Most reps in a set",
     "maxSeconds": "Longest set",
     "maxSetVolume": "Best set (weight × reps)"
+  },
+  "menu": {
+    "title": "Actions",
+    "actionsFor": "Actions: {name}",
+    "skipToday": "Skip today",
+    "unskipToday": "Don't skip",
+    "removeFromPlan": "Remove from plan",
+    "moveUp": "Move up",
+    "moveDown": "Move down",
+    "delete": "Delete",
+    "open": "Open",
+    "removeExTitle": "Remove «{name}» from the plan?",
+    "removeExBody": "The exercise will be removed from this day of the plan. Your history stays.",
+    "deleteWorkoutTitle": "Delete this workout?",
+    "deleteWorkoutBody": "The workout will be deleted from history. This cannot be undone."
   }
 }

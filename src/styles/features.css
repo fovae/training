@@ -150,6 +150,29 @@
   font-weight: 800;
   margin: 18px 0 10px;
 }
+.ob-restore {
+  display: grid;
+  gap: 12px;
+  margin: 8px 0 12px;
+}
+.ob-restore-txt {
+  display: grid;
+  gap: 4px;
+}
+/*
+ * Онбординг: экран на всю высоту, панель «Назад / Далее» всегда у нижнего края (над полоской
+ * «Домой») на любом шаге — кнопки не прыгают от длины шага. Длинный шаг прокручивается над панелью.
+ */
+.shell.no-nav main:has(.onboarding) {
+  display: flex;
+  flex-direction: column;
+  min-height: 100dvh;
+}
+.screen.onboarding {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
 .ob-actions {
   position: sticky;
   z-index: 5;
@@ -157,11 +180,14 @@
   display: flex;
   gap: 10px;
   /* отступ от последнего блока шага — чтобы подписи не упирались в панель */
-  margin: 28px calc(-1 * (var(--gutter) + var(--safe-r))) 0 calc(-1 * (var(--gutter) + var(--safe-l)));
+  margin: auto calc(-1 * (var(--gutter) + var(--safe-r))) 0 calc(-1 * (var(--gutter) + var(--safe-l)));
   padding: 12px calc(var(--gutter) + var(--safe-r)) calc(var(--safe-b) + 12px)
     calc(var(--gutter) + var(--safe-l));
   background: var(--bg);
   border-top: 1px solid var(--line);
+}
+.screen.onboarding > :not(.ob-actions):nth-last-child(2) {
+  margin-bottom: 28px;
 }
 .ob-actions .btn {
   flex: none;
@@ -328,6 +354,24 @@
   display: flex;
   flex-wrap: wrap;
   gap: 6px;
+}
+/* Кнопки дня: ровная сетка 2 × 2 на телефоне, одна строка на широком экране — без «повисшей» кнопки */
+.day-tools > .tool-row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+@media (min-width: 560px) {
+  .day-tools > .tool-row {
+    grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
+  }
+}
+.day-tools > .tool-row > .btn-ghost {
+  justify-content: center;
+  min-height: 44px;
+  border-radius: 12px;
+  background: var(--soft);
+  text-align: center;
 }
 .btn-ghost.danger {
   color: var(--danger);
@@ -1070,7 +1114,7 @@ button.back {
 .backup-reminder {
   display: grid;
   gap: 10px;
-  margin-top: 12px;
+  margin: 12px 0;
   border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent);
 }
 .br-text {

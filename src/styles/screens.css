@@ -10,8 +10,16 @@
   top: 0;
   left: 0;
   right: 0;
-  height: var(--safe-t);
-  background: var(--bg);
+  /* Подложка под статус-бар и Dynamic Island. iOS 26 размывает полосу ниже статус-бара — поэтому
+     подложка выше safe area и плавно уходит в прозрачность: под размытием всегда ровный фон, а не
+     прокрученный текст («текстуры»). */
+  /* без выреза (ПК, старые телефоны) safe-t = 0 — и полосы нет вовсе */
+  --fade: min(18px, var(--safe-t));
+  height: calc(var(--safe-t) + var(--fade));
+  background: linear-gradient(
+    var(--bg) calc(100% - var(--fade)),
+    color-mix(in srgb, var(--bg) 0%, transparent)
+  );
   pointer-events: none;
 }
 .topbar-row {

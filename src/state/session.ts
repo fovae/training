@@ -231,6 +231,22 @@ export function toggleSkip(entryIdx: number): void {
   });
 }
 
+/** Порядок упражнений в идущей тренировке */
+export function moveEntry(entryIdx: number, dir: -1 | 1): void {
+  mutate((s) => {
+    const j = entryIdx + dir;
+    if (j < 0 || j >= s.entries.length) return;
+    [s.entries[entryIdx], s.entries[j]] = [s.entries[j]!, s.entries[entryIdx]!];
+  });
+}
+
+/** Убрать упражнение из идущей тренировки (при удалении из плана) */
+export function removeEntry(entryIdx: number): void {
+  mutate((s) => {
+    s.entries.splice(entryIdx, 1);
+  });
+}
+
 export function addSet(entryIdx: number): void {
   mutate((s) => {
     const e = s.entries[entryIdx];

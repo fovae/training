@@ -12,7 +12,6 @@ import {
   copyDayTo,
   dayColor,
   findDay,
-  insertItem,
   moveItem,
   plan,
   removeDay,
@@ -27,10 +26,10 @@ import { ask, planDayId, toast } from '../../state/ui';
 import type { Day, PlanItem, Weekday } from '../../types';
 import { Seg, Stepper, Toggle } from '../components/Controls';
 import { DayHead } from '../components/DayHead';
-import { SwipeDays } from '../components/DaySwitcher';
 import { ExerciseFilters, useExerciseFilter } from '../components/ExerciseFilters';
 import { Icon } from '../components/Icon';
 import { Pic } from '../components/Pic';
+import { SwipeRow, type RowAction } from '../components/SwipeRow';
 import { Sheet } from '../components/Sheet';
 import { dayMeta, dayTitle, exName, muscleName, schemeText } from '../labels';
 
@@ -60,7 +59,6 @@ export function Plan() {
       <section>
         <div class="sec-h">
           <h2>{t('plan.days', { count: p.days.length })}</h2>
-          <span class="eyebrow hide-sm">{t('plan.swipeHint')}</span>
         </div>
         <div class="days" role="tablist" aria-label={t('plan.daysLabel')}>
           {p.days.map((d, i) => {
@@ -93,7 +91,7 @@ export function Plan() {
       </section>
 
       <section>
-        <SwipeDays value={day.id} onChange={select}>
+        <>
           <DayHead day={day} />
           <DayTools day={day} />
           {day.items.length === 0 && (
@@ -116,7 +114,7 @@ export function Plan() {
           <button ref={addBtn} type="button" class="btn primary block" onClick={() => setPicker(true)}>
             <Icon name="plus" size={18} /> {t('plan.addExercise')}
           </button>
-        </SwipeDays>
+        </>
       </section>
 
       <Rules />
@@ -310,13 +308,22 @@ function ItemEditor({
   const isTime = ex?.metric === 'time';
   const up = (patch: Partial<PlanItem>) => updateItem(day.id, idx, patch);
 
-  const onRemove = () => {
-    const removed = removeItem(day.id, idx);
-    if (removed)
-      toast(t('plan.removed', { name }), {
-        action: { label: t('common.undo'), run: () => insertItem(day.id, idx, removed) },
-      });
+  // Удаление — только после вопроса «Удалить?» (решение владельца)
+  const onRemove = async () => {
+    const r = await ask({
+      title: t('menu.removeExTitle', { name }),
+      body: t('menu.removeExBody'),
+      confirm: t('menu.delete'),
+      danger: true,
+    });
+    if (r !== 'confirm') return;
+    if (removeItem(day.id, idx)) toast(t('plan.removed', { name }));
   };
+  const actions: RowAction[] = [
+    { label: t('menu.moveUp'), disabled: idx === 0, run: () => moveItem(day.id, idx, -1) },
+    { label: t('menu.moveDown'), disabled: idx === count - 1, run: () => moveItem(day.id, idx, 1) },
+    { label: t('menu.delete'), danger: true, quick: true, run: onRemove },
+  ];
 
   const num = (v: string, d: number) => {
     const n = parseDecimal(v);
@@ -330,165 +337,169 @@ function ItemEditor({
 
   return (
     <li class="item">
-      <details open={autoOpen || undefined}>
-        <summary>
-          <span class="item-n">{idx + 1}</span>
-          <span class="item-main">
-            <b>{name}</b>
-            <span class="muted small">
-              {schemeText(item, ex)} · {fmtClock(restFor(ex, item))}
-              {item.optional ? ' · ' + t('ex.optional') : ''}
+      <SwipeRow title={name} actions={actions}>
+        <details open={autoOpen || undefined}>
+          <summary>
+            <span class="item-n">{idx + 1}</span>
+            <span class="item-main">
+              <b>{name}</b>
+              <span class="muted small">
+                {schemeText(item, ex)} · {fmtClock(restFor(ex, item))}
+                {item.optional ? ' · ' + t('ex.optional') : ''}
+              </span>
             </span>
-          </span>
-          <Icon name="chevron" size={18} />
-        </summary>
-        <div class="item-body">
-          <div class="item-pic">
-            <Pic pic={ex?.pictogram} />
-            {ex && <p class="muted small">{ex.primaryMuscles.map(muscleName).join(', ')}</p>}
-          </div>
-          <div class="srow">
-            <span>{t('plan.sets')}</span>
-            <Stepper
-              label={t('plan.setsOf', { name })}
-              value={item.sets}
-              min={1}
-              max={10}
-              step={1}
-              format={(v) => fmtNum(v)}
-              onChange={(v) => up({ sets: v })}
-            />
-          </div>
-          {isTime && (
+            <Icon name="chevron" size={18} />
+          </summary>
+          <div class="item-body">
+            <div class="item-pic">
+              <Pic pic={ex?.pictogram} />
+              {ex && <p class="muted small">{ex.primaryMuscles.map(muscleName).join(', ')}</p>}
+            </div>
             <div class="srow">
-              <span class="sr-only">{t('plan.timeUnit', { name })}</span>
-              <Seg
-                label={t('plan.timeUnit', { name })}
-                value={inMin ? 'min' : 'sec'}
-                onChange={(v) => setInMin(v === 'min')}
-                options={[
-                  { v: 'sec', t: t('plan.secondsRange') },
-                  { v: 'min', t: t('plan.minutesRange') },
-                ]}
+              <span>{t('plan.sets')}</span>
+              <Stepper
+                label={t('plan.setsOf', { name })}
+                value={item.sets}
+                min={1}
+                max={10}
+                step={1}
+                format={(v) => fmtNum(v)}
+                onChange={(v) => up({ sets: v })}
               />
             </div>
-          )}
-          <div class="srow">
-            <span>{t(isTime ? (inMin ? 'plan.minutesRange' : 'plan.secondsRange') : 'plan.repsRange')}</span>
-            <span class="range">
-              <input
-                class="num-in"
-                type="text"
-                inputMode={k === 60 ? 'decimal' : 'numeric'}
-                enterKeyHint="done"
-                autoComplete="off"
-                ref={repsRef}
-                aria-label={t('plan.min', { name })}
-                defaultValue={shown(item.repsMin)}
-                key={'min' + item.repsMin + k}
-                onChange={(e) => up({ repsMin: toSec(e.currentTarget.value, item.repsMin) })}
-              />
-              <span aria-hidden="true">–</span>
-              <input
-                class="num-in"
-                type="text"
-                inputMode={k === 60 ? 'decimal' : 'numeric'}
-                enterKeyHint="done"
-                autoComplete="off"
-                aria-label={t('plan.max', { name })}
-                defaultValue={shown(item.repsMax)}
-                key={'max' + item.repsMax + k}
-                onChange={(e) => up({ repsMax: toSec(e.currentTarget.value, item.repsMax) })}
-              />
-            </span>
-          </div>
-          {ex?.metric === 'weight_reps' && !showWeight && (
-            <button type="button" class="btn-ghost sm" onClick={() => setShowWeight(true)}>
-              <Icon name="plus" size={16} /> {t('plan.addWeight')}
-            </button>
-          )}
-          {ex?.metric === 'weight_reps' && showWeight && (
+            {isTime && (
+              <div class="srow">
+                <span class="sr-only">{t('plan.timeUnit', { name })}</span>
+                <Seg
+                  label={t('plan.timeUnit', { name })}
+                  value={inMin ? 'min' : 'sec'}
+                  onChange={(v) => setInMin(v === 'min')}
+                  options={[
+                    { v: 'sec', t: t('plan.secondsRange') },
+                    { v: 'min', t: t('plan.minutesRange') },
+                  ]}
+                />
+              </div>
+            )}
             <div class="srow">
               <span>
-                {t('plan.weight')}
-                <small>{t('plan.weightHint')}</small>
+                {t(isTime ? (inMin ? 'plan.minutesRange' : 'plan.secondsRange') : 'plan.repsRange')}
               </span>
-              <input
-                ref={weightRef}
-                class="num-in wide"
-                type="text"
-                inputMode="decimal"
-                enterKeyHint="done"
-                autoComplete="off"
-                placeholder={unitLabel()}
-                aria-label={t('plan.weightOf', { name, unit: unitLabel() })}
-                defaultValue={inputNum(toUnit(item.targetWeightKg))}
-                key={'w' + item.targetWeightKg}
-                onChange={(e) =>
-                  up({ targetWeightKg: fromUnit(parseDecimal(e.currentTarget.value)) ?? undefined })
-                }
+              <span class="range">
+                <input
+                  class="num-in"
+                  type="text"
+                  inputMode={k === 60 ? 'decimal' : 'numeric'}
+                  enterKeyHint="done"
+                  autoComplete="off"
+                  ref={repsRef}
+                  aria-label={t('plan.min', { name })}
+                  defaultValue={shown(item.repsMin)}
+                  key={'min' + item.repsMin + k}
+                  onChange={(e) => up({ repsMin: toSec(e.currentTarget.value, item.repsMin) })}
+                />
+                <span aria-hidden="true">–</span>
+                <input
+                  class="num-in"
+                  type="text"
+                  inputMode={k === 60 ? 'decimal' : 'numeric'}
+                  enterKeyHint="done"
+                  autoComplete="off"
+                  aria-label={t('plan.max', { name })}
+                  defaultValue={shown(item.repsMax)}
+                  key={'max' + item.repsMax + k}
+                  onChange={(e) => up({ repsMax: toSec(e.currentTarget.value, item.repsMax) })}
+                />
+              </span>
+            </div>
+            {ex?.metric === 'weight_reps' && !showWeight && (
+              <button type="button" class="btn-ghost sm" onClick={() => setShowWeight(true)}>
+                <Icon name="plus" size={16} /> {t('plan.addWeight')}
+              </button>
+            )}
+            {ex?.metric === 'weight_reps' && showWeight && (
+              <div class="srow">
+                <span>
+                  {t('plan.weight')}
+                  <small>{t('plan.weightHint')}</small>
+                </span>
+                <input
+                  ref={weightRef}
+                  class="num-in wide"
+                  type="text"
+                  inputMode="decimal"
+                  enterKeyHint="done"
+                  autoComplete="off"
+                  placeholder={unitLabel()}
+                  aria-label={t('plan.weightOf', { name, unit: unitLabel() })}
+                  defaultValue={inputNum(toUnit(item.targetWeightKg))}
+                  key={'w' + item.targetWeightKg}
+                  onChange={(e) =>
+                    up({ targetWeightKg: fromUnit(parseDecimal(e.currentTarget.value)) ?? undefined })
+                  }
+                />
+              </div>
+            )}
+            <div class="srow">
+              <span>{t('plan.rest')}</span>
+              <label class="select">
+                <span class="sr-only">{t('plan.restOf', { name })}</span>
+                <select
+                  aria-label={t('plan.restOf', { name })}
+                  value={item.restSec ?? ''}
+                  onChange={(e) => {
+                    const v = e.currentTarget.value;
+                    up({ restSec: v ? Number(v) : undefined });
+                  }}
+                >
+                  <option value="">
+                    {t('plan.restAuto', { time: fmtClock(restFor(ex, { ...item, restSec: undefined })) })}
+                  </option>
+                  {REST_OPTIONS.map((s) => (
+                    <option key={s} value={s}>
+                      {fmtClock(s)}
+                    </option>
+                  ))}
+                </select>
+              </label>
+            </div>
+            <div class="srow">
+              <span>
+                {t('plan.optional')}
+                <small>{t('plan.optionalHint')}</small>
+              </span>
+              <Toggle
+                label={t('plan.optionalOf', { name })}
+                on={!!item.optional}
+                onChange={(v) => up({ optional: v || undefined })}
               />
             </div>
-          )}
-          <div class="srow">
-            <span>{t('plan.rest')}</span>
-            <label class="select">
-              <span class="sr-only">{t('plan.restOf', { name })}</span>
-              <select
-                aria-label={t('plan.restOf', { name })}
-                value={item.restSec ?? ''}
-                onChange={(e) => {
-                  const v = e.currentTarget.value;
-                  up({ restSec: v ? Number(v) : undefined });
-                }}
+            <div class="tool-row">
+              <button
+                type="button"
+                class="btn-ghost sm"
+                disabled={idx === 0}
+                aria-label={t('plan.moveUp', { name })}
+                onClick={() => moveItem(day.id, idx, -1)}
               >
-                <option value="">
-                  {t('plan.restAuto', { time: fmtClock(restFor(ex, { ...item, restSec: undefined })) })}
-                </option>
-                {REST_OPTIONS.map((s) => (
-                  <option key={s} value={s}>
-                    {fmtClock(s)}
-                  </option>
-                ))}
-              </select>
-            </label>
+                ↑ {t('plan.up')}
+              </button>
+              <button
+                type="button"
+                class="btn-ghost sm"
+                disabled={idx === count - 1}
+                aria-label={t('plan.moveDown', { name })}
+                onClick={() => moveItem(day.id, idx, 1)}
+              >
+                ↓ {t('plan.down')}
+              </button>
+              <button type="button" class="btn-ghost sm danger" onClick={() => void onRemove()}>
+                <Icon name="trash" size={16} /> {t('common.remove')}
+              </button>
+            </div>
           </div>
-          <div class="srow">
-            <span>
-              {t('plan.optional')}
-              <small>{t('plan.optionalHint')}</small>
-            </span>
-            <Toggle
-              label={t('plan.optionalOf', { name })}
-              on={!!item.optional}
-              onChange={(v) => up({ optional: v || undefined })}
-            />
-          </div>
-          <div class="tool-row">
-            <button
-              type="button"
-              class="btn-ghost sm"
-              disabled={idx === 0}
-              aria-label={t('plan.moveUp', { name })}
-              onClick={() => moveItem(day.id, idx, -1)}
-            >
-              ↑ {t('plan.up')}
-            </button>
-            <button
-              type="button"
-              class="btn-ghost sm"
-              disabled={idx === count - 1}
-              aria-label={t('plan.moveDown', { name })}
-              onClick={() => moveItem(day.id, idx, 1)}
-            >
-              ↓ {t('plan.down')}
-            </button>
-            <button type="button" class="btn-ghost sm danger" onClick={onRemove}>
-              <Icon name="trash" size={16} /> {t('common.remove')}
-            </button>
-          </div>
-        </div>
-      </details>
+        </details>
+      </SwipeRow>
     </li>
   );
 }

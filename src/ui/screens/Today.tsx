@@ -2,28 +2,33 @@ import { useEffect, useState } from 'preact/hooks';
 import { fmtDate, t, weekdayLong } from '../../i18n';
 import { fmtDuration } from '../../lib/format';
 import { ask, go, pickedDayId, todayDayId, toast } from '../../state/ui';
-import { findDay, plan } from '../../state/plan';
+import { findDay, moveItem, plan, removeItem } from '../../state/plan';
 import {
   active,
   activeProgress,
   cancelSession,
   finishSession,
   loadError,
+  moveEntry,
   nextWeekdayDayId,
+  removeEntry,
   setSessionNote,
   startSession,
   suggestedDayId,
   targetFor,
+  toggleSkip,
   weekCount,
 } from '../../state/session';
+import type { Day } from '../../types';
 import { stopRest } from '../../features/timer';
 import { DayHead } from '../components/DayHead';
-import { DaySwitcher, SwipeDays } from '../components/DaySwitcher';
+import { DaySwitcher } from '../components/DaySwitcher';
 import { ExerciseCard, TipCard } from '../components/ExerciseCard';
 import { dayTips } from '../../advice';
 import { dismissReminder, reminderDue, saveCopy } from '../../features/backup';
 import { Icon } from '../components/Icon';
-import { dayNumber, muscleName } from '../labels';
+import { dayNumber, exName, muscleName } from '../labels';
+import { SwipeRow, type RowAction } from '../components/SwipeRow';
 
 function useElapsed(fromIso: string | undefined): number {
   const [now, setNow] = useState(Date.now());
@@ -140,7 +145,7 @@ export function Today() {
       {restDay && <RestDay onPick={setDay} />}
 
       {day && (
-        <SwipeDays value={day.id} onChange={setDay} enabled={!s}>
+        <>
           <DayHead day={day} progress={s ? activeProgress.value : undefined}>
             {!s && day.items.length > 0 && (
               <div class="dayhead-cta">
@@ -182,21 +187,37 @@ export function Today() {
           <div class="ex-grid">
             {s
               ? s.entries.map((entry, i) => (
-                  <ExerciseCard
+                  <SwipeRow
                     key={entry.exerciseId + i}
-                    item={targetFor(s.dayId, entry.exerciseId)}
-                    num={i + 1}
-                    log={{ idx: i, entry }}
-                    tips={tips.filter((a) => a.exerciseId === entry.exerciseId)}
-                  />
+                    title={exName(entry.exerciseId)}
+                    actions={exActions(
+                      day,
+                      entry.exerciseId,
+                      i,
+                      s.entries.length,
+                      entry.skipped ? 'skipped' : 'on',
+                    )}
+                  >
+                    <ExerciseCard
+                      item={targetFor(s.dayId, entry.exerciseId)}
+                      num={i + 1}
+                      log={{ idx: i, entry }}
+                      tips={tips.filter((a) => a.exerciseId === entry.exerciseId)}
+                    />
+                  </SwipeRow>
                 ))
               : day.items.map((item, i) => (
-                  <ExerciseCard
+                  <SwipeRow
                     key={item.exerciseId + i}
-                    item={item}
-                    num={i + 1}
-                    tips={tips.filter((a) => a.exerciseId === item.exerciseId)}
-                  />
+                    title={exName(item.exerciseId)}
+                    actions={exActions(day, item.exerciseId, i, day.items.length, null)}
+                  >
+                    <ExerciseCard
+                      item={item}
+                      num={i + 1}
+                      tips={tips.filter((a) => a.exerciseId === item.exerciseId)}
+                    />
+                  </SwipeRow>
                 ))}
           </div>
 
@@ -221,7 +242,7 @@ export function Today() {
               </button>
             </div>
           )}
-        </SwipeDays>
+        </>
       )}
     </div>
   );
@@ -243,6 +264,56 @@ function RestDay({ onPick }: { onPick: (id: string) => void }) {
       )}
     </div>
   );
+}
+
+/**
+ * Меню упражнения на «Сегодня» (свайп влево / долгое нажатие): пропустить сегодня (во время
+ * тренировки), выше / ниже (до тренировки — порядок в плане, во время — порядок тренировки),
+ * удалить из плана (с вопросом).
+ */
+function exActions(
+  day: Day,
+  exerciseId: string,
+  i: number,
+  count: number,
+  session: 'on' | 'skipped' | null,
+): RowAction[] {
+  const name = exName(exerciseId);
+  const planIdx = day.items.findIndex((x) => x.exerciseId === exerciseId);
+  // Во время тренировки — порядок этой тренировки, до неё — порядок дня в плане
+  const move = (dir: -1 | 1) => (session ? moveEntry(i, dir) : moveItem(day.id, i, dir));
+  const actions: RowAction[] = [];
+  if (session)
+    actions.push({
+      label: t(session === 'skipped' ? 'menu.unskipToday' : 'menu.skipToday'),
+      quick: true,
+      run: () => toggleSkip(i),
+    });
+  actions.push(
+    { label: t('menu.moveUp'), disabled: i === 0, run: () => move(-1) },
+    { label: t('menu.moveDown'), disabled: i === count - 1, run: () => move(1) },
+    {
+      label: t('menu.removeFromPlan'),
+      danger: true,
+      quick: true,
+      disabled: planIdx < 0,
+      run: async () => {
+        const r = await ask({
+          title: t('menu.removeExTitle', { name }),
+          body: t('menu.removeExBody'),
+          confirm: t('menu.delete'),
+          danger: true,
+        });
+        if (r !== 'confirm') return;
+        removeItem(day.id, planIdx);
+        // В идущей тренировке убираем, только если подходы ещё не отмечены — записанное не теряем
+        const e = active.value?.entries[i];
+        if (session && e && !e.sets.some((x) => x.done)) removeEntry(i);
+        toast(t('plan.removed', { name }));
+      },
+    },
+  );
+  return actions;
 }
 
 /** «Сохрани копию»: раз в 7 дней, закрытие откладывает на 3 дня. Никаких push. */

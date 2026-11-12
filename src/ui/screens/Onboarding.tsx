@@ -3,7 +3,9 @@ import { useEffect, useLayoutEffect, useRef } from 'preact/hooks';
 import { LOCALES, fmtNum, locale, setLocale, t } from '../../i18n';
 import { TEMPLATES, buildPlan, findTemplate } from '../../data/templates';
 import { plan, setPlan } from '../../state/plan';
-import { draftUnits, saveProfile } from '../../state/settings';
+import { draftUnits, profile, saveProfile } from '../../state/settings';
+import { applyRestore, readBackupFile } from '../../features/backup';
+import { askRestore } from '../components/RestoreDialog';
 import { go, toast } from '../../state/ui';
 import type { LegalAcceptance, Level, Plan } from '../../types';
 import { Choice, Seg, Stepper } from '../components/Controls';
@@ -125,6 +127,7 @@ export function Onboarding() {
 
       {s === 'language' && <LanguageStep />}
       {s === 'terms' && <TermsStep />}
+      {s === 'profile' && <RestoreOffer />}
       {s === 'profile' && draft.value && (
         <section class="card">
           <p class="muted small">{t('onb.profile.lead')}</p>
@@ -164,6 +167,67 @@ export function Onboarding() {
         </button>
       </div>
     </div>
+  );
+}
+
+/**
+ * «У меня есть файл»: после переустановки не заполнять всё заново. Стоит после шага условий —
+ * документы приняты на этом устройстве, и это принятие записывается в восстановленный профиль.
+ */
+function RestoreOffer() {
+  const fileRef = useRef<HTMLInputElement>(null);
+  const onFile = async (e: Event) => {
+    const input = e.currentTarget as HTMLInputElement;
+    const file = input.files?.[0];
+    input.value = '';
+    if (!file) return;
+    try {
+      const ready = await readBackupFile(file);
+      const ok = await askRestore(ready, {
+        title: t('onb.restore.title'),
+        body: t('onb.restore.body'),
+        confirm: t('onb.restore.confirm'),
+        danger: false,
+      });
+      if (ok !== 'confirm') return;
+      await applyRestore(ready);
+      const p = profile.value;
+      if (!p) {
+        // Копия без профиля (старый формат): план и история уже на месте — профиль заполняем здесь
+        toast(t('onb.restore.noProfile'));
+        return;
+      }
+      await saveProfile({
+        ...p,
+        adult16Confirmed: true,
+        confirmedAt: new Date().toISOString(),
+        legalAccepted: accepted.value ?? currentAcceptance(),
+      });
+      resetOnboarding();
+      go('today');
+      toast(t('backup.restored'));
+    } catch (err) {
+      toast(err instanceof Error ? err.message : t('backup.err.invalid'));
+    }
+  };
+  return (
+    <aside class="card ob-restore" aria-labelledby="ob-restore-t">
+      <div class="ob-restore-txt">
+        <b id="ob-restore-t">{t('onb.restore.lead')}</b>
+        <span class="muted small">{t('onb.restore.hint')}</span>
+      </div>
+      <button type="button" class="btn secondary" onClick={() => fileRef.current?.click()}>
+        <Icon name="upload" size={18} /> {t('onb.restore.button')}
+      </button>
+      <input
+        ref={fileRef}
+        type="file"
+        accept="application/json,.json"
+        hidden
+        onChange={(e) => void onFile(e)}
+        data-testid="onb-import-input"
+      />
+    </aside>
   );
 }
 

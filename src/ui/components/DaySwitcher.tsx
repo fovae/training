@@ -1,5 +1,3 @@
-import type { ComponentChildren } from 'preact';
-import { useRef } from 'preact/hooks';
 import { t, weekdayShort } from '../../i18n';
 import { dayColor, planDays, shownWeekday } from '../../state/plan';
 
@@ -57,43 +55,3 @@ export const shiftDay = (id: string | null, dir: 1 | -1): string | null => {
   );
   return days[(i + dir + days.length) % days.length]!.id;
 };
-
-/** Область, в которой горизонтальный свайп переключает день */
-export function SwipeDays({
-  value,
-  onChange,
-  enabled = true,
-  children,
-}: {
-  value: string | null;
-  onChange: (id: string) => void;
-  enabled?: boolean;
-  children: ComponentChildren;
-}) {
-  const start = useRef<{ x: number; y: number; t: number } | null>(null);
-
-  const onStart = (e: TouchEvent) => {
-    const p = e.touches[0];
-    if (!enabled || !p || e.touches.length > 1) return;
-    if ((e.target as HTMLElement).closest('input, textarea, select, .no-swipe')) return;
-    start.current = { x: p.clientX, y: p.clientY, t: Date.now() };
-  };
-  const onEnd = (e: TouchEvent) => {
-    const s = start.current;
-    start.current = null;
-    const p = e.changedTouches[0];
-    if (!s || !p) return;
-    const dx = p.clientX - s.x;
-    const dy = p.clientY - s.y;
-    if (Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy) * 1.6 && Date.now() - s.t < 700) {
-      const next = shiftDay(value, dx < 0 ? 1 : -1);
-      if (next) onChange(next);
-    }
-  };
-
-  return (
-    <div class="swipe" onTouchStart={onStart} onTouchEnd={onEnd}>
-      {children}
-    </div>
-  );
-}

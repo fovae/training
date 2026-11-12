@@ -573,6 +573,30 @@
 section + .card {
   margin-top: 12px;
 }
+/*
+ * Единый ритм экрана: любые два соседних блока верхнего уровня (карточки, плашки, списки,
+ * заметки, пустые состояния, шапка дня) — с зазором 12px. Правило владельца: блоки не слипаются.
+ */
+:where(.screen)
+  > :where(.card, aside, section, .note, .empty, .list, .dayhead, .ex-grid, .day-tools, .tip, ul, ol)
+  + :where(
+    .card,
+    aside,
+    section,
+    .note,
+    .empty,
+    .list,
+    .dayhead,
+    .ex-grid,
+    .day-tools,
+    .tip,
+    ul,
+    ol,
+    details
+  ) {
+  /* :where — нулевая специфичность: явные отступы конкретных блоков важнее */
+  margin-top: 12px;
+}
 .card-t {
   font-size: 16px;
   font-weight: 800;
@@ -932,4 +956,138 @@ section + .card {
 }
 .lg.s2 i {
   background: var(--chart-2);
+}
+
+/* ---------- карточки с действиями (свайп влево / долгое нажатие), src/ui/components/SwipeRow.tsx ---------- */
+.swipe-row {
+  position: relative;
+  border-radius: var(--r-md);
+  /* горизонталь — наша (выезд кнопок), вертикаль — прокрутка страницы */
+  touch-action: pan-y;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+.sr-front {
+  position: relative;
+  z-index: 1;
+  transition: transform 0.22s cubic-bezier(0.2, 0.8, 0.2, 1);
+  will-change: transform;
+}
+.sr-front.dragging {
+  transition: none;
+}
+.sr-actions {
+  position: absolute;
+  z-index: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  overflow: hidden;
+  border-radius: 0 var(--r-md) var(--r-md) 0;
+}
+/* Пока карточка сдвинута — обрезаем по её границам, как в iOS (в покое не обрезаем: тень видна) */
+.swipe-row.open,
+.swipe-row.moving {
+  overflow: hidden;
+}
+/* Кнопки под карточкой видны только при свайпе: тень карточки не обрезается */
+.swipe-row:not(.open):not(.moving) .sr-actions {
+  visibility: hidden;
+}
+/* Карточка плана сама прозрачная (фон у li) — подложим фон, чтобы кнопки не просвечивали */
+.item > .swipe-row > .sr-front {
+  border-radius: var(--r-md);
+  background: var(--card);
+}
+.sr-btn {
+  flex: 1;
+  display: grid;
+  place-items: center;
+  padding: 0 8px;
+  font-size: 14px;
+  font-weight: 800;
+  color: #fff;
+  background: var(--muted);
+}
+.sr-btn.danger {
+  background: var(--danger-fill);
+}
+.sr-btn:last-child {
+  border-radius: 0 var(--r-md) var(--r-md) 0;
+}
+/* Кнопка «Действия» для клавиатуры и VoiceOver: невидима, пока не в фокусе */
+.sr-menu-btn {
+  position: absolute;
+  z-index: 2;
+  top: 6px;
+  right: 6px;
+  padding: 8px 12px;
+  border-radius: 10px;
+  background: var(--ink);
+  color: var(--bg);
+  font-size: 13px;
+  font-weight: 700;
+}
+.sr-menu-btn:not(:focus-visible) {
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* ---------- меню действий снизу (action sheet) ---------- */
+.action-sheet {
+  display: grid;
+  gap: 8px;
+  width: min(440px, 100%);
+  animation: rest-in 0.2s ease-out;
+}
+.as-group {
+  display: grid;
+  overflow: hidden;
+  border-radius: 18px;
+  background: var(--card);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+.as-title {
+  margin: 0;
+  padding: 12px 16px;
+  text-align: center;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--muted);
+  border-bottom: 1px solid var(--line);
+}
+.as-btn {
+  min-height: 54px;
+  padding: 0 16px;
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--accent-ink);
+  background: var(--card);
+}
+.as-group .as-btn + .as-btn {
+  border-top: 1px solid var(--line);
+}
+.as-btn.danger {
+  color: var(--danger);
+}
+.as-btn:disabled {
+  opacity: 0.4;
+}
+.as-cancel {
+  border-radius: 18px;
+  font-weight: 800;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+@media (prefers-reduced-motion: reduce) {
+  .sr-front,
+  .action-sheet {
+    transition: none;
+    animation: none;
+  }
 }

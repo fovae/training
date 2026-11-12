@@ -10,7 +10,7 @@ import { startRest, timer, togglePause } from '../features/timer';
 import { offlineReady } from '../features/update';
 import { Nav } from './components/Nav';
 import { Flash, RestTimerBar } from './components/RestTimerBar';
-import { DialogHost, Toasts } from './components/Overlays';
+import { DialogHost, MenuHost, Toasts } from './components/Overlays';
 import { shiftDay } from './components/DaySwitcher';
 import { Today } from './screens/Today';
 import { Plan } from './screens/Plan';
@@ -121,6 +121,7 @@ export function App() {
       </main>
       <RestTimerBar />
       <Toasts />
+      <MenuHost />
       <DialogHost />
       <Flash />
     </div>
