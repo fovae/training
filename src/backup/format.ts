@@ -129,8 +129,9 @@ const SessionSchema = v.strictObject({
 const ItemSchema = v.strictObject({
   exerciseId: id,
   sets: int(1, 10),
-  repsMin: int(1, 600),
-  repsMax: int(1, 600),
+  // повторы до 600 или секунды до 3 часов (упражнения на время)
+  repsMin: int(1, 10_800),
+  repsMax: int(1, 10_800),
   targetWeightKg: v.optional(num(0, 2000)),
   restSec: v.optional(int(0, 600)),
   optional: v.optional(v.boolean()),

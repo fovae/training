@@ -3,22 +3,21 @@ import type { Sex } from '../types';
 /**
  * Пороги предупреждения о нереальном весе (docs/WEIGHT_LIMITS.md — источники и расчёт).
  *
- * ratio — максимальное отношение нагрузки к весу тела по источнику (для гантелей — на ОДНУ гантель).
- * Порог = ratio × (1 + запас) × множитель уровня × вес тела. Предупреждаем только выше порога.
- * Упражнения без подтверждённых данных (станки, блоки, тренажёры, смешанное оборудование)
- * в таблицу не входят — для них предупреждения нет.
+ * Две модели:
+ *  - «ratio» (standards-elite): порог = отношение × (1 + запас) × множитель уровня × вес тела.
+ *    Отношение — максимум «нагрузка / вес тела» по таблице стандартов (для гантелей — на ОДНУ гантель).
+ *  - «class-record» (присед, жим лёжа, становая): порог = рекорд весовой категории пользователя
+ *    × (1 + запас) × множитель уровня. Категория — ближайшая сверху по весу тела (IPF), выше
+ *    последней границы — категория «+».
+ * Предупреждаем только выше порога. Упражнения без подтверждённых данных в таблицу не входят.
  *
- * Чтобы добавить упражнение (например, штангу на этапе 3): запись сюда + строка в WEIGHT_LIMITS.md.
+ * Добавить упражнение: запись сюда + строка в WEIGHT_LIMITS.md.
  */
 
-export interface WeightLimit {
+interface LimitBase {
   exerciseId: string;
-  /** Максимальное отношение к весу тела (до запаса) */
-  male: number;
-  female: number;
-  /** На одну гантель */
+  /** На одну гантель (иначе — общий вес снаряда) */
   perDumbbell: boolean;
-  basis: 'standards-elite' | 'world-record';
   source: string;
   /** Дата данных источника */
   sourceDate: string;
@@ -28,6 +27,27 @@ export interface WeightLimit {
    */
   pending?: boolean;
 }
+
+export interface RatioLimit extends LimitBase {
+  basis: 'standards-elite';
+  /** Максимальное отношение к весу тела (до запаса) */
+  male: number;
+  female: number;
+}
+
+/** Рекорд весовой категории: upTo — верхняя граница категории, кг (null — категория «+») */
+export interface ClassRecord {
+  upTo: number | null;
+  kg: number;
+}
+
+export interface ClassLimit extends LimitBase {
+  basis: 'class-record';
+  /** Категории по возрастанию, последняя — «+» (upTo: null) */
+  classes: { male: ClassRecord[]; female: ClassRecord[] };
+}
+
+export type WeightLimit = RatioLimit | ClassLimit;
 
 /**
  * Пороги для штанги (этап 3А) — после подтверждения владельцем таблицы в docs/WEIGHT_LIMITS.md
@@ -52,14 +72,34 @@ export function pendingLimitsEnabled(): boolean {
  */
 export const LIMIT_MARGIN: Record<WeightLimit['basis'], number> = {
   'standards-elite': 0.5,
-  'world-record': 0.15,
+  'class-record': 0.15,
 };
 
 const SL = (slug: string) => `Strength Level, ${slug} (kg), «Elite» по весу тела`;
 const SL_DATE = '2026-03-05';
-const OPL =
-  'OpenPowerlifting / OpenIPF, records (rank 1, full power), max(рекорд / верхняя граница категории)';
+const OPL = 'OpenIPF + OpenPowerlifting (IPF classes), rank 1, max(без экипировки, однослойная экипировка)';
 const OPL_DATE = '2026-11-12';
+
+/**
+ * Рекорды по категориям IPF (кг). Мужчины 59…120, 120+; женщины 47…84, 84+.
+ * Для каждой категории — наибольшее из «без экипировки» (raw / raw+wraps) и «однослойная
+ * экипировка» (single-ply), Full Power и All Events. Атлеты, даты и страницы — docs/WEIGHT_LIMITS.md.
+ */
+// prettier-ignore
+const CLASS_RECORDS: Record<'back-squat' | 'barbell-bench-press' | 'deadlift', ClassLimit['classes']> = {
+  'back-squat': {
+    male: [{ upTo: 59, kg: 300 }, { upTo: 66, kg: 326.5 }, { upTo: 74, kg: 370 }, { upTo: 83, kg: 396 }, { upTo: 93, kg: 423 }, { upTo: 105, kg: 467.2 }, { upTo: 120, kg: 487.5 }, { upTo: null, kg: 544.3 }],
+    female: [{ upTo: 47, kg: 210 }, { upTo: 52, kg: 232.5 }, { upTo: 57, kg: 260 }, { upTo: 63, kg: 262.5 }, { upTo: 69, kg: 264 }, { upTo: 76, kg: 310 }, { upTo: 84, kg: 311 }, { upTo: null, kg: 335 }],
+  },
+  'barbell-bench-press': {
+    male: [{ upTo: 59, kg: 240 }, { upTo: 66, kg: 260 }, { upTo: 74, kg: 305 }, { upTo: 83, kg: 322.5 }, { upTo: 93, kg: 362.5 }, { upTo: 105, kg: 376 }, { upTo: 120, kg: 410 }, { upTo: null, kg: 508 }],
+    female: [{ upTo: 47, kg: 141 }, { upTo: 52, kg: 170.5 }, { upTo: 57, kg: 169 }, { upTo: 63, kg: 185 }, { upTo: 69, kg: 190 }, { upTo: 76, kg: 205 }, { upTo: 84, kg: 229 }, { upTo: null, kg: 250 }],
+  },
+  'deadlift': {
+    male: [{ upTo: 59, kg: 303 }, { upTo: 66, kg: 345 }, { upTo: 74, kg: 365 }, { upTo: 83, kg: 405 }, { upTo: 93, kg: 413 }, { upTo: 105, kg: 447.5 }, { upTo: 120, kg: 472.5 }, { upTo: null, kg: 492.5 }],
+    female: [{ upTo: 47, kg: 212.5 }, { upTo: 52, kg: 220.5 }, { upTo: 57, kg: 240 }, { upTo: 63, kg: 245.5 }, { upTo: 69, kg: 260 }, { upTo: 76, kg: 291.5 }, { upTo: 84, kg: 291 }, { upTo: null, kg: 297.5 }],
+  },
+};
 
 /** Отношения посчитаны как max(Elite / вес тела) по строкам таблиц (самый лёгкий вес тела) */
 export const WEIGHT_LIMITS: WeightLimit[] = [
@@ -136,37 +176,16 @@ export const WEIGHT_LIMITS: WeightLimit[] = [
     sourceDate: SL_DATE,
   },
   // ---------- штанга (этап 3А), ждёт подтверждения владельца ----------
-  // Силовое троеборье: опубликованные рекорды, запас +15%
-  {
-    exerciseId: 'back-squat',
-    male: 5.58, // 290 кг / 52 кг (openpowerlifting.org/records)
-    female: 4.64, // 260 кг / 56 кг (openpowerlifting.org/records/women)
+  // Силовое троеборье: рекорд категории пользователя, запас +15%
+  ...(['back-squat', 'barbell-bench-press', 'deadlift'] as const).map((id): ClassLimit => ({
+    exerciseId: id,
+    basis: 'class-record',
+    classes: CLASS_RECORDS[id],
     perDumbbell: false,
-    basis: 'world-record',
     source: OPL,
     sourceDate: OPL_DATE,
     pending: true,
-  },
-  {
-    exerciseId: 'barbell-bench-press',
-    male: 3.41, // 177,5 кг / 52 кг
-    female: 2.37, // 132,5 кг / 56 кг
-    perDumbbell: false,
-    basis: 'world-record',
-    source: OPL,
-    sourceDate: OPL_DATE,
-    pending: true,
-  },
-  {
-    exerciseId: 'deadlift',
-    male: 5.14, // 303 кг / 59 кг (openipf.org/records)
-    female: 4.52, // 212,5 кг / 47 кг (openipf.org/records/women)
-    perDumbbell: false,
-    basis: 'world-record',
-    source: OPL,
-    sourceDate: OPL_DATE,
-    pending: true,
-  },
+  })),
   // Остальное со штангой: федеративных рекордов нет — стандарты Strength Level (Elite), запас +50%
   {
     exerciseId: 'overhead-press',
@@ -235,9 +254,31 @@ export const findWeightLimit = (
   return lim;
 };
 
-/** Отношение для пола; «не указан» — среднее мужского и женского */
-export function ratioFor(limit: WeightLimit, sex: Sex | undefined): number {
+/** Отношение для пола (модель ratio); «не указан» — среднее мужского и женского */
+export function ratioFor(limit: RatioLimit, sex: Sex | undefined): number {
   if (sex === 'male') return limit.male;
   if (sex === 'female') return limit.female;
   return (limit.male + limit.female) / 2;
+}
+
+/**
+ * Рекорд категории для веса тела: ближайшая граница сверху, выше последней — категория «+».
+ * Берём максимум по этой и всем более лёгким категориям: человек из лёгкой категории мог бы
+ * выступать и в более тяжёлой, поэтому порог с ростом веса не уменьшается.
+ */
+export function classRecordFor(classes: ClassRecord[], bodyWeightKg: number): number {
+  let best = 0;
+  for (const c of classes) {
+    best = Math.max(best, c.kg);
+    if (c.upTo == null || bodyWeightKg <= c.upTo) return best;
+  }
+  return best;
+}
+
+/** Порог до запаса и множителя уровня, кг. «Пол не указан»: ratio — среднее, class-record — меньший. */
+export function baseLimitKg(limit: WeightLimit, bodyWeightKg: number, sex: Sex | undefined): number {
+  if (limit.basis === 'standards-elite') return ratioFor(limit, sex) * bodyWeightKg;
+  const m = classRecordFor(limit.classes.male, bodyWeightKg);
+  const f = classRecordFor(limit.classes.female, bodyWeightKg);
+  return sex === 'male' ? m : sex === 'female' ? f : Math.min(m, f);
 }

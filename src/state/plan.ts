@@ -137,6 +137,10 @@ export function copyDayTo(fromId: string, toId: string): void {
 
 // ---------- упражнения дня ----------
 
+/** Верхние границы диапазона в плане */
+export const MAX_REPS = 600;
+export const MAX_SET_SECONDS = 10_800;
+
 export function addItem(dayId: string, exerciseId: string): void {
   const ex = findExercise(exerciseId);
   if (!ex) return;
@@ -160,8 +164,10 @@ export function updateItem(dayId: string, idx: number, patch: Partial<PlanItem>)
     const next = compact({ ...item, ...patch });
     items[idx] = next;
     next.sets = clampInt(next.sets, 1, 10);
-    next.repsMin = clampInt(next.repsMin, 1, 600);
-    next.repsMax = clampInt(Math.max(next.repsMax, next.repsMin), 1, 600);
+    // Повторы — до 600; упражнения на время (кардио, удержания) — до 3 часов на подход
+    const max = findExercise(next.exerciseId)?.metric === 'time' ? MAX_SET_SECONDS : MAX_REPS;
+    next.repsMin = clampInt(next.repsMin, 1, max);
+    next.repsMax = clampInt(Math.max(next.repsMax, next.repsMin), 1, max);
   });
 }
 

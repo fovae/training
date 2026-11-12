@@ -31,7 +31,8 @@
   "unit": {
     "kg": "kg",
     "lb": "lb",
-    "sec": "s"
+    "sec": "s",
+    "min": "min"
   },
   "fmt": {
     "minutes": "{n} min",
@@ -322,7 +323,9 @@
     "alreadyInDay": "already in this day",
     "scheduleLine": "Schedule: {mode}",
     "changeInSettings": "Change in Settings",
-    "addWeight": "Working weight (optional)"
+    "addWeight": "Working weight (optional)",
+    "minutesRange": "Minutes",
+    "timeUnit": "{name}: time unit"
   },
   "rules": {
     "title": "Rules",

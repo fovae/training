@@ -149,13 +149,14 @@ test('barbell weight warning: off in production, on with the test flag', async (
   await w.fill('900');
   await w.blur();
   await expect(page.getByRole('alertdialog')).toHaveCount(0);
-  // Тестовый режим: порог 80 кг × (5,14 + 4,52) / 2 × 1,15 ≈ 444 кг
+  // Тестовый режим. Пол не указан → меньшая колонка: мужчины 83 кг (405) и женщины 84 кг (291,5) →
+  // 291,5 × 1,15 ≈ 335 кг
   await page.evaluate(() => localStorage.setItem('tp-test-flags', 'barbell-limits'));
   const w2 = page.getByLabel('Deadlift, set 2: weight, kg');
-  await w2.fill('400');
+  await w2.fill('300');
   await w2.blur();
   await expect(page.getByRole('alertdialog')).toHaveCount(0);
-  await w2.fill('500');
+  await w2.fill('340');
   await w2.blur();
   await expect(page.getByRole('alertdialog', { name: 'This is a very heavy weight' })).toBeVisible();
 });
@@ -189,4 +190,45 @@ test('legal documents: contents without double numbering, numbers aligned, no ga
   const note = (await page.locator('.legal > .note').boundingBox())!;
   const doc = (await page.locator('.legal .prose').boundingBox())!;
   expect(doc.y - (note.y + note.height)).toBeGreaterThanOrEqual(8);
+});
+
+test('time exercises: plan editor accepts minutes, up to 3 hours per set', async ({ page }) => {
+  await fresh(page);
+  await onboard(page, { start: 'Empty days', days: 1 });
+  await page.getByRole('button', { name: 'Add exercise' }).click();
+  const sheet = page.getByRole('dialog', { name: 'Add exercise' });
+  await sheet.getByRole('searchbox').fill('treadmill');
+  await sheet.getByRole('button', { name: /Brisk treadmill walk/ }).click();
+  await sheet.getByRole('button', { name: /Done · 1 added/ }).click();
+  const item = page.locator('.item').first();
+  await expect(item).toContainText('1 × 5–10 min');
+  const name = 'Brisk treadmill walk';
+  // Средний уровень: только что добавленное упражнение уже раскрыто
+  await expect(item.locator('details')).toHaveAttribute('open', '');
+  // По умолчанию — минуты (значения кратны минуте)
+  await expect(
+    page.getByRole('radiogroup', { name: `${name}: time unit` }).getByRole('radio', { name: 'Minutes' }),
+  ).toHaveAttribute('aria-checked', 'true');
+  await page.getByLabel(`${name}: maximum`).fill('180');
+  await page.getByLabel(`${name}: maximum`).blur();
+  await page.getByLabel(`${name}: minimum`).fill('30');
+  await page.getByLabel(`${name}: minimum`).blur();
+  await expect(item).toContainText('1 × 30–180 min');
+  await expect
+    .poll(
+      async () =>
+        (await kv<{ days: { items: { repsMin: number; repsMax: number }[] }[] }>(page, 'plan'))?.days[0]
+          ?.items[0],
+    )
+    .toMatchObject({ repsMin: 1800, repsMax: 10_800 });
+  // Больше 3 часов нельзя
+  await page.getByLabel(`${name}: maximum`).fill('500');
+  await page.getByLabel(`${name}: maximum`).blur();
+  await expect(item).toContainText('1 × 30–180 min');
+  // Секунды: то же значение, другая запись
+  await page.getByRole('radio', { name: 'Seconds' }).click();
+  await expect(page.getByLabel(`${name}: minimum`)).toHaveValue('1800');
+  await page.getByLabel(`${name}: minimum`).fill('90');
+  await page.getByLabel(`${name}: minimum`).blur();
+  await expect(item).toContainText('1 × 90–10,800 s');
 });

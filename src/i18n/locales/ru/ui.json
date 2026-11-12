@@ -31,7 +31,8 @@
   "unit": {
     "kg": "кг",
     "lb": "фунт",
-    "sec": "с"
+    "sec": "с",
+    "min": "мин"
   },
   "fmt": {
     "minutes": "{n} мин",
@@ -338,7 +339,9 @@
     "alreadyInDay": "уже есть в этом дне",
     "scheduleLine": "Расписание: {mode}",
     "changeInSettings": "Изменить в настройках",
-    "addWeight": "Рабочий вес (по желанию)"
+    "addWeight": "Рабочий вес (по желанию)",
+    "minutesRange": "Минуты",
+    "timeUnit": "{name}: единицы времени"
   },
   "rules": {
     "title": "Правила",

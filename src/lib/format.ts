@@ -87,3 +87,21 @@ export const ms = (iso: string | undefined): number => (iso ? Date.parse(iso) : 
 export function compact<T extends object>(o: T): T {
   return Object.fromEntries(Object.entries(o).filter(([, v]) => v !== undefined)) as T;
 }
+
+/** Время подхода: «45 с», «1:30», «30:00», «1:05:00» */
+export function fmtSetTime(sec: number): string {
+  const s = Math.max(0, Math.round(sec));
+  if (s < 60) return `${s} ${t('unit.sec')}`;
+  const h = Math.floor(s / 3600);
+  const m = Math.floor((s % 3600) / 60);
+  const ss = String(s % 60).padStart(2, '0');
+  return h ? `${h}:${String(m).padStart(2, '0')}:${ss}` : `${m}:${ss}`;
+}
+
+/** Диапазон времени в плане: «20–40 с» или «5–10 мин» (если оба значения — целые минуты) */
+export function fmtTimeRange(min: number, max: number): string {
+  const n = (v: number) => fmtNum(v);
+  const range = (a: number, b: number) => (a === b ? n(a) : `${n(a)}–${n(b)}`);
+  if (min >= 60 && min % 60 === 0 && max % 60 === 0) return `${range(min / 60, max / 60)} ${t('unit.min')}`;
+  return `${range(min, max)} ${t('unit.sec')}`;
+}

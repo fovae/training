@@ -245,7 +245,8 @@ Pixel 7, офлайн, ПК, юнит-тесты); полная — локаль
 
 - Советы: `src/advice/rules.ts`. Не больше двух советов на тренировку. Закрытый совет не повторяется
   14 дней (`tipState`). Выключатель — `settings.tipsEnabled`.
-- Порог веса: `docs/WEIGHT_LIMITS.md`. Штанга (этап 3А) — строки с `pending: true`, в боевой сборке
+- Порог веса: `docs/WEIGHT_LIMITS.md`. Две модели: `standards-elite` (отношение × вес тела) и
+  `class-record` (рекорд категории IPF; присед, жим лёжа, становая). Штанга — строки с `pending: true`, в боевой сборке
   выключены до `BARBELL_LIMITS_APPROVED = true` (`src/data/weightLimits.ts`); в тестах — флаг
   `localStorage['tp-test-flags'] = 'barbell-limits'`.
 - Восстановление (48 ч): сравниваются группы из `RECOVERY_GROUP`; растяжка и упражнения на время не

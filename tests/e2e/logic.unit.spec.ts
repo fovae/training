@@ -15,6 +15,9 @@ import { TYPO_FACTOR, checkWeight, weightLimitKg } from '../../src/advice/weight
 import {
   BARBELL_LIMITS_APPROVED,
   LIMIT_MARGIN,
+  classRecordFor,
+  type ClassLimit,
+  type RatioLimit,
   TEST_FLAGS_KEY,
   WEIGHT_LIMITS,
   findWeightLimit,
@@ -215,8 +218,15 @@ test.describe('weight limits', () => {
         ex.equipment.some((q) => q === 'machine' || q === 'cable'),
         w.exerciseId,
       ).toBe(false);
-      expect(w.male, w.exerciseId).toBeGreaterThan(0);
-      expect(w.female, w.exerciseId).toBeGreaterThan(0);
+      if (w.basis === 'standards-elite') {
+        expect(w.male, w.exerciseId).toBeGreaterThan(0);
+        expect(w.female, w.exerciseId).toBeGreaterThan(0);
+      } else {
+        // Категории IPF: мужчины 59…120 и 120+, женщины 47…84 и 84+
+        expect(w.classes.male.map((c) => c.upTo)).toEqual([59, 66, 74, 83, 93, 105, 120, null]);
+        expect(w.classes.female.map((c) => c.upTo)).toEqual([47, 52, 57, 63, 69, 76, 84, null]);
+        for (const c of [...w.classes.male, ...w.classes.female]) expect(c.kg).toBeGreaterThan(50);
+      }
       expect(w.source.length).toBeGreaterThan(10);
       expect(w.sourceDate).toMatch(/^\d{4}-\d{2}-\d{2}$/);
       // Гантели — на одну гантель, штанга — общий вес
@@ -229,7 +239,7 @@ test.describe('weight limits', () => {
   });
 
   test('threshold by sex, level and body weight', () => {
-    const lim = findWeightLimit('incline-db-press')!;
+    const lim = findWeightLimit('incline-db-press') as RatioLimit;
     expect(ratioFor(lim, 'unspecified')).toBeCloseTo((lim.male + lim.female) / 2);
     const male = weightLimitKg('incline-db-press', 80, 'male', 'veteran')!;
     expect(male).toBeCloseTo(0.84 * 1.5 * 80); // 100.8 кг на гантель
@@ -285,6 +295,16 @@ test.describe('weight limits: barbell (stage 3A)', () => {
       g.localStorage = prev;
     }
   };
+  const check = (exerciseId: string, sex: 'male' | 'female' | 'unspecified', bw: number, weightKg: number) =>
+    checkWeight({
+      exerciseId,
+      weightKg,
+      bodyWeightKg: bw,
+      sex,
+      level: 'intermediate',
+      lastWeightKg: null,
+      ignored: [],
+    });
 
   test('rows exist, wait for the owner, off in production until approved', () => {
     expect(BARBELL_LIMITS_APPROVED).toBe(false);
@@ -294,60 +314,84 @@ test.describe('weight limits: barbell (stage 3A)', () => {
       expect(lim!.pending, id).toBe(true);
       expect(findWeightLimit(id), id).toBeUndefined();
       expect(weightLimitKg(id, 80, 'male', 'veteran'), id).toBeNull();
-      expect(
-        checkWeight({
-          exerciseId: id,
-          weightKg: 2000,
-          bodyWeightKg: 80,
-          sex: 'male',
-          level: 'veteran',
-          lastWeightKg: null,
-          ignored: [],
-        }),
-      ).toBeNull();
+      expect(check(id, 'male', 80, 2000)).toBeNull();
     }
+    for (const id of ['back-squat', 'barbell-bench-press', 'deadlift'])
+      expect(findWeightLimit(id, { includePending: true })!.basis, id).toBe('class-record');
   });
 
-  test('test flag turns them on; powerlifting rows are ≥ 15% above the published records', () => {
+  test('class model: nearest class rounding up, "+" above the top, record × 1.15 × level', () => {
+    const dl = findWeightLimit('deadlift', { includePending: true }) as ClassLimit;
+    // 80 кг → категория 83, 83 кг → 83, 83,1 → 93, 130 → 120+
+    expect(classRecordFor(dl.classes.male, 80)).toBe(405);
+    expect(classRecordFor(dl.classes.male, 83)).toBe(405);
+    expect(classRecordFor(dl.classes.male, 83.1)).toBe(413);
+    expect(classRecordFor(dl.classes.male, 130)).toBe(492.5);
+    // Легче первой категории — первая категория
+    expect(classRecordFor(dl.classes.female, 40)).toBe(212.5);
+    // Порог не уменьшается с весом: у женщин 84 (291) меньше, чем 76 (291,5) — берём 291,5
+    expect(classRecordFor(dl.classes.female, 80)).toBe(291.5);
     withFlag(() => {
-      // Присед: рекорд 290 кг в категории до 52 кг (openpowerlifting.org/records)
-      const squat = weightLimitKg('back-squat', 52, 'male', 'veteran')!;
-      expect(squat).toBeGreaterThanOrEqual(290 * 1.15 - 0.5);
-      expect(weightLimitKg('barbell-bench-press', 52, 'male', 'veteran')!).toBeGreaterThanOrEqual(
-        177.5 * 1.15 - 0.5,
+      expect(weightLimitKg('deadlift', 80, 'male', 'intermediate')).toBeCloseTo(405 * 1.15);
+      expect(weightLimitKg('deadlift', 80, 'male', 'few')).toBeCloseTo(405 * 1.15 * 0.8);
+      expect(weightLimitKg('deadlift', 80, 'male', 'first')).toBeCloseTo(405 * 1.15 * 0.6);
+      // «Пол не указан» — меньшая из двух колонок
+      expect(weightLimitKg('deadlift', 80, 'unspecified', 'intermediate')).toBeCloseTo(291.5 * 1.15);
+      expect(weightLimitKg('back-squat', 60, 'unspecified', 'intermediate')).toBeCloseTo(
+        Math.min(326.5, 262.5) * 1.15,
       );
-      expect(weightLimitKg('deadlift', 59, 'male', 'veteran')!).toBeGreaterThanOrEqual(303 * 1.15 - 0.5);
-      expect(weightLimitKg('back-squat', 56, 'female', 'veteran')!).toBeGreaterThanOrEqual(260 * 1.15 - 0.5);
-      expect(weightLimitKg('barbell-bench-press', 56, 'female', 'veteran')!).toBeGreaterThanOrEqual(
-        132.5 * 1.15 - 0.5,
-      );
-      expect(weightLimitKg('deadlift', 47, 'female', 'veteran')!).toBeGreaterThanOrEqual(212.5 * 1.15 - 0.5);
-      for (const id of ['back-squat', 'barbell-bench-press', 'deadlift'])
-        expect(findWeightLimit(id)!.basis, id).toBe('world-record');
-      // Порог: отношение × запас × уровень × вес тела; «не указан» — среднее
-      expect(weightLimitKg('back-squat', 80, 'male', 'veteran')).toBeCloseTo(5.58 * 1.15 * 80);
-      expect(weightLimitKg('back-squat', 80, 'unspecified', 'few')).toBeCloseTo(
-        ((5.58 + 4.64) / 2) * 1.15 * 0.8 * 80,
-      );
+      // Порог выше рекорда категории не меньше чем на 15%
+      for (const id of ['back-squat', 'barbell-bench-press', 'deadlift'] as const) {
+        const lim = findWeightLimit(id) as ClassLimit;
+        for (const sex of ['male', 'female'] as const)
+          for (const c of lim.classes[sex]) {
+            const bw = c.upTo ?? 150;
+            expect(weightLimitKg(id, bw, sex, 'veteran')!).toBeGreaterThanOrEqual(c.kg * 1.15 - 1e-9);
+          }
+      }
+    });
+  });
+
+  test('owner examples (intermediate level)', () => {
+    withFlag(() => {
+      // мужчина 80 кг, становая 200 кг → без предупреждения
+      expect(check('deadlift', 'male', 80, 200)).toBeNull();
+      // мужчина 80 кг, присед 513 кг → предупреждение (порог 396 × 1,15 = 455,4)
+      expect(check('back-squat', 'male', 80, 513)?.kind).toBe('unrealistic');
+      // женщина 60 кг, жим лёжа 80 кг → без предупреждения
+      expect(check('barbell-bench-press', 'female', 60, 80)).toBeNull();
+    });
+  });
+
+  // Пример владельца «женщина 50 кг, становая 250 кг → предупреждение» по заданной модели не
+  // выполняется: категория 52 кг, рекорд 220,5 кг × 1,15 = 253,6 кг > 250. Нужна правка модели или
+  // примера — вопрос владельцу (docs/WEIGHT_LIMITS.md). Тест фиксирует фактическое поведение.
+  test('owner example: female 50 kg, deadlift 250 kg — model gives 253.6 kg threshold (open question)', () => {
+    withFlag(() => {
+      expect(weightLimitKg('deadlift', 50, 'female', 'intermediate')).toBeCloseTo(220.5 * 1.15);
+      expect(check('deadlift', 'female', 50, 250)).toBeNull();
+      expect(check('deadlift', 'female', 50, 254)?.kind).toBe('unrealistic');
+    });
+  });
+
+  test('other barbell exercises keep Strength Level Elite +50%; typo check works for barbell', () => {
+    withFlag(() => {
       expect(weightLimitKg('overhead-press', 80, 'female', 'first')).toBeCloseTo(1.125 * 1.5 * 0.6 * 80);
-      // Граница: ровно порог — без предупреждения, выше — предупреждение
-      const lim = weightLimitKg('deadlift', 80, 'male', 'intermediate')!;
-      const base = {
-        exerciseId: 'deadlift',
-        bodyWeightKg: 80,
-        sex: 'male' as const,
-        level: 'intermediate' as const,
-        lastWeightKg: null,
-        ignored: [],
-      };
-      expect(checkWeight({ ...base, weightKg: lim })).toBeNull();
-      expect(checkWeight({ ...base, weightKg: lim + 1 })?.kind).toBe('unrealistic');
-      expect(checkWeight({ ...base, weightKg: 200 })).toBeNull();
-      // Опечатка работает и для штанги: 1000 после 100 → «Ты имел(а) в виду 100?»
-      expect(checkWeight({ ...base, weightKg: 1000, lastWeightKg: 100 })).toEqual({
-        kind: 'typo',
-        suggestionKg: 100,
-      });
+      expect(weightLimitKg('barbell-hip-thrust', 80, 'male', 'veteran')).toBeCloseTo(3.86 * 1.5 * 80);
+      const lim = weightLimitKg('romanian-deadlift', 80, 'male', 'intermediate')!;
+      expect(check('romanian-deadlift', 'male', 80, lim)).toBeNull();
+      expect(check('romanian-deadlift', 'male', 80, lim + 1)?.kind).toBe('unrealistic');
+      expect(
+        checkWeight({
+          exerciseId: 'deadlift',
+          weightKg: 1000,
+          bodyWeightKg: 80,
+          sex: 'male',
+          level: 'intermediate',
+          lastWeightKg: 100,
+          ignored: [],
+        }),
+      ).toEqual({ kind: 'typo', suggestionKg: 100 });
     });
   });
 

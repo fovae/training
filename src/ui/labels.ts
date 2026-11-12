@@ -1,6 +1,6 @@
 import { findExercise } from '../data/exercises';
 import { fmtNum, has, t, weekdayShort } from '../i18n';
-import { fmtRest } from '../lib/format';
+import { fmtRest, fmtTimeRange } from '../lib/format';
 import { dayIndex, findDay, shownWeekday } from '../state/plan';
 import { restFor } from '../state/session';
 import type { Day, Exercise, Muscle, PlanItem } from '../types';
@@ -39,10 +39,13 @@ export function dayEyebrow(day: Day): string {
 /** «3 × 8–12», «2 × 20–40 с», «на руку» */
 export function schemeText(item: PlanItem, ex: Exercise | undefined): string {
   const range =
-    item.repsMin === item.repsMax ? fmtNum(item.repsMin) : `${fmtNum(item.repsMin)}–${fmtNum(item.repsMax)}`;
-  const unit = ex?.metric === 'time' ? ' ' + t('unit.sec') : '';
+    ex?.metric === 'time'
+      ? fmtTimeRange(item.repsMin, item.repsMax)
+      : item.repsMin === item.repsMax
+        ? fmtNum(item.repsMin)
+        : `${fmtNum(item.repsMin)}–${fmtNum(item.repsMax)}`;
   const per = ex?.per ? ' ' + t(`per.${ex.per}`) : '';
-  return `${fmtNum(item.sets)} × ${range}${unit}${per}`;
+  return `${fmtNum(item.sets)} × ${range}${per}`;
 }
 
 export const restText = (item: PlanItem, ex: Exercise | undefined): string => fmtRest(restFor(ex, item));

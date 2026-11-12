@@ -6,7 +6,7 @@ import { levelBehavior } from '../../advice/levels';
 import { confirmWeight } from '../../features/weightCheck';
 import { profile } from '../../state/settings';
 import { fmtNum, t } from '../../i18n';
-import { fromUnit, inputNum, parseDecimal, toUnit, unitLabel } from '../../lib/format';
+import { fmtSetTime, fromUnit, inputNum, parseDecimal, toUnit, unitLabel } from '../../lib/format';
 import type { Exercise, PlanItem, SessionEntry, SessionSet } from '../../types';
 import {
   addSet,
@@ -123,7 +123,7 @@ export function ExerciseCard({ item, num, log, tips = [] }: Props) {
 }
 
 function fmtSet(s: SessionSet, ex: Exercise | undefined): string {
-  if (ex?.metric === 'time') return `${s.seconds ?? '—'} ${t('unit.sec')}`;
+  if (ex?.metric === 'time') return s.seconds != null ? fmtSetTime(s.seconds) : `— ${t('unit.sec')}`;
   if (s.weightKg) return `${fmtNum(toUnit(s.weightKg) ?? 0)}×${s.reps ?? '—'}`;
   return `${s.reps ?? '—'}`;
 }

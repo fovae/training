@@ -25,7 +25,7 @@ import {
 import { active, restFor } from '../../state/session';
 import { ask, planDayId, toast } from '../../state/ui';
 import type { Day, PlanItem, Weekday } from '../../types';
-import { Stepper, Toggle } from '../components/Controls';
+import { Seg, Stepper, Toggle } from '../components/Controls';
 import { DayHead } from '../components/DayHead';
 import { SwipeDays } from '../components/DaySwitcher';
 import { ExerciseFilters, useExerciseFilter } from '../components/ExerciseFilters';
@@ -322,6 +322,11 @@ function ItemEditor({
     const n = parseDecimal(v);
     return n == null ? d : n;
   };
+  // Упражнения на время: диапазон в секундах или в минутах (хранится всегда в секундах)
+  const [inMin, setInMin] = useState(isTime && item.repsMin >= 60 && item.repsMin % 60 === 0);
+  const k = isTime && inMin ? 60 : 1;
+  const shown = (sec: number) => (k === 60 ? inputNum(Math.round((sec / 60) * 10) / 10) : String(sec));
+  const toSec = (v: string, d: number) => Math.round(num(v, d / k) * k);
 
   return (
     <li class="item">
@@ -354,32 +359,46 @@ function ItemEditor({
               onChange={(v) => up({ sets: v })}
             />
           </div>
+          {isTime && (
+            <div class="srow">
+              <span class="sr-only">{t('plan.timeUnit', { name })}</span>
+              <Seg
+                label={t('plan.timeUnit', { name })}
+                value={inMin ? 'min' : 'sec'}
+                onChange={(v) => setInMin(v === 'min')}
+                options={[
+                  { v: 'sec', t: t('plan.secondsRange') },
+                  { v: 'min', t: t('plan.minutesRange') },
+                ]}
+              />
+            </div>
+          )}
           <div class="srow">
-            <span>{t(isTime ? 'plan.secondsRange' : 'plan.repsRange')}</span>
+            <span>{t(isTime ? (inMin ? 'plan.minutesRange' : 'plan.secondsRange') : 'plan.repsRange')}</span>
             <span class="range">
               <input
                 class="num-in"
                 type="text"
-                inputMode="numeric"
+                inputMode={k === 60 ? 'decimal' : 'numeric'}
                 enterKeyHint="done"
                 autoComplete="off"
                 ref={repsRef}
                 aria-label={t('plan.min', { name })}
-                defaultValue={String(item.repsMin)}
-                key={'min' + item.repsMin}
-                onChange={(e) => up({ repsMin: num(e.currentTarget.value, item.repsMin) })}
+                defaultValue={shown(item.repsMin)}
+                key={'min' + item.repsMin + k}
+                onChange={(e) => up({ repsMin: toSec(e.currentTarget.value, item.repsMin) })}
               />
               <span aria-hidden="true">–</span>
               <input
                 class="num-in"
                 type="text"
-                inputMode="numeric"
+                inputMode={k === 60 ? 'decimal' : 'numeric'}
                 enterKeyHint="done"
                 autoComplete="off"
                 aria-label={t('plan.max', { name })}
-                defaultValue={String(item.repsMax)}
-                key={'max' + item.repsMax}
-                onChange={(e) => up({ repsMax: num(e.currentTarget.value, item.repsMax) })}
+                defaultValue={shown(item.repsMax)}
+                key={'max' + item.repsMax + k}
+                onChange={(e) => up({ repsMax: toSec(e.currentTarget.value, item.repsMax) })}
               />
             </span>
           </div>

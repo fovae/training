@@ -1,4 +1,4 @@
-import { LIMIT_MARGIN, findWeightLimit, ratioFor } from '../data/weightLimits';
+import { LIMIT_MARGIN, baseLimitKg, findWeightLimit } from '../data/weightLimits';
 import type { Level, Sex } from '../types';
 import { WEIGHT_LIMIT_MULTIPLIER } from './levels';
 
@@ -35,7 +35,7 @@ export function weightLimitKg(
   const lim = findWeightLimit(exerciseId);
   if (!lim || !bodyWeightKg || bodyWeightKg <= 0) return null;
   const mult = WEIGHT_LIMIT_MULTIPLIER[level ?? 'intermediate'];
-  return ratioFor(lim, sex) * (1 + LIMIT_MARGIN[lim.basis]) * mult * bodyWeightKg;
+  return baseLimitKg(lim, bodyWeightKg, sex) * (1 + LIMIT_MARGIN[lim.basis]) * mult;
 }
 
 /** Похоже на лишний ноль: предлагаем вес в 10 раз меньше, округлённый до 0,5 */
