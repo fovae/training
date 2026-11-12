@@ -1,6 +1,7 @@
 import { computed, effect, signal } from '@preact/signals';
 import type { ComponentChildren } from 'preact';
-import { settings } from './settings';
+import { settings, settingsReady } from './settings';
+import { resolveTheme, themeColor } from '../themes';
 import { dayColor, plan } from './plan';
 import { active, suggestedDayId } from './session';
 
@@ -23,7 +24,8 @@ export function parseRoute(hash: string): Route {
     return { tab: t, sub: { kind: a, id: decodeURIComponent(b) } };
   if (t === 'library' && a) return { tab: t, sub: { kind: 'exercise', id: decodeURIComponent(a) } };
   if (t === 'settings' && a) return { tab: t, sub: { kind: 'section', id: a } };
-  if (t === 'legal') return { tab: t, sub: { kind: 'doc', id: a === 'terms' ? 'terms' : 'privacy' } };
+  if (t === 'legal')
+    return { tab: t, sub: { kind: 'doc', id: a === 'terms' || a === 'licenses' ? a : 'privacy' } };
   return { tab: t };
 }
 
@@ -62,17 +64,15 @@ effect(() => {
 
 // ---------- тема ----------
 
-const THEME_BG = { light: '#F3F1EC', dark: '#111114' };
-
 effect(() => {
+  // До чтения настроек не трогаем тему: иначе тема по умолчанию на миг перекрасит экран
+  if (!settingsReady.value) return;
   const th = settings.value.theme;
-  const manual = th === 'light' || th === 'dark';
-  const root = document.documentElement;
-  if (manual) root.dataset.theme = th;
-  else delete root.dataset.theme;
+  document.documentElement.dataset.theme = th;
+  // theme-color: для «Авто» — свой цвет для светлой и тёмной системной темы, иначе цвет темы
   document.querySelectorAll<HTMLMetaElement>('meta[name="theme-color"]').forEach((m) => {
-    const isDarkMeta = (m.media || '').includes('dark');
-    m.content = manual ? THEME_BG[th] : isDarkMeta ? THEME_BG.dark : THEME_BG.light;
+    const dark = (m.media || '').includes('dark');
+    m.content = themeColor(resolveTheme(th, dark));
   });
 });
 

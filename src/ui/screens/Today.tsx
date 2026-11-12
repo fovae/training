@@ -19,9 +19,11 @@ import {
 import { stopRest } from '../../features/timer';
 import { DayHead } from '../components/DayHead';
 import { DaySwitcher, SwipeDays } from '../components/DaySwitcher';
-import { ExerciseCard } from '../components/ExerciseCard';
+import { ExerciseCard, TipCard } from '../components/ExerciseCard';
+import { dayTips } from '../../advice';
+import { dismissReminder, reminderDue, saveCopy } from '../../features/backup';
 import { Icon } from '../components/Icon';
-import { dayNumber } from '../labels';
+import { dayNumber, muscleName } from '../labels';
 
 function useElapsed(fromIso: string | undefined): number {
   const [now, setNow] = useState(Date.now());
@@ -98,6 +100,13 @@ export function Today() {
     }
   };
 
+  // Советы: не больше двух на тренировку; восстановление — только когда тренировка идёт
+  const tips = day
+    ? dayTips(day.id, s ? s.entries.map((e) => targetFor(s.dayId, e.exerciseId)) : day.items, {
+        withRecovery: !!s,
+        ...(s ? { beforeIso: s.startedAt } : {}),
+      })
+    : [];
   const restDay = !s && !day && p?.mode === 'weekdays';
   const title = s
     ? t('today.inProgress')
@@ -126,6 +135,7 @@ export function Today() {
       </header>
 
       {loadError.value && <div class="note warn">{t('app.storageError')}</div>}
+      {!s && reminderDue.value && <BackupReminder />}
 
       {restDay && <RestDay onPick={setDay} />}
 
@@ -152,6 +162,14 @@ export function Today() {
             )}
           </DayHead>
 
+          {tips
+            .filter((a) => a.kind === 'recovery')
+            .map((a) => (
+              <TipCard key={a.id} tip={a}>
+                {t('advice.recovery', { muscles: (a.muscles ?? []).map(muscleName).join(', ') })}
+              </TipCard>
+            ))}
+
           {!s && !day.items.length && (
             <div class="empty">
               <p>{t('today.emptyDay')}</p>
@@ -169,10 +187,16 @@ export function Today() {
                     item={targetFor(s.dayId, entry.exerciseId)}
                     num={i + 1}
                     log={{ idx: i, entry }}
+                    tips={tips.filter((a) => a.exerciseId === entry.exerciseId)}
                   />
                 ))
               : day.items.map((item, i) => (
-                  <ExerciseCard key={item.exerciseId + i} item={item} num={i + 1} />
+                  <ExerciseCard
+                    key={item.exerciseId + i}
+                    item={item}
+                    num={i + 1}
+                    tips={tips.filter((a) => a.exerciseId === item.exerciseId)}
+                  />
                 ))}
           </div>
 
@@ -218,5 +242,35 @@ function RestDay({ onPick }: { onPick: (id: string) => void }) {
         </button>
       )}
     </div>
+  );
+}
+
+/** «Сохрани копию»: раз в 7 дней, закрытие откладывает на 3 дня. Никаких push. */
+function BackupReminder() {
+  const onSave = async () => {
+    const r = await saveCopy();
+    if (r === 'downloaded') toast(t('backup.downloaded'));
+    if (r === 'shared') toast(t('backup.saved'));
+  };
+  return (
+    <aside class="card backup-reminder" aria-label={t('backup.reminderLabel')}>
+      <div class="br-text">
+        <b>{t('legal.backupReminder')}</b>
+        <span class="muted small">{t('legal.backupReminderNote')}</span>
+      </div>
+      <div class="br-actions">
+        <button type="button" class="btn primary" onClick={() => void onSave()}>
+          <Icon name="share" size={18} /> {t('backup.save')}
+        </button>
+        <button
+          type="button"
+          class="icon-btn"
+          aria-label={t('backup.reminderDismiss')}
+          onClick={dismissReminder}
+        >
+          <Icon name="close" size={20} />
+        </button>
+      </div>
+    </aside>
   );
 }

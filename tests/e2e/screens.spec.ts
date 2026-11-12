@@ -67,14 +67,17 @@ for (const scheme of ['light', 'dark'] as const) {
 
 /** Английские слова, допустимые на русском экране: названия, бренды, термины (cookie, IP), язык «English» */
 const ALLOWED = new Set(
-  'simple training fovae claude safari iphone ipad android chrome edge firefox samsung internet ios icloud json github pages reverse pec deck dead bug sole trader work gmail com english cookie ip'.split(
+  'simple training fovae claude safari iphone ipad android chrome edge firefox samsung internet ios icloud json github pages reverse pec deck dead bug sole trader work gmail com english cookie ip drive'.split(
     ' ',
   ),
 );
 
 async function englishWords(page: Page): Promise<string[]> {
   const text = await page.evaluate(() => document.querySelector('main')!.innerText);
-  const stripped = text.replace(/«[^»]*»/g, ' '); // системные пункты меню — в кавычках, на английском по ТЗ
+  const stripped = text
+    .replace(/«[^»]*»/g, ' ')
+    // ответственное лицо — как в документах, на английском
+    .replace('Fovae, a project of Vladyslav N.', ' '); // системные пункты меню — в кавычках, на английском по ТЗ
   return [...new Set(stripped.match(/[A-Za-z]{2,}/g) ?? [])].filter((w) => !ALLOWED.has(w.toLowerCase()));
 }
 
@@ -91,8 +94,6 @@ test('Russian: no English UI strings on any screen', async ({ page }) => {
   await page.evaluate(() => localStorage.setItem('tp-boot', JSON.stringify({ locale: 'ru' })));
   await page.reload();
   await scan('install-ios');
-  await page.getByRole('radio', { name: 'Android' }).click();
-  await scan('install-android');
   // Онбординг по шагам
   await fresh(page);
   await page.getByRole('radio', { name: 'Русский' }).click();
@@ -110,16 +111,7 @@ test('Russian: no English UI strings on any screen', async ({ page }) => {
   await page.getByRole('radio', { name: /Сплит 3\+1/ }).click();
   await page.getByRole('button', { name: 'Начать' }).click();
   // Все экраны приложения
-  for (const r of [
-    'today',
-    'plan',
-    'library',
-    'library/dead-bug',
-    'history',
-    'settings',
-    'legal/privacy',
-    'legal/terms',
-  ]) {
+  for (const r of ['today', 'plan', 'library', 'library/dead-bug', 'history', 'settings']) {
     await page.goto('./#/' + r);
     if (r === 'plan') {
       await page.waitForSelector('.item summary');

@@ -47,7 +47,13 @@
     "first": "I'm a beginner, this is my first time",
     "few": "I'm a beginner, but I've been to the gym a few times",
     "intermediate": "Intermediate",
-    "veteran": "Experienced"
+    "veteran": "Experienced",
+    "desc": {
+      "first": "More technique hints; technique cards open by default.",
+      "few": "More technique hints; working weight is optional in the plan.",
+      "intermediate": "Fewer hints; enter working weights right when adding exercises.",
+      "veteran": "Fewest hints; enter working weights right when adding exercises."
+    }
   },
   "day": {
     "n": "Day {n}",
@@ -108,10 +114,7 @@
     },
     "terms": {
       "title": "Before you start",
-      "adult": "I am 16 or older",
-      "adultRequired": "Please confirm that you are 16 or older to continue.",
-      "noBirthdate": "We don't ask for or store your date of birth.",
-      "readMore": "Read more:"
+      "noBirthdate": "We don't ask for or store your date of birth."
     },
     "profile": {
       "title": "Your profile",
@@ -222,7 +225,12 @@
     "noteFor": "Note: {name}"
   },
   "advice": {
-    "progression": "If you like, you can add a little weight: last time you hit the top of the range in every set."
+    "progression": "If you like, you can add a little weight: last time you hit the top of the range in every set.",
+    "deload": "Reps were below the range in the last workouts. You can take a little weight off the barbell, dumbbells or kettlebell.",
+    "recovery": "You trained {muscles} less than 48 hours ago. If they still feel tired, go a little lighter today.",
+    "lightStart": "First time with this exercise: start with a light weight and focus on technique.",
+    "dismiss": "Hide this tip",
+    "nextTime": "For next time"
   },
   "timer": {
     "region": "Rest timer",
@@ -306,7 +314,8 @@
     "added": "Added: {name}",
     "alreadyInDay": "already in this day",
     "scheduleLine": "Schedule: {mode}",
-    "changeInSettings": "Change in Settings"
+    "changeInSettings": "Change in Settings",
+    "addWeight": "Working weight (optional)"
   },
   "rules": {
     "title": "Rules",
@@ -388,9 +397,6 @@
     "languageAndLook": "Language and appearance",
     "language": "Language",
     "theme": "Theme",
-    "themeAuto": "Auto",
-    "themeLight": "Light",
-    "themeDark": "Dark",
     "timer": "Rest timer",
     "restBase": "Compound exercises",
     "restBaseHint": "usually 2–3 min",
@@ -407,7 +413,6 @@
     "wake_on": "Active: the screen won't turn off.",
     "wake_error": "The system declined the request; the screen may turn off.",
     "data": "Data",
-    "dataHint": "iOS may clear app storage if you don't use it for a long time. Export your data every few weeks; you can save the file to Files or iCloud.",
     "persist": "Persistent storage",
     "persist_persisted": "On: the browser won't delete data when space runs low.",
     "persist_not-persisted": "Off: the browser may clear data. Export regularly.",
@@ -421,39 +426,52 @@
     "toWeekdaysBody": "Each day of your plan will be tied to a day of the week. You can choose the days on the Plan tab. Your exercises and history stay as they are.",
     "toCycleTitle": "Switch to cycle?",
     "toCycleBody": "Workouts will go in a loop without being tied to days of the week. Your chosen weekdays are kept in case you switch back. Your exercises and history stay as they are.",
-    "switched": "Schedule: {mode}"
+    "switched": "Schedule: {mode}",
+    "tips": "Tips",
+    "showTips": "Show tips",
+    "tipsHint": "Gentle rule-based hints during workouts. Weight warnings are set separately.",
+    "weightWarnOff": {
+      "one": "Weight warnings are off for {count} exercise",
+      "other": "Weight warnings are off for {count} exercises"
+    },
+    "weightWarnOffHint": "You chose “Don't warn me again” in the warning.",
+    "weightWarnReset": "Turn back on"
   },
   "backup": {
-    "export": "Export JSON",
-    "import": "Import",
-    "shareTitle": "Workout backup",
+    "save": "Save a copy",
+    "restore": "Restore from a copy",
+    "shareTitle": "Simple Training backup",
+    "saved": "Copy ready",
     "downloaded": "File saved to Downloads",
-    "shared": "Backup ready",
-    "exportFailed": "Export failed",
-    "restoreTitle": "Restore from backup?",
-    "restoreCount": {
-      "one": "The file has {count} workout.",
-      "other": "The file has {count} workouts."
-    },
-    "restoreDate": "Backup from {date}.",
-    "restoreReplace": {
-      "one": "Your current data ({count} workout) will be replaced.",
-      "other": "Your current data ({count} workouts) will be replaced."
-    },
-    "replace": "Replace",
+    "saveFailed": "Couldn't save a copy",
+    "saveFirst": "Save a copy first",
+    "lastCopy": "Last copy",
+    "never": "not saved yet",
+    "replace": "Replace current data",
     "restored": "Data restored",
-    "errNotJson": "This file doesn't look like JSON.",
-    "errForeign": "This isn't a backup from this app.",
-    "errNewer": "The backup was made by a newer version of the app. Update the app first.",
-    "errTooBig": "The file is too large.",
-    "errRead": "Couldn't read the file"
+    "undo": "Undo restore",
+    "undone": "Restore undone",
+    "sumWorkouts": "Workouts",
+    "sumPeriod": "Period",
+    "sumLanguage": "Language",
+    "sumVersion": "App version",
+    "workoutsCount": {
+      "one": "{count} workout",
+      "other": "{count} workouts"
+    },
+    "reminderLabel": "Backup reminder",
+    "reminderDismiss": "Remind me later",
+    "err": {
+      "too-big": "The file is too large for a backup.",
+      "not-json": "This file doesn't look like a backup (not JSON).",
+      "foreign": "This isn't a Simple Training backup.",
+      "newer": "This copy was made by a newer version of the app. Please update the app first.",
+      "invalid": "The backup file is damaged or has unexpected data.",
+      "checksum": "The backup file was changed or damaged (checksum mismatch)."
+    }
   },
   "reset": {
     "button": "Delete all data",
-    "title": "Delete all data?",
-    "body": "Your profile, plan, history and current workout will be deleted for good. Export first if you need them.",
-    "confirm": "Delete everything",
-    "exportFirst": "Export first",
     "done": "Data deleted"
   },
   "install": {
@@ -472,19 +490,16 @@
         "Your data stays in the app on your phone."
       ],
       "warn": "Data in the browser and in the installed app are separate and don't carry over. Use the installed app so your workouts aren't lost.",
-      "yourPhone": "Your phone",
       "orSteps": "Or follow the steps below.",
       "stepsLabel": "Installation steps",
       "translated": "Menu items are named in English here; on your phone they may be translated.",
       "scrollHint": "Scroll down",
       "installed": "I've installed it",
       "continue": "Continue in browser",
-      "continueNoteIos": "Data in Safari may be deleted after 7 days without use.",
-      "continueNoteAndroid": "The browser may clear this site's data, and your workouts with it."
+      "profileNote": "Fill in your profile in the installed app: the browser tab and the installed app keep separate data."
     },
     "ios": {
-      "openInApp": "This page is open inside another app. Open it in Safari: tap “⋯” or the share icon and choose “Open in Safari” or “Open in browser”.",
-      "openSafari": "Open this page in Safari: it's the most reliable way to install on iPhone. Copy the link and paste it into Safari.",
+      "openInApp": "Open this link in Safari.",
       "dots": "Tap “⋯” next to the address bar.",
       "share": "Tap “Share”.",
       "shareAlt": "If your tabs are at the bottom or top of the screen (“Bottom” or “Top” layout), the “Share” button is right on the bar.",
@@ -496,24 +511,20 @@
       "addHome": "Scroll down the list and tap “Add to Home Screen”.",
       "editActions": "Not in the list? Tap “Edit Actions” at the very bottom and add it.",
       "webApp": "Keep “Open as Web App” turned on, then tap “Add”.",
-      "addOld": "Tap “Add” in the top right corner."
-    },
-    "and": {
-      "openInApp": "This page is open inside another app. Open it in Chrome: tap “⋮” and choose “Open in Chrome” or “Open in browser”.",
-      "menu": "Tap the “⋮” menu in the top right corner.",
-      "item": "Tap “Add to home screen” or “Install app”, then “Install”.",
-      "confirm": "Confirm. The icon will appear on your Home Screen and in the app list.",
-      "otherTitle": "Another browser?",
-      "other": [
-        "Edge: “⋯” menu → “Add to phone”.",
-        "Firefox: “⋮” menu → “Add to Home screen”.",
-        "Samsung Internet: “≡” menu → “Add page to” → “Home screen”."
-      ]
+      "addOld": "Tap “Add” in the top right corner.",
+      "continueNote": "Data in Safari may be deleted after 7 days without use."
     },
     "done": {
       "title": "Done!",
       "text": "Open Simple Training from your Home Screen. You can close this tab.",
       "again": "Show the instructions again"
+    },
+    "android": {
+      "continueNote": "The browser may clear this site's data, and your workouts with it.",
+      "openInApp": "Open this link in your phone’s browser.",
+      "menu": "Open the browser menu (usually “⋮” at the top or bottom of the screen).",
+      "item": "Find an item like “Install app” or “Add to Home screen” and tap it.",
+      "confirm": "Confirm. The icon will appear on your Home Screen."
     }
   },
   "update": {
@@ -526,32 +537,36 @@
     "version": "Version",
     "privacy": "Works offline. No accounts, ads, cookies or tracking. Your data stays only on this device.",
     "contact": "Contact",
-    "credits": "Created by Fovae & Claude"
+    "credits": "Created by Fovae & Claude",
+    "responsible": "Responsible"
   },
   "legal": {
-    "draft": "Draft. The final text will be published in a later version of the app.",
-    "disclaimer": "This app is not medical advice. Talk to a doctor before starting to train if you have any health concerns. You train at your own risk.",
-    "controllerTitle": "Who is responsible",
-    "controller": "Fovae (sole trader, Ireland) is responsible for the app and is the data controller. Contact:",
-    "privacy": {
-      "title": "Privacy policy",
-      "body": [
-        "The app has no accounts, ads, cookies or tracking.",
-        "Your profile, plan, workouts and notes are stored only on your device and are never sent to any server.",
-        "The app makes no requests to third-party services: fonts and scripts are served from our own site.",
-        "The hosting provider (GitHub Pages) may log IP addresses on its side when the site is opened.",
-        "You can delete all your data at any time in Settings."
-      ]
-    },
-    "terms": {
-      "title": "Terms of use",
-      "body": [
-        "The app is free and provided as is, without warranties.",
-        "You must be 16 or older to use the app.",
-        "The app helps you plan and log workouts. It does not give advice on body weight, nutrition or appearance.",
-        "Listen to your body: stop an exercise if you feel pain or discomfort."
-      ]
-    }
+    "adultLabel": "I am at least 16 years old and I accept the {terms} and the {privacy}",
+    "adultRequired": "To continue, confirm that you are at least 16 and accept the Terms of Use and the Privacy Policy.",
+    "disclaimer": "Strength training has risks. You choose your exercises and weights and train at your own risk. If you have a health concern, an injury or a condition, are pregnant or unsure, talk to a doctor first. Tips and warnings in the app are general information, not medical or professional advice.",
+    "weightWarnTitle": "This is a very heavy weight",
+    "weightWarnBody": "This is a very heavy weight. The app does not recommend it; you do it at your own risk. A warning, or no warning, does not mean a weight is safe for you.",
+    "backupReminder": "Save a copy so you don't lose your progress.",
+    "backupReminderNote": "The file is not encrypted. You choose where to keep it.",
+    "backupNote": "A copy is a readable JSON file: it is not encrypted and is not sent to us. You choose where to save it (Files, iCloud Drive, email…). Keep it somewhere secure and delete copies you no longer need.",
+    "deleteTitle": "Delete all data?",
+    "deleteBody": "This deletes your profile, plan, workout history, notes and settings stored in this browser. It cannot be undone, and we cannot recover it. Save a copy first if you need your data.",
+    "deleteConfirm": "Delete everything",
+    "restoreTitle": "Replace current data?",
+    "restoreBody": "Your current profile, plan, history and settings will be replaced by the data from this file. You can undo this until you change anything. Restore checks the file, but you are responsible for choosing it.",
+    "englishOnly": "Legal documents are only available in English for now. If translations differ, the English version prevails.",
+    "versionLine": "Version {version}, updated {date}",
+    "toc": "Contents",
+    "termsTitle": "Terms of Use",
+    "privacyTitle": "Privacy Policy",
+    "licensesTitle": "Open-source licences",
+    "licensesLead": "Simple Training uses open-source software and fonts. Their licences are listed below.",
+    "updatedTitle": "We updated our documents",
+    "updatedBody": "Please review the updated Terms of Use and Privacy Policy. You can read them first; to keep using the app, accept them.",
+    "accept": "Accept",
+    "responsible": "Fovae, a project of Vladyslav N.",
+    "termsLink": "Terms of Use",
+    "privacyLink": "Privacy Policy"
   },
   "tpl": {
     "day": {
@@ -578,5 +593,39 @@
       "d3": "Shoulders + traps",
       "d4": "Abs + core + legs"
     }
+  },
+  "weight": {
+    "typoTitle": "Did you mean {value}?",
+    "typoBody": "You entered {entered}; last time it was {last}.",
+    "fix": "Fix",
+    "correct": "That's right",
+    "dontWarn": "Don't warn me again for this exercise"
+  },
+  "theme": {
+    "auto": "Auto",
+    "classic-orange": "Classic orange",
+    "classic-light": "Classic light",
+    "classic-dark": "Classic dark",
+    "monochrome": "Monochrome",
+    "blue": "Blue",
+    "violet": "Violet",
+    "green": "Green",
+    "rose": "Rose",
+    "gradient-1": "Sunset gradient",
+    "gradient-2": "Night gradient"
+  },
+  "stats": {
+    "weeksTitle": "Last 10 weeks",
+    "perWeek": "Workouts per week",
+    "perWeekLabel": "Workouts per week, last 10 weeks",
+    "volume": "Volume per week, {unit}",
+    "volumeLabel": "Total volume per week, {unit}, last 10 weeks",
+    "caption": "This week: {last}. Weekly average: {avg}.",
+    "asTable": "Show as a table",
+    "records": "Records",
+    "maxWeight": "Heaviest weight",
+    "maxReps": "Most reps in a set",
+    "maxSeconds": "Longest set",
+    "maxSetVolume": "Best set (weight × reps)"
   }
 }

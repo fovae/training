@@ -1,5 +1,6 @@
 import { findExercise } from '../../data/exercises';
-import { adviceFor } from '../../advice';
+import { dayTips } from '../../advice';
+import { TipCard } from '../components/ExerciseCard';
 import { fmtDate, fmtNum, fmtShortDate, fmtTime, t } from '../../i18n';
 import { fmtDuration, fmtWeight, ms, toUnit, unitLabel } from '../../lib/format';
 import { dayColor, findDay, plan } from '../../state/plan';
@@ -15,6 +16,8 @@ import {
 import type { Session } from '../../types';
 import { Icon } from '../components/Icon';
 import { LineChart } from '../components/LineChart';
+import { BarChart } from '../components/BarChart';
+import { exerciseRecords, weeklyStats } from '../../lib/stats';
 import { Pic } from '../components/Pic';
 import { fmtSets } from '../components/ExerciseCard';
 import { dayNumber, dayTitleById, exName, muscleName } from '../labels';
@@ -51,6 +54,35 @@ function WeekCard() {
   );
 }
 
+/** Общая статистика: тренировок в неделю и объём по неделям (последние 10 недель) */
+function WeeklyCharts() {
+  const weeks = weeklyStats(history.value, Date.now(), 10);
+  const labels = weeks.map((w) => fmtShortDate(w.start));
+  const u = unitLabel();
+  return (
+    <section>
+      <div class="sec-h">
+        <h2>{t('stats.weeksTitle')}</h2>
+      </div>
+      <div class="charts-2">
+        <div class="card">
+          <h3 class="card-t">{t('stats.perWeek')}</h3>
+          <BarChart labels={labels} values={weeks.map((w) => w.workouts)} label={t('stats.perWeekLabel')} />
+        </div>
+        <div class="card">
+          <h3 class="card-t">{t('stats.volume', { unit: u })}</h3>
+          <BarChart
+            labels={labels}
+            values={weeks.map((w) => Math.round(toUnit(w.volumeKg) ?? 0))}
+            label={t('stats.volumeLabel', { unit: u })}
+            unit={' ' + u}
+          />
+        </div>
+      </div>
+    </section>
+  );
+}
+
 export function History() {
   const list = history.value;
   const exIds = [
@@ -67,6 +99,7 @@ export function History() {
       </header>
 
       <WeekCard />
+      {list.length > 0 && <WeeklyCharts />}
 
       {!list.length && (
         <div class="empty">
@@ -186,6 +219,7 @@ export function WorkoutDetail({ id }: { id: string }) {
         </div>
         {s.note && <p class="session-note">{s.note}</p>}
       </div>
+      {s.id === history.value[0]?.id && <NextTime s={s} />}
       <ul class="detail">
         {s.entries.map((e, i) => {
           const ex = findExercise(e.exerciseId);
@@ -213,7 +247,7 @@ export function ExerciseDetail({ id }: { id: string }) {
   const u = unitLabel();
   const withWeight = pts.filter((p) => p.top > 0);
   const isTime = ex?.metric === 'time';
-  const advice = adviceFor(targetFor(history.value[0]?.dayId ?? '', id));
+  const advice = dayTips('', [targetFor(history.value[0]?.dayId ?? '', id)]);
 
   return (
     <div class="screen">
@@ -222,9 +256,7 @@ export function ExerciseDetail({ id }: { id: string }) {
         <Pic pic={ex?.pictogram} />
         {ex && <div class="muted">{ex.primaryMuscles.map(muscleName).join(', ')}</div>}
         {advice.map((a) => (
-          <div class="hint-up" key={a.id}>
-            📈 {t(a.textKey)}
-          </div>
+          <TipCard key={a.id} tip={a} />
         ))}
         {ex && (
           <a class="more" href={`#/library/${encodeURIComponent(id)}`}>
@@ -232,6 +264,8 @@ export function ExerciseDetail({ id }: { id: string }) {
           </a>
         )}
       </div>
+
+      <Records id={id} isTime={isTime} />
 
       {withWeight.length > 0 ? (
         <div class="card">
@@ -288,5 +322,57 @@ export function ExerciseDetail({ id }: { id: string }) {
         </ul>
       )}
     </div>
+  );
+}
+
+function Records({ id, isTime }: { id: string; isTime: boolean }) {
+  const r = exerciseRecords(history.value, id);
+  const items = [
+    r.maxWeight && { k: t('stats.maxWeight'), v: fmtWeight(r.maxWeight.value), at: r.maxWeight.at },
+    r.maxReps && {
+      k: t(isTime ? 'stats.maxSeconds' : 'stats.maxReps'),
+      v: `${fmtNum(r.maxReps.value)}${isTime ? ' ' + t('unit.sec') : ''}`,
+      at: r.maxReps.at,
+    },
+    r.maxSetVolume && {
+      k: t('stats.maxSetVolume'),
+      v: `${fmtWeight(r.maxSetVolume.weightKg)} × ${fmtNum(r.maxSetVolume.reps)}`,
+      at: r.maxSetVolume.at,
+    },
+  ].filter((x): x is { k: string; v: string; at: string } => !!x);
+  if (!items.length) return null;
+  return (
+    <div class="card">
+      <h2 class="card-t">{t('stats.records')}</h2>
+      <dl class="facts records">
+        {items.map((x) => (
+          <div key={x.k}>
+            <dt>{x.k}</dt>
+            <dd>
+              <b>{x.v}</b> <span class="muted small">{fmtShortDate(Date.parse(x.at))}</span>
+            </dd>
+          </div>
+        ))}
+      </dl>
+    </div>
+  );
+}
+
+/** Итог последней тренировки: советы на следующий раз (те же правила и лимит, без «восстановления») */
+function NextTime({ s }: { s: Session }) {
+  const tips = dayTips(
+    s.dayId,
+    s.entries.filter((e) => !e.skipped).map((e) => targetFor(s.dayId, e.exerciseId)),
+  );
+  if (!tips.length) return null;
+  return (
+    <section class="next-time">
+      <h2 class="card-t">{t('advice.nextTime')}</h2>
+      {tips.map((a) => (
+        <TipCard key={a.id} tip={a}>
+          {a.exerciseId ? `${exName(a.exerciseId)}: ${t(a.textKey)}` : t(a.textKey)}
+        </TipCard>
+      ))}
+    </section>
   );
 }

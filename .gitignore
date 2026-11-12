@@ -5,3 +5,6 @@ test-results
 playwright-report
 .DS_Store
 *.local
+
+# создаётся при сборке (scripts/licenses.mjs)
+src/content/generated

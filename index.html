@@ -28,14 +28,15 @@
     <!-- apple-touch-startup-image для iPhone 11–18 добавляет плагин в vite.config.ts -->
 
     <script>
-      // Тема и язык применяются до отрисовки, чтобы не было вспышки.
-      // tp-boot — зеркало настроек; tp-settings — настройки первой версии (до миграции).
+      // Тема и язык применяются до отрисовки, чтобы не было вспышки (tp-boot — зеркало настроек).
+      // Старые значения темы (light / dark / system) — как в миграции v2 → v3.
       (function () {
         try {
-          var b =
-            JSON.parse(localStorage.getItem('tp-boot') || 'null') ||
-            JSON.parse(localStorage.getItem('tp-settings') || '{}');
-          if (b.theme === 'light' || b.theme === 'dark') document.documentElement.dataset.theme = b.theme;
+          var b = JSON.parse(localStorage.getItem('tp-boot') || '{}');
+          var old = { light: 'classic-orange', dark: 'classic-dark', system: 'auto' };
+          var th = old[b.theme] || b.theme;
+          if (typeof th === 'string' && /^[a-z0-9-]{3,20}$/.test(th))
+            document.documentElement.dataset.theme = th;
           if (b.locale) document.documentElement.lang = b.locale;
         } catch (e) {}
       })();

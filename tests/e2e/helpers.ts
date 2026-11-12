@@ -24,6 +24,8 @@ export interface OnboardOpts {
   start?: string | RegExp;
   mode?: 'Weekdays' | 'Cycle';
   days?: number;
+  /** Подпись уровня, как на экране (по умолчанию — средний) */
+  level?: string;
 }
 
 /** Проходит онбординг на английском (или выбирает русский на первом шаге) */
@@ -46,7 +48,7 @@ export async function onboard(page: Page, o: OnboardOpts = {}): Promise<void> {
   await page.getByLabel(L.w).fill('80');
   await page.getByLabel(L.h).fill('180');
   await page.getByRole('button', { name: L.next }).click();
-  await page.getByRole('radio', { name: L.level }).click();
+  await page.getByRole('radio', { name: o.level ?? L.level }).click();
   await page.getByRole('button', { name: L.next }).click();
   if (o.mode) await page.getByRole('radio', { name: o.mode }).click();
   if (o.days) {
@@ -59,4 +61,23 @@ export async function onboard(page: Page, o: OnboardOpts = {}): Promise<void> {
   await page.getByRole('radio', { name: o.start ?? /Split 3\+1|Сплит 3\+1/ }).click();
   await page.getByRole('button', { name: L.finish }).click();
   await expect(page.getByRole('navigation')).toBeVisible();
+}
+
+/** Значение из IndexedDB kv (для ожидания записи перед перезагрузкой страницы) */
+export function kv<T = unknown>(page: Page, key: string): Promise<T | null> {
+  return page.evaluate(
+    (k) =>
+      new Promise<T | null>((res) => {
+        const r = indexedDB.open('training-pwa');
+        r.onsuccess = () => {
+          const db = r.result;
+          const g = db.transaction('kv').objectStore('kv').get(k);
+          g.onsuccess = () => {
+            db.close();
+            res((g.result as T | undefined) ?? null);
+          };
+        };
+      }),
+    key,
+  );
 }

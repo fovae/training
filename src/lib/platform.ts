@@ -25,10 +25,16 @@ export interface DeviceInfo {
 const IN_APP =
   /FBAN|FBAV|FB_IAB|FBIOS|Instagram|Line\/|Telegram|TikTok|musical_ly|BytedanceWebview|Snapchat|Pinterest|LinkedInApp|Twitter|GSA\/|MicroMessenger|WhatsApp|Gmail|; wv\)/;
 
+/**
+ * Строгое правило (сначала iOS: если совпали оба признака, побеждает iOS):
+ *  iOS     — в UA есть iPhone|iPad|iPod, ИЛИ navigator.platform === 'MacIntel' и
+ *            maxTouchPoints > 1 (iPadOS выдаёт себя за Mac);
+ *  Android — в UA есть Android;
+ *  иначе   — 'desktop' (ПК и всё неизвестное): инструкции установки нет.
+ */
 export function detectPlatform({ ua, platform = '', maxTouchPoints = 0 }: DeviceInfo): Platform {
   if (/iPhone|iPad|iPod/.test(ua)) return 'ios';
-  // iPadOS 13+ в Safari выдаёт себя за Mac; отличаем по сенсорному экрану
-  if ((platform === 'MacIntel' || /Macintosh/.test(ua)) && maxTouchPoints > 1) return 'ios';
+  if (platform === 'MacIntel' && maxTouchPoints > 1) return 'ios';
   if (/Android/.test(ua)) return 'android';
   return 'desktop';
 }

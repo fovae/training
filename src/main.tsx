@@ -1,5 +1,6 @@
 import { render } from 'preact';
 import '@fontsource-variable/manrope/wght.css';
+import 'virtual:themes.css';
 import './styles/tokens.css';
 import './styles/base.css';
 import './styles/components.css';
@@ -13,10 +14,14 @@ import { installAudioUnlock } from './features/audio';
 import { installWakeLock } from './features/wakelock';
 import { initInstallPrompt } from './features/install';
 import { initSW } from './features/update';
+import { initUndo } from './features/backup';
 
 initInstallPrompt();
 installAudioUnlock();
 
 render(<App />, document.getElementById('app')!);
-void initApp().then(() => installWakeLock());
+void initApp().then(() => {
+  installWakeLock();
+  void initUndo();
+});
 void initSW();

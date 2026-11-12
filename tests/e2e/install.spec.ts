@@ -38,9 +38,18 @@ test('mobile outside the installed app: gate first, no close, buttons only after
   await expect(page.getByRole('heading', { name: 'Language' })).toHaveCount(0);
   await expect(page.getByRole('navigation')).toHaveCount(0);
   await expect(page.getByRole('button', { name: /close|закрыть/i })).toHaveCount(0);
-  // Платформа выбрана по устройству
-  const os = browserName === 'webkit' ? 'iPhone' : 'Android';
-  await expect(page.getByRole('radio', { name: os })).toHaveAttribute('aria-checked', 'true');
+  // Только своя платформа: инструкций другой ОС нет даже в DOM, переключателя платформ нет
+  await expect(page.getByRole('radio', { name: 'Android' })).toHaveCount(0);
+  const html = await page.content();
+  if (browserName === 'webkit') {
+    expect(html).toContain('Open as Web App');
+    expect(html).not.toContain('Open the browser menu');
+  } else {
+    expect(html).toContain('Open the browser menu');
+    expect(html).not.toContain('Open as Web App');
+    for (const b of ['Edge', 'Samsung', 'Firefox']) expect(html).not.toContain(b);
+  }
+  await expect(page.getByText('Fill in your profile in the installed app')).toBeVisible();
   await expect(page.locator('.ig-step')).not.toHaveCount(0);
   await expect(page.locator('.ig-step svg text')).toHaveCount(0); // без текста внутри SVG
 
@@ -91,7 +100,7 @@ test('installed app (standalone): no gate', async ({ page }) => {
 test('legal pages open without the gate', async ({ page }) => {
   await fresh(page, { gate: true });
   await page.goto('./#/legal/privacy');
-  await expect(page.getByRole('heading', { name: 'Privacy policy' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Privacy Policy', level: 1 })).toBeVisible();
   await expect(title(page)).toHaveCount(0);
 });
 
@@ -138,7 +147,6 @@ test('gate in Russian, platform switch, axe', async ({ page, browserName }) => {
   await page.evaluate(() => localStorage.setItem('tp-boot', JSON.stringify({ locale: 'ru' })));
   await page.reload();
   await expect(page.getByRole('heading', { name: 'Установи Simple Training' })).toBeVisible();
-  await page.getByRole('radio', { name: browserName === 'webkit' ? 'Android' : 'iPhone' }).click();
   await expect(page.locator('.ig-step').first()).toBeVisible();
   if (browserName === 'webkit') {
     for (const scheme of ['light', 'dark'] as const) {
@@ -154,4 +162,30 @@ test('gate in Russian, platform switch, axe', async ({ page, browserName }) => {
       ).toEqual([]);
     }
   }
+});
+
+test('iPad (MacIntel + touch) is treated as iOS', async ({ page, browserName }) => {
+  test.skip(browserName !== 'webkit', 'iPhone projects');
+  await page.addInitScript(() => {
+    const mac =
+      'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.0 Safari/605.1.15';
+    Object.defineProperty(navigator, 'userAgent', { get: () => mac });
+    Object.defineProperty(navigator, 'platform', { get: () => 'MacIntel' });
+    Object.defineProperty(navigator, 'maxTouchPoints', { get: () => 5 });
+  });
+  await fresh(page, { gate: true });
+  await expect(title(page)).toBeVisible();
+  expect(await page.content()).toContain('Open as Web App');
+});
+
+test('iOS in-app browser: one line "Open this link in Safari"', async ({ page, browserName }) => {
+  test.skip(browserName !== 'webkit', 'iPhone projects');
+  await page.addInitScript(() => {
+    const ig =
+      'Mozilla/5.0 (iPhone; CPU iPhone OS 18_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 Instagram 400.0.0.0.0';
+    Object.defineProperty(navigator, 'userAgent', { get: () => ig });
+  });
+  await fresh(page, { gate: true });
+  await expect(page.locator('.ig-step')).toHaveCount(1);
+  await expect(page.getByText('Open this link in Safari.')).toBeVisible();
 });

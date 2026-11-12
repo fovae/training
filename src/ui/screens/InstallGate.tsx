@@ -13,11 +13,8 @@ import {
   promptInstall,
   showInstructions,
 } from '../../features/install';
-import { Seg } from '../components/Controls';
 import { Icon } from '../components/Icon';
 import { InstallScene, type SceneId } from '../components/InstallScene';
-
-type Os = 'ios' | 'android';
 
 interface Step {
   key: string;
@@ -26,13 +23,12 @@ interface Step {
   scenes: { id: SceneId; caption?: string }[];
 }
 
+/** Шаги iOS. Встроенный браузер (Instagram, Telegram…) — одна строка «открой в Safari», без шагов. */
 function iosSteps(): Step[] {
+  if (browser === 'in-app')
+    return [{ key: 'open', text: t('install.ios.openInApp'), scenes: [{ id: 'open-browser' }] }];
   const steps: Step[] = [];
-  const inSafari = platform === 'ios' && browser === 'safari';
-  if (platform === 'ios' && browser === 'in-app')
-    steps.push({ key: 'open', text: t('install.ios.openInApp'), scenes: [{ id: 'open-browser' }] });
-  else if (platform === 'ios' && !inSafari)
-    steps.push({ key: 'open', text: t('install.ios.openSafari'), scenes: [{ id: 'open-browser' }] });
+  const inSafari = browser === 'safari';
 
   const v = inSafari ? iosSafariVersion : null;
   if (v != null && v >= 26) {
@@ -72,15 +68,16 @@ function iosSteps(): Step[] {
   return steps;
 }
 
+/** Шаги Android — общие, без названий конкретных браузеров */
 function androidSteps(): Step[] {
-  const steps: Step[] = [];
-  if (platform === 'android' && browser === 'in-app')
-    steps.push({ key: 'open', text: t('install.and.openInApp'), scenes: [{ id: 'open-browser' }] });
-  steps.push({ key: 'menu', text: t('install.and.menu'), scenes: [{ id: 'android-menu' }] });
-  steps.push({ key: 'item', text: t('install.and.item'), scenes: [{ id: 'android-item' }] });
-  steps.push({ key: 'confirm', text: t('install.and.confirm'), scenes: [{ id: 'android-confirm' }] });
-  steps.push({ key: 'home', text: t('install.openHome'), scenes: [{ id: 'home' }] });
-  return steps;
+  if (browser === 'in-app')
+    return [{ key: 'open', text: t('install.android.openInApp'), scenes: [{ id: 'open-browser' }] }];
+  return [
+    { key: 'menu', text: t('install.android.menu'), scenes: [{ id: 'android-menu' }] },
+    { key: 'item', text: t('install.android.item'), scenes: [{ id: 'android-item' }] },
+    { key: 'confirm', text: t('install.android.confirm'), scenes: [{ id: 'android-confirm' }] },
+    { key: 'home', text: t('install.openHome'), scenes: [{ id: 'home' }] },
+  ];
 }
 
 export function InstallGate() {
@@ -97,7 +94,6 @@ function useHeadingFocus() {
 }
 
 function InstallSteps() {
-  const [os, setOs] = useState<Os>(platform === 'android' ? 'android' : 'ios');
   const [ready, setReady] = useState(false);
   const [progress, setProgress] = useState(0);
   const anchor = useRef<HTMLDivElement>(null);
@@ -141,6 +137,8 @@ function InstallSteps() {
     };
   }, []);
 
+  // Только своя платформа: инструкции другой ОС в DOM не попадают
+  const os = platform === 'android' ? 'android' : 'ios';
   const steps = os === 'ios' ? iosSteps() : androidSteps();
   const canPrompt = os === 'android' && !!installPrompt.value;
 
@@ -184,19 +182,6 @@ function InstallSteps() {
         <span>{t('install.gate.warn')}</span>
       </div>
 
-      <div class="ig-os">
-        <span>{t('install.gate.yourPhone')}</span>
-        <Seg
-          label={t('install.gate.yourPhone')}
-          value={os}
-          onChange={setOs}
-          options={[
-            { v: 'ios', t: 'iPhone' },
-            { v: 'android', t: 'Android' },
-          ]}
-        />
-      </div>
-
       {canPrompt && (
         <div class="ig-now">
           <button type="button" class="btn primary block lg" onClick={() => void onInstallNow()}>
@@ -228,16 +213,9 @@ function InstallSteps() {
         ))}
       </ol>
 
-      {os === 'android' && (
-        <section class="card ig-other">
-          <h2 class="card-t">{t('install.and.otherTitle')}</h2>
-          <ul>
-            {tList('install.and.other').map((x, i) => (
-              <li key={i}>{x}</li>
-            ))}
-          </ul>
-        </section>
-      )}
+      <p class="note ig-profile" role="note">
+        {t('install.gate.profileNote')}
+      </p>
       <p class="muted small">{t('install.gate.translated')}</p>
 
       <div ref={anchor} class="ig-end" aria-hidden="true" />
@@ -256,7 +234,7 @@ function InstallSteps() {
             {t('install.gate.continue')}
           </button>
           <p class="muted small ig-fine">
-            {t(os === 'ios' ? 'install.gate.continueNoteIos' : 'install.gate.continueNoteAndroid')}
+            {t(os === 'ios' ? 'install.ios.continueNote' : 'install.android.continueNote')}
           </p>
         </div>
       )}

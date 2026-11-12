@@ -1,87 +1,85 @@
 import { expect, test } from '@playwright/test';
 
 /**
- * Миграция v1 → v2 на фикстуре в формате первой версии приложения:
- * IndexedDB 'training-pwa' v1 (workouts + kv.activeWorkout) и настройки в localStorage 'tp-settings'.
+ * Миграция v2 → v3 на фикстуре в формате этапа 1 (у владельца уже стоит v2):
+ * IndexedDB 'training-pwa' v2: sessions + kv(profile, plan, settings, activeSession),
+ * плюс остатки v1 (хранилище workouts, kv.legacyPrefs), которые v3 удаляет.
  */
-const DAY = 86_400_000;
-const T0 = Date.UTC(2026, 9, 1, 8); // 1 октября 2026
-
-const V1_WORKOUTS = [
+const PLAN = {
+  mode: 'cycle',
+  templateId: 'split31',
+  days: [
+    {
+      id: 'day-1',
+      labelKey: 'tpl.split31.d1',
+      items: [{ exerciseId: 'incline-db-press', sets: 3, repsMin: 8, repsMax: 12 }],
+    },
+    {
+      id: 'day-2',
+      labelKey: 'tpl.split31.d2',
+      items: [{ exerciseId: 'lat-pulldown', sets: 3, repsMin: 8, repsMax: 12 }],
+    },
+  ],
+};
+const PROFILE = {
+  weightKg: 80,
+  heightCm: 180,
+  level: 'veteran',
+  units: 'metric',
+  locale: 'ru',
+  adult16Confirmed: true,
+  confirmedAt: '2026-11-11T10:00:00.000Z',
+};
+const SETTINGS = {
+  theme: 'dark',
+  tipsEnabled: true,
+  restBaseSec: 180,
+  restIsoSec: 75,
+  sound: false,
+  wakeLock: true,
+};
+const SESSIONS = [
   {
-    id: 'w1',
+    id: 's1',
     dayId: 'day-1',
-    startedAt: T0,
-    finishedAt: T0 + 3_600_000,
-    exercises: [
-      {
-        exId: 'incline-db-press',
-        skipped: false,
-        sets: [
-          { weight: 22.5, reps: 12, done: true, doneAt: T0 + 600_000 },
-          { weight: 22.5, reps: 11, done: true },
-          { weight: null, reps: null, done: false },
-        ],
-      },
-      { exId: 'single-arm-pushdown', skipped: true, sets: [{ weight: null, reps: null, done: false }] },
-    ],
-  },
-  {
-    id: 'w2',
-    dayId: 'day-4',
-    startedAt: T0 + 2 * DAY,
-    finishedAt: T0 + 2 * DAY + 2_400_000,
-    exercises: [
-      // В v1 секунды планки лежали в reps
-      { exId: 'side-plank', skipped: false, sets: [{ weight: null, reps: 35, done: true }] },
-      { exId: 'cable-crunch', skipped: false, sets: [{ weight: 30, reps: 15, done: true }] },
-    ],
+    startedAt: '2026-11-10T08:00:00.000Z',
+    endedAt: '2026-11-10T09:00:00.000Z',
+    note: 'Хорошо пошло',
+    entries: [{ exerciseId: 'incline-db-press', sets: [{ weightKg: 22.5, reps: 12, done: true }] }],
   },
 ];
 
-const V1_ACTIVE = {
-  id: 'w3',
-  dayId: 'day-2',
-  startedAt: Date.now() - 600_000,
-  finishedAt: null,
-  exercises: [{ exId: 'lat-pulldown', skipped: false, sets: [{ weight: 50, reps: 10, done: true }] }],
-};
-
-test('v1 data survives the upgrade: history, active workout, settings, plan', async ({ page }) => {
-  await page.goto('./robots.txt'); // тот же origin, но без приложения — чтобы оно не создало базу v2
+test('v2 data survives the upgrade to v3; documents must be accepted', async ({ page }) => {
+  await page.goto('./robots.txt'); // тот же origin без приложения — база не создаётся раньше времени
   await page.evaluate(
-    async ({ workouts, active }) => {
+    async ({ plan, profile, settings, sessions }) => {
       localStorage.clear();
-      localStorage.setItem(
-        'tp-settings',
-        JSON.stringify({
-          theme: 'dark',
-          units: 'kg',
-          restBase: 180,
-          restIso: 75,
-          sound: false,
-          wakeLock: true,
-        }),
-      );
       localStorage.setItem('tp-install-skip', new Date().toISOString());
+      localStorage.setItem('tp-boot', JSON.stringify({ locale: 'ru', theme: 'dark' }));
       await new Promise<void>((res) => {
         const r = indexedDB.deleteDatabase('training-pwa');
         r.onsuccess = r.onerror = r.onblocked = () => res();
       });
       await new Promise<void>((res, rej) => {
-        const req = indexedDB.open('training-pwa', 1);
+        const req = indexedDB.open('training-pwa', 2);
         req.onupgradeneeded = () => {
           const db = req.result;
-          const w = db.createObjectStore('workouts', { keyPath: 'id' });
-          w.createIndex('by-started', 'startedAt');
-          w.createIndex('by-day', 'dayId');
           db.createObjectStore('kv');
+          const s = db.createObjectStore('sessions', { keyPath: 'id' });
+          s.createIndex('by-started', 'startedAt');
+          s.createIndex('by-day', 'dayId');
+          db.createObjectStore('workouts', { keyPath: 'id' }); // остаток v1
         };
         req.onsuccess = () => {
           const db = req.result;
-          const tx = db.transaction(['workouts', 'kv'], 'readwrite');
-          for (const x of workouts) tx.objectStore('workouts').put(x);
-          tx.objectStore('kv').put(active, 'activeWorkout');
+          const tx = db.transaction(['kv', 'sessions', 'workouts'], 'readwrite');
+          const kv = tx.objectStore('kv');
+          kv.put(profile, 'profile');
+          kv.put(plan, 'plan');
+          kv.put(settings, 'settings');
+          kv.put({ units: 'metric', locale: 'ru', workouts: 1 }, 'legacyPrefs');
+          for (const x of sessions) tx.objectStore('sessions').put(x);
+          tx.objectStore('workouts').put({ id: 'old' });
           tx.oncomplete = () => {
             db.close();
             res();
@@ -91,58 +89,49 @@ test('v1 data survives the upgrade: history, active workout, settings, plan', as
         req.onerror = () => rej(req.error);
       });
     },
-    { workouts: V1_WORKOUTS, active: V1_ACTIVE },
+    { plan: PLAN, profile: PROFILE, settings: SETTINGS, sessions: SESSIONS },
   );
 
   await page.goto('./');
-  // Владелец v1 видит онбординг на русском (как был старый интерфейс), тема сохранилась
-  await expect(page.getByRole('heading', { name: 'Язык' })).toBeVisible();
-  await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
-  await page.getByRole('button', { name: 'Далее' }).click();
-  await page.getByRole('checkbox').check();
-  await page.getByRole('button', { name: 'Далее' }).click();
-  await page.getByLabel('Вес тела, кг').fill('80');
-  await page.getByLabel('Рост, см').fill('180');
-  await page.getByRole('button', { name: 'Далее' }).click();
-  await page.getByRole('radio', { name: 'Опытный' }).click();
-  await page.getByRole('button', { name: 'Далее' }).click();
-  // По умолчанию — оставить текущий план
-  const keep = page.getByRole('radio', { name: /Оставить мой текущий план/ });
-  await expect(keep).toHaveAttribute('aria-checked', 'true');
-  await expect(keep).toContainText('2 сохранённые тренировки');
-  await page.getByRole('button', { name: 'Начать' }).click();
+  // Профиль v2 без принятия документов — просим принять текущие версии
+  await expect(page.getByRole('heading', { name: 'Мы обновили документы' })).toBeVisible();
+  await expect(page.getByRole('navigation')).toHaveCount(0);
+  await page.getByRole('button', { name: 'Принять' }).click();
+  await expect(page.getByRole('heading', { name: 'Следующая по циклу' })).toBeVisible();
 
-  // Прерванная тренировка продолжается
-  await expect(page.getByRole('heading', { name: 'Идёт тренировка' })).toBeVisible();
-  await expect(page.getByRole('heading', { name: 'Спина + бицепс + предплечья' })).toBeVisible();
-  await expect(page.getByLabel('Тяга верхнего блока к груди, подход 1: вес, кг')).toHaveValue('50');
-
-  // Настройки отдыха перенесены
-  await page.getByRole('link', { name: 'Настройки' }).click();
+  // Тема v2 «dark» → classic-dark, настройки отдыха и звук сохранились
+  await expect(page.locator('html')).toHaveAttribute('data-theme', 'classic-dark');
+  await page.getByRole('link', { name: 'Настройки', exact: true }).click();
   await expect(page.getByRole('group', { name: 'Базовые упражнения' }).locator('output')).toHaveText('3:00');
-  await expect(page.getByRole('group', { name: 'Изоляция' }).locator('output')).toHaveText('1:15');
   await expect(page.getByRole('switch', { name: 'Звук' })).toHaveAttribute('aria-checked', 'false');
 
-  // История: обе тренировки, подходы и пропуск на месте, секунды планки — секунды
+  // История на месте, заметка видна целиком
   await page.getByRole('link', { name: 'История' }).click();
-  await expect(page.locator('.list .row[href*="workout"]')).toHaveCount(2);
   await page.getByRole('link', { name: /Грудь \+ трицепс/ }).click();
-  await expect(page.getByText('22,5×12 · 22,5×11')).toBeVisible();
-  await expect(page.locator('.detail li', { hasText: 'Одноручное' })).toContainText('пропущено');
-  await page.goBack();
-  await page.getByRole('link', { name: /Пресс \+ кор \+ ноги/ }).click();
-  await expect(page.locator('.detail li', { hasText: 'Боковая планка' })).toContainText('35 с');
+  await expect(page.getByText('Хорошо пошло')).toBeVisible();
 
-  // Старое хранилище v1 оставлено как страховочная копия
-  const v1Count = await page.evaluate(
+  // Схема v3: остатки v1 удалены, принятие записано
+  const db = await page.evaluate(
     () =>
-      new Promise<number>((res) => {
+      new Promise<{ version: number; stores: string[]; legacy: unknown; accepted: unknown }>((res) => {
         const r = indexedDB.open('training-pwa');
         r.onsuccess = () => {
-          const q = r.result.transaction('workouts').objectStore('workouts').count();
-          q.onsuccess = () => res(q.result);
+          const d = r.result;
+          const kv = d.transaction('kv').objectStore('kv');
+          const a = kv.get('legacyPrefs');
+          const p = kv.get('profile');
+          p.onsuccess = () =>
+            res({
+              version: d.version,
+              stores: [...d.objectStoreNames],
+              legacy: a.result ?? null,
+              accepted: (p.result as { legalAccepted: unknown }).legalAccepted,
+            });
         };
       }),
   );
-  expect(v1Count).toBe(2);
+  expect(db.version).toBe(3);
+  expect(db.stores.sort()).toEqual(['kv', 'sessions']);
+  expect(db.legacy).toBeNull();
+  expect(db.accepted).toMatchObject({ privacy: '1.2', terms: '1.0' });
 });

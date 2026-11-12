@@ -1,6 +1,10 @@
+import type { ComponentChildren } from 'preact';
 import { useRef, useState } from 'preact/hooks';
 import { findExercise } from '../../data/exercises';
-import { adviceFor } from '../../advice';
+import { dismissTip, type Advice } from '../../advice';
+import { levelBehavior } from '../../advice/levels';
+import { confirmWeight } from '../../features/weightCheck';
+import { profile } from '../../state/settings';
 import { fmtNum, t } from '../../i18n';
 import { fromUnit, inputNum, parseDecimal, toUnit, unitLabel } from '../../lib/format';
 import type { Exercise, PlanItem, SessionEntry, SessionSet } from '../../types';
@@ -26,13 +30,14 @@ interface Props {
   num: number;
   /** Режим журнала во время тренировки */
   log?: { idx: number; entry: SessionEntry } | undefined;
+  /** Советы по этому упражнению (уже отобранные: не больше двух на тренировку) */
+  tips?: Advice[] | undefined;
 }
 
-export function ExerciseCard({ item, num, log }: Props) {
+export function ExerciseCard({ item, num, log, tips = [] }: Props) {
   const ex = findExercise(item.exerciseId);
   const name = exName(item.exerciseId);
   const state = log ? entryState(log.entry) : 'todo';
-  const advice = adviceFor(item);
   const last = !log ? lastPerformance(item.exerciseId) : null;
 
   return (
@@ -66,10 +71,8 @@ export function ExerciseCard({ item, num, log }: Props) {
         {state === 'skipped' && <span class="pill">{t('ex.skipped')}</span>}
       </div>
 
-      {advice.map((a) => (
-        <div class="hint-up" role="note" key={a.id}>
-          <span aria-hidden="true">📈</span> {t(a.textKey, a.params)}
-        </div>
+      {tips.map((a) => (
+        <TipCard key={a.id} tip={a} />
       ))}
 
       {last && <LastLine ex={ex} sets={last.sets} />}
@@ -100,7 +103,7 @@ export function ExerciseCard({ item, num, log }: Props) {
       )}
 
       {ex && (
-        <details class="tech">
+        <details class="tech" open={levelBehavior(profile.value?.level).techniqueOpen}>
           <summary>
             <b>{t('ex.technique')}</b>
           </summary>
@@ -224,11 +227,31 @@ function SetRow({
   const count = isTime ? set.seconds : set.reps;
   const label = t('ex.setLabel', { name, n: setIdx + 1 });
 
-  const commit = () => {
+  // Уход из поля (onChange) и тап по галочке приходят почти одновременно — одна проверка на двоих
+  const pending = useRef<Promise<boolean> | null>(null);
+  const commit = (): Promise<boolean> => {
+    pending.current ??= doCommit().finally(() => (pending.current = null));
+    return pending.current;
+  };
+
+  /** false — человек выбрал «Исправить» в проверке веса */
+  const doCommit = async (): Promise<boolean> => {
     const patch: Partial<SessionSet> = {};
     if (metric === 'weight_reps') {
       const w = fromUnit(parseDecimal(wRef.current?.value ?? ''));
-      patch.weightKg = w ?? undefined;
+      if (w != null && w !== set.weightKg && ex) {
+        const ok = await confirmWeight(ex.id, w);
+        if (ok == null) {
+          // «Исправить»: вернуть прежнее значение и поставить курсор в поле
+          if (wRef.current) {
+            wRef.current.value = inputNum(wVal);
+            wRef.current.focus();
+          }
+          return false;
+        }
+        patch.weightKg = ok;
+        if (ok !== w && wRef.current) wRef.current.value = inputNum(toUnit(ok));
+      } else patch.weightKg = w ?? undefined;
     }
     const r = parseDecimal(rRef.current?.value ?? '');
     const v = r == null ? undefined : Math.round(r);
@@ -236,10 +259,11 @@ function SetRow({
     else patch.reps = v;
     const changed = (Object.keys(patch) as (keyof SessionSet)[]).some((k) => patch[k] !== set[k]);
     if (changed) updateSet(idx, setIdx, patch);
+    return true;
   };
 
-  const onDone = () => {
-    commit();
+  const onDone = async () => {
+    if (!(await commit())) return;
     if (toggleSetDone(idx, setIdx)) startRest(restFor(ex, item), name);
   };
 
@@ -258,7 +282,7 @@ function SetRow({
           placeholder={unitLabel()}
           defaultValue={inputNum(wVal)}
           aria-label={t('ex.weightOf', { set: label, unit: unitLabel() })}
-          onChange={commit}
+          onChange={() => void commit()}
         />
       )}
       <input
@@ -273,16 +297,37 @@ function SetRow({
         placeholder={`${item.repsMin}–${item.repsMax}`}
         defaultValue={count == null ? '' : String(count)}
         aria-label={t(isTime ? 'ex.secondsOf' : 'ex.repsOf', { set: label })}
-        onChange={commit}
+        onChange={() => void commit()}
       />
       <button
         type="button"
         class={'set-done' + (set.done ? ' on' : '')}
         aria-pressed={set.done}
         aria-label={t(set.done ? 'ex.setUndo' : 'ex.setDone', { set: label })}
-        onClick={onDone}
+        onClick={() => void onDone()}
       >
         <Icon name="check" size={20} />
+      </button>
+    </div>
+  );
+}
+
+/** Совет — маленькая закрываемая карточка в потоке (никаких модальных окон) */
+export function TipCard({ tip, children }: { tip: Advice; children?: ComponentChildren }) {
+  const icon = { progression: '📈', deload: '🪶', recovery: '🛌', 'light-start': '🌱' }[tip.kind];
+  return (
+    <div class={'tip ' + tip.kind} role="note">
+      <span class="tip-ic" aria-hidden="true">
+        {icon}
+      </span>
+      <p>{children ?? t(tip.textKey)}</p>
+      <button
+        type="button"
+        class="icon-btn tip-x"
+        aria-label={t('advice.dismiss')}
+        onClick={() => dismissTip(tip.id)}
+      >
+        <Icon name="close" size={16} />
       </button>
     </div>
   );

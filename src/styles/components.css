@@ -26,7 +26,7 @@
   border: 1px solid var(--line);
 }
 .btn.danger {
-  background: var(--danger);
+  background: var(--danger-fill);
   color: #fff;
 }
 .btn.danger-ghost {
@@ -857,18 +857,18 @@ section + .card {
   stroke-linecap: round;
 }
 .chart .s1 polyline {
-  stroke: var(--accent);
+  stroke: var(--chart-1);
 }
 .chart .s1 circle {
-  fill: var(--accent);
+  fill: var(--chart-1);
 }
 .chart .s2 polyline {
-  stroke: var(--muted);
+  stroke: var(--chart-2);
   stroke-dasharray: 5 5;
 }
 .chart .s2 circle {
   fill: var(--card);
-  stroke: var(--muted);
+  stroke: var(--chart-2);
   stroke-width: 2;
 }
 .legend {
@@ -889,8 +889,8 @@ section + .card {
   vertical-align: middle;
 }
 .lg.s1 i {
-  background: var(--accent);
+  background: var(--chart-1);
 }
 .lg.s2 i {
-  background: var(--muted);
+  background: var(--chart-2);
 }

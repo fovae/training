@@ -1,4 +1,6 @@
-import { useRef, useState } from 'preact/hooks';
+import { useEffect, useRef, useState } from 'preact/hooks';
+import { levelBehavior } from '../../advice/levels';
+import { profile } from '../../state/settings';
 import { findExercise } from '../../data/exercises';
 import { fmtNum, t, tList, weekdayLong, weekdayShort } from '../../i18n';
 import { fmtClock, fromUnit, inputNum, parseDecimal, toUnit, unitLabel } from '../../lib/format';
@@ -37,6 +39,7 @@ const REST_OPTIONS = [30, 45, 60, 75, 90, 120, 150, 180, 240, 300];
 export function Plan() {
   const p = plan.value;
   const [picker, setPicker] = useState(false);
+  const [openIdx, setOpenIdx] = useState<number | null>(null);
   const addBtn = useRef<HTMLButtonElement>(null);
   if (!p) return null;
   const day = (planDayId.value && findDay(planDayId.value)) || p.days[0]!;
@@ -100,7 +103,14 @@ export function Plan() {
           )}
           <ol class="items">
             {day.items.map((item, i) => (
-              <ItemEditor key={item.exerciseId + i} day={day} item={item} idx={i} count={day.items.length} />
+              <ItemEditor
+                key={item.exerciseId + i}
+                day={day}
+                item={item}
+                idx={i}
+                count={day.items.length}
+                autoOpen={openIdx === i}
+              />
             ))}
           </ol>
           <button ref={addBtn} type="button" class="btn primary block" onClick={() => setPicker(true)}>
@@ -130,8 +140,13 @@ export function Plan() {
       {picker && (
         <ExercisePicker
           day={day}
-          onClose={() => {
+          onClose={(added) => {
             setPicker(false);
+            // Средний и опытный: сразу открыть последнее добавленное упражнение — ввести вес и повторы
+            if (added && levelBehavior(profile.value?.level).askWeightOnAdd) {
+              setOpenIdx(day.items.length - 1);
+              return;
+            }
             // Safari не фокусирует кнопку по клику — возвращаем фокус явно
             requestAnimationFrame(() => addBtn.current?.focus());
           }}
@@ -269,8 +284,28 @@ function DayTools({ day }: { day: Day }) {
   );
 }
 
-function ItemEditor({ day, item, idx, count }: { day: Day; item: PlanItem; idx: number; count: number }) {
+function ItemEditor({
+  day,
+  item,
+  idx,
+  count,
+  autoOpen,
+}: {
+  day: Day;
+  item: PlanItem;
+  idx: number;
+  count: number;
+  autoOpen?: boolean;
+}) {
   const ex = findExercise(item.exerciseId);
+  const lvl = levelBehavior(profile.value?.level);
+  const [showWeight, setShowWeight] = useState(lvl.showTargetWeight || item.targetWeightKg != null);
+  const weightRef = useRef<HTMLInputElement>(null);
+  const repsRef = useRef<HTMLInputElement>(null);
+  useEffect(() => {
+    if (!autoOpen) return;
+    (showWeight ? weightRef : repsRef).current?.focus();
+  }, [autoOpen]);
   const name = exName(item.exerciseId);
   const isTime = ex?.metric === 'time';
   const up = (patch: Partial<PlanItem>) => updateItem(day.id, idx, patch);
@@ -290,7 +325,7 @@ function ItemEditor({ day, item, idx, count }: { day: Day; item: PlanItem; idx: 
 
   return (
     <li class="item">
-      <details>
+      <details open={autoOpen || undefined}>
         <summary>
           <span class="item-n">{idx + 1}</span>
           <span class="item-main">
@@ -328,6 +363,7 @@ function ItemEditor({ day, item, idx, count }: { day: Day; item: PlanItem; idx: 
                 inputMode="numeric"
                 enterKeyHint="done"
                 autoComplete="off"
+                ref={repsRef}
                 aria-label={t('plan.min', { name })}
                 defaultValue={String(item.repsMin)}
                 key={'min' + item.repsMin}
@@ -347,13 +383,19 @@ function ItemEditor({ day, item, idx, count }: { day: Day; item: PlanItem; idx: 
               />
             </span>
           </div>
-          {ex?.metric === 'weight_reps' && (
+          {ex?.metric === 'weight_reps' && !showWeight && (
+            <button type="button" class="btn-ghost sm" onClick={() => setShowWeight(true)}>
+              <Icon name="plus" size={16} /> {t('plan.addWeight')}
+            </button>
+          )}
+          {ex?.metric === 'weight_reps' && showWeight && (
             <div class="srow">
               <span>
                 {t('plan.weight')}
                 <small>{t('plan.weightHint')}</small>
               </span>
               <input
+                ref={weightRef}
                 class="num-in wide"
                 type="text"
                 inputMode="decimal"
@@ -432,16 +474,16 @@ function ItemEditor({ day, item, idx, count }: { day: Day; item: PlanItem; idx: 
   );
 }
 
-function ExercisePicker({ day, onClose }: { day: Day; onClose: () => void }) {
+function ExercisePicker({ day, onClose }: { day: Day; onClose: (added: number) => void }) {
   const { f, setF, list } = useExerciseFilter();
   const [added, setAdded] = useState(0);
   const inDay = new Set(day.items.map((i) => i.exerciseId));
   return (
     <Sheet
       title={t('plan.pickerTitle')}
-      onClose={onClose}
+      onClose={() => onClose(added)}
       footer={
-        <button type="button" class="btn primary block" onClick={onClose}>
+        <button type="button" class="btn primary block" onClick={() => onClose(added)}>
           {added ? t('plan.pickerDone', { count: added }) : t('common.close')}
         </button>
       }

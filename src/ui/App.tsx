@@ -1,3 +1,5 @@
+import { computed, signal } from '@preact/signals';
+import type { ComponentType } from 'preact';
 import { useEffect } from 'preact/hooks';
 import { t } from '../i18n';
 import { route, pickedDayId, planDayId, todayDayId, toast } from '../state/ui';
@@ -17,8 +19,24 @@ import { ExerciseDetail, History, WorkoutDetail } from './screens/History';
 import { Settings } from './screens/Settings';
 import { Legal } from './screens/Legal';
 import { Onboarding } from './screens/Onboarding';
-import { InstallGate } from './screens/InstallGate';
+import { LegalUpdate } from './screens/LegalUpdate';
+import { needsAcceptance } from '../content/legal';
+import { profile } from '../state/settings';
 import { gateVisible } from '../features/install';
+
+/** Профиль есть, но текущие версии документов не приняты */
+const legalPending = computed(() => !!profile.value && needsAcceptance(profile.value.legalAccepted));
+
+/**
+ * Экран установки грузится отдельным чанком: в установленном приложении он не нужен никогда.
+ * Чанк всё равно прекэшируется service worker'ом — офлайн работает.
+ */
+const GateScreen = signal<ComponentType | null>(null);
+function InstallGateLazy() {
+  if (!GateScreen.value) void import('./screens/InstallGate').then((m) => (GateScreen.value = m.InstallGate));
+  const C = GateScreen.value;
+  return C ? <C /> : <div class="screen" aria-busy="true" />;
+}
 
 const isTyping = (el: EventTarget | null) =>
   el instanceof HTMLElement && !!el.closest('input, textarea, select, [contenteditable="true"]');
@@ -59,10 +77,11 @@ function useKeyboard() {
 
 function Screen() {
   const r = route.value;
-  if (r.tab === 'legal') return <Legal doc={r.sub?.id === 'terms' ? 'terms' : 'privacy'} />;
+  if (r.tab === 'legal') return <Legal doc={(r.sub?.id ?? 'privacy') as 'privacy' | 'terms' | 'licenses'} />;
   // Экран установки — до онбординга и всего остального (кроме юридических страниц)
-  if (gateVisible.value) return <InstallGate />;
+  if (gateVisible.value) return <InstallGateLazy />;
   if (needsOnboarding.value) return <Onboarding />;
+  if (legalPending.value) return <LegalUpdate />;
   switch (r.tab) {
     case 'plan':
       return <Plan />;
@@ -87,7 +106,8 @@ export function App() {
   }, [offlineReady.value]);
 
   if (!booted.value) return <div id="boot" aria-hidden="true" />;
-  const onboarding = needsOnboarding.value || (gateVisible.value && route.value.tab !== 'legal');
+  const onboarding =
+    needsOnboarding.value || ((gateVisible.value || legalPending.value) && route.value.tab !== 'legal');
 
   return (
     <div class={'shell' + (timer.value ? ' has-timer' : '') + (onboarding ? ' no-nav' : '')}>

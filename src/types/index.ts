@@ -8,6 +8,14 @@ export type Level = 'first' | 'few' | 'intermediate' | 'veteran';
 export type Sex = 'male' | 'female' | 'unspecified';
 export type Units = 'metric' | 'imperial';
 
+/** Принятые версии юридических документов (версии — из метаданных файлов src/content/legal) */
+export interface LegalAcceptance {
+  privacy: string;
+  terms: string;
+  /** ISO */
+  at: string;
+}
+
 export interface Profile {
   weightKg: number;
   heightCm: number;
@@ -20,6 +28,8 @@ export interface Profile {
   adult16Confirmed: true;
   /** ISO. Дату рождения не храним. */
   confirmedAt: string;
+  /** null — документы ещё не приняты (или профиль из версии без принятия) */
+  legalAccepted: LegalAcceptance | null;
 }
 
 /** 0 = понедельник … 6 = воскресенье */
@@ -80,24 +90,51 @@ export interface Session {
   entries: SessionEntry[];
 }
 
+export const THEMES = [
+  'classic-orange',
+  'classic-light',
+  'classic-dark',
+  'monochrome',
+  'blue',
+  'violet',
+  'green',
+  'rose',
+  'gradient-1',
+  'gradient-2',
+] as const;
+/** 'auto' — по системе: classic-light / classic-dark */
+export type ThemeId = (typeof THEMES)[number] | 'auto';
+
+/** Когда совет закрыли (ключ — `${правило}:${упражнение}`) */
+export interface TipMark {
+  dismissedAt: string;
+}
+
 export interface Settings {
-  /** Пока 'system' | 'light' | 'dark'; темы появятся на этапе 2 */
-  theme: string;
+  theme: ThemeId;
   tipsEnabled: boolean;
   restBaseSec: number;
   restIsoSec: number;
   sound: boolean;
   wakeLock: boolean;
+  /** ISO, последняя сохранённая копия */
   lastBackupAt?: string;
+  /** ISO, когда закрыли напоминание о копии */
+  backupReminderDismissedAt?: string;
+  tipState: Record<string, TipMark>;
+  /** id упражнений с «Больше не предупреждать» о весе */
+  weightWarningIgnored: string[];
 }
 
 export const DEFAULT_SETTINGS: Settings = {
-  theme: 'system',
+  theme: 'classic-orange',
   tipsEnabled: true,
   restBaseSec: 150,
   restIsoSec: 90,
   sound: true,
   wakeLock: true,
+  tipState: {},
+  weightWarningIgnored: [],
 };
 
 // ---------- библиотека упражнений (раздел 6) ----------

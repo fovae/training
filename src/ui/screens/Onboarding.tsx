@@ -2,12 +2,13 @@ import { signal } from '@preact/signals';
 import { useEffect, useLayoutEffect, useRef } from 'preact/hooks';
 import { LOCALES, fmtNum, locale, setLocale, t } from '../../i18n';
 import { TEMPLATES, buildPlan, findTemplate } from '../../data/templates';
-import { legacy } from '../../state/app';
 import { plan, setPlan } from '../../state/plan';
 import { draftUnits, saveProfile } from '../../state/settings';
 import { go, toast } from '../../state/ui';
-import type { Level, Plan } from '../../types';
+import type { LegalAcceptance, Level, Plan } from '../../types';
 import { Choice, Seg, Stepper } from '../components/Controls';
+import { Rich } from '../components/Rich';
+import { currentAcceptance } from '../../content/legal';
 import { ProfileForm, draftFrom, validateProfile, type ProfileDraft } from '../components/ProfileForm';
 import { Icon } from '../components/Icon';
 
@@ -17,6 +18,8 @@ type Step = (typeof STEPS)[number];
 /** Состояние живёт вне компонента: переход на страницу условий и назад ничего не теряет */
 const step = signal<Step>('language');
 const adult = signal(false);
+/** Принятые версии документов — записываются при «Далее» на шаге условий */
+const accepted = signal<LegalAcceptance | null>(null);
 const termsTried = signal(false);
 const draft = signal<ProfileDraft | null>(null);
 const profileTried = signal(false);
@@ -28,6 +31,7 @@ const start = signal<string>('empty');
 function resetOnboarding(): void {
   step.value = 'language';
   adult.value = false;
+  accepted.value = null;
   termsTried.value = false;
   draft.value = null;
   profileTried.value = false;
@@ -41,8 +45,6 @@ export function Onboarding() {
   const s = step.value;
   const i = STEPS.indexOf(s);
   const headRef = useRef<HTMLHeadingElement>(null);
-  // «Оставить мой план» — только если миграция нашла данные первой версии (docs/ARCHITECTURE.md)
-  const hasMigratedPlan = !!legacy.value && !!plan.value;
 
   useLayoutEffect(() => {
     // Фокус на заголовок шага — для экранных дикторов. До отрисовки, чтобы не перехватить ввод.
@@ -51,15 +53,18 @@ export function Onboarding() {
   }, [s]);
 
   useEffect(() => {
-    if (hasMigratedPlan && start.value === 'empty') start.value = 'keep';
     if (!draft.value) draft.value = draftFrom(null, draftUnits.value);
   }, []);
 
   const back = () => i > 0 && (step.value = STEPS[i - 1]!);
   const next = async () => {
-    if (s === 'terms' && !adult.value) {
-      termsTried.value = true;
-      return;
+    if (s === 'terms') {
+      if (!adult.value) {
+        termsTried.value = true;
+        return;
+      }
+      // Версии берутся из метаданных файлов документов (src/content/legal)
+      accepted.value = currentAcceptance();
     }
     if (s === 'profile') {
       profileTried.value = true;
@@ -74,7 +79,7 @@ export function Onboarding() {
     const pv = validateProfile(draft.value!).value;
     if (!pv || !level.value) return;
     try {
-      if (start.value !== 'keep' || !plan.value) {
+      {
         await setPlan(
           buildPlan({
             templateId: start.value === 'empty' ? null : start.value,
@@ -89,6 +94,7 @@ export function Onboarding() {
         locale: locale.value,
         adult16Confirmed: true,
         confirmedAt: new Date().toISOString(),
+        legalAccepted: accepted.value ?? currentAcceptance(),
       });
       resetOnboarding();
       const empty = !plan.value?.days.some((d) => d.items.length);
@@ -138,11 +144,12 @@ export function Onboarding() {
             options={(['first', 'few', 'intermediate', 'veteran'] as const).map((v) => ({
               v,
               t: t(`level.${v}`),
+              d: t(`level.desc.${v}`),
             }))}
           />
         </section>
       )}
-      {s === 'plan' && <PlanStep hasMigratedPlan={hasMigratedPlan} />}
+      {s === 'plan' && <PlanStep />}
 
       <div class="ob-actions">
         {i > 0 && (
@@ -184,11 +191,19 @@ function TermsStep() {
           aria-describedby={showErr ? 'adult-err' : undefined}
           onChange={(e) => (adult.value = e.currentTarget.checked)}
         />
-        <span>{t('onb.terms.adult')}</span>
+        <span>
+          <Rich
+            k="legal.adultLabel"
+            parts={{
+              terms: <a href="#/legal/terms">{t('legal.termsLink')}</a>,
+              privacy: <a href="#/legal/privacy">{t('legal.privacyLink')}</a>,
+            }}
+          />
+        </span>
       </label>
       {showErr && (
         <p class="field-err" id="adult-err" role="alert">
-          {t('onb.terms.adultRequired')}
+          {t('legal.adultRequired')}
         </p>
       )}
       <p class="muted small">{t('onb.terms.noBirthdate')}</p>
@@ -196,26 +211,13 @@ function TermsStep() {
         <span aria-hidden="true">⚠️</span>
         <span>{t('legal.disclaimer')}</span>
       </div>
-      <p class="small">
-        {t('onb.terms.readMore')} <a href="#/legal/privacy">{t('legal.privacy.title')}</a> ·{' '}
-        <a href="#/legal/terms">{t('legal.terms.title')}</a>
-      </p>
     </section>
   );
 }
 
-function PlanStep({ hasMigratedPlan }: { hasMigratedPlan: boolean }) {
+function PlanStep() {
   const tpl = findTemplate(start.value);
   const options = [
-    ...(hasMigratedPlan
-      ? [
-          {
-            v: 'keep',
-            t: t('onb.plan.keep'),
-            d: t('onb.plan.keepDesc', { count: legacy.value?.workouts ?? 0 }),
-          },
-        ]
-      : []),
     { v: 'empty', t: t('onb.plan.empty'), d: t('onb.plan.emptyDesc') },
     ...TEMPLATES.map((x) => ({
       v: x.id,
@@ -223,10 +225,9 @@ function PlanStep({ hasMigratedPlan }: { hasMigratedPlan: boolean }) {
       d: t(x.descKey) + (x.fixedDays ? ' ' + t('onb.plan.fixedDays', { count: x.fixedDays }) : ''),
     })),
   ];
-  const keep = start.value === 'keep';
   return (
     <section>
-      {!keep && (
+      {
         <div class="card group-card">
           <div class="srow">
             <span>{t('plan.mode')}</span>
@@ -260,7 +261,7 @@ function PlanStep({ hasMigratedPlan }: { hasMigratedPlan: boolean }) {
             )}
           </div>
         </div>
-      )}
+      }
       <h2 class="ob-sub">{t('onb.plan.start')}</h2>
       <Choice
         label={t('onb.plan.start')}

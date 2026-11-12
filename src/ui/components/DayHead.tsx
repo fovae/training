@@ -14,7 +14,7 @@ interface Props {
 export function DayHead({ day, progress, children }: Props) {
   const pct = progress && progress.total ? (progress.done / progress.total) * 100 : 0;
   return (
-    <div class="dayhead" style={{ background: `var(--${dayColor(day.id)}-fill)` }}>
+    <div class="dayhead" style={{ background: `var(--${dayColor(day.id)}-bg)` }}>
       <div class="eyebrow">{dayEyebrow(day)}</div>
       <h2 class="dayhead-title">{dayTitle(day)}</h2>
       <p>{dayMeta(day)}</p>

@@ -1,0 +1,509 @@
+{
+  "$comment": "Темы приложения. Из этого файла собирается CSS (vite.config.ts → virtual:themes.css) и проверяется контраст (npm run theme:check). days: 7 цветов дней — c (декор, рамки), fill (фон под белым текстом), ink (цветной текст), fill2 (второй цвет градиента шапки дня, только градиентные темы).",
+  "themes": {
+    "classic-orange": {
+      "scheme": "light",
+      "bg": "#f3f1ec",
+      "card": "#ffffff",
+      "soft": "#f7f6f2",
+      "line": "#e7e4dd",
+      "ink": "#16161a",
+      "muted": "#6b6b73",
+      "danger": "#b42424",
+      "dangerFill": "#b42424",
+      "chart": ["#d2411c", "#6b6b73"],
+      "days": [
+        {
+          "c": "#e5603f",
+          "fill": "#d2411c",
+          "ink": "#be3b19"
+        },
+        {
+          "c": "#3466db",
+          "fill": "#3466db",
+          "ink": "#295ed9"
+        },
+        {
+          "c": "#7553db",
+          "fill": "#7553db",
+          "ink": "#6e4bd9"
+        },
+        {
+          "c": "#16916b",
+          "fill": "#148461",
+          "ink": "#106b4f"
+        },
+        {
+          "c": "#e0457b",
+          "fill": "#c2255c",
+          "ink": "#b0204f"
+        },
+        {
+          "c": "#bb760c",
+          "fill": "#9a5b00",
+          "ink": "#8f5400"
+        },
+        {
+          "c": "#1a9bb0",
+          "fill": "#0b7285",
+          "ink": "#0a6676"
+        }
+      ]
+    },
+    "classic-light": {
+      "scheme": "light",
+      "bg": "#f6f6f7",
+      "card": "#ffffff",
+      "soft": "#f2f2f4",
+      "line": "#e4e4e8",
+      "ink": "#111114",
+      "muted": "#5e5f66",
+      "danger": "#b42424",
+      "dangerFill": "#b42424",
+      "chart": ["#d2411c", "#5e5f66"],
+      "days": [
+        {
+          "c": "#e5603f",
+          "fill": "#d2411c",
+          "ink": "#be3b19"
+        },
+        {
+          "c": "#3466db",
+          "fill": "#3466db",
+          "ink": "#295ed9"
+        },
+        {
+          "c": "#7553db",
+          "fill": "#7553db",
+          "ink": "#6e4bd9"
+        },
+        {
+          "c": "#16916b",
+          "fill": "#148461",
+          "ink": "#106b4f"
+        },
+        {
+          "c": "#e0457b",
+          "fill": "#c2255c",
+          "ink": "#b0204f"
+        },
+        {
+          "c": "#bb760c",
+          "fill": "#9a5b00",
+          "ink": "#8f5400"
+        },
+        {
+          "c": "#1a9bb0",
+          "fill": "#0b7285",
+          "ink": "#0a6676"
+        }
+      ]
+    },
+    "classic-dark": {
+      "scheme": "dark",
+      "bg": "#111114",
+      "card": "#1b1b20",
+      "soft": "#222228",
+      "line": "#2a2a31",
+      "ink": "#f2f1ee",
+      "muted": "#9c9ca6",
+      "danger": "#ff6b6b",
+      "dangerFill": "#c62828",
+      "chart": ["#ff7a5a", "#9c9ca6"],
+      "days": [
+        {
+          "c": "#ff7a5a",
+          "fill": "#d2411c",
+          "ink": "#ff7a5a"
+        },
+        {
+          "c": "#5b8bff",
+          "fill": "#3466db",
+          "ink": "#6b97ff"
+        },
+        {
+          "c": "#9b7bff",
+          "fill": "#7553db",
+          "ink": "#a68aff"
+        },
+        {
+          "c": "#2fc497",
+          "fill": "#148461",
+          "ink": "#2fc497"
+        },
+        {
+          "c": "#ff6b9d",
+          "fill": "#c2255c",
+          "ink": "#ff6b9d"
+        },
+        {
+          "c": "#f0a840",
+          "fill": "#9a5b00",
+          "ink": "#f0a840"
+        },
+        {
+          "c": "#3cc8d8",
+          "fill": "#0b7285",
+          "ink": "#3cc8d8"
+        }
+      ]
+    },
+    "monochrome": {
+      "scheme": "light",
+      "bg": "#f4f4f4",
+      "card": "#ffffff",
+      "soft": "#f7f7f7",
+      "line": "#e0e0e0",
+      "ink": "#111111",
+      "muted": "#595959",
+      "danger": "#a61b1b",
+      "dangerFill": "#a61b1b",
+      "chart": ["#111111", "#595959"],
+      "days": [
+        {
+          "c": "#111111",
+          "fill": "#111111",
+          "ink": "#111111"
+        },
+        {
+          "c": "#2b2b2b",
+          "fill": "#2b2b2b",
+          "ink": "#2b2b2b"
+        },
+        {
+          "c": "#3d3d3d",
+          "fill": "#3d3d3d",
+          "ink": "#3d3d3d"
+        },
+        {
+          "c": "#4d4d4d",
+          "fill": "#4d4d4d",
+          "ink": "#4d4d4d"
+        },
+        {
+          "c": "#5a5a5a",
+          "fill": "#5a5a5a",
+          "ink": "#5a5a5a"
+        },
+        {
+          "c": "#666666",
+          "fill": "#666666",
+          "ink": "#616161"
+        },
+        {
+          "c": "#707070",
+          "fill": "#707070",
+          "ink": "#666666"
+        }
+      ]
+    },
+    "blue": {
+      "scheme": "light",
+      "bg": "#eef3fb",
+      "card": "#ffffff",
+      "soft": "#f4f7fc",
+      "line": "#dbe3f1",
+      "ink": "#0f1730",
+      "muted": "#4f5a73",
+      "danger": "#b42424",
+      "dangerFill": "#b42424",
+      "chart": ["#2459c9", "#4f5a73"],
+      "days": [
+        {
+          "c": "#2f6fe0",
+          "fill": "#2459c9",
+          "ink": "#1f4fb5"
+        },
+        {
+          "c": "#129494",
+          "fill": "#0b7676",
+          "ink": "#096a6a"
+        },
+        {
+          "c": "#5b5bd6",
+          "fill": "#4b4bc4",
+          "ink": "#4646b8"
+        },
+        {
+          "c": "#1590c2",
+          "fill": "#0a6f96",
+          "ink": "#08678b"
+        },
+        {
+          "c": "#5a7189",
+          "fill": "#44586b",
+          "ink": "#3f5263"
+        },
+        {
+          "c": "#22a06a",
+          "fill": "#17744b",
+          "ink": "#146a44"
+        },
+        {
+          "c": "#8a5fe0",
+          "fill": "#6a40c0",
+          "ink": "#6239b3"
+        }
+      ]
+    },
+    "violet": {
+      "scheme": "light",
+      "bg": "#f4f1fb",
+      "card": "#ffffff",
+      "soft": "#f8f6fd",
+      "line": "#e4ddf3",
+      "ink": "#1a1230",
+      "muted": "#5d5673",
+      "danger": "#b42424",
+      "dangerFill": "#b42424",
+      "chart": ["#6a40c8", "#5d5673"],
+      "days": [
+        {
+          "c": "#8a5fe8",
+          "fill": "#6a40c8",
+          "ink": "#6239b8"
+        },
+        {
+          "c": "#c447ab",
+          "fill": "#a02f8b",
+          "ink": "#942a80"
+        },
+        {
+          "c": "#5f65e0",
+          "fill": "#4349c0",
+          "ink": "#3e43b2"
+        },
+        {
+          "c": "#3f7ff0",
+          "fill": "#2459c9",
+          "ink": "#1f4fb5"
+        },
+        {
+          "c": "#e0457b",
+          "fill": "#c2255c",
+          "ink": "#b0204f"
+        },
+        {
+          "c": "#129494",
+          "fill": "#0b7676",
+          "ink": "#096a6a"
+        },
+        {
+          "c": "#a659ab",
+          "fill": "#7a3580",
+          "ink": "#723079"
+        }
+      ]
+    },
+    "green": {
+      "scheme": "light",
+      "bg": "#eef6f1",
+      "card": "#ffffff",
+      "soft": "#f4f9f6",
+      "line": "#d8e9de",
+      "ink": "#0f2118",
+      "muted": "#4f6358",
+      "danger": "#b42424",
+      "dangerFill": "#b42424",
+      "chart": ["#157f4f", "#4f6358"],
+      "days": [
+        {
+          "c": "#22a86b",
+          "fill": "#157f4f",
+          "ink": "#137347"
+        },
+        {
+          "c": "#129494",
+          "fill": "#0b7676",
+          "ink": "#096a6a"
+        },
+        {
+          "c": "#7a9a24",
+          "fill": "#567312",
+          "ink": "#4e6910"
+        },
+        {
+          "c": "#3f7ff0",
+          "fill": "#2459c9",
+          "ink": "#1f4fb5"
+        },
+        {
+          "c": "#bb760c",
+          "fill": "#9a5b00",
+          "ink": "#8f5400"
+        },
+        {
+          "c": "#3f8a52",
+          "fill": "#2a6237",
+          "ink": "#285c34"
+        },
+        {
+          "c": "#1590c2",
+          "fill": "#0a6f96",
+          "ink": "#08678b"
+        }
+      ]
+    },
+    "rose": {
+      "scheme": "light",
+      "bg": "#fbf0f3",
+      "card": "#ffffff",
+      "soft": "#fdf6f8",
+      "line": "#f1dce3",
+      "ink": "#2a1018",
+      "muted": "#6e5560",
+      "danger": "#a61b1b",
+      "dangerFill": "#a61b1b",
+      "chart": ["#c2255c", "#6e5560"],
+      "days": [
+        {
+          "c": "#e0457b",
+          "fill": "#c2255c",
+          "ink": "#b0204f"
+        },
+        {
+          "c": "#e5603f",
+          "fill": "#d2411c",
+          "ink": "#be3b19"
+        },
+        {
+          "c": "#8a5fe8",
+          "fill": "#7553db",
+          "ink": "#6e4bd9"
+        },
+        {
+          "c": "#c447ab",
+          "fill": "#a02f8b",
+          "ink": "#942a80"
+        },
+        {
+          "c": "#bb760c",
+          "fill": "#9a5b00",
+          "ink": "#8f5400"
+        },
+        {
+          "c": "#1a9bb0",
+          "fill": "#0b7285",
+          "ink": "#0a6676"
+        },
+        {
+          "c": "#3f7ff0",
+          "fill": "#2459c9",
+          "ink": "#1f4fb5"
+        }
+      ]
+    },
+    "gradient-1": {
+      "scheme": "light",
+      "bg": "#f6f2ee",
+      "card": "#ffffff",
+      "soft": "#faf7f4",
+      "line": "#ebe3db",
+      "ink": "#1a1410",
+      "muted": "#665d57",
+      "danger": "#b42424",
+      "dangerFill": "#b42424",
+      "chart": ["#c2255c", "#665d57"],
+      "days": [
+        {
+          "c": "#e5603f",
+          "fill": "#d2411c",
+          "fill2": "#b0204f",
+          "ink": "#be3b19"
+        },
+        {
+          "c": "#3466db",
+          "fill": "#3466db",
+          "fill2": "#6a40c0",
+          "ink": "#295ed9"
+        },
+        {
+          "c": "#8a5fe8",
+          "fill": "#7553db",
+          "fill2": "#a02f8b",
+          "ink": "#6e4bd9"
+        },
+        {
+          "c": "#16916b",
+          "fill": "#148461",
+          "fill2": "#0b7285",
+          "ink": "#106b4f"
+        },
+        {
+          "c": "#e0457b",
+          "fill": "#c2255c",
+          "fill2": "#7a3580",
+          "ink": "#b0204f"
+        },
+        {
+          "c": "#bb760c",
+          "fill": "#9a5b00",
+          "fill2": "#b0204f",
+          "ink": "#8f5400"
+        },
+        {
+          "c": "#1a9bb0",
+          "fill": "#0b7285",
+          "fill2": "#2459c9",
+          "ink": "#0a6676"
+        }
+      ]
+    },
+    "gradient-2": {
+      "scheme": "dark",
+      "bg": "#0f1018",
+      "card": "#191a26",
+      "soft": "#20212f",
+      "line": "#2a2c3d",
+      "ink": "#f1f1f7",
+      "muted": "#a0a2b8",
+      "danger": "#ff6b6b",
+      "dangerFill": "#c62828",
+      "chart": ["#7c9bff", "#a0a2b8"],
+      "days": [
+        {
+          "c": "#5b8bff",
+          "fill": "#2459c9",
+          "fill2": "#6a40c8",
+          "ink": "#7c9bff"
+        },
+        {
+          "c": "#3cc8d8",
+          "fill": "#0b7285",
+          "fill2": "#2459c9",
+          "ink": "#3cc8d8"
+        },
+        {
+          "c": "#9b7bff",
+          "fill": "#6a40c8",
+          "fill2": "#a02f8b",
+          "ink": "#a68aff"
+        },
+        {
+          "c": "#2fc497",
+          "fill": "#148461",
+          "fill2": "#0b7285",
+          "ink": "#2fc497"
+        },
+        {
+          "c": "#ff6b9d",
+          "fill": "#c2255c",
+          "fill2": "#6a40c8",
+          "ink": "#ff6b9d"
+        },
+        {
+          "c": "#f0a840",
+          "fill": "#9a5b00",
+          "fill2": "#c2255c",
+          "ink": "#f0a840"
+        },
+        {
+          "c": "#ff7a5a",
+          "fill": "#d2411c",
+          "fill2": "#9a5b00",
+          "ink": "#ff7a5a"
+        }
+      ]
+    }
+  }
+}

@@ -1,99 +1,43 @@
-import { findExercise } from '../data/exercises';
-import type { Session, SessionSet, Settings } from '../types';
-import { DEFAULT_SETTINGS } from '../types';
+import { DEFAULT_SETTINGS, THEMES, type Profile, type Settings, type ThemeId } from '../types';
 
 /**
- * Чистые функции миграции данных. Используются в upgrade() IndexedDB и в импорте файлов
- * старого формата. Каждая версия схемы — отдельная функция, старые не удаляются.
+ * Чистые функции миграции данных по версиям схемы. Используются в upgrade() IndexedDB
+ * и при восстановлении копии старой версии. Старые шаги не удаляются (кроме v1 — данные v1
+ * владелец переносит вручную, поддержка снята на этапе 2).
+ *
+ *  v2 — этап 1: Settings.theme 'system' | 'light' | 'dark', у профиля нет legalAccepted.
+ *  v3 — этап 2: 10 тем + 'auto', tipState, weightWarningIgnored, напоминание о копии,
+ *       Profile.legalAccepted.
  */
 
-// ---------- схема v1 (первая версия приложения «Сплит 3+1») ----------
+const isObj = (v: unknown): v is Record<string, unknown> => !!v && typeof v === 'object' && !Array.isArray(v);
 
-export interface V1Set {
-  weight: number | null;
-  reps: number | null;
-  done: boolean;
-  doneAt?: number;
-}
-export interface V1Exercise {
-  exId: string;
-  skipped: boolean;
-  sets: V1Set[];
-}
-export interface V1Workout {
-  id: string;
-  dayId: string;
-  startedAt: number;
-  finishedAt: number | null;
-  exercises: V1Exercise[];
-}
-export interface V1Settings {
-  theme?: string;
-  units?: string;
-  restBase?: number;
-  restIso?: number;
-  sound?: boolean;
-  wakeLock?: boolean;
+/** Тема v2 → v3. Светлая v2 — это классическая оранжевая, тёмная — классическая тёмная. */
+export function migrateThemeV2(theme: unknown): ThemeId {
+  if (theme === 'light') return 'classic-orange';
+  if (theme === 'dark') return 'classic-dark';
+  if (theme === 'system') return 'auto';
+  return (THEMES as readonly string[]).includes(theme as string) || theme === 'auto'
+    ? (theme as ThemeId)
+    : DEFAULT_SETTINGS.theme;
 }
 
-const iso = (ms: number): string => new Date(ms).toISOString();
-const okNum = (v: unknown): v is number => typeof v === 'number' && Number.isFinite(v) && v >= 0;
-
-function v1Set(s: V1Set, isTime: boolean): SessionSet {
-  const out: SessionSet = { done: s.done === true };
-  if (okNum(s.weight)) out.weightKg = s.weight;
-  // В v1 секунды планки хранились в поле reps
-  if (okNum(s.reps)) {
-    if (isTime) out.seconds = s.reps;
-    else out.reps = s.reps;
-  }
-  if (okNum(s.doneAt)) out.doneAt = iso(s.doneAt);
-  return out;
-}
-
-/** Тренировка v1 → Session. Ничего не выбрасываем: незнакомые упражнения тоже переносим. */
-export function migrateWorkoutV1(w: V1Workout): Session {
-  const s: Session = {
-    id: w.id,
-    dayId: w.dayId,
-    startedAt: iso(w.startedAt),
-    entries: (w.exercises ?? []).map((e) => {
-      const isTime = findExercise(e.exId)?.metric === 'time';
-      const entry: Session['entries'][number] = {
-        exerciseId: e.exId,
-        sets: (e.sets ?? []).map((x) => v1Set(x, isTime)),
-      };
-      if (e.skipped) entry.skipped = true;
-      return entry;
-    }),
-  };
-  if (okNum(w.finishedAt)) s.endedAt = iso(w.finishedAt);
-  return s;
-}
-
-export function migrateSettingsV1(raw: V1Settings | null | undefined): Settings {
-  const r = raw ?? {};
-  const sec = (v: unknown, d: number) => (okNum(v) ? Math.min(600, Math.max(15, Math.round(v))) : d);
+export function migrateSettingsV2(raw: unknown): Settings {
+  const r = isObj(raw) ? raw : {};
   return {
     ...DEFAULT_SETTINGS,
-    theme: r.theme === 'light' || r.theme === 'dark' ? r.theme : 'system',
-    restBaseSec: sec(r.restBase, DEFAULT_SETTINGS.restBaseSec),
-    restIsoSec: sec(r.restIso, DEFAULT_SETTINGS.restIsoSec),
-    sound: typeof r.sound === 'boolean' ? r.sound : DEFAULT_SETTINGS.sound,
-    wakeLock: typeof r.wakeLock === 'boolean' ? r.wakeLock : DEFAULT_SETTINGS.wakeLock,
+    ...(r as Partial<Settings>),
+    theme: migrateThemeV2(r.theme),
+    tipState: isObj(r.tipState) ? (r.tipState as Settings['tipState']) : {},
+    weightWarningIgnored: Array.isArray(r.weightWarningIgnored)
+      ? (r.weightWarningIgnored as unknown[]).filter((x): x is string => typeof x === 'string')
+      : [],
   };
 }
 
-/**
- * Что знаем о пользователе v1 до онбординга: единицы и язык старого интерфейса.
- * Онбординг подставляет это в поля, профиль создаёт сам пользователь.
- */
-export interface LegacyPrefs {
-  units: 'metric' | 'imperial';
-  locale: string;
-  workouts: number;
-}
-
-export function legacyPrefsV1(raw: V1Settings | null | undefined, workouts: number): LegacyPrefs {
-  return { units: raw?.units === 'lb' ? 'imperial' : 'metric', locale: 'ru', workouts };
+/** Профиль v2 → v3: документы ещё не приняты — приложение попросит принять при запуске */
+export function migrateProfileV2(raw: unknown): Profile | null {
+  if (!isObj(raw)) return null;
+  const p = raw as unknown as Profile;
+  return { ...p, legalAccepted: isObj(raw.legalAccepted) ? p.legalAccepted : null };
 }

@@ -3,17 +3,20 @@ import { LOCALES, fmtDate, locale, setLocale, t } from '../../i18n';
 import { CONTACT_EMAIL } from '../../lib/meta';
 import { profile, saveProfile, settings, updateProfile, updateSettings } from '../../state/settings';
 import { ask, route, toast } from '../../state/ui';
-import { history } from '../../state/session';
 import { plan, setMode } from '../../state/plan';
 import {
-  applyBackup,
+  applyRestore,
   checkPersist,
-  exportData,
-  parseBackup,
   persistStatus,
+  readBackupFile,
   requestPersist,
   resetAll,
+  saveCopy,
+  undoAvailable,
+  undoRestore,
 } from '../../features/backup';
+import { LEGAL_META } from '../../content/legal';
+import { fmtDocDate } from './Legal';
 import { wakeStatus, wakeSupported } from '../../features/wakelock';
 import { audioAvailable, beep } from '../../features/audio';
 import {
@@ -26,7 +29,8 @@ import {
 } from '../../features/install';
 import type { Level, Settings as S } from '../../types';
 import { Icon } from '../components/Icon';
-import { Seg, Stepper, Toggle } from '../components/Controls';
+import { Stepper, Toggle } from '../components/Controls';
+import { ThemePicker } from '../components/ThemePicker';
 import { ProfileForm, draftFrom, validateProfile, type ProfileDraft } from '../components/ProfileForm';
 
 export function Settings() {
@@ -38,59 +42,84 @@ export function Settings() {
     void checkPersist();
   }, []);
 
-  const onExport = async () => {
+  const onSave = async () => {
     try {
-      const r = await exportData();
+      const r = await saveCopy();
       if (r === 'downloaded') toast(t('backup.downloaded'));
-      if (r === 'shared') toast(t('backup.shared'));
+      if (r === 'shared') toast(t('backup.saved'));
     } catch (e) {
       console.error(e);
-      toast(t('backup.exportFailed'));
+      toast(t('backup.saveFailed'));
     }
   };
 
-  const onImportFile = async (e: Event) => {
+  const onRestoreFile = async (e: Event) => {
     const input = e.currentTarget as HTMLInputElement;
     const file = input.files?.[0];
     input.value = '';
     if (!file) return;
     try {
-      if (file.size > 20 * 1024 * 1024) throw new Error(t('backup.errTooBig'));
-      const parsed = parseBackup(await file.text());
-      const n = parsed.sessions.length;
+      const ready = await readBackupFile(file);
+      const sm = ready.summary;
+      // Всё из файла — только текстом (никакого HTML)
       const ok = await ask({
-        title: t('backup.restoreTitle'),
+        title: t('legal.restoreTitle'),
         body: (
-          <>
-            {t('backup.restoreCount', { count: n })}
-            {parsed.exportedAt
-              ? ' ' + t('backup.restoreDate', { date: fmtDate(Date.parse(parsed.exportedAt)) })
-              : ''}
-            <br />
-            {t('backup.restoreReplace', { count: history.value.length })}
-          </>
+          <div class="restore-summary">
+            <dl class="facts">
+              <div>
+                <dt>{t('backup.sumWorkouts')}</dt>
+                <dd>{t('backup.workoutsCount', { count: sm.sessions })}</dd>
+              </div>
+              {sm.from && sm.to && (
+                <div>
+                  <dt>{t('backup.sumPeriod')}</dt>
+                  <dd>
+                    {fmtDate(Date.parse(sm.from))} – {fmtDate(Date.parse(sm.to))}
+                  </dd>
+                </div>
+              )}
+              {sm.locale && (
+                <div>
+                  <dt>{t('backup.sumLanguage')}</dt>
+                  <dd>{LOCALES.find((l) => l.code === sm.locale)?.native ?? sm.locale}</dd>
+                </div>
+              )}
+              {sm.appVersion && (
+                <div>
+                  <dt>{t('backup.sumVersion')}</dt>
+                  <dd>{sm.appVersion}</dd>
+                </div>
+              )}
+            </dl>
+            <p>{t('legal.restoreBody')}</p>
+          </div>
         ),
         confirm: t('backup.replace'),
         danger: true,
       });
       if (ok !== 'confirm') return;
-      await applyBackup(parsed);
+      await applyRestore(ready);
       toast(t('backup.restored'));
     } catch (err) {
-      toast(err instanceof Error ? err.message : t('backup.errRead'));
+      toast(err instanceof Error ? err.message : t('backup.err.invalid'));
     }
+  };
+
+  const onUndo = async () => {
+    if (await undoRestore()) toast(t('backup.undone'));
   };
 
   const onReset = async () => {
     const r = await ask({
-      title: t('reset.title'),
-      body: t('reset.body'),
-      confirm: t('reset.confirm'),
+      title: t('legal.deleteTitle'),
+      body: t('legal.deleteBody'),
+      confirm: t('legal.deleteConfirm'),
       danger: true,
-      extra: { label: t('reset.exportFirst') },
+      extra: { label: t('backup.saveFirst') },
     });
     if (r === 'extra') {
-      await onExport();
+      await onSave();
       return;
     }
     if (r !== 'confirm') return;
@@ -133,19 +162,32 @@ export function Settings() {
             </select>
           </label>
         </div>
-        <div class="srow">
-          <span>{t('settings.theme')}</span>
-          <Seg
-            label={t('settings.theme')}
-            value={s.theme}
-            onChange={(v) => set('theme', v)}
-            options={[
-              { v: 'system', t: t('settings.themeAuto') },
-              { v: 'light', t: t('settings.themeLight') },
-              { v: 'dark', t: t('settings.themeDark') },
-            ]}
-          />
+        <div class="field">
+          <span class="field-lb">{t('settings.theme')}</span>
+          <ThemePicker value={s.theme} onChange={(v) => set('theme', v)} />
         </div>
+      </section>
+
+      <section class="card group-card">
+        <h2 class="card-t">{t('settings.tips')}</h2>
+        <div class="srow">
+          <span>
+            {t('settings.showTips')}
+            <small>{t('settings.tipsHint')}</small>
+          </span>
+          <Toggle label={t('settings.showTips')} on={s.tipsEnabled} onChange={(v) => set('tipsEnabled', v)} />
+        </div>
+        {s.weightWarningIgnored.length > 0 && (
+          <div class="srow">
+            <span>
+              {t('settings.weightWarnOff', { count: s.weightWarningIgnored.length })}
+              <small>{t('settings.weightWarnOffHint')}</small>
+            </span>
+            <button type="button" class="btn-ghost sm" onClick={() => set('weightWarningIgnored', [])}>
+              {t('settings.weightWarnReset')}
+            </button>
+          </div>
+        )}
       </section>
 
       <section class="card group-card">
@@ -200,9 +242,36 @@ export function Settings() {
         </div>
       </section>
 
-      <section class="card group-card">
+      <section class="card group-card" id="data">
         <h2 class="card-t">{t('settings.data')}</h2>
-        <p class="muted small">{t('settings.dataHint')}</p>
+        <p class="muted small">{t('legal.backupNote')}</p>
+        <div class="srow">
+          <span>
+            {t('backup.lastCopy')}
+            <small>{s.lastBackupAt ? fmtDate(Date.parse(s.lastBackupAt)) : t('backup.never')}</small>
+          </span>
+        </div>
+        <div class="btn-row">
+          <button type="button" class="btn primary" onClick={() => void onSave()}>
+            <Icon name="share" size={18} /> {t('backup.save')}
+          </button>
+          <button type="button" class="btn secondary" onClick={() => fileRef.current?.click()}>
+            <Icon name="upload" size={18} /> {t('backup.restore')}
+          </button>
+          <input
+            ref={fileRef}
+            type="file"
+            accept="application/json,.json"
+            hidden
+            onChange={(e) => void onRestoreFile(e)}
+            data-testid="import-input"
+          />
+        </div>
+        {undoAvailable.value && (
+          <button type="button" class="btn secondary block" onClick={() => void onUndo()}>
+            {t('backup.undo')}
+          </button>
+        )}
         <div class="srow">
           <span>
             {t('settings.persist')}
@@ -213,22 +282,6 @@ export function Settings() {
               {t('settings.request')}
             </button>
           )}
-        </div>
-        <div class="btn-row">
-          <button type="button" class="btn secondary" onClick={() => void onExport()}>
-            <Icon name="share" size={18} /> {t('backup.export')}
-          </button>
-          <button type="button" class="btn secondary" onClick={() => fileRef.current?.click()}>
-            <Icon name="upload" size={18} /> {t('backup.import')}
-          </button>
-          <input
-            ref={fileRef}
-            type="file"
-            accept="application/json,.json"
-            hidden
-            onChange={(e) => void onImportFile(e)}
-            data-testid="import-input"
-          />
         </div>
         <button type="button" class="btn danger-ghost block" onClick={() => void onReset()}>
           <Icon name="trash" size={18} /> {t('reset.button')}
@@ -263,22 +316,36 @@ export function Settings() {
           </div>
         ) : null}
         <div class="srow">
+          <span>
+            {t('about.responsible')}
+            <small>{t('legal.responsible')}</small>
+          </span>
+        </div>
+        <div class="srow">
           <span>{t('about.contact')}</span>
           <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>
         </div>
         <ul class="list">
+          {(['terms', 'privacy'] as const).map((d) => (
+            <li key={d}>
+              <a class="row" href={`#/legal/${d}`}>
+                <span class="row-main">
+                  <b>{t(`legal.${d}Title`)}</b>
+                  <span class="muted">
+                    {t('legal.versionLine', {
+                      version: LEGAL_META[d].version,
+                      date: fmtDocDate(LEGAL_META[d].updated),
+                    })}
+                  </span>
+                </span>
+                <Icon name="chevron" size={18} />
+              </a>
+            </li>
+          ))}
           <li>
-            <a class="row" href="#/legal/privacy">
+            <a class="row" href="#/legal/licenses">
               <span class="row-main">
-                <b>{t('legal.privacy.title')}</b>
-              </span>
-              <Icon name="chevron" size={18} />
-            </a>
-          </li>
-          <li>
-            <a class="row" href="#/legal/terms">
-              <span class="row-main">
-                <b>{t('legal.terms.title')}</b>
+                <b>{t('legal.licensesTitle')}</b>
               </span>
               <Icon name="chevron" size={18} />
             </a>
@@ -322,6 +389,7 @@ function ProfileCard() {
           <span class="sr-only">{t('settings.level')}</span>
           <select
             aria-label={t('settings.level')}
+            aria-describedby="level-desc"
             value={p.level}
             onChange={(e) => updateProfile({ level: e.currentTarget.value as Level })}
           >
@@ -332,6 +400,9 @@ function ProfileCard() {
             ))}
           </select>
         </label>
+        <small id="level-desc" class="muted">
+          {t(`level.desc.${p.level}`)}
+        </small>
       </div>
       {dirty && (
         <button type="button" class="btn primary block" onClick={() => void onSave()}>

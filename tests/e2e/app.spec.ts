@@ -1,5 +1,5 @@
 import { expect, test } from '@playwright/test';
-import { fresh, onboard } from './helpers';
+import { fresh, kv, onboard } from './helpers';
 
 const INCLINE = 'Incline dumbbell press';
 
@@ -11,8 +11,8 @@ test('onboarding: English by default, gentle validation, back steps', async ({ p
   await page.getByRole('button', { name: 'Next' }).click();
   // Без галочки 16+ дальше нельзя — с понятным сообщением
   await page.getByRole('button', { name: 'Next' }).click();
-  await expect(page.getByText('Please confirm that you are 16 or older')).toBeVisible();
-  await page.getByRole('checkbox', { name: 'I am 16 or older' }).check();
+  await expect(page.getByText('To continue, confirm that you are at least 16')).toBeVisible();
+  await page.getByRole('checkbox', { name: /I am at least 16 years old and I accept/ }).check();
   await page.getByRole('button', { name: 'Next' }).click();
   // Вес и рост обязательны, остальное — нет
   await page.getByRole('button', { name: 'Next' }).click();
@@ -109,8 +109,10 @@ test('plan editor: empty days, picker with search and filters, edit, reorder, co
   const items = page.locator('.item');
   await expect(items).toHaveCount(2);
   await expect(items.first()).toContainText('Rope triceps pushdown');
+  // Средний уровень: последнее добавленное упражнение сразу открыто, курсор в весе (уровень ТЗ этапа 2)
+  await expect(items.nth(1).locator('details')).toHaveAttribute('open', '');
+  await expect(page.getByLabel(`${INCLINE}: working weight, kg`)).toBeFocused();
   // Порядок
-  await items.nth(1).locator('summary').click();
   await page.getByRole('button', { name: `Move ${INCLINE} up` }).click();
   await expect(items.first()).toContainText(INCLINE);
   // Подходы, повторы, вес, отдых, «необязательное»
@@ -254,7 +256,7 @@ test('weekdays mode: today follows the day of the week', async ({ page }) => {
   await expect(page.getByRole('button', { name: 'Start workout' })).toBeVisible();
 });
 
-test('settings: export and import JSON, reset returns to onboarding', async ({ page }) => {
+test('backup: save a copy (download fallback), delete all data, restore, undo', async ({ page }) => {
   await fresh(page);
   await onboard(page);
   await page.getByRole('button', { name: 'Start workout' }).click();
@@ -264,39 +266,81 @@ test('settings: export and import JSON, reset returns to onboarding', async ({ p
   await page.getByRole('button', { name: 'Finish', exact: true }).click();
   await page.getByRole('alertdialog').getByRole('button', { name: 'Finish' }).click();
 
-  await page.getByRole('link', { name: 'Settings' }).click();
+  await page.getByRole('link', { name: 'Settings', exact: true }).click();
+  // Подписи из Terms и Privacy — буквально: «Settings → About», «Settings → Delete all data»
+  await expect(page.getByRole('heading', { name: 'About', exact: true })).toBeVisible();
+  await expect(page.getByText('not saved yet')).toBeVisible();
+  // Нет системного «Поделиться» с файлом — обычная загрузка
   await page.evaluate(() => {
     Object.defineProperty(navigator, 'canShare', { value: undefined, configurable: true });
   });
   const dl = page.waitForEvent('download');
-  await page.getByRole('button', { name: 'Export JSON' }).click();
+  await page.getByRole('button', { name: 'Save a copy' }).click();
   const file = await dl;
   const path = await file.path();
-  expect(file.suggestedFilename()).toMatch(/^training-backup-\d{4}-\d{2}-\d{2}\.json$/);
+  expect(file.suggestedFilename()).toMatch(/^simple-training-backup-\d{4}-\d{2}-\d{2}\.json$/);
+  await expect(page.getByText('not saved yet')).toHaveCount(0);
 
   await page.getByRole('button', { name: 'Delete all data' }).click();
+  await expect(page.getByRole('alertdialog')).toContainText('cannot be undone');
   await page.getByRole('alertdialog').getByRole('button', { name: 'Delete everything' }).click();
   await expect(page.getByRole('heading', { name: 'Language' })).toBeVisible();
 
-  await onboard(page);
-  await page.getByRole('link', { name: 'Settings' }).click();
+  await onboard(page, { start: /Full body/ });
+  await page.getByRole('link', { name: 'Settings', exact: true }).click();
   await page.getByTestId('import-input').setInputFiles(path);
-  await expect(page.getByRole('alertdialog')).toContainText('1 workout');
-  await page.getByRole('alertdialog').getByRole('button', { name: 'Replace' }).click();
+  const dlg = page.getByRole('alertdialog');
+  await expect(dlg).toContainText('1 workout');
+  await expect(dlg).toContainText('Replace current data?');
+  await dlg.getByRole('button', { name: 'Replace current data' }).click();
   await expect(page.getByText('Data restored')).toBeVisible();
   await page.getByRole('link', { name: 'History' }).click();
   await expect(page.getByRole('link', { name: /Chest \+ triceps/ })).toBeVisible();
+
+  // Откат восстановления — до следующего изменения данных
+  await page.getByRole('link', { name: 'Settings', exact: true }).click();
+  await page.getByRole('button', { name: 'Undo restore' }).click();
+  await expect(page.getByText('Restore undone')).toBeVisible();
+  await page.getByRole('link', { name: 'History' }).click();
+  await expect(page.getByText('Finished workouts will appear here')).toBeVisible();
+  await page.getByRole('link', { name: 'Today' }).click();
+  await expect(page.getByRole('heading', { name: 'Workout A' })).toBeVisible();
 });
 
-test('theme switch changes theme-color', async ({ page }) => {
+test('themes: all 10 + auto switch, persist after reload, theme-color follows', async ({ page }) => {
   await fresh(page);
   await onboard(page);
-  await page.getByRole('link', { name: 'Settings' }).click();
-  await page.getByRole('radio', { name: 'Dark' }).click();
-  await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
+  await page.getByRole('link', { name: 'Settings', exact: true }).click();
+  const themes: [string, string, string | null][] = [
+    ['Classic orange', 'classic-orange', 'rgb(243, 241, 236)'],
+    ['Classic light', 'classic-light', 'rgb(246, 246, 247)'],
+    ['Classic dark', 'classic-dark', 'rgb(17, 17, 20)'],
+    ['Monochrome', 'monochrome', 'rgb(244, 244, 244)'],
+    ['Blue', 'blue', 'rgb(238, 243, 251)'],
+    ['Violet', 'violet', 'rgb(244, 241, 251)'],
+    ['Green', 'green', 'rgb(238, 246, 241)'],
+    ['Rose', 'rose', 'rgb(251, 240, 243)'],
+    ['Sunset gradient', 'gradient-1', 'rgb(246, 242, 238)'],
+    ['Night gradient', 'gradient-2', 'rgb(15, 16, 24)'],
+    ['Auto', 'auto', null],
+  ];
+  const picker = page.getByRole('radiogroup', { name: 'Theme' });
+  for (const [name, id, bg] of themes) {
+    await picker.getByRole('radio', { name, exact: true }).click();
+    await expect(page.locator('html')).toHaveAttribute('data-theme', id);
+    if (bg) expect(await page.evaluate(() => getComputedStyle(document.body).backgroundColor)).toBe(bg);
+  }
+  await picker.getByRole('radio', { name: 'Classic dark', exact: true }).click();
   await expect(page.locator('meta[name=theme-color]').first()).toHaveAttribute('content', '#111114');
-  const bg = await page.evaluate(() => getComputedStyle(document.body).backgroundColor);
-  expect(bg).toBe('rgb(17, 17, 20)');
+  await expect.poll(async () => (await kv<{ theme: string }>(page, 'settings'))?.theme).toBe('classic-dark');
+  await page.reload();
+  await expect(page.locator('html')).toHaveAttribute('data-theme', 'classic-dark');
+  await expect(
+    page.getByRole('radiogroup', { name: 'Theme' }).getByRole('radio', { name: 'Classic dark' }),
+  ).toHaveAttribute('aria-checked', 'true');
+  expect(await page.evaluate(() => JSON.parse(localStorage.getItem('tp-boot') ?? '{}').theme)).toBe(
+    'classic-dark',
+  );
 });
 
 test('library: search, filters and full card', async ({ page }) => {

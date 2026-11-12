@@ -54,6 +54,14 @@ test('platform', () => {
   for (const k of ['androidChrome', 'androidSamsung', 'androidFirefox', 'androidWebView'] as const)
     expect(detectPlatform({ ua: UA[k] }), k).toBe('android');
   for (const k of ['winChrome', 'winEdge'] as const) expect(detectPlatform({ ua: UA[k] }), k).toBe('desktop');
+  // Сначала iOS: если совпали оба признака, побеждает iOS
+  expect(detectPlatform({ ua: 'Mozilla/5.0 (iPhone; Android 15)' })).toBe('ios');
+  expect(detectPlatform({ ua: UA.androidChrome, platform: 'MacIntel', maxTouchPoints: 5 })).toBe('ios');
+  // Mac с Macintosh в UA, но без платформы MacIntel — не iOS
+  expect(detectPlatform({ ua: UA.ipadSafari, platform: '', maxTouchPoints: 5 })).toBe('desktop');
+  // Неизвестное — без инструкции
+  expect(detectPlatform({ ua: 'curl/8.0' })).toBe('desktop');
+  expect(detectPlatform({ ua: '' })).toBe('desktop');
 });
 
 test('browser', () => {

@@ -656,13 +656,6 @@
   background: color-mix(in srgb, var(--accent) 14%, transparent);
   color: var(--accent-ink);
 }
-.ig-os {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  font-weight: 700;
-}
 .ig-now {
   display: grid;
   gap: 6px;
@@ -740,12 +733,6 @@
 }
 .ig-scenes.two .scene {
   max-width: 170px;
-}
-.ig-other ul {
-  margin: 0;
-  padding-left: 18px;
-  display: grid;
-  gap: 6px;
 }
 .ig-end {
   height: 1px;
@@ -970,6 +957,237 @@ button.back {
 
 /* «Сегодня»: сетка упражнений сразу под шапкой дня — тот же отступ, что был у групп оригинала */
 .dayhead + .ex-grid,
-.dayhead + .empty + .ex-grid {
+.dayhead + .empty + .ex-grid,
+.dayhead + .tip,
+.tip + .ex-grid {
   margin-top: 22px;
+}
+
+/* ---------- советы: карточка в потоке, закрывается ---------- */
+.tip {
+  display: grid;
+  grid-template-columns: 28px 1fr 44px;
+  gap: 8px;
+  align-items: start;
+  margin: 10px 0 0;
+  padding: 10px 6px 10px 12px;
+  border-radius: 14px;
+  background: color-mix(in srgb, var(--accent) 10%, var(--card));
+  border: 1px solid color-mix(in srgb, var(--accent) 22%, transparent);
+}
+.tip p {
+  margin: 4px 0 0;
+  font-size: 14.5px;
+  line-height: 1.4;
+}
+.tip-ic {
+  font-size: 18px;
+  line-height: 28px;
+  text-align: center;
+}
+.tip-x {
+  margin: -8px 0 -8px 0;
+}
+.tip.recovery {
+  margin-top: 22px;
+}
+
+/* ---------- выбор темы ---------- */
+.theme-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 10px;
+}
+.tp {
+  display: grid;
+  gap: 6px;
+  padding: 6px 6px 10px;
+  border-radius: 16px;
+  border: 2px solid var(--line);
+  background: var(--card);
+  text-align: left;
+}
+.tp.on {
+  border-color: var(--accent);
+}
+.tp-auto {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border-radius: 11px;
+  overflow: hidden;
+}
+.tp-auto .tp-sw {
+  border-radius: 0;
+}
+.tp-sw {
+  display: block;
+  height: 64px;
+  padding: 8px;
+  border-radius: 11px;
+}
+.tp-card {
+  display: grid;
+  gap: 5px;
+  height: 100%;
+  padding: 5px;
+  border-radius: 7px;
+}
+.tp-head {
+  height: 12px;
+  border-radius: 4px;
+}
+.tp-line {
+  width: 60%;
+  height: 4px;
+  border-radius: 2px;
+  opacity: 0.8;
+}
+.tp-dots {
+  display: flex;
+  gap: 3px;
+}
+.tp-dots i {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+.tp-name {
+  padding: 0 4px;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+/* ---------- напоминание о копии ---------- */
+.backup-reminder {
+  display: grid;
+  gap: 10px;
+  margin-top: 12px;
+  border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent);
+}
+.br-text {
+  display: grid;
+  gap: 4px;
+}
+.br-actions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  justify-content: space-between;
+}
+.restore-summary .facts {
+  margin: 0 0 10px;
+}
+.restore-summary p {
+  margin: 0;
+}
+.licenses {
+  list-style: none;
+  padding: 0;
+  margin: 12px 0 0;
+  display: grid;
+  gap: 8px;
+}
+.licenses summary {
+  display: grid;
+  gap: 2px;
+  min-height: 44px;
+  cursor: pointer;
+}
+.licenses pre {
+  margin: 10px 0 0;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  font-size: 12px;
+  line-height: 1.45;
+  color: var(--muted);
+}
+.toc ol {
+  margin: 0 0 8px;
+  padding-left: 22px;
+  display: grid;
+  gap: 2px;
+}
+.toc-link {
+  min-height: 36px;
+  text-align: left;
+  color: var(--accent-ink);
+  font-weight: 700;
+  font-size: 14.5px;
+}
+.prose ul {
+  margin: 0;
+  padding-left: 20px;
+  display: grid;
+  gap: 6px;
+}
+.prose h3 {
+  margin: 4px 0 0;
+  font-size: 15.5px;
+  font-weight: 800;
+}
+.prose h2:focus {
+  outline: none;
+}
+.doc-meta {
+  margin: 0;
+}
+.legal-update .btn {
+  margin-top: 14px;
+}
+.weight-warn p {
+  margin: 0 0 10px;
+}
+
+/* ---------- статистика ---------- */
+.charts-2 {
+  display: grid;
+  gap: 10px;
+}
+@media (min-width: 760px) {
+  .charts-2 {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+.chart.bars .bar {
+  fill: var(--chart-1);
+}
+.chart .bar-v,
+.chart .ax-l {
+  font-size: 10px;
+  fill: var(--muted);
+  font-weight: 600;
+}
+.chart-table summary {
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--accent-ink);
+  cursor: pointer;
+}
+.chart-table table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+.chart-table th,
+.chart-table td {
+  padding: 6px 4px;
+  border-top: 1px solid var(--line);
+  text-align: left;
+  font-weight: 600;
+}
+.chart-table td {
+  text-align: right;
+}
+.records dd b {
+  font-size: 17px;
+}
+
+.next-time {
+  margin: 14px 0 4px;
+}
+.next-time .card-t {
+  margin: 0 4px;
 }
