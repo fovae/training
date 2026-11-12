@@ -40,6 +40,13 @@ test('desktop: side navigation, columns, keyboard', async ({ page }) => {
   // Упражнения минимум в 2 колонки
   await page.getByRole('link', { name: 'Today' }).click();
   await page.waitForSelector('.ex-grid .ex');
+  // Отступ между шапкой дня и карточками (регрессия: карточки прилипали к шапке)
+  const gap = await page.evaluate(
+    () =>
+      document.querySelector('.ex-grid')!.getBoundingClientRect().top -
+      document.querySelector('.dayhead')!.getBoundingClientRect().bottom,
+  );
+  expect(gap).toBeGreaterThanOrEqual(16);
   const cols = await page.$eval(
     '.ex-grid',
     (el) => getComputedStyle(el).gridTemplateColumns.split(' ').length,

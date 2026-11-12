@@ -48,6 +48,12 @@ test('layout: tab bar, safe area meta, no horizontal scroll, 44pt targets', asyn
     await expect(page.getByRole('link', { name: t, exact: true })).toBeVisible();
   await expect(page.locator('meta[name=viewport]')).toHaveAttribute('content', /viewport-fit=cover/);
   await expect(page.locator('meta[name=author]')).toHaveAttribute('content', 'Fovae & Claude');
+  const gap = await page.evaluate(
+    () =>
+      document.querySelector('.ex-grid')!.getBoundingClientRect().top -
+      document.querySelector('.dayhead')!.getBoundingClientRect().bottom,
+  );
+  expect(gap, 'dayhead → cards').toBeGreaterThanOrEqual(16);
   for (const tab of ['today', 'plan', 'library', 'settings']) {
     await page.goto('./#/' + tab);
     await page.waitForSelector('main .screen');

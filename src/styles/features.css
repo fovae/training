@@ -967,3 +967,9 @@ button.back {
     grid-row: auto;
   }
 }
+
+/* «Сегодня»: сетка упражнений сразу под шапкой дня — тот же отступ, что был у групп оригинала */
+.dayhead + .ex-grid,
+.dayhead + .empty + .ex-grid {
+  margin-top: 22px;
+}
