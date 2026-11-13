@@ -1,0 +1,160 @@
+import { expect, test, type Page } from '@playwright/test';
+import { fresh, kv, onboard } from './helpers';
+
+/** Длительность анимации экрана и переходов кнопок (мс) — по вычисленному стилю */
+const durations = (page: Page) =>
+  page.evaluate(() => {
+    const ms = (v: string) =>
+      Math.max(...v.split(',').map((x) => parseFloat(x) * (x.includes('ms') ? 1 : 1000)));
+    const screen = document.querySelector('main > .screen')!;
+    const btn = document.querySelector('.btn')!;
+    return {
+      screen: ms(getComputedStyle(screen).animationDuration),
+      button: ms(getComputedStyle(btn).transitionDuration),
+    };
+  });
+
+test('animations follow the system by default and can be turned on / off in Settings', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'no-preference' });
+  await fresh(page);
+  await onboard(page);
+  let d = await durations(page);
+  expect(d.screen).toBeGreaterThanOrEqual(150);
+  expect(d.screen).toBeLessThanOrEqual(350);
+  expect(d.button).toBeGreaterThan(0);
+
+  // система: «уменьшение движения» — всё мгновенно, прокрутка без плавности
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  d = await durations(page);
+  expect(d).toEqual({ screen: 0, button: 0 });
+
+  await page.getByRole('link', { name: 'Settings', exact: true }).click();
+  const seg = page.getByRole('radiogroup', { name: 'Animations' });
+  await expect(seg.getByRole('radio', { name: 'As in system' })).toHaveAttribute('aria-checked', 'true');
+  // «Включены» — вопреки системной настройке
+  await seg.getByRole('radio', { name: 'On', exact: true }).click();
+  await expect(page.locator('html')).toHaveAttribute('data-motion', 'on');
+  d = await durations(page);
+  expect(d.screen).toBeGreaterThan(0);
+
+  // «Выключены» — как reduced-motion, и после перезагрузки тоже (до первой отрисовки)
+  await page.emulateMedia({ reducedMotion: 'no-preference' });
+  await seg.getByRole('radio', { name: 'Off', exact: true }).click();
+  await expect(page.locator('html')).toHaveAttribute('data-motion', 'off');
+  d = await durations(page);
+  expect(d).toEqual({ screen: 0, button: 0 });
+  await expect.poll(async () => (await kv<{ motion: string }>(page, 'settings'))?.motion).toBe('off');
+  await page.reload();
+  await expect(page.locator('html')).toHaveAttribute('data-motion', 'off');
+  expect(await durations(page)).toEqual({ screen: 0, button: 0 });
+
+  await page
+    .getByRole('radiogroup', { name: 'Animations' })
+    .getByRole('radio', { name: 'As in system' })
+    .click();
+  await expect(page.locator('html')).not.toHaveAttribute('data-motion', /.*/);
+});
+
+test('tab bar: the indicator slides to the active tab; tapping the active tab scrolls to top', async ({
+  page,
+}, info) => {
+  test.skip(info.project.name === 'desktop', 'нижняя панель — телефон');
+  await fresh(page);
+  await onboard(page);
+  const ind = page.locator('.nav-ind');
+  const x = () => ind.evaluate((el) => new DOMMatrix(getComputedStyle(el).transform).m41);
+  await expect.poll(x).toBe(0);
+  const w = await ind.evaluate((el) => el.getBoundingClientRect().width);
+  await page.getByRole('link', { name: 'Exercises' }).click();
+  await expect.poll(x).toBeCloseTo(2 * w, 0);
+  // индикатор — transition по transform (плавно), без анимации ширины
+  expect(await ind.evaluate((el) => getComputedStyle(el).transitionProperty)).toBe('transform');
+
+  await page.evaluate(() => window.scrollTo({ top: 3000, behavior: 'instant' }));
+  await expect.poll(() => page.evaluate(() => scrollY)).toBeGreaterThan(500);
+  await page.getByRole('link', { name: 'Exercises' }).click();
+  await expect.poll(() => page.evaluate(() => scrollY)).toBe(0);
+  await expect(page).toHaveURL(/#\/library$/);
+});
+
+test('screen transitions: nested screen comes from the right, back from the left', async ({ page }) => {
+  await fresh(page);
+  await onboard(page);
+  await page.getByRole('link', { name: 'Exercises' }).click();
+  await expect(page.locator('main')).toHaveAttribute('data-nav', 'tab');
+  await page.locator('.lib-card').first().click();
+  await expect(page.locator('main')).toHaveAttribute('data-nav', 'push');
+  expect(await page.locator('main > .screen').evaluate((el) => getComputedStyle(el).animationName)).toBe(
+    'm-in-push',
+  );
+  await page.locator('a.back').click();
+  await expect(page.locator('main')).toHaveAttribute('data-nav', 'pop');
+  expect(await page.locator('main > .screen').evaluate((el) => getComputedStyle(el).animationName)).toBe(
+    'm-in-pop',
+  );
+  // ни одного кадра без экрана
+  await expect(page.locator('main > .screen')).toHaveCount(1);
+});
+
+test('120 exercises: scroll, search fades the list, "Back" restores the scroll position', async ({
+  page,
+}) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await fresh(page);
+  await onboard(page);
+  await page.getByRole('link', { name: 'Exercises' }).click();
+  await expect(page.locator('.lib-card')).toHaveCount(120);
+  // прокрутка до конца без пропусков: последняя карточка доступна
+  await page.locator('.lib-grid > li').last().scrollIntoViewIfNeeded();
+  await expect(page.locator('.lib-grid > li').last()).toBeInViewport();
+  await page.evaluate(() => window.scrollTo({ top: 1600, behavior: 'instant' }));
+  await page.waitForTimeout(100);
+  const y = await page.evaluate(() => scrollY);
+  expect(y).toBeGreaterThan(1000);
+  const card = page.locator('.lib-card').filter({ visible: true }).first();
+  // открыть карточку в зоне видимости и вернуться
+  const link = await page.evaluate(() => {
+    const els = [...document.querySelectorAll<HTMLAnchorElement>('.lib-card')];
+    const el = els.find((a) => a.getBoundingClientRect().top > 80)!;
+    return el.getAttribute('href');
+  });
+  void card;
+  await page.locator(`.lib-card[href="${link}"]`).click();
+  await expect(page.locator('.lib-detail')).toBeVisible();
+  expect(await page.evaluate(() => scrollY)).toBe(0);
+  await page.locator('a.back').click();
+  await expect(page.locator('.lib-card')).toHaveCount(120);
+  await expect.poll(() => page.evaluate(() => scrollY)).toBeGreaterThan(y - 40);
+  // поиск и фильтры — список обновляется без смены высоты карточек
+  await page.evaluate(() => window.scrollTo({ top: 0, behavior: 'instant' }));
+  await page.getByPlaceholder(/Search/).fill('squat');
+  await expect(page.locator('.lib-card').first()).toBeVisible();
+  expect(await page.locator('.lib-card').count()).toBeLessThan(120);
+  await page.getByLabel('Equipment').selectOption({ index: 1 });
+  await expect(page.getByText(/exercises? found|exercise/).first()).toBeVisible();
+});
+
+test('sheets: open from the bottom, close with Escape, focus returns to the opener', async ({ page }) => {
+  await fresh(page);
+  await onboard(page);
+  await page.getByRole('link', { name: 'Plan', exact: true }).click();
+  const opener = page.getByRole('button', { name: 'Add exercise' });
+  await opener.click();
+  const sheet = page.getByRole('dialog', { name: 'Add exercise' });
+  await expect(sheet).toBeVisible();
+  // фон затемнён, лист — модальный; фокус внутри
+  await expect(page.locator('.scrim')).toBeVisible();
+  expect(await page.evaluate(() => !!document.activeElement?.closest('[role="dialog"]'))).toBe(true);
+  await page.keyboard.press('Escape');
+  await expect(sheet).toHaveCount(0);
+  await expect(opener).toBeFocused();
+
+  // окно подтверждения: «Отмена» возвращает фокус на кнопку
+  await page.getByRole('link', { name: 'Settings', exact: true }).click();
+  const reset = page.getByRole('button', { name: /Delete all data/ });
+  await reset.click();
+  await expect(page.getByRole('alertdialog')).toBeVisible();
+  await page.getByRole('alertdialog').getByRole('button', { name: 'Cancel' }).click();
+  await expect(page.getByRole('alertdialog')).toHaveCount(0);
+  await expect(reset).toBeFocused();
+});

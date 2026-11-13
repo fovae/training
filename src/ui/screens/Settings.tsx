@@ -33,6 +33,7 @@ import { Seg, Stepper, Toggle } from '../components/Controls';
 import { ThemePicker } from '../components/ThemePicker';
 import { ProfileForm, draftFrom, validateProfile, type ProfileDraft } from '../components/ProfileForm';
 import { askRestore } from '../components/RestoreDialog';
+import { scrollBehavior } from '../../lib/motion';
 
 export function Settings() {
   const s = settings.value;
@@ -399,7 +400,7 @@ function ScheduleCard() {
   // #/settings/schedule — прокрутить к карточке (переход с экрана «План»)
   useEffect(() => {
     if (route.value.sub?.id === 'schedule' && ref.current) {
-      ref.current.scrollIntoView({ block: 'center' });
+      ref.current.scrollIntoView({ block: 'center', behavior: scrollBehavior() });
       ref.current.focus({ preventScroll: true });
     }
   }, [route.value.sub?.id, !!p]);

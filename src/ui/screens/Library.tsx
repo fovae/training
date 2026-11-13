@@ -1,4 +1,6 @@
+import { useEffect, useRef } from 'preact/hooks';
 import { findExercise } from '../../data/exercises';
+import { blink } from '../../lib/motion';
 import { t } from '../../i18n';
 import { Icon } from '../components/Icon';
 import { Pic } from '../components/Pic';
@@ -7,6 +9,13 @@ import { exName, muscleName } from '../labels';
 
 export function Library() {
   const { f, setF, list } = useExerciseFilter();
+  const grid = useRef<HTMLUListElement>(null);
+  const first = useRef(true);
+  // Поиск и фильтры: список обновляется коротким затуханием (без анимации высоты)
+  useEffect(() => {
+    if (first.current) first.current = false;
+    else blink(grid.current);
+  }, [list]);
   return (
     <div class="screen library">
       <header class="topbar">
@@ -17,7 +26,7 @@ export function Library() {
       <p class="muted small" aria-live="polite">
         {t('library.found', { count: list.length })}
       </p>
-      <ul class="lib-grid">
+      <ul class="lib-grid" ref={grid}>
         {list.map((e) => (
           <li key={e.id}>
             <a class="lib-card" href={`#/library/${encodeURIComponent(e.id)}`}>

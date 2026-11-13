@@ -3,6 +3,7 @@ import { route, type Tab } from '../../state/ui';
 import { installPrompt, promptInstall } from '../../features/install';
 import { active } from '../../state/session';
 import { Icon } from './Icon';
+import { scrollBehavior } from '../../lib/motion';
 
 const TABS: Exclude<Tab, 'legal'>[] = ['today', 'plan', 'library', 'history', 'settings'];
 
@@ -28,7 +29,7 @@ export function Nav() {
             // повторный тап по активному табу — наверх
             if (cur === id && !route.value.sub) {
               e.preventDefault();
-              window.scrollTo({ top: 0, behavior: 'smooth' });
+              window.scrollTo({ top: 0, behavior: scrollBehavior() });
             }
           }}
         >

@@ -54,6 +54,21 @@ export function usePresence<T>(value: T | null, ms = OUT_MS): { item: T | null; 
   return { item: value ?? last, leaving: !value && !!last };
 }
 
+/** Поведение программной прокрутки: плавно, если анимации включены */
+export const scrollBehavior = (): ScrollBehavior => (motionOff() ? 'instant' : 'smooth');
+
+/**
+ * Короткое затухание блока при обновлении содержимого (поиск, фильтры) — только opacity, без
+ * пересчёта высоты. Web Animations API; без анимаций — ничего.
+ */
+export function blink(el: Element | null | undefined): void {
+  if (!el || motionOff() || typeof (el as HTMLElement).animate !== 'function') return;
+  (el as HTMLElement).animate([{ opacity: 0.35 }, { opacity: 1 }], {
+    duration: 180,
+    easing: 'cubic-bezier(0.22, 1, 0.36, 1)',
+  });
+}
+
 /** Смена темы: короткое перекрёстное затухание (View Transitions API), иначе — сразу */
 export function crossfade(apply: () => void): void {
   const d = document as Document & { startViewTransition?: (cb: () => void) => unknown };

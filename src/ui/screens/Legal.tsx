@@ -5,6 +5,7 @@ import { locale, t } from '../../i18n';
 import { renderMarkdown } from '../../lib/markdown';
 import { needsOnboarding } from '../../state/app';
 import { Icon } from '../components/Icon';
+import { scrollBehavior } from '../../lib/motion';
 
 export const fmtDocDate = (iso: string): string =>
   new Intl.DateTimeFormat(locale.value === 'ru' ? 'ru-RU' : 'en-GB', { dateStyle: 'long' }).format(
@@ -65,7 +66,7 @@ function LegalDocument({ doc }: { doc: LegalDoc }) {
                       class="toc-link"
                       onClick={() => {
                         const el = document.getElementById(h.id);
-                        el?.scrollIntoView({ block: 'start' });
+                        el?.scrollIntoView({ block: 'start', behavior: scrollBehavior() });
                         el?.focus({ preventScroll: true });
                       }}
                     >

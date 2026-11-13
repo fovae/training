@@ -1,4 +1,4 @@
-import { trapTab } from '../../lib/focus';
+import { opener, restoreFocus, trapTab } from '../../lib/focus';
 import type { ComponentChildren } from 'preact';
 import { useEffect, useRef } from 'preact/hooks';
 import { t } from '../../i18n';
@@ -45,7 +45,7 @@ export function Sheet({
   };
 
   useEffect(() => {
-    const prev = document.activeElement as HTMLElement | null;
+    const prev = opener();
     const el = ref.current;
     (el?.querySelector<HTMLElement>('[data-autofocus]') ?? el)?.focus();
     const onKey = (e: KeyboardEvent) => {
@@ -60,7 +60,7 @@ export function Sheet({
     return () => {
       document.removeEventListener('keydown', onKey, true);
       document.body.classList.remove('modal-open');
-      prev?.focus?.();
+      restoreFocus(prev);
     };
   }, []);
 

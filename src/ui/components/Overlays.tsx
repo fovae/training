@@ -1,4 +1,4 @@
-import { trapTab } from '../../lib/focus';
+import { opener, restoreFocus, trapTab } from '../../lib/focus';
 import { t } from '../../i18n';
 import { useEffect, useRef } from 'preact/hooks';
 import { actionMenu, closeMenu, dialog, dismissToast, toasts } from '../../state/ui';
@@ -55,12 +55,12 @@ export function DialogHost() {
   // После закрытия окно ещё ~200 мс уезжает вниз (обратная анимация)
   const { item: d, leaving } = usePresence(cur);
   const ref = useRef<HTMLDivElement>(null);
-  const prevFocus = useRef<Element | null>(null);
+  const prevFocus = useRef<HTMLElement | null>(null);
 
   useEffect(() => {
     const d = cur;
     if (!d) return;
-    prevFocus.current = document.activeElement;
+    prevFocus.current = opener();
     const el = ref.current;
     el?.querySelector<HTMLButtonElement>('[data-autofocus]')?.focus();
     const onKey = (e: KeyboardEvent) => {
@@ -75,7 +75,7 @@ export function DialogHost() {
     return () => {
       document.removeEventListener('keydown', onKey, true);
       document.body.classList.remove('modal-open');
-      (prevFocus.current as HTMLElement | null)?.focus?.();
+      restoreFocus(prevFocus.current);
     };
   }, [cur]);
 
@@ -131,11 +131,11 @@ export function MenuHost() {
   const cur = actionMenu.value;
   const { item: m, leaving } = usePresence(cur);
   const ref = useRef<HTMLDivElement>(null);
-  const prevFocus = useRef<Element | null>(null);
+  const prevFocus = useRef<HTMLElement | null>(null);
 
   useEffect(() => {
     if (!cur) return;
-    prevFocus.current = document.activeElement;
+    prevFocus.current = opener();
     const el = ref.current;
     el?.querySelector<HTMLButtonElement>('button:not([disabled])')?.focus();
     const onKey = (e: KeyboardEvent) => {
@@ -150,13 +150,16 @@ export function MenuHost() {
     return () => {
       document.removeEventListener('keydown', onKey, true);
       document.body.classList.remove('modal-open');
-      (prevFocus.current as HTMLElement | null)?.focus?.();
+      restoreFocus(prevFocus.current);
     };
   }, [cur]);
 
   if (!m) return null;
   return (
-    <div class={'scrim sheet-scrim' + (leaving ? ' leaving' : '')} onClick={(e) => e.target === e.currentTarget && closeMenu()}>
+    <div
+      class={'scrim sheet-scrim' + (leaving ? ' leaving' : '')}
+      onClick={(e) => e.target === e.currentTarget && closeMenu()}
+    >
       <div
         class="action-sheet"
         role="dialog"

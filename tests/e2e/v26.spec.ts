@@ -233,6 +233,8 @@ test('onboarding: Back / Next always sit at the bottom of the screen', async ({ 
   await fresh(page);
   const vh = page.viewportSize()!.height;
   const bottom = async () => {
+    // появление экрана (240 мс) сдвигает его целиком — меряем в покое
+    await page.waitForFunction(() => document.getAnimations().every((a) => a.playState !== 'running'));
     const b = (await page.locator('.ob-actions').boundingBox())!;
     return b.y + b.height;
   };

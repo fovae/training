@@ -2,7 +2,7 @@ import { computed, signal } from '@preact/signals';
 import type { ComponentType } from 'preact';
 import { useEffect } from 'preact/hooks';
 import { t } from '../i18n';
-import { route, pickedDayId, planDayId, todayDayId, toast } from '../state/ui';
+import { navDir, route, pickedDayId, planDayId, todayDayId, toast } from '../state/ui';
 import { booted, needsOnboarding } from '../state/app';
 import { active } from '../state/session';
 import { settings } from '../state/settings';
@@ -116,8 +116,11 @@ export function App() {
         {t('app.skipToContent')}
       </a>
       {!onboarding && <Nav />}
-      <main id="main" tabIndex={-1}>
-        <Screen />
+      {/* key — новый экран монтируется заново и плавно появляется; data-nav — направление */}
+      <main id="main" tabIndex={-1} data-nav={navDir.value}>
+        <Screen
+          key={route.value.tab + '/' + (route.value.sub?.kind ?? '') + '/' + (route.value.sub?.id ?? '')}
+        />
       </main>
       <RestTimerBar />
       <Toasts />

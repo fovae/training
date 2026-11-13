@@ -28,7 +28,7 @@ import { dayTips } from '../../advice';
 import { dismissReminder, reminderDue, saveCopy } from '../../features/backup';
 import { Icon } from '../components/Icon';
 import { dayNumber, exName, muscleName } from '../labels';
-import { leave } from '../../lib/motion';
+import { leave, scrollBehavior } from '../../lib/motion';
 import { SwipeRow, type RowAction } from '../components/SwipeRow';
 
 function useElapsed(fromIso: string | undefined): number {
@@ -85,7 +85,7 @@ export function Today() {
       stopRest();
       pickedDayId.value = null;
       toast(t('today.saved'));
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      window.scrollTo({ top: 0, behavior: scrollBehavior() });
     } catch (e) {
       console.error(e);
       toast(t('today.saveFailed'));

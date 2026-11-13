@@ -32,9 +32,49 @@ export function parseRoute(hash: string): Route {
 }
 
 export const route = signal<Route>(parseRoute(location.hash));
+
+/** Глубина экрана: 0 — вкладка, 1 — вложенный экран (есть «Назад») */
+const depth = (r: Route) => (r.sub && r.tab !== 'settings' ? 1 : 0);
+const routeKey = (r: Route) => r.tab + (r.sub ? '/' + r.sub.id : '');
+
+/**
+ * Направление перехода для анимации экрана (motion.css): push — во вложенный экран (сдвиг слева
+ * направо… новый приезжает справа), pop — назад, tab — между вкладками.
+ */
+export type NavDir = 'push' | 'pop' | 'tab';
+export const navDir = signal<NavDir>('tab');
+
+/** Положение прокрутки экранов — чтобы «Назад» вернул туда же (список упражнений, история) */
+const scrollPos = new Map<string, number>();
+let curKey = routeKey(route.value);
+let raf = 0;
+addEventListener(
+  'scroll',
+  () => {
+    if (raf) return;
+    raf = requestAnimationFrame(() => {
+      raf = 0;
+      scrollPos.set(curKey, window.scrollY);
+    });
+  },
+  { passive: true },
+);
+
 addEventListener('hashchange', () => {
-  route.value = parseRoute(location.hash);
-  window.scrollTo(0, 0);
+  const prev = route.value;
+  const next = parseRoute(location.hash);
+  scrollPos.set(curKey, window.scrollY);
+  const dir: NavDir = depth(next) > depth(prev) ? 'push' : depth(next) < depth(prev) ? 'pop' : 'tab';
+  navDir.value = prev.tab === next.tab || dir !== 'tab' ? dir : 'tab';
+  curKey = routeKey(next);
+  route.value = next;
+  // Назад — на прежнее место, иначе — наверх. После отрисовки нового экрана, мгновенно.
+  const y = dir === 'pop' ? (scrollPos.get(curKey) ?? 0) : 0;
+  window.scrollTo({ top: 0, behavior: 'instant' });
+  if (y > 0)
+    requestAnimationFrame(() =>
+      requestAnimationFrame(() => window.scrollTo({ top: y, behavior: 'instant' })),
+    );
 });
 
 export function go(path: string): void {

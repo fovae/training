@@ -7,11 +7,15 @@
  * Стили с :where() — нулевая специфичность: собственная анимация элемента (окна, тосты) главнее.
  */
 :root {
+  /* Токены движения — все компоненты берут длительности и кривые только отсюда */
+  --dur-fast: 150ms;
+  --dur-base: 240ms;
+  --dur-slow: 320ms;
+  /* уход (закрытие листа, плашки) — чуть быстрее появления; = OUT_MS в src/lib/motion.ts */
+  --dur-out: 200ms;
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
-  --t-fast: 150ms;
-  --t-mid: 240ms;
-  --t-slow: 320ms;
-  --t-out: 200ms;
+  --ease-in-out: cubic-bezier(0.45, 0, 0.25, 1);
+  --ease-in: cubic-bezier(0.4, 0, 1, 1);
   --stagger: 35ms;
 }
 
@@ -70,36 +74,86 @@
   }
 }
 
-/* 1. Экраны: мягкое появление; содержимое — каскадом с небольшим сдвигом (12. и загрузка — так же) */
+/*
+ * 1. Экраны: новый экран мягко появляется со сдвигом 10 px. Вложенный экран («Назад» есть) приезжает
+ * справа, при возврате — слева, между вкладками — снизу. Старый экран сменяется сразу, без пустого
+ * кадра: держать два экрана одновременно на iPhone 11 дороже, чем стоит этот эффект.
+ */
+@keyframes m-in-push {
+  from {
+    opacity: 0;
+    transform: translateX(12px);
+  }
+}
+@keyframes m-in-pop {
+  from {
+    opacity: 0;
+    transform: translateX(-12px);
+  }
+}
 :where(main > .screen) {
-  animation: m-fade var(--t-mid) var(--ease-out) backwards;
+  animation: m-rise var(--dur-base) var(--ease-out) backwards;
+}
+:where(main[data-nav='push'] > .screen) {
+  animation-name: m-in-push;
+}
+:where(main[data-nav='pop'] > .screen) {
+  animation-name: m-in-pop;
+}
+
+/* Прокрутка: якоря и разделы не прячутся под статус-баром и нижней панелью */
+html {
+  scroll-padding-top: calc(var(--safe-t) + 16px);
+  scroll-padding-bottom: calc(var(--tabbar-h) + var(--safe-b) + var(--timer-h) + 16px);
+}
+/* Плавность программной прокрутки задаёт код (scrollBehavior() в src/lib/motion.ts: «наверх»,
+   оглавление документов, переход к разделу настроек) — с учётом настройки «Анимации». Глобальный
+   scroll-behavior: smooth не ставим: он замедлял бы и мгновенные прыжки (смена экрана, восстановление
+   позиции после «Назад»). */
+/* Длинная история: браузер не рисует строки за экраном */
+.history .list > li {
+  content-visibility: auto;
+  contain-intrinsic-block-size: auto 72px;
 }
 
 /* 2. Каскад: только первые 8 элементов (по 35 мс), дальше — сразу; длинные списки целиком не анимируются */
 :where(.screen) > :where(:nth-child(-n + 8)),
-:where(.list, .lib-grid, .ex-grid, .items, .ig-steps, .theme-grid, .summary-grid) > :where(:nth-child(-n + 8)) {
-  animation: m-rise var(--t-mid) var(--ease-out) backwards;
+:where(.list, .lib-grid, .ex-grid, .items, .ig-steps, .theme-grid, .summary-grid)
+  > :where(:nth-child(-n + 8)) {
+  animation: m-rise var(--dur-base) var(--ease-out) backwards;
 }
-:where(.screen, .list, .lib-grid, .ex-grid, .items, .ig-steps, .theme-grid, .summary-grid) > :where(:nth-child(2)) {
+:where(.screen, .list, .lib-grid, .ex-grid, .items, .ig-steps, .theme-grid, .summary-grid)
+  > :where(:nth-child(2)) {
   animation-delay: calc(1 * var(--stagger));
 }
-:where(.screen, .list, .lib-grid, .ex-grid, .items, .ig-steps, .theme-grid, .summary-grid) > :where(:nth-child(3)) {
+:where(.screen, .list, .lib-grid, .ex-grid, .items, .ig-steps, .theme-grid, .summary-grid)
+  > :where(:nth-child(3)) {
   animation-delay: calc(2 * var(--stagger));
 }
-:where(.screen, .list, .lib-grid, .ex-grid, .items, .ig-steps, .theme-grid, .summary-grid) > :where(:nth-child(4)) {
+:where(.screen, .list, .lib-grid, .ex-grid, .items, .ig-steps, .theme-grid, .summary-grid)
+  > :where(:nth-child(4)) {
   animation-delay: calc(3 * var(--stagger));
 }
-:where(.screen, .list, .lib-grid, .ex-grid, .items, .ig-steps, .theme-grid, .summary-grid) > :where(:nth-child(5)) {
+:where(.screen, .list, .lib-grid, .ex-grid, .items, .ig-steps, .theme-grid, .summary-grid)
+  > :where(:nth-child(5)) {
   animation-delay: calc(4 * var(--stagger));
 }
-:where(.screen, .list, .lib-grid, .ex-grid, .items, .ig-steps, .theme-grid, .summary-grid) > :where(:nth-child(6)) {
+:where(.screen, .list, .lib-grid, .ex-grid, .items, .ig-steps, .theme-grid, .summary-grid)
+  > :where(:nth-child(6)) {
   animation-delay: calc(5 * var(--stagger));
 }
-:where(.screen, .list, .lib-grid, .ex-grid, .items, .ig-steps, .theme-grid, .summary-grid) > :where(:nth-child(7)) {
+:where(.screen, .list, .lib-grid, .ex-grid, .items, .ig-steps, .theme-grid, .summary-grid)
+  > :where(:nth-child(7)) {
   animation-delay: calc(6 * var(--stagger));
 }
-:where(.screen, .list, .lib-grid, .ex-grid, .items, .ig-steps, .theme-grid, .summary-grid) > :where(:nth-child(8)) {
+:where(.screen, .list, .lib-grid, .ex-grid, .items, .ig-steps, .theme-grid, .summary-grid)
+  > :where(:nth-child(8)) {
   animation-delay: calc(7 * var(--stagger));
+}
+
+/* Панель «Назад / Далее» в онбординге стоит на месте при смене шага — каскад её не двигает */
+.ob-actions {
+  animation: none;
 }
 
 /* Индикатор активной вкладки перетекает (телефон) */
@@ -114,8 +168,14 @@
   width: calc((100% - var(--safe-l) - var(--safe-r)) / 5);
   height: 3px;
   transform: translateX(calc(var(--i, 0) * 100%));
-  transition: transform var(--t-slow) var(--ease-out);
+  transition: transform var(--dur-slow) var(--ease-out);
   pointer-events: none;
+}
+.nav-item .nav-ic {
+  transition: transform var(--dur-fast) var(--ease-out);
+}
+.nav-item:active .nav-ic {
+  transform: scale(0.9);
 }
 .nav-ind::before {
   content: '';
@@ -143,8 +203,8 @@
 .chk,
 .switch {
   transition:
-    transform var(--t-fast) var(--ease-out),
-    opacity var(--t-fast) var(--ease-out);
+    transform var(--dur-fast) var(--ease-out),
+    opacity var(--dur-fast) var(--ease-out);
 }
 .btn:active:not(:disabled),
 .btn-ghost:active:not(:disabled),
@@ -171,37 +231,64 @@
 
 /* 4. Окна и листы: фон затемняется, панель выезжает снизу; закрытие — обратная анимация */
 .scrim {
-  animation: m-fade var(--t-mid) var(--ease-out);
+  animation: m-fade var(--dur-base) var(--ease-out);
 }
 .sheet,
 .modal,
 .action-sheet {
-  animation: m-up var(--t-slow) var(--ease-out);
+  animation: m-up var(--dur-slow) var(--ease-out);
 }
 @media (min-width: 760px) {
   /* на ПК окно по центру: короткий подъём вместо выезда из-за края */
   .sheet,
   .modal,
   .action-sheet {
-    animation: m-rise var(--t-mid) var(--ease-out);
+    animation: m-rise var(--dur-base) var(--ease-out);
   }
 }
 .scrim.leaving {
   pointer-events: none;
-  animation: m-out-fade var(--t-out) ease-in forwards;
+  animation: m-out-fade var(--dur-out) var(--ease-in) forwards;
 }
 .scrim.leaving > * {
-  animation: m-out-down var(--t-out) ease-in forwards;
+  animation: m-out-down var(--dur-out) var(--ease-in) forwards;
 }
 .toast {
-  animation: m-rise var(--t-mid) var(--ease-out);
+  animation: m-rise var(--dur-base) var(--ease-out);
+}
+
+/* Онбординг: полоска прогресса шагов заполняется плавно */
+.ob-progress i {
+  overflow: hidden;
+}
+.ob-progress i::after {
+  content: '';
+  display: block;
+  height: 100%;
+  background: var(--accent-fill);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform var(--dur-slow) var(--ease-out);
+}
+.ob-progress i.on::after {
+  transform: none;
+}
+
+/* Поле с ошибкой не трясётся — мягко подсвечивается */
+.text-in,
+.num-in,
+.note-in,
+.select select {
+  transition:
+    border-color var(--dur-fast) var(--ease-out),
+    background-color var(--dur-fast) var(--ease-out);
 }
 
 /* 5. Переключатели, галочки, радио — плавно; отметка подхода — короткий акцент (кольцо) */
 .chk .icon {
   transition:
-    opacity var(--t-fast) var(--ease-out),
-    transform var(--t-fast) var(--ease-out);
+    opacity var(--dur-fast) var(--ease-out),
+    transform var(--dur-fast) var(--ease-out);
   transform: scale(0.6);
 }
 .chk.on .icon {
@@ -211,7 +298,7 @@
   position: relative;
 }
 .set-done.on > .icon {
-  animation: m-pop var(--t-mid) var(--ease-out);
+  animation: m-pop var(--dur-base) var(--ease-out);
 }
 .set-done.on::after {
   content: '';
@@ -224,7 +311,7 @@
   animation: m-ring 420ms var(--ease-out);
 }
 .tp .tp-sw {
-  transition: transform var(--t-fast) var(--ease-out);
+  transition: transform var(--dur-fast) var(--ease-out);
 }
 .tp.on .tp-sw {
   transform: scale(1.03);
@@ -245,7 +332,7 @@
 .pic-live .ghost,
 .pic-live .solid,
 .pic-live .mv {
-  transition: opacity var(--t-slow) var(--ease-out);
+  transition: opacity var(--dur-slow) var(--ease-out);
 }
 .pic-live.swap .ghost {
   opacity: 1;
@@ -289,13 +376,13 @@
 .chart.bars .bar {
   transform-box: fill-box;
   transform-origin: 50% 100%;
-  animation: m-grow-y var(--t-slow) var(--ease-out) backwards;
+  animation: m-grow-y var(--dur-slow) var(--ease-out) backwards;
 }
 .chart .s2 {
   animation-delay: 60ms;
 }
 .chart .bar-v {
-  animation: m-fade var(--t-mid) var(--ease-out) 160ms backwards;
+  animation: m-fade var(--dur-base) var(--ease-out) var(--dur-fast) backwards;
 }
 
 /* 9. Смена темы: короткое перекрёстное затухание (View Transitions API, src/lib/motion.ts) */
@@ -308,12 +395,12 @@
 /* 10. Подсказки и плашки: плавно появляются, уходят вправо */
 .tip,
 .backup-reminder {
-  animation: m-rise var(--t-mid) var(--ease-out) backwards;
+  animation: m-rise var(--dur-base) var(--ease-out) backwards;
 }
 .tip.leaving,
 .backup-reminder.leaving {
   pointer-events: none;
-  animation: m-out-right var(--t-out) ease-in forwards;
+  animation: m-out-right var(--dur-out) var(--ease-in) forwards;
 }
 
 /* ---------- выключено: настройка «Выключены» или система, если не «Включены» ---------- */

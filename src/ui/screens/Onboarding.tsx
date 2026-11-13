@@ -51,7 +51,7 @@ export function Onboarding() {
   useLayoutEffect(() => {
     // Фокус на заголовок шага — для экранных дикторов. До отрисовки, чтобы не перехватить ввод.
     headRef.current?.focus();
-    window.scrollTo(0, 0);
+    window.scrollTo({ top: 0, behavior: 'instant' });
   }, [s]);
 
   useEffect(() => {
