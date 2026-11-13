@@ -44,57 +44,55 @@ const routeKey = (r: Route) => r.tab + (r.sub ? '/' + r.sub.id : '');
 export type NavDir = 'push' | 'pop' | 'tab';
 export const navDir = signal<NavDir>('tab');
 
-/** Положение прокрутки экранов — чтобы «Назад» вернул туда же (список упражнений, история) */
-const scrollPos = new Map<string, number>();
-/** Высота страницы на момент ухода — карточки за экраном (content-visibility) сначала ниже настоящих */
-const pageH = new Map<string, number>();
+/**
+ * Возврат на прежнее место после «Назад» (список упражнений, история). Запоминаем не пиксели, а
+ * якорь — первую видимую карточку списка и её отступ от верха экрана: карточки за экраном
+ * (content-visibility) дорисовываются позже и меняют высоту, пиксели «уплывают», якорь — нет.
+ */
+interface ScrollMark {
+  y: number;
+  /** индекс карточки среди элементов ANCHORS и её отступ от верха окна */
+  idx: number;
+  top: number;
+}
+const ANCHORS = 'main .lib-grid > li, main .list > li';
+const marks = new Map<string, ScrollMark>();
 let curKey = routeKey(route.value);
-let raf = 0;
-addEventListener(
-  'scroll',
-  () => {
-    if (raf) return;
-    raf = requestAnimationFrame(() => {
-      raf = 0;
-      scrollPos.set(curKey, window.scrollY);
-    });
-  },
-  { passive: true },
-);
+
+function mark(): ScrollMark {
+  const items = [...document.querySelectorAll<HTMLElement>(ANCHORS)];
+  const idx = items.findIndex((el) => el.getBoundingClientRect().bottom > 0);
+  return { y: window.scrollY, idx, top: idx >= 0 ? items[idx]!.getBoundingClientRect().top : 0 };
+}
+
+function restore(m: ScrollMark, key: string): void {
+  let tries = 60;
+  const step = () => {
+    if (curKey !== key) return; // ушли с экрана, пока он дорисовывался
+    const el = m.idx >= 0 ? document.querySelectorAll<HTMLElement>(ANCHORS)[m.idx] : undefined;
+    if (el) {
+      const d = el.getBoundingClientRect().top - m.top;
+      if (Math.abs(d) > 1) window.scrollBy({ top: d, behavior: 'instant' });
+    } else if (m.idx < 0) window.scrollTo({ top: m.y, behavior: 'instant' });
+    // ещё несколько кадров: дорисовка карточек рядом с экраном может сдвинуть якорь
+    const ok = el ? Math.abs(el.getBoundingClientRect().top - m.top) <= 1 : m.idx < 0;
+    if (--tries > 0 && (!ok || tries > 50)) requestAnimationFrame(step);
+  };
+  requestAnimationFrame(step);
+}
 
 addEventListener('hashchange', () => {
   const prev = route.value;
   const next = parseRoute(location.hash);
-  scrollPos.set(curKey, window.scrollY);
-  // высота самого содержимого — без подпорки от прошлого возврата
-  document.body.style.minHeight = '';
-  pageH.set(curKey, document.documentElement.scrollHeight);
+  marks.set(curKey, mark());
   const dir: NavDir = depth(next) > depth(prev) ? 'push' : depth(next) < depth(prev) ? 'pop' : 'tab';
   navDir.value = prev.tab === next.tab || dir !== 'tab' ? dir : 'tab';
   curKey = routeKey(next);
   route.value = next;
-  // Назад — на прежнее место, иначе — наверх. После отрисовки нового экрана, мгновенно.
-  const y = dir === 'pop' ? (scrollPos.get(curKey) ?? 0) : 0;
-  // Пока невидимые карточки не дорисованы, страница короче прежней и прокрутка упёрлась бы в конец —
-  // на время восстановления держим прежнюю высоту, потом убираем (иначе после поиска или удаления
-  // под списком осталась бы пустота)
+  // Новый экран — сверху; «Назад» — на прежнее место (после отрисовки), мгновенно
   window.scrollTo({ top: 0, behavior: 'instant' });
-  if (y > 0) {
-    const body = document.body.style;
-    body.minHeight = `${pageH.get(curKey) ?? 0}px`;
-    let tries = 36;
-    const step = () => {
-      window.scrollTo({ top: y, behavior: 'instant' });
-      if (Math.abs(window.scrollY - y) > 2 && --tries > 0) return void requestAnimationFrame(step);
-      // видимые карточки дорисованы — подпорка больше не нужна
-      requestAnimationFrame(() => {
-        if (curKey !== key) return;
-        body.minHeight = '';
-      });
-    };
-    const key = curKey;
-    requestAnimationFrame(step);
-  }
+  const m = dir === 'pop' ? marks.get(curKey) : undefined;
+  if (m && m.y > 0) restore(m, curKey);
 });
 
 export function go(path: string): void {

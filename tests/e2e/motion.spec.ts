@@ -108,23 +108,26 @@ test('120 exercises: scroll, search fades the list, "Back" restores the scroll p
   await page.locator('.lib-grid > li').last().scrollIntoViewIfNeeded();
   await expect(page.locator('.lib-grid > li').last()).toBeInViewport();
   await page.evaluate(() => window.scrollTo({ top: 1600, behavior: 'instant' }));
-  await page.waitForTimeout(100);
-  const y = await page.evaluate(() => scrollY);
-  expect(y).toBeGreaterThan(1000);
-  const card = page.locator('.lib-card').filter({ visible: true }).first();
-  // открыть карточку в зоне видимости и вернуться
-  const link = await page.evaluate(() => {
+  await page.waitForTimeout(150);
+  expect(await page.evaluate(() => scrollY)).toBeGreaterThan(1000);
+  // первая карточка, видимая целиком, и её место на экране
+  const before = await page.evaluate(() => {
     const els = [...document.querySelectorAll<HTMLAnchorElement>('.lib-card')];
     const el = els.find((a) => a.getBoundingClientRect().top > 80)!;
-    return el.getAttribute('href');
+    return { href: el.getAttribute('href')!, top: el.getBoundingClientRect().top };
   });
-  void card;
-  await page.locator(`.lib-card[href="${link}"]`).click();
+  await page.locator(`.lib-card[href="${before.href}"]`).click();
   await expect(page.locator('.lib-detail')).toBeVisible();
   expect(await page.evaluate(() => scrollY)).toBe(0);
   await page.locator('a.back').click();
   await expect(page.locator('.lib-card')).toHaveCount(120);
-  await expect.poll(() => page.evaluate(() => scrollY)).toBeGreaterThan(y - 40);
+  // «Назад» — та же карточка на том же месте экрана (пиксели прокрутки могут отличаться:
+  // карточки выше дорисовываются и меняют высоту)
+  const card = page.locator(`.lib-card[href="${before.href}"]`);
+  await expect(card).toBeInViewport();
+  await expect
+    .poll(async () => Math.abs((await card.boundingBox())!.y - before.top), { timeout: 10_000 })
+    .toBeLessThanOrEqual(4);
   // поиск и фильтры — список обновляется без смены высоты карточек
   await page.evaluate(() => window.scrollTo({ top: 0, behavior: 'instant' }));
   await page.getByPlaceholder(/Search/).fill('squat');
@@ -136,7 +139,6 @@ test('120 exercises: scroll, search fades the list, "Back" restores the scroll p
     return document.documentElement.scrollHeight - (last.getBoundingClientRect().bottom + scrollY);
   });
   expect(tail).toBeLessThan(400);
-  expect(await page.evaluate(() => document.body.style.minHeight)).toBe('');
   await page.getByLabel('Equipment').selectOption({ index: 1 });
   await expect(page.getByText(/exercises? found|exercise/).first()).toBeVisible();
 });
