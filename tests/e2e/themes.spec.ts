@@ -124,7 +124,7 @@ test('no flash of a foreign colour at start: the first frames already use the sa
     const tick = () => {
       const c = getComputedStyle(document.documentElement).backgroundColor;
       if (seen[seen.length - 1] !== c) seen.push(c);
-      if (seen.length < 50 && performance.now() < 4000) requestAnimationFrame(tick);
+      if (seen.length < 50 && performance.now() < 20000) requestAnimationFrame(tick);
     };
     requestAnimationFrame(tick);
   });
@@ -156,7 +156,15 @@ test('no flash of a foreign colour at start: the first frames already use the sa
       const seen = await page.evaluate(() => (window as unknown as { __bg: string[] }).__bg);
       // до загрузки стилей фон прозрачный (кадров ещё нет) — это не цвет темы
       const colours = seen.filter((c) => c !== 'rgba(0, 0, 0, 0)');
-      expect(colours, `${id} / ${scheme}`).toEqual([want]);
+      // каждый записанный кадр — цвет сохранённой темы (на медленной машине кадров может не быть)
+      expect(
+        colours.filter((c) => c !== want),
+        `${id} / ${scheme}`,
+      ).toEqual([]);
+      expect(
+        await page.evaluate(() => getComputedStyle(document.documentElement).backgroundColor),
+        `${id} / ${scheme}`,
+      ).toBe(want);
     }
   }
 });

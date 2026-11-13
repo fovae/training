@@ -386,6 +386,8 @@ test('new profile: no "Keep my current plan" (only for v1 data)', async ({ page 
 });
 
 test('onboarding: Next is full width without Back; last step clears the bottom bar', async ({ page }) => {
+  // вёрстку меряем в покое, без анимации появления
+  await page.emulateMedia({ reducedMotion: 'reduce' });
   await fresh(page);
   const next = page.getByRole('button', { name: 'Next' });
   const bar = await page.locator('.ob-actions').boundingBox();

@@ -71,10 +71,16 @@ addEventListener('hashchange', () => {
   // Назад — на прежнее место, иначе — наверх. После отрисовки нового экрана, мгновенно.
   const y = dir === 'pop' ? (scrollPos.get(curKey) ?? 0) : 0;
   window.scrollTo({ top: 0, behavior: 'instant' });
-  if (y > 0)
-    requestAnimationFrame(() =>
-      requestAnimationFrame(() => window.scrollTo({ top: y, behavior: 'instant' })),
-    );
+  // Список может дорисовываться несколько кадров (120 карточек, content-visibility) — повторяем,
+  // пока не дойдём до места или не истечёт ~0,6 с
+  if (y > 0) {
+    let tries = 36;
+    const step = () => {
+      window.scrollTo({ top: y, behavior: 'instant' });
+      if (Math.abs(window.scrollY - y) > 2 && --tries > 0) requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
+  }
 });
 
 export function go(path: string): void {
