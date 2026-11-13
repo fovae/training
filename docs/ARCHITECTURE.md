@@ -318,7 +318,7 @@ sharp) заливает чёрные углы, вырезает гантель �
 `.github/workflows/deploy.yml`: lint → i18n:check → theme:check → legal:check → сборка (там же лицензии)
 → Playwright → сборка для Pages → деплой.
 Деплой только после зелёных тестов. На CI по умолчанию сокращённая матрица (iPhone 11, iPhone 15 Pro Max,
-Pixel 7, офлайн, ПК, юнит-тесты); полная — локально или Actions → Run workflow → «full». Таймаут теста на CI
+офлайн, ПК, юнит-тесты); полная — локально или Actions → Run workflow → «full». Таймаут теста на CI
 90 с, один повтор.
 
 ## Юридические документы
