@@ -113,17 +113,15 @@ test('120 exercises: scroll, search fades the list, "Back" restores the scroll p
   // первая карточка, видимая целиком, и её место на экране
   const before = await page.evaluate(() => {
     const els = [...document.querySelectorAll<HTMLAnchorElement>('.lib-card')];
-    // карточка не под липкой шапкой (поиск, фильтры): иначе Playwright перед кликом
-    // докрутит страницу, и «место до перехода» уже другое
     const el = els.find((a) => {
       const r = a.getBoundingClientRect();
-      if (r.top <= 0 || r.bottom > innerHeight) return false;
-      const x = r.left + r.width / 2;
-      return [r.top + 2, r.top + r.height / 2].every((y) => a.contains(document.elementFromPoint(x, y)));
+      return r.top > 80 && r.bottom < innerHeight;
     })!;
     return { href: el.getAttribute('href')!, top: el.getBoundingClientRect().top };
   });
-  await page.locator(`.lib-card[href="${before.href}"]`).click();
+  // клик без автопрокрутки Playwright: на широком экране он считает карточку перекрытой
+  // и докручивает страницу — сравнение шло бы уже с другим местом
+  await page.locator(`.lib-card[href="${before.href}"]`).dispatchEvent('click');
   await expect(page.locator('.lib-detail')).toBeVisible();
   expect(await page.evaluate(() => scrollY)).toBe(0);
   await page.locator('a.back').click();
