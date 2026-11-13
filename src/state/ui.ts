@@ -65,18 +65,43 @@ function mark(): ScrollMark {
   return { y: window.scrollY, idx, top: idx >= 0 ? items[idx]!.getBoundingClientRect().top : 0 };
 }
 
+/**
+ * В Safari нет scroll anchoring: карточки над экраном дорисовываются позже (content-visibility) и
+ * сдвигают видимое. Поэтому якорь возвращаем на место при каждом изменении размеров экрана, пока
+ * список дорисовывается (до 5 с), и сразу перестаём, если человек сам начал прокручивать.
+ */
 function restore(m: ScrollMark, key: string): void {
-  let tries = 60;
-  const step = () => {
-    if (curKey !== key) return; // ушли с экрана, пока он дорисовывался
+  const main = document.querySelector('main');
+  let frames = 12;
+  let stopped = false;
+  const fix = () => {
+    if (stopped) return;
+    if (curKey !== key) return stop();
     const el = m.idx >= 0 ? document.querySelectorAll<HTMLElement>(ANCHORS)[m.idx] : undefined;
     if (el) {
       const d = el.getBoundingClientRect().top - m.top;
       if (Math.abs(d) > 1) window.scrollBy({ top: d, behavior: 'instant' });
-    } else if (m.idx < 0) window.scrollTo({ top: m.y, behavior: 'instant' });
-    // ещё несколько кадров: дорисовка карточек рядом с экраном может сдвинуть якорь
-    const ok = el ? Math.abs(el.getBoundingClientRect().top - m.top) <= 1 : m.idx < 0;
-    if (--tries > 0 && (!ok || tries > 50)) requestAnimationFrame(step);
+    } else if (m.idx < 0 && Math.abs(window.scrollY - m.y) > 1)
+      window.scrollTo({ top: m.y, behavior: 'instant' });
+  };
+  const ro = typeof ResizeObserver === 'function' ? new ResizeObserver(fix) : null;
+  const events = ['touchstart', 'wheel', 'keydown'] as const;
+  function stop() {
+    stopped = true;
+    ro?.disconnect();
+    for (const e of events) removeEventListener(e, stop);
+  }
+  for (const e of events) addEventListener(e, stop, { passive: true });
+  if (main && ro) {
+    ro.observe(main);
+    const screen = main.firstElementChild;
+    if (screen) ro.observe(screen);
+  }
+  setTimeout(stop, 5000);
+  // первые кадры — пока экран только отрисовывается
+  const step = () => {
+    fix();
+    if (!stopped && --frames > 0) requestAnimationFrame(step);
   };
   requestAnimationFrame(step);
 }

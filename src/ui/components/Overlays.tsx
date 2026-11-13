@@ -1,6 +1,6 @@
 import { opener, restoreFocus, trapTab } from '../../lib/focus';
 import { t } from '../../i18n';
-import { useEffect, useRef } from 'preact/hooks';
+import { useLayoutEffect, useRef } from 'preact/hooks';
 import { actionMenu, closeMenu, dialog, dismissToast, toasts } from '../../state/ui';
 import { applyUpdate, needRefresh } from '../../features/update';
 import { active } from '../../state/session';
@@ -57,7 +57,8 @@ export function DialogHost() {
   const ref = useRef<HTMLDivElement>(null);
   const prevFocus = useRef<HTMLElement | null>(null);
 
-  useEffect(() => {
+  // layout-эффект: Escape и ловушка фокуса работают с первого же кадра окна
+  useLayoutEffect(() => {
     const d = cur;
     if (!d) return;
     prevFocus.current = opener();
@@ -133,7 +134,8 @@ export function MenuHost() {
   const ref = useRef<HTMLDivElement>(null);
   const prevFocus = useRef<HTMLElement | null>(null);
 
-  useEffect(() => {
+  // layout-эффект: Escape и ловушка фокуса работают с первого же кадра окна
+  useLayoutEffect(() => {
     if (!cur) return;
     prevFocus.current = opener();
     const el = ref.current;

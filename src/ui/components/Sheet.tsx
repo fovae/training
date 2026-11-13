@@ -1,6 +1,6 @@
 import { opener, restoreFocus, trapTab } from '../../lib/focus';
 import type { ComponentChildren } from 'preact';
-import { useEffect, useRef } from 'preact/hooks';
+import { useLayoutEffect, useRef } from 'preact/hooks';
 import { t } from '../../i18n';
 import { Icon } from './Icon';
 import { leave } from '../../lib/motion';
@@ -44,7 +44,8 @@ export function Sheet({
     if (s && p && p.clientY - s.y > 70 && Date.now() - s.t < 800) close();
   };
 
-  useEffect(() => {
+  // layout-эффект: Escape и ловушка фокуса работают с первого же кадра листа
+  useLayoutEffect(() => {
     const prev = opener();
     const el = ref.current;
     (el?.querySelector<HTMLElement>('[data-autofocus]') ?? el)?.focus();
