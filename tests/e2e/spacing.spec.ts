@@ -81,7 +81,7 @@ async function scan(page: Page, where: string, issues: string[]) {
 
 for (const lang of ['en', 'ru'] as const) {
   test(`no glued blocks on any screen (${lang})`, async ({ page, browserName }, info) => {
-    test.skip(browserName !== 'webkit' || !['iPhone 11', 'iPhone 17 Pro Max'].includes(info.project.name));
+    test.skip(browserName !== 'webkit' || !['iPhone 11', 'iPhone 15 Pro Max'].includes(info.project.name));
     test.setTimeout(120_000);
     const issues: string[] = [];
     await fresh(page);
