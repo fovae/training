@@ -3,6 +3,7 @@ import type { ComponentChildren } from 'preact';
 import { useEffect, useRef } from 'preact/hooks';
 import { t } from '../../i18n';
 import { Icon } from './Icon';
+import { leave } from '../../lib/motion';
 
 /** Нижний лист (на ПК — модальное окно) с фокусом внутри и закрытием по Escape */
 export function Sheet({
@@ -17,6 +18,14 @@ export function Sheet({
   footer?: ComponentChildren;
 }) {
   const ref = useRef<HTMLDivElement>(null);
+  const scrim = useRef<HTMLDivElement>(null);
+  const closing = useRef(false);
+  // Закрытие самим листом (крестик, фон, Escape, свайп вниз) — с обратной анимацией
+  const close = () => {
+    if (closing.current) return;
+    closing.current = true;
+    leave(scrim.current, onClose);
+  };
   const drag = useRef<{ y: number; t: number } | null>(null);
 
   // Свайп вниз закрывает лист: по шапке или по списку, когда он прокручен в самый верх
@@ -32,7 +41,7 @@ export function Sheet({
     const s = drag.current;
     drag.current = null;
     const p = e.changedTouches[0];
-    if (s && p && p.clientY - s.y > 70 && Date.now() - s.t < 800) onClose();
+    if (s && p && p.clientY - s.y > 70 && Date.now() - s.t < 800) close();
   };
 
   useEffect(() => {
@@ -42,7 +51,7 @@ export function Sheet({
     const onKey = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
         e.preventDefault();
-        onClose();
+        close();
       }
       if (el) trapTab(e, el);
     };
@@ -56,7 +65,7 @@ export function Sheet({
   }, []);
 
   return (
-    <div class="scrim sheet-scrim" onClick={(e) => e.target === e.currentTarget && onClose()}>
+    <div class="scrim sheet-scrim" ref={scrim} onClick={(e) => e.target === e.currentTarget && close()}>
       <div
         class="sheet"
         role="dialog"
@@ -70,7 +79,7 @@ export function Sheet({
         <div class="sheet-grip" aria-hidden="true" />
         <div class="sheet-h">
           <h2 id="sheet-t">{title}</h2>
-          <button type="button" class="icon-btn" aria-label={t('common.close')} onClick={onClose}>
+          <button type="button" class="icon-btn" aria-label={t('common.close')} onClick={close}>
             <Icon name="close" size={20} />
           </button>
         </div>

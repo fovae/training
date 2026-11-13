@@ -453,7 +453,13 @@
       "other": "Weight warnings are off for {count} exercises"
     },
     "weightWarnOffHint": "You chose “Don't warn me again” in the warning.",
-    "weightWarnReset": "Turn back on"
+    "weightWarnReset": "Turn back on",
+    "motion": "Animations",
+    "motionOpt": {
+      "system": "As in system",
+      "on": "On",
+      "off": "Off"
+    }
   },
   "backup": {
     "save": "Save a copy",
@@ -637,16 +643,17 @@
   },
   "theme": {
     "auto": "Auto",
-    "classic-orange": "Classic orange",
-    "classic-light": "Classic light",
-    "classic-dark": "Classic dark",
+    "classic-light": "Classic Light",
+    "classic-dark": "Classic Dark",
     "monochrome": "Monochrome",
-    "blue": "Blue",
-    "violet": "Violet",
-    "green": "Green",
-    "rose": "Rose",
-    "gradient-1": "Sunset gradient",
-    "gradient-2": "Night gradient"
+    "gradient": "Gradient",
+    "pine-dusk": "Pine Dusk",
+    "ocean-night": "Ocean Night",
+    "violet-dusk": "Violet Dusk",
+    "rose-dusk": "Rose Dusk",
+    "slate-blue": "Slate Blue",
+    "teal-night": "Teal Night",
+    "crimson-night": "Crimson Night"
   },
   "stats": {
     "weeksTitle": "Last 10 weeks",
@@ -676,5 +683,8 @@
     "removeExBody": "The exercise will be removed from this day of the plan. Your history stays.",
     "deleteWorkoutTitle": "Delete this workout?",
     "deleteWorkoutBody": "The workout will be deleted from history. This cannot be undone."
+  },
+  "pic": {
+    "swap": "Switch start / end position"
   }
 }

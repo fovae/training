@@ -1,26 +1,24 @@
 import { t } from '../../i18n';
 import { THEME_OPTIONS, themeData } from '../../themes';
 import type { ThemeId } from '../../types';
+import { Icon } from './Icon';
 
-/** Превью: фон, карточка, полоска текста и 7 цветов дней темы */
+/**
+ * Мини-образец темы из её цветов: фон, поверхность (карточка), главная карточка с градиентом,
+ * строка текста и два акцента.
+ */
 function Swatch({ id }: { id: Exclude<ThemeId, 'auto'> }) {
   const d = themeData(id);
   return (
     <span class="tp-sw" style={{ background: d.bg }} aria-hidden="true">
       <span class="tp-card" style={{ background: d.card }}>
-        <span
-          class="tp-head"
-          style={{
-            background: d.days[0]!.fill2
-              ? `linear-gradient(135deg,${d.days[0]!.fill},${d.days[0]!.fill2})`
-              : d.days[0]!.fill,
-          }}
-        />
-        <span class="tp-line" style={{ background: d.ink }} />
-        <span class="tp-dots">
-          {d.days.map((x, i) => (
-            <i key={i} style={{ background: x.fill }} />
-          ))}
+        <span class="tp-head" style={{ background: `linear-gradient(135deg,${d.head[0]},${d.head[1]})` }} />
+        <span class="tp-row">
+          <span class="tp-line" style={{ background: d.ink }} />
+          <span class="tp-dots">
+            <i style={{ background: d.acc[0] }} />
+            <i style={{ background: d.acc[1] }} />
+          </span>
         </span>
       </span>
     </span>
@@ -37,6 +35,7 @@ export function ThemePicker({ value, onChange }: { value: ThemeId; onChange: (v:
           role="radio"
           aria-checked={value === id}
           class={'tp' + (value === id ? ' on' : '')}
+          data-theme-id={id}
           onClick={() => onChange(id)}
         >
           {id === 'auto' ? (
@@ -48,6 +47,9 @@ export function ThemePicker({ value, onChange }: { value: ThemeId; onChange: (v:
             <Swatch id={id} />
           )}
           <span class="tp-name">{t(`theme.${id}`)}</span>
+          <span class="tp-check" aria-hidden="true">
+            <Icon name="check" size={14} />
+          </span>
         </button>
       ))}
     </div>

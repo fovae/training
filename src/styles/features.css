@@ -739,7 +739,7 @@
   height: 44px;
   border-radius: 14px;
   background: var(--accent-fill);
-  color: #fff;
+  color: var(--on-fill);
   font-size: 22px;
   font-weight: 800;
 }
@@ -930,7 +930,7 @@ button.back {
   fill: var(--c1-fill);
 }
 .sc-app-mark {
-  stroke: #fff;
+  stroke: var(--on-fill);
   stroke-width: 2;
   stroke-linecap: round;
   fill: none;
@@ -980,17 +980,12 @@ button.back {
 .sc-head {
   fill: var(--accent);
 }
+:root[data-motion='off'] .sc-pulse {
+  display: none;
+}
 @media (prefers-reduced-motion: reduce) {
-  .sc-pulse,
-  .ig-bounce,
-  .ig-actions {
-    animation: none;
-  }
-  .sc-pulse {
+  :root:not([data-motion='on']) .sc-pulse {
     display: none;
-  }
-  .ig-progress i {
-    transition: none;
   }
 }
 @media (min-width: 760px) {
@@ -1048,13 +1043,15 @@ button.back {
 /* ---------- выбор темы ---------- */
 .theme-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-  gap: 10px;
+  grid-template-columns: repeat(auto-fill, minmax(96px, 1fr));
+  gap: 8px;
 }
 .tp {
+  position: relative;
   display: grid;
-  gap: 6px;
-  padding: 6px 6px 10px;
+  align-content: start;
+  gap: 8px;
+  padding: 4px 4px 8px;
   border-radius: 16px;
   border: 2px solid var(--line);
   background: var(--card);
@@ -1066,48 +1063,81 @@ button.back {
 .tp-auto {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  border-radius: 11px;
+  border-radius: 10px;
   overflow: hidden;
 }
 .tp-auto .tp-sw {
   border-radius: 0;
+  padding: 8px 4px;
 }
 .tp-sw {
   display: block;
   height: 64px;
   padding: 8px;
-  border-radius: 11px;
+  border-radius: 10px;
 }
 .tp-card {
   display: grid;
-  gap: 5px;
+  align-content: space-between;
   height: 100%;
-  padding: 5px;
-  border-radius: 7px;
+  padding: 4px;
+  border-radius: 6px;
 }
 .tp-head {
-  height: 12px;
+  height: 16px;
   border-radius: 4px;
 }
+.tp-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 4px;
+}
 .tp-line {
-  width: 60%;
+  flex: 1;
+  max-width: 60%;
   height: 4px;
   border-radius: 2px;
   opacity: 0.8;
 }
 .tp-dots {
   display: flex;
-  gap: 3px;
+  gap: 2px;
 }
 .tp-dots i {
   width: 8px;
   height: 8px;
   border-radius: 50%;
 }
+.tp-auto .tp-dots i + i {
+  display: none;
+}
 .tp-name {
   padding: 0 4px;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 700;
+  line-height: 1.25;
+  overflow-wrap: anywhere;
+}
+/* галочка выбранной темы */
+.tp-check {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--accent-fill);
+  color: var(--on-fill);
+  box-shadow: 0 0 0 2px var(--card);
+  opacity: 0;
+  transform: scale(0.6);
+}
+.tp.on .tp-check {
+  opacity: 1;
+  transform: none;
 }
 
 /* ---------- напоминание о копии ---------- */

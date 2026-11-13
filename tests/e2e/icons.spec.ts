@@ -1,7 +1,10 @@
 import { expect, test } from '@playwright/test';
 
 /** Манифест и ссылки на иконки в <head>: всё отвечает, размеры совпадают с заявленными */
-test('manifest is valid, every icon link responds, apple-touch-icon is present', async ({ page, request }) => {
+test('manifest is valid, every icon link responds, apple-touch-icon is present', async ({
+  page,
+  request,
+}) => {
   await page.goto('./');
   const href = await page.locator('link[rel="manifest"]').getAttribute('href');
   expect(href).toBeTruthy();

@@ -28,6 +28,7 @@ import { dayTips } from '../../advice';
 import { dismissReminder, reminderDue, saveCopy } from '../../features/backup';
 import { Icon } from '../components/Icon';
 import { dayNumber, exName, muscleName } from '../labels';
+import { leave } from '../../lib/motion';
 import { SwipeRow, type RowAction } from '../components/SwipeRow';
 
 function useElapsed(fromIso: string | undefined): number {
@@ -337,7 +338,7 @@ function BackupReminder() {
           type="button"
           class="icon-btn"
           aria-label={t('backup.reminderDismiss')}
-          onClick={dismissReminder}
+          onClick={(e) => leave(e.currentTarget.closest('.backup-reminder'), dismissReminder)}
         >
           <Icon name="close" size={20} />
         </button>

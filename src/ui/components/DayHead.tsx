@@ -28,7 +28,7 @@ export function DayHead({ day, progress, children }: Props) {
             aria-valuemax={progress.total}
             aria-valuenow={progress.done}
           >
-            <i style={{ width: `${pct}%` }} />
+            <i style={{ transform: `scaleX(${pct / 100})` }} />
           </div>
           <span>
             {progress.done} / {progress.total}

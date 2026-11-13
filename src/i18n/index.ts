@@ -65,7 +65,12 @@ export function bootLocale(): string {
   return DEFAULT_LOCALE;
 }
 
-export function saveBoot(patch: { locale?: string; theme?: string }): void {
+export function saveBoot(patch: {
+  locale?: string;
+  theme?: string;
+  motion?: string;
+  themeColor?: string | undefined;
+}): void {
   try {
     const cur = JSON.parse(localStorage.getItem(BOOT_KEY) ?? '{}') as object;
     localStorage.setItem(BOOT_KEY, JSON.stringify({ ...cur, ...patch }));

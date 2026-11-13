@@ -48,21 +48,22 @@ for (const scheme of ['light', 'dark'] as const) {
 }
 
 const THEMES = [
-  'classic-orange',
+  'auto',
   'classic-light',
   'classic-dark',
   'monochrome',
-  'blue',
-  'violet',
-  'green',
-  'rose',
-  'gradient-1',
-  'gradient-2',
-  'auto',
+  'gradient',
+  'pine-dusk',
+  'ocean-night',
+  'violet-dusk',
+  'rose-dusk',
+  'slate-blue',
+  'teal-night',
+  'crimson-night',
 ];
 
 test('accessibility in every theme on key screens', async ({ page }, info) => {
-  test.skip(info.project.name !== 'iPhone 11', 'один проект — 11 тем × 7 экранов');
+  test.skip(info.project.name !== 'iPhone 11', 'один проект — 12 тем × 7 экранов');
   test.setTimeout(360_000);
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await fresh(page);

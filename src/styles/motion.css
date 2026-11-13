@@ -1,0 +1,341 @@
+/*
+ * Анимации интерфейса (docs/ARCHITECTURE.md, «Анимации»).
+ * Только transform и opacity, 150–350 мс, замедление в конце, без отскоков. Бесконечно — только
+ * подсветка в инструкции установки и пульс точки идущей тренировки.
+ * Выключаются системным «уменьшением движения» и переключателем «Анимации» в настройках
+ * (html[data-motion="off"]; "on" — включены вопреки системе). Без анимаций — мгновенно.
+ * Стили с :where() — нулевая специфичность: собственная анимация элемента (окна, тосты) главнее.
+ */
+:root {
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --t-fast: 150ms;
+  --t-mid: 240ms;
+  --t-slow: 320ms;
+  --t-out: 200ms;
+  --stagger: 35ms;
+}
+
+@keyframes m-fade {
+  from {
+    opacity: 0;
+  }
+}
+@keyframes m-rise {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+}
+@keyframes m-up {
+  from {
+    transform: translateY(100%);
+  }
+}
+@keyframes m-pop {
+  from {
+    opacity: 0;
+    transform: scale(0.6);
+  }
+}
+@keyframes m-out-down {
+  to {
+    opacity: 0;
+    transform: translateY(32px);
+  }
+}
+@keyframes m-out-fade {
+  to {
+    opacity: 0;
+  }
+}
+@keyframes m-out-right {
+  to {
+    opacity: 0;
+    transform: translateX(40px);
+  }
+}
+@keyframes m-grow-y {
+  from {
+    transform: scaleY(0);
+  }
+}
+@keyframes m-ring {
+  from {
+    opacity: 0.55;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(1.6);
+  }
+}
+
+/* 1. Экраны: мягкое появление; содержимое — каскадом с небольшим сдвигом (12. и загрузка — так же) */
+:where(main > .screen) {
+  animation: m-fade var(--t-mid) var(--ease-out) backwards;
+}
+
+/* 2. Каскад: только первые 8 элементов (по 35 мс), дальше — сразу; длинные списки целиком не анимируются */
+:where(.screen) > :where(:nth-child(-n + 8)),
+:where(.list, .lib-grid, .ex-grid, .items, .ig-steps, .theme-grid, .summary-grid) > :where(:nth-child(-n + 8)) {
+  animation: m-rise var(--t-mid) var(--ease-out) backwards;
+}
+:where(.screen, .list, .lib-grid, .ex-grid, .items, .ig-steps, .theme-grid, .summary-grid) > :where(:nth-child(2)) {
+  animation-delay: calc(1 * var(--stagger));
+}
+:where(.screen, .list, .lib-grid, .ex-grid, .items, .ig-steps, .theme-grid, .summary-grid) > :where(:nth-child(3)) {
+  animation-delay: calc(2 * var(--stagger));
+}
+:where(.screen, .list, .lib-grid, .ex-grid, .items, .ig-steps, .theme-grid, .summary-grid) > :where(:nth-child(4)) {
+  animation-delay: calc(3 * var(--stagger));
+}
+:where(.screen, .list, .lib-grid, .ex-grid, .items, .ig-steps, .theme-grid, .summary-grid) > :where(:nth-child(5)) {
+  animation-delay: calc(4 * var(--stagger));
+}
+:where(.screen, .list, .lib-grid, .ex-grid, .items, .ig-steps, .theme-grid, .summary-grid) > :where(:nth-child(6)) {
+  animation-delay: calc(5 * var(--stagger));
+}
+:where(.screen, .list, .lib-grid, .ex-grid, .items, .ig-steps, .theme-grid, .summary-grid) > :where(:nth-child(7)) {
+  animation-delay: calc(6 * var(--stagger));
+}
+:where(.screen, .list, .lib-grid, .ex-grid, .items, .ig-steps, .theme-grid, .summary-grid) > :where(:nth-child(8)) {
+  animation-delay: calc(7 * var(--stagger));
+}
+
+/* Индикатор активной вкладки перетекает (телефон) */
+.nav {
+  isolation: isolate;
+}
+.nav-ind {
+  position: absolute;
+  z-index: -1;
+  top: 0;
+  left: var(--safe-l);
+  width: calc((100% - var(--safe-l) - var(--safe-r)) / 5);
+  height: 3px;
+  transform: translateX(calc(var(--i, 0) * 100%));
+  transition: transform var(--t-slow) var(--ease-out);
+  pointer-events: none;
+}
+.nav-ind::before {
+  content: '';
+  display: block;
+  width: 32px;
+  height: 3px;
+  margin: 0 auto;
+  border-radius: 0 0 3px 3px;
+  background: var(--nav-on, var(--accent-ink));
+}
+@media (min-width: 1024px) {
+  .nav-ind {
+    display: none;
+  }
+}
+
+/* 3. Нажатия: кнопки, карточки, пункты списков слегка уменьшаются и возвращаются */
+.lib-card,
+.list > li > a,
+.list > li > button,
+.tp,
+.as-btn,
+.item summary,
+.pic-live,
+.chk,
+.switch {
+  transition:
+    transform var(--t-fast) var(--ease-out),
+    opacity var(--t-fast) var(--ease-out);
+}
+.btn:active:not(:disabled),
+.btn-ghost:active:not(:disabled),
+.seg-btn:active:not(:disabled),
+.set-done:active,
+.day:active,
+.row:active,
+.rest-adj:active:not(:disabled),
+.rest-main:active:not(:disabled),
+.rest-skip:active,
+.icon-btn:active,
+.stepper button:active:not(:disabled),
+.toast-act:active,
+.lib-card:active,
+.list > li > a:active,
+.list > li > button:active,
+.tp:active,
+.as-btn:active:not(:disabled),
+.item summary:active,
+.pic-live:active {
+  transform: scale(0.97);
+  opacity: 1;
+}
+
+/* 4. Окна и листы: фон затемняется, панель выезжает снизу; закрытие — обратная анимация */
+.scrim {
+  animation: m-fade var(--t-mid) var(--ease-out);
+}
+.sheet,
+.modal,
+.action-sheet {
+  animation: m-up var(--t-slow) var(--ease-out);
+}
+@media (min-width: 760px) {
+  /* на ПК окно по центру: короткий подъём вместо выезда из-за края */
+  .sheet,
+  .modal,
+  .action-sheet {
+    animation: m-rise var(--t-mid) var(--ease-out);
+  }
+}
+.scrim.leaving {
+  pointer-events: none;
+  animation: m-out-fade var(--t-out) ease-in forwards;
+}
+.scrim.leaving > * {
+  animation: m-out-down var(--t-out) ease-in forwards;
+}
+.toast {
+  animation: m-rise var(--t-mid) var(--ease-out);
+}
+
+/* 5. Переключатели, галочки, радио — плавно; отметка подхода — короткий акцент (кольцо) */
+.chk .icon {
+  transition:
+    opacity var(--t-fast) var(--ease-out),
+    transform var(--t-fast) var(--ease-out);
+  transform: scale(0.6);
+}
+.chk.on .icon {
+  transform: none;
+}
+.set-done {
+  position: relative;
+}
+.set-done.on > .icon {
+  animation: m-pop var(--t-mid) var(--ease-out);
+}
+.set-done.on::after {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border-radius: inherit;
+  border: 2px solid var(--accent);
+  opacity: 0;
+  pointer-events: none;
+  animation: m-ring 420ms var(--ease-out);
+}
+.tp .tp-sw {
+  transition: transform var(--t-fast) var(--ease-out);
+}
+.tp.on .tp-sw {
+  transform: scale(1.03);
+}
+
+/* 6. Таймер отдыха: полоса заполняется плавно (transform, components.css), по окончании — вспышка как раньше */
+
+/* 7. Схема упражнения: позы плавно меняются местами по нажатию; на открытой карточке — сами, медленно */
+.pic-live {
+  width: auto;
+  padding: 0;
+  border: 0;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+  display: grid;
+}
+.pic-live .ghost,
+.pic-live .solid,
+.pic-live .mv {
+  transition: opacity var(--t-slow) var(--ease-out);
+}
+.pic-live.swap .ghost {
+  opacity: 1;
+}
+.pic-live.swap .solid {
+  opacity: 0.22;
+}
+.pic-live.swap .mv {
+  opacity: 0;
+}
+@keyframes m-pose-a {
+  0%,
+  35% {
+    opacity: 0.22;
+  }
+  65%,
+  100% {
+    opacity: 1;
+  }
+}
+@keyframes m-pose-b {
+  0%,
+  35% {
+    opacity: 1;
+  }
+  65%,
+  100% {
+    opacity: 0.22;
+  }
+}
+.pic-live.auto .ghost {
+  animation: m-pose-a 3.2s ease-in-out 1.2s infinite alternate;
+}
+.pic-live.auto .solid {
+  animation: m-pose-b 3.2s ease-in-out 1.2s infinite alternate;
+}
+
+/* 8. Графики: линии и столбцы «вырастают» при первом показе */
+.chart .s1,
+.chart .s2,
+.chart.bars .bar {
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+  animation: m-grow-y var(--t-slow) var(--ease-out) backwards;
+}
+.chart .s2 {
+  animation-delay: 60ms;
+}
+.chart .bar-v {
+  animation: m-fade var(--t-mid) var(--ease-out) 160ms backwards;
+}
+
+/* 9. Смена темы: короткое перекрёстное затухание (View Transitions API, src/lib/motion.ts) */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 260ms;
+  animation-timing-function: var(--ease-out);
+}
+
+/* 10. Подсказки и плашки: плавно появляются, уходят вправо */
+.tip,
+.backup-reminder {
+  animation: m-rise var(--t-mid) var(--ease-out) backwards;
+}
+.tip.leaving,
+.backup-reminder.leaving {
+  pointer-events: none;
+  animation: m-out-right var(--t-out) ease-in forwards;
+}
+
+/* ---------- выключено: настройка «Выключены» или система, если не «Включены» ---------- */
+:root[data-motion='off'] *,
+:root[data-motion='off'] *::before,
+:root[data-motion='off'] *::after {
+  animation-duration: 0s !important;
+  animation-delay: 0s !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0s !important;
+  transition-delay: 0s !important;
+  scroll-behavior: auto !important;
+}
+@media (prefers-reduced-motion: reduce) {
+  :root:not([data-motion='on']) *,
+  :root:not([data-motion='on']) *::before,
+  :root:not([data-motion='on']) *::after {
+    animation-duration: 0s !important;
+    animation-delay: 0s !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0s !important;
+    transition-delay: 0s !important;
+    scroll-behavior: auto !important;
+  }
+}

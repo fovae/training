@@ -2,6 +2,7 @@ import { readFileSync } from 'node:fs';
 import { defineConfig, type Plugin } from 'vite';
 import preact from '@preact/preset-vite';
 import { VitePWA } from 'vite-plugin-pwa';
+import { headGradient, previewOf, resolveThemes, type ThemeDef } from './src/themes/derive.mjs';
 import { IOS_DEVICES, splashName, splashMedia, BRAND } from './scripts/ios-devices.mjs';
 
 const pkg = JSON.parse(readFileSync(new URL('./package.json', import.meta.url), 'utf8')) as {
@@ -40,31 +41,16 @@ function legalMeta(): Plugin {
 }
 
 /**
- * virtual:themes.css — CSS-переменные всех тем из src/themes/themes.json.
- * Без data-theme — classic-orange; data-theme="auto" — classic-light / classic-dark по системе.
+ * virtual:themes.css — CSS-переменные всех тем (src/themes/themes.json; цветные темы выводятся
+ * из рецепта в src/themes/derive.mjs). Без data-theme и при data-theme="auto" — classic-light /
+ * classic-dark по системной теме (тема по умолчанию — «Авто»).
+ * virtual:themes-meta — немного цветов каждой темы для превью в настройках и theme-color.
  */
-interface ThemeDay {
-  c: string;
-  fill: string;
-  fill2?: string;
-  ink: string;
-}
-interface ThemeDef {
-  scheme: 'light' | 'dark';
-  bg: string;
-  card: string;
-  soft: string;
-  line: string;
-  ink: string;
-  muted: string;
-  danger: string;
-  dangerFill: string;
-  chart: string[];
-  days: ThemeDay[];
-}
 function themesCss(): Plugin {
-  const id = 'virtual:themes.css';
+  const css = 'virtual:themes.css';
+  const meta = 'virtual:themes-meta';
   const file = new URL('./src/themes/themes.json', import.meta.url);
+  const load = () => resolveThemes(JSON.parse(readFileSync(file, 'utf8')));
   const vars = (t: ThemeDef) =>
     [
       `color-scheme:${t.scheme}`,
@@ -78,34 +64,47 @@ function themesCss(): Plugin {
       `--danger-fill:${t.dangerFill}`,
       `--chart-1:${t.chart[0]}`,
       `--chart-2:${t.chart[1]}`,
-      t.scheme === 'dark'
-        ? '--shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px rgba(0,0,0,.25)'
-        : '--shadow:0 1px 2px rgba(20,20,30,.04),0 8px 24px rgba(20,20,30,.06)',
-      ...t.days.flatMap((d, i) => [
-        `--c${i + 1}:${d.c}`,
-        `--c${i + 1}-fill:${d.fill}`,
-        `--c${i + 1}-ink:${d.ink}`,
-        // Градиент — только на крупных цветных карточках (шапка дня), не под плотным текстом
-        `--c${i + 1}-bg:${d.fill2 ? `linear-gradient(135deg,${d.fill},${d.fill2})` : d.fill}`,
-      ]),
+      `--on-fill:${t.onFill}`,
+      `--card-btn:${t.cardBtn}`,
+      `--card-btn-ink:${t.cardBtnInk}`,
+      // Активная вкладка: в темах по рецепту — всегда первый акцент, в остальных — цвет дня
+      `--nav-on:${t.grad ? t.days[0]!.ink : 'var(--accent-ink)'}`,
+      // Тени: в светлых темах — мягкие; в тёмных вместо тени тонкая светлая обводка
+      ...(t.scheme === 'dark'
+        ? [`--shadow:0 0 0 1px ${t.line}`, `--shadow-pop:0 0 0 1px ${t.line}`]
+        : [
+            '--shadow:0 1px 2px rgba(20,20,30,.04),0 8px 24px rgba(20,20,30,.06)',
+            '--shadow-pop:0 16px 48px rgba(20,20,30,.2)',
+          ]),
+      ...t.days.flatMap((d, i) => {
+        const [g0, g1] = headGradient(t, i);
+        return [
+          `--c${i + 1}:${d.c}`,
+          `--c${i + 1}-fill:${d.fill}`,
+          `--c${i + 1}-ink:${d.ink}`,
+          // Градиент — на главной карточке и крупных акцентных элементах, не под плотным текстом
+          `--c${i + 1}-bg:${g0 === g1 ? d.fill : `linear-gradient(135deg,${g0},${g1})`}`,
+        ];
+      }),
     ].join(';');
   return {
     name: 'themes-css',
-    resolveId: (s) => (s === id ? '\0' + id + '.css' : null),
+    resolveId: (s) => (s === css ? '\0' + css + '.css' : s === meta ? '\0' + meta : null),
     load(s) {
-      if (s !== '\0' + id + '.css') return null;
+      if (s === '\0' + meta) {
+        this.addWatchFile(file.pathname);
+        const out = Object.fromEntries(Object.entries(load()).map(([id, t]) => [id, previewOf(t)]));
+        return `export default ${JSON.stringify(out)};`;
+      }
+      if (s !== '\0' + css + '.css') return null;
       this.addWatchFile(file.pathname);
-      const { themes } = JSON.parse(readFileSync(file, 'utf8')) as { themes: Record<string, ThemeDef> };
-      const css = Object.entries(themes).map(([name, t]) =>
-        name === 'classic-orange'
-          ? `:root,:root[data-theme="classic-orange"]{${vars(t)}}`
-          : `:root[data-theme="${name}"]{${vars(t)}}`,
+      const themes = load();
+      const out = Object.entries(themes).map(([name, t]) => `:root[data-theme="${name}"]{${vars(t)}}`);
+      out.unshift(`:root{${vars(themes['classic-light']!)}}`);
+      out.push(
+        `@media (prefers-color-scheme:dark){:root:not([data-theme]),:root[data-theme="auto"]{${vars(themes['classic-dark']!)}}}`,
       );
-      css.push(`:root[data-theme="auto"]{${vars(themes['classic-light']!)}}`);
-      css.push(
-        `@media (prefers-color-scheme:dark){:root[data-theme="auto"]{${vars(themes['classic-dark']!)}}}`,
-      );
-      return css.join('\n');
+      return out.join('\n');
     },
   };
 }

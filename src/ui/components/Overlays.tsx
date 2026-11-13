@@ -5,6 +5,7 @@ import { actionMenu, closeMenu, dialog, dismissToast, toasts } from '../../state
 import { applyUpdate, needRefresh } from '../../features/update';
 import { active } from '../../state/session';
 import { Icon } from './Icon';
+import { usePresence } from '../../lib/motion';
 
 export function Toasts() {
   const list = toasts.value;
@@ -50,11 +51,14 @@ export function Toasts() {
 
 /** Свой модальный диалог (вместо confirm()) с фокусом и Escape */
 export function DialogHost() {
-  const d = dialog.value;
+  const cur = dialog.value;
+  // После закрытия окно ещё ~200 мс уезжает вниз (обратная анимация)
+  const { item: d, leaving } = usePresence(cur);
   const ref = useRef<HTMLDivElement>(null);
   const prevFocus = useRef<Element | null>(null);
 
   useEffect(() => {
+    const d = cur;
     if (!d) return;
     prevFocus.current = document.activeElement;
     const el = ref.current;
@@ -73,11 +77,14 @@ export function DialogHost() {
       document.body.classList.remove('modal-open');
       (prevFocus.current as HTMLElement | null)?.focus?.();
     };
-  }, [d]);
+  }, [cur]);
 
   if (!d) return null;
   return (
-    <div class="scrim" onClick={(e) => e.target === e.currentTarget && d.resolve('cancel')}>
+    <div
+      class={'scrim' + (leaving ? ' leaving' : '')}
+      onClick={(e) => e.target === e.currentTarget && d.resolve('cancel')}
+    >
       <div
         class="modal"
         role="alertdialog"
@@ -121,12 +128,13 @@ export function DialogHost() {
 
 /** Меню действий снизу (как action sheet на iOS): долгое нажатие на карточку или кнопка «Действия» */
 export function MenuHost() {
-  const m = actionMenu.value;
+  const cur = actionMenu.value;
+  const { item: m, leaving } = usePresence(cur);
   const ref = useRef<HTMLDivElement>(null);
   const prevFocus = useRef<Element | null>(null);
 
   useEffect(() => {
-    if (!m) return;
+    if (!cur) return;
     prevFocus.current = document.activeElement;
     const el = ref.current;
     el?.querySelector<HTMLButtonElement>('button:not([disabled])')?.focus();
@@ -144,11 +152,11 @@ export function MenuHost() {
       document.body.classList.remove('modal-open');
       (prevFocus.current as HTMLElement | null)?.focus?.();
     };
-  }, [m]);
+  }, [cur]);
 
   if (!m) return null;
   return (
-    <div class="scrim sheet-scrim" onClick={(e) => e.target === e.currentTarget && closeMenu()}>
+    <div class={'scrim sheet-scrim' + (leaving ? ' leaving' : '')} onClick={(e) => e.target === e.currentTarget && closeMenu()}>
       <div
         class="action-sheet"
         role="dialog"

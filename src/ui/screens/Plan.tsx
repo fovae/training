@@ -352,7 +352,7 @@ function ItemEditor({
           </summary>
           <div class="item-body">
             <div class="item-pic">
-              <Pic pic={ex?.pictogram} />
+              <Pic pic={ex?.pictogram} live />
               {ex && <p class="muted small">{ex.primaryMuscles.map(muscleName).join(', ')}</p>}
             </div>
             <div class="srow">

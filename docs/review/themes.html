@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Simple Training — темы (контактный лист)</title>
+<!-- Собирается скриптом: npm run themes:sheet. Не редактировать руками. В сборку приложения не попадает. -->
+<style>
+  body { margin: 0; font: 15px/1.5 system-ui, -apple-system, sans-serif; color: #16161a; background: #ececef; }
+  header { padding: 24px 24px 8px; }
+  h1 { margin: 0 0 4px; font-size: 22px; }
+  p { margin: 0; color: #5e5f66; }
+  nav { display: flex; flex-wrap: wrap; gap: 8px; padding: 12px 24px; }
+  nav a { padding: 4px 12px; border-radius: 999px; background: #fff; color: inherit; text-decoration: none; font-size: 13px; font-weight: 600; }
+  section { margin: 16px 24px; padding: 16px; border-radius: 16px; background: #fff; }
+  h2 { margin: 0; font-size: 18px; }
+  h2 small { font-weight: 500; color: #5e5f66; font-size: 13px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 8px 0 12px; }
+  .chip { display: inline-flex; align-items: center; gap: 4px; font-size: 12px; color: #5e5f66; }
+  .chip i { width: 16px; height: 16px; border-radius: 4px; box-shadow: inset 0 0 0 1px rgba(0,0,0,.12); }
+  code { font-size: 12px; }
+  .row { display: flex; gap: 12px; overflow-x: auto; padding-bottom: 8px; align-items: flex-start; }
+  figure { margin: 0; flex: none; }
+  figure img { display: block; border-radius: 12px; box-shadow: 0 0 0 1px rgba(0,0,0,.1); height: auto; }
+  figcaption { margin-top: 4px; font-size: 12px; color: #5e5f66; }
+</style>
+</head>
+<body>
+<header>
+  <h1>Темы Simple Training — 12 пунктов</h1>
+  <p>Настоящие экраны приложения: главный экран (375×667, 390×844, 430×932), список упражнений и лист подтверждения с нижней панелью. Пересобрать: <code>npm run themes:sheet</code>. Цвета — <code>src/themes/themes.json</code>, итоговая таблица — <code>docs/ARCHITECTURE.md</code>.</p>
+</header>
+<nav><a href="#auto-light">Auto · light</a><a href="#auto-dark">Auto · dark</a><a href="#classic-light">Classic Light</a><a href="#classic-dark">Classic Dark</a><a href="#monochrome">Monochrome</a><a href="#gradient">Gradient</a><a href="#pine-dusk">Pine Dusk</a><a href="#ocean-night">Ocean Night</a><a href="#violet-dusk">Violet Dusk</a><a href="#rose-dusk">Rose Dusk</a><a href="#slate-blue">Slate Blue</a><a href="#teal-night">Teal Night</a><a href="#crimson-night">Crimson Night</a></nav>
+<section id="auto-light">
+  <h2>Auto / Авто <small><code>auto</code> · системная тема светлая → Classic Light</small></h2>
+  <div class="chips"><span class="chip"><i style="background:#f6f6f7"></i>фон <code>#F6F6F7</code></span><span class="chip"><i style="background:#ffffff"></i>поверхность <code>#FFFFFF</code></span><span class="chip"><i style="background:#d2411c"></i>акцент <code>#D2411C</code></span></div>
+  <div class="row">
+    <figure><img src="themes/auto-light-today-375.webp" width="270" height="480" loading="lazy" alt="Auto: Главный экран · 375×667" /><figcaption>Главный экран · 375×667</figcaption></figure>
+    <figure><img src="themes/auto-light-today-390.webp" width="281" height="608" loading="lazy" alt="Auto: Главный экран · 390×844" /><figcaption>Главный экран · 390×844</figcaption></figure>
+    <figure><img src="themes/auto-light-today-430.webp" width="310" height="671" loading="lazy" alt="Auto: Главный экран · 430×932" /><figcaption>Главный экран · 430×932</figcaption></figure>
+    <figure><img src="themes/auto-light-library.webp" width="281" height="608" loading="lazy" alt="Auto: Список упражнений · 390×844" /><figcaption>Список упражнений · 390×844</figcaption></figure>
+    <figure><img src="themes/auto-light-confirm.webp" width="281" height="608" loading="lazy" alt="Auto: Лист подтверждения · 390×844" /><figcaption>Лист подтверждения · 390×844</figcaption></figure>
+  </div>
+</section>
+<section id="auto-dark">
+  <h2>Auto / Авто <small><code>auto</code> · системная тема тёмная → Classic Dark</small></h2>
+  <div class="chips"><span class="chip"><i style="background:#111114"></i>фон <code>#111114</code></span><span class="chip"><i style="background:#1b1b20"></i>поверхность <code>#1B1B20</code></span><span class="chip"><i style="background:#d2411c"></i>акцент <code>#D2411C</code></span></div>
+  <div class="row">
+    <figure><img src="themes/auto-dark-today-375.webp" width="270" height="480" loading="lazy" alt="Auto: Главный экран · 375×667" /><figcaption>Главный экран · 375×667</figcaption></figure>
+    <figure><img src="themes/auto-dark-today-390.webp" width="281" height="608" loading="lazy" alt="Auto: Главный экран · 390×844" /><figcaption>Главный экран · 390×844</figcaption></figure>
+    <figure><img src="themes/auto-dark-today-430.webp" width="310" height="671" loading="lazy" alt="Auto: Главный экран · 430×932" /><figcaption>Главный экран · 430×932</figcaption></figure>
+    <figure><img src="themes/auto-dark-library.webp" width="281" height="608" loading="lazy" alt="Auto: Список упражнений · 390×844" /><figcaption>Список упражнений · 390×844</figcaption></figure>
+    <figure><img src="themes/auto-dark-confirm.webp" width="281" height="608" loading="lazy" alt="Auto: Лист подтверждения · 390×844" /><figcaption>Лист подтверждения · 390×844</figcaption></figure>
+  </div>
+</section>
+<section id="classic-light">
+  <h2>Classic Light / Классика светлая <small><code>classic-light</code></small></h2>
+  <div class="chips"><span class="chip"><i style="background:#f6f6f7"></i>фон <code>#F6F6F7</code></span><span class="chip"><i style="background:#ffffff"></i>поверхность <code>#FFFFFF</code></span><span class="chip"><i style="background:#d2411c"></i>акцент <code>#D2411C</code></span></div>
+  <div class="row">
+    <figure><img src="themes/classic-light-today-375.webp" width="270" height="480" loading="lazy" alt="Classic Light: Главный экран · 375×667" /><figcaption>Главный экран · 375×667</figcaption></figure>
+    <figure><img src="themes/classic-light-today-390.webp" width="281" height="608" loading="lazy" alt="Classic Light: Главный экран · 390×844" /><figcaption>Главный экран · 390×844</figcaption></figure>
+    <figure><img src="themes/classic-light-today-430.webp" width="310" height="671" loading="lazy" alt="Classic Light: Главный экран · 430×932" /><figcaption>Главный экран · 430×932</figcaption></figure>
+    <figure><img src="themes/classic-light-library.webp" width="281" height="608" loading="lazy" alt="Classic Light: Список упражнений · 390×844" /><figcaption>Список упражнений · 390×844</figcaption></figure>
+    <figure><img src="themes/classic-light-confirm.webp" width="281" height="608" loading="lazy" alt="Classic Light: Лист подтверждения · 390×844" /><figcaption>Лист подтверждения · 390×844</figcaption></figure>
+  </div>
+</section>
+<section id="classic-dark">
+  <h2>Classic Dark / Классика тёмная <small><code>classic-dark</code></small></h2>
+  <div class="chips"><span class="chip"><i style="background:#111114"></i>фон <code>#111114</code></span><span class="chip"><i style="background:#1b1b20"></i>поверхность <code>#1B1B20</code></span><span class="chip"><i style="background:#d2411c"></i>акцент <code>#D2411C</code></span></div>
+  <div class="row">
+    <figure><img src="themes/classic-dark-today-375.webp" width="270" height="480" loading="lazy" alt="Classic Dark: Главный экран · 375×667" /><figcaption>Главный экран · 375×667</figcaption></figure>
+    <figure><img src="themes/classic-dark-today-390.webp" width="281" height="608" loading="lazy" alt="Classic Dark: Главный экран · 390×844" /><figcaption>Главный экран · 390×844</figcaption></figure>
+    <figure><img src="themes/classic-dark-today-430.webp" width="310" height="671" loading="lazy" alt="Classic Dark: Главный экран · 430×932" /><figcaption>Главный экран · 430×932</figcaption></figure>
+    <figure><img src="themes/classic-dark-library.webp" width="281" height="608" loading="lazy" alt="Classic Dark: Список упражнений · 390×844" /><figcaption>Список упражнений · 390×844</figcaption></figure>
+    <figure><img src="themes/classic-dark-confirm.webp" width="281" height="608" loading="lazy" alt="Classic Dark: Лист подтверждения · 390×844" /><figcaption>Лист подтверждения · 390×844</figcaption></figure>
+  </div>
+</section>
+<section id="monochrome">
+  <h2>Monochrome / Монохром <small><code>monochrome</code></small></h2>
+  <div class="chips"><span class="chip"><i style="background:#f4f4f4"></i>фон <code>#F4F4F4</code></span><span class="chip"><i style="background:#ffffff"></i>поверхность <code>#FFFFFF</code></span><span class="chip"><i style="background:#111111"></i>акцент <code>#111111</code></span></div>
+  <div class="row">
+    <figure><img src="themes/monochrome-today-375.webp" width="270" height="480" loading="lazy" alt="Monochrome: Главный экран · 375×667" /><figcaption>Главный экран · 375×667</figcaption></figure>
+    <figure><img src="themes/monochrome-today-390.webp" width="281" height="608" loading="lazy" alt="Monochrome: Главный экран · 390×844" /><figcaption>Главный экран · 390×844</figcaption></figure>
+    <figure><img src="themes/monochrome-today-430.webp" width="310" height="671" loading="lazy" alt="Monochrome: Главный экран · 430×932" /><figcaption>Главный экран · 430×932</figcaption></figure>
+    <figure><img src="themes/monochrome-library.webp" width="281" height="608" loading="lazy" alt="Monochrome: Список упражнений · 390×844" /><figcaption>Список упражнений · 390×844</figcaption></figure>
+    <figure><img src="themes/monochrome-confirm.webp" width="281" height="608" loading="lazy" alt="Monochrome: Лист подтверждения · 390×844" /><figcaption>Лист подтверждения · 390×844</figcaption></figure>
+  </div>
+</section>
+<section id="gradient">
+  <h2>Gradient / Градиент <small><code>gradient</code></small></h2>
+  <div class="chips"><span class="chip"><i style="background:#f3f1ec"></i>фон <code>#F3F1EC</code></span><span class="chip"><i style="background:#ffffff"></i>поверхность <code>#FFFFFF</code></span><span class="chip"><i style="background:#d2411c"></i>акцент <code>#D2411C</code></span><span class="chip"><i style="background:#ad6000"></i>градиент до <code>#AD6000</code></span></div>
+  <div class="row">
+    <figure><img src="themes/gradient-today-375.webp" width="270" height="480" loading="lazy" alt="Gradient: Главный экран · 375×667" /><figcaption>Главный экран · 375×667</figcaption></figure>
+    <figure><img src="themes/gradient-today-390.webp" width="281" height="608" loading="lazy" alt="Gradient: Главный экран · 390×844" /><figcaption>Главный экран · 390×844</figcaption></figure>
+    <figure><img src="themes/gradient-today-430.webp" width="310" height="671" loading="lazy" alt="Gradient: Главный экран · 430×932" /><figcaption>Главный экран · 430×932</figcaption></figure>
+    <figure><img src="themes/gradient-library.webp" width="281" height="608" loading="lazy" alt="Gradient: Список упражнений · 390×844" /><figcaption>Список упражнений · 390×844</figcaption></figure>
+    <figure><img src="themes/gradient-confirm.webp" width="281" height="608" loading="lazy" alt="Gradient: Лист подтверждения · 390×844" /><figcaption>Лист подтверждения · 390×844</figcaption></figure>
+  </div>
+</section>
+<section id="pine-dusk">
+  <h2>Pine Dusk / Хвойный сумрак <small><code>pine-dusk</code></small></h2>
+  <div class="chips"><span class="chip"><i style="background:#14201C"></i>фон <code>#14201C</code></span><span class="chip"><i style="background:#59C99A"></i>акцент 1 <code>#59C99A</code></span><span class="chip"><i style="background:#B2D76D"></i>акцент 2 <code>#B2D76D</code></span><span class="chip"><i style="background:#263B32"></i>поверхность <code>#263B32</code></span></div>
+  <div class="row">
+    <figure><img src="themes/pine-dusk-today-375.webp" width="270" height="480" loading="lazy" alt="Pine Dusk: Главный экран · 375×667" /><figcaption>Главный экран · 375×667</figcaption></figure>
+    <figure><img src="themes/pine-dusk-today-390.webp" width="281" height="608" loading="lazy" alt="Pine Dusk: Главный экран · 390×844" /><figcaption>Главный экран · 390×844</figcaption></figure>
+    <figure><img src="themes/pine-dusk-today-430.webp" width="310" height="671" loading="lazy" alt="Pine Dusk: Главный экран · 430×932" /><figcaption>Главный экран · 430×932</figcaption></figure>
+    <figure><img src="themes/pine-dusk-library.webp" width="281" height="608" loading="lazy" alt="Pine Dusk: Список упражнений · 390×844" /><figcaption>Список упражнений · 390×844</figcaption></figure>
+    <figure><img src="themes/pine-dusk-confirm.webp" width="281" height="608" loading="lazy" alt="Pine Dusk: Лист подтверждения · 390×844" /><figcaption>Лист подтверждения · 390×844</figcaption></figure>
+  </div>
+</section>
+<section id="ocean-night">
+  <h2>Ocean Night / Морская ночь <small><code>ocean-night</code></small></h2>
+  <div class="chips"><span class="chip"><i style="background:#121B22"></i>фон <code>#121B22</code></span><span class="chip"><i style="background:#5AB6D8"></i>акцент 1 <code>#5AB6D8</code></span><span class="chip"><i style="background:#7AE0C3"></i>акцент 2 <code>#7AE0C3</code></span><span class="chip"><i style="background:#22343F"></i>поверхность <code>#22343F</code></span></div>
+  <div class="row">
+    <figure><img src="themes/ocean-night-today-375.webp" width="270" height="480" loading="lazy" alt="Ocean Night: Главный экран · 375×667" /><figcaption>Главный экран · 375×667</figcaption></figure>
+    <figure><img src="themes/ocean-night-today-390.webp" width="281" height="608" loading="lazy" alt="Ocean Night: Главный экран · 390×844" /><figcaption>Главный экран · 390×844</figcaption></figure>
+    <figure><img src="themes/ocean-night-today-430.webp" width="310" height="671" loading="lazy" alt="Ocean Night: Главный экран · 430×932" /><figcaption>Главный экран · 430×932</figcaption></figure>
+    <figure><img src="themes/ocean-night-library.webp" width="281" height="608" loading="lazy" alt="Ocean Night: Список упражнений · 390×844" /><figcaption>Список упражнений · 390×844</figcaption></figure>
+    <figure><img src="themes/ocean-night-confirm.webp" width="281" height="608" loading="lazy" alt="Ocean Night: Лист подтверждения · 390×844" /><figcaption>Лист подтверждения · 390×844</figcaption></figure>
+  </div>
+</section>
+<section id="violet-dusk">
+  <h2>Violet Dusk / Фиалковый сумрак <small><code>violet-dusk</code></small></h2>
+  <div class="chips"><span class="chip"><i style="background:#19151F"></i>фон <code>#19151F</code></span><span class="chip"><i style="background:#9C8CF0"></i>акцент 1 <code>#9C8CF0</code></span><span class="chip"><i style="background:#D69BE8"></i>акцент 2 <code>#D69BE8</code></span><span class="chip"><i style="background:#2E2740"></i>поверхность <code>#2E2740</code></span></div>
+  <div class="row">
+    <figure><img src="themes/violet-dusk-today-375.webp" width="270" height="480" loading="lazy" alt="Violet Dusk: Главный экран · 375×667" /><figcaption>Главный экран · 375×667</figcaption></figure>
+    <figure><img src="themes/violet-dusk-today-390.webp" width="281" height="608" loading="lazy" alt="Violet Dusk: Главный экран · 390×844" /><figcaption>Главный экран · 390×844</figcaption></figure>
+    <figure><img src="themes/violet-dusk-today-430.webp" width="310" height="671" loading="lazy" alt="Violet Dusk: Главный экран · 430×932" /><figcaption>Главный экран · 430×932</figcaption></figure>
+    <figure><img src="themes/violet-dusk-library.webp" width="281" height="608" loading="lazy" alt="Violet Dusk: Список упражнений · 390×844" /><figcaption>Список упражнений · 390×844</figcaption></figure>
+    <figure><img src="themes/violet-dusk-confirm.webp" width="281" height="608" loading="lazy" alt="Violet Dusk: Лист подтверждения · 390×844" /><figcaption>Лист подтверждения · 390×844</figcaption></figure>
+  </div>
+</section>
+<section id="rose-dusk">
+  <h2>Rose Dusk / Розовый сумрак <small><code>rose-dusk</code></small></h2>
+  <div class="chips"><span class="chip"><i style="background:#1F1519"></i>фон <code>#1F1519</code></span><span class="chip"><i style="background:#EE8FA8"></i>акцент 1 <code>#EE8FA8</code></span><span class="chip"><i style="background:#F5BE8B"></i>акцент 2 <code>#F5BE8B</code></span><span class="chip"><i style="background:#3A262E"></i>поверхность <code>#3A262E</code></span></div>
+  <div class="row">
+    <figure><img src="themes/rose-dusk-today-375.webp" width="270" height="480" loading="lazy" alt="Rose Dusk: Главный экран · 375×667" /><figcaption>Главный экран · 375×667</figcaption></figure>
+    <figure><img src="themes/rose-dusk-today-390.webp" width="281" height="608" loading="lazy" alt="Rose Dusk: Главный экран · 390×844" /><figcaption>Главный экран · 390×844</figcaption></figure>
+    <figure><img src="themes/rose-dusk-today-430.webp" width="310" height="671" loading="lazy" alt="Rose Dusk: Главный экран · 430×932" /><figcaption>Главный экран · 430×932</figcaption></figure>
+    <figure><img src="themes/rose-dusk-library.webp" width="281" height="608" loading="lazy" alt="Rose Dusk: Список упражнений · 390×844" /><figcaption>Список упражнений · 390×844</figcaption></figure>
+    <figure><img src="themes/rose-dusk-confirm.webp" width="281" height="608" loading="lazy" alt="Rose Dusk: Лист подтверждения · 390×844" /><figcaption>Лист подтверждения · 390×844</figcaption></figure>
+  </div>
+</section>
+<section id="slate-blue">
+  <h2>Slate Blue / Серо-синяя <small><code>slate-blue</code></small></h2>
+  <div class="chips"><span class="chip"><i style="background:#121722"></i>фон <code>#121722</code></span><span class="chip"><i style="background:#6C9CF5"></i>акцент 1 <code>#6C9CF5</code></span><span class="chip"><i style="background:#8FD0F0"></i>акцент 2 <code>#8FD0F0</code></span><span class="chip"><i style="background:#232B40"></i>поверхность <code>#232B40</code></span></div>
+  <div class="row">
+    <figure><img src="themes/slate-blue-today-375.webp" width="270" height="480" loading="lazy" alt="Slate Blue: Главный экран · 375×667" /><figcaption>Главный экран · 375×667</figcaption></figure>
+    <figure><img src="themes/slate-blue-today-390.webp" width="281" height="608" loading="lazy" alt="Slate Blue: Главный экран · 390×844" /><figcaption>Главный экран · 390×844</figcaption></figure>
+    <figure><img src="themes/slate-blue-today-430.webp" width="310" height="671" loading="lazy" alt="Slate Blue: Главный экран · 430×932" /><figcaption>Главный экран · 430×932</figcaption></figure>
+    <figure><img src="themes/slate-blue-library.webp" width="281" height="608" loading="lazy" alt="Slate Blue: Список упражнений · 390×844" /><figcaption>Список упражнений · 390×844</figcaption></figure>
+    <figure><img src="themes/slate-blue-confirm.webp" width="281" height="608" loading="lazy" alt="Slate Blue: Лист подтверждения · 390×844" /><figcaption>Лист подтверждения · 390×844</figcaption></figure>
+  </div>
+</section>
+<section id="teal-night">
+  <h2>Teal Night / Бирюзовая ночь <small><code>teal-night</code></small></h2>
+  <div class="chips"><span class="chip"><i style="background:#11201F"></i>фон <code>#11201F</code></span><span class="chip"><i style="background:#4FCBC2"></i>акцент 1 <code>#4FCBC2</code></span><span class="chip"><i style="background:#9BE3A0"></i>акцент 2 <code>#9BE3A0</code></span><span class="chip"><i style="background:#213937"></i>поверхность <code>#213937</code></span></div>
+  <div class="row">
+    <figure><img src="themes/teal-night-today-375.webp" width="270" height="480" loading="lazy" alt="Teal Night: Главный экран · 375×667" /><figcaption>Главный экран · 375×667</figcaption></figure>
+    <figure><img src="themes/teal-night-today-390.webp" width="281" height="608" loading="lazy" alt="Teal Night: Главный экран · 390×844" /><figcaption>Главный экран · 390×844</figcaption></figure>
+    <figure><img src="themes/teal-night-today-430.webp" width="310" height="671" loading="lazy" alt="Teal Night: Главный экран · 430×932" /><figcaption>Главный экран · 430×932</figcaption></figure>
+    <figure><img src="themes/teal-night-library.webp" width="281" height="608" loading="lazy" alt="Teal Night: Список упражнений · 390×844" /><figcaption>Список упражнений · 390×844</figcaption></figure>
+    <figure><img src="themes/teal-night-confirm.webp" width="281" height="608" loading="lazy" alt="Teal Night: Лист подтверждения · 390×844" /><figcaption>Лист подтверждения · 390×844</figcaption></figure>
+  </div>
+</section>
+<section id="crimson-night">
+  <h2>Crimson Night / Багровая ночь <small><code>crimson-night</code></small></h2>
+  <div class="chips"><span class="chip"><i style="background:#1E1416"></i>фон <code>#1E1416</code></span><span class="chip"><i style="background:#E5566B"></i>акцент 1 <code>#E5566B</code></span><span class="chip"><i style="background:#F09A6A"></i>акцент 2 <code>#F09A6A</code></span><span class="chip"><i style="background:#3A2428"></i>поверхность <code>#3A2428</code></span></div>
+  <div class="row">
+    <figure><img src="themes/crimson-night-today-375.webp" width="270" height="480" loading="lazy" alt="Crimson Night: Главный экран · 375×667" /><figcaption>Главный экран · 375×667</figcaption></figure>
+    <figure><img src="themes/crimson-night-today-390.webp" width="281" height="608" loading="lazy" alt="Crimson Night: Главный экран · 390×844" /><figcaption>Главный экран · 390×844</figcaption></figure>
+    <figure><img src="themes/crimson-night-today-430.webp" width="310" height="671" loading="lazy" alt="Crimson Night: Главный экран · 430×932" /><figcaption>Главный экран · 430×932</figcaption></figure>
+    <figure><img src="themes/crimson-night-library.webp" width="281" height="608" loading="lazy" alt="Crimson Night: Список упражнений · 390×844" /><figcaption>Список упражнений · 390×844</figcaption></figure>
+    <figure><img src="themes/crimson-night-confirm.webp" width="281" height="608" loading="lazy" alt="Crimson Night: Лист подтверждения · 390×844" /><figcaption>Лист подтверждения · 390×844</figcaption></figure>
+  </div>
+</section>
+</body>
+</html>

@@ -2,7 +2,7 @@ import { computed, effect, signal } from '@preact/signals';
 import * as store from '../db';
 import { saveBoot } from '../i18n';
 import { compact } from '../lib/format';
-import { migrateThemeV2 } from '../db/migrations';
+import { migrateTheme } from '../db/migrations';
 import { DEFAULT_SETTINGS, type Profile, type Settings } from '../types';
 
 // ---------- настройки ----------
@@ -21,7 +21,8 @@ export function sanitizeSettings(raw: unknown): Settings {
     }
   }
   const out: Settings = {
-    theme: migrateThemeV2(r.theme),
+    theme: migrateTheme(r.theme),
+    motion: r.motion === 'on' || r.motion === 'off' ? r.motion : 'system',
     tipsEnabled: bool(r.tipsEnabled, DEFAULT_SETTINGS.tipsEnabled),
     restBaseSec: num(r.restBaseSec, DEFAULT_SETTINGS.restBaseSec),
     restIsoSec: num(r.restIsoSec, DEFAULT_SETTINGS.restIsoSec),
@@ -53,7 +54,7 @@ export function updateSettings(patch: Partial<Settings>): void {
 effect(() => {
   const s = settings.value;
   if (!settingsLoaded) return;
-  saveBoot({ theme: s.theme });
+  saveBoot({ theme: s.theme, motion: s.motion });
   void store.saveSettings(s).catch((e) => console.error('[settings] save failed', e));
 });
 

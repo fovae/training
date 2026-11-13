@@ -27,9 +27,9 @@ import {
   promptInstall,
   showInstructions,
 } from '../../features/install';
-import type { Level, Settings as S } from '../../types';
+import type { Level, MotionPref, Settings as S } from '../../types';
 import { Icon } from '../components/Icon';
-import { Stepper, Toggle } from '../components/Controls';
+import { Seg, Stepper, Toggle } from '../components/Controls';
 import { ThemePicker } from '../components/ThemePicker';
 import { ProfileForm, draftFrom, validateProfile, type ProfileDraft } from '../components/ProfileForm';
 import { askRestore } from '../components/RestoreDialog';
@@ -133,6 +133,17 @@ export function Settings() {
         <div class="field">
           <span class="field-lb">{t('settings.theme')}</span>
           <ThemePicker value={s.theme} onChange={(v) => set('theme', v)} />
+        </div>
+        <div class="field">
+          <span class="field-lb" id="motion-lb">
+            {t('settings.motion')}
+          </span>
+          <Seg<MotionPref>
+            label={t('settings.motion')}
+            value={s.motion ?? 'system'}
+            options={(['system', 'on', 'off'] as const).map((v) => ({ v, t: t(`settings.motionOpt.${v}`) }))}
+            onChange={(v) => set('motion', v)}
+          />
         </div>
       </section>
 

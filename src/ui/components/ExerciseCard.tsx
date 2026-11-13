@@ -23,6 +23,7 @@ import { startRest } from '../../features/timer';
 import { go } from '../../state/ui';
 import { exName, muscleName, restText, schemeText } from '../labels';
 import { Icon } from './Icon';
+import { leave } from '../../lib/motion';
 import { Pic } from './Pic';
 
 interface Props {
@@ -45,7 +46,7 @@ export function ExerciseCard({ item, num, log, tips = [] }: Props) {
       class={'ex' + (state === 'done' ? ' done' : '') + (state === 'skipped' ? ' skipped' : '')}
       aria-label={name}
     >
-      <Pic pic={ex?.pictogram} />
+      <Pic pic={ex?.pictogram} live />
       <div class="ex-top">
         {log && (
           <span class={'chk' + (state === 'done' ? ' on' : '')} aria-hidden="true">
@@ -325,7 +326,7 @@ export function TipCard({ tip, children }: { tip: Advice; children?: ComponentCh
         type="button"
         class="icon-btn tip-x"
         aria-label={t('advice.dismiss')}
-        onClick={() => dismissTip(tip.id)}
+        onClick={(e) => leave(e.currentTarget.closest('.tip'), () => dismissTip(tip.id))}
       >
         <Icon name="close" size={16} />
       </button>

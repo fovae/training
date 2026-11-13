@@ -19,7 +19,7 @@ export function RestTimerBar() {
       aria-label={t('timer.region')}
     >
       <div class="rest-bar" aria-hidden="true">
-        <i style={{ width: `${pct}%` }} />
+        <i style={{ transform: `scaleX(${pct / 100})` }} />
       </div>
       <div class="rest-row">
         <button

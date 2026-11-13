@@ -1,11 +1,14 @@
 /*
  * Нецветовые токены. Цвета — в темах: src/themes/themes.json → virtual:themes.css
- * (по умолчанию classic-orange — цвета исходной одностраничной версии).
+ * (по умолчанию «Авто»: classic-light / classic-dark по системной теме).
  */
 :root {
   --accent: var(--c1);
   --accent-fill: var(--c1-fill);
   --accent-ink: var(--c1-ink);
+  /* Крупные акцентные элементы: градиент темы или ровная заливка */
+  --accent-bg: var(--c1-bg);
+  --scrim: rgba(10, 10, 14, 0.45);
 
   /* Латиница и кириллица — Manrope (своя копия). CJK — системные шрифты, свои не грузим. */
   --font:

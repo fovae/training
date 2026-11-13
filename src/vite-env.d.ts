@@ -11,3 +11,12 @@ declare module '*.md?raw' {
 }
 
 declare module 'virtual:themes.css';
+
+declare module 'virtual:themes-meta' {
+  /** Превью темы: фон, поверхность, текст, градиент главной карточки, два акцента */
+  const meta: Record<
+    string,
+    { bg: string; card: string; ink: string; head: [string, string]; acc: [string, string] }
+  >;
+  export default meta;
+}

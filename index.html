@@ -11,7 +11,7 @@
     <meta name="author" content="Fovae &amp; Claude" />
 
     <!-- Цвет системных панелей: по теме системы, затем уточняется скриптом по ручной теме -->
-    <meta name="theme-color" content="#F3F1EC" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#f6f6f7" media="(prefers-color-scheme: light)" />
     <meta name="theme-color" content="#111114" media="(prefers-color-scheme: dark)" />
     <meta name="color-scheme" content="light dark" />
 
@@ -29,16 +29,41 @@
     <!-- apple-touch-startup-image для iPhone 11–18 добавляет плагин в vite.config.ts -->
 
     <script>
-      // Тема и язык применяются до отрисовки, чтобы не было вспышки (tp-boot — зеркало настроек).
-      // Старые значения темы (light / dark / system) — как в миграции v2 → v3.
+      // Тема, анимации и язык применяются до отрисовки, чтобы не было вспышки чужого цвета
+      // (tp-boot — зеркало настроек). Темы нет или она неизвестна — «Авто» (по системной теме).
+      // Карта удалённых тем и список действующих — как THEME_MIGRATION (src/db/migrations.ts) и
+      // THEMES (src/types): совпадение проверяет юнит-тест.
       (function () {
+        var d = document.documentElement;
+        d.dataset.theme = 'auto';
         try {
           var b = JSON.parse(localStorage.getItem('tp-boot') || '{}');
-          var old = { light: 'classic-orange', dark: 'classic-dark', system: 'auto' };
-          var th = old[b.theme] || b.theme;
-          if (typeof th === 'string' && /^[a-z0-9-]{3,20}$/.test(th))
-            document.documentElement.dataset.theme = th;
-          if (b.locale) document.documentElement.lang = b.locale;
+          var old = {
+            light: 'gradient',
+            dark: 'classic-dark',
+            system: 'auto',
+            'classic-orange': 'gradient',
+            'gradient-1': 'gradient',
+            ember: 'gradient',
+            blue: 'slate-blue',
+            violet: 'violet-dusk',
+            green: 'pine-dusk',
+            rose: 'rose-dusk',
+            'gradient-2': 'ocean-night'
+          };
+          var known =
+            'classic-light classic-dark monochrome gradient pine-dusk ocean-night violet-dusk rose-dusk slate-blue teal-night crimson-night';
+          var th = old.hasOwnProperty(b.theme) ? old[b.theme] : b.theme;
+          var ok = typeof th === 'string' && (' ' + known + ' ').indexOf(' ' + th + ' ') >= 0;
+          if (ok) d.dataset.theme = th;
+          if (b.motion === 'on' || b.motion === 'off') d.dataset.motion = b.motion;
+          if (b.locale) d.lang = b.locale;
+          // theme-color: у «Авто» — два мета-тега по системной теме, у выбранной темы — её фон
+          var tc = b.themeColor;
+          if (ok && th === b.theme && typeof tc === 'string' && /^#[0-9a-f]{6}$/i.test(tc))
+            document.querySelectorAll('meta[name="theme-color"]').forEach(function (m) {
+              m.content = tc;
+            });
         } catch (e) {}
       })();
     </script>

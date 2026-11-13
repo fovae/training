@@ -1,12 +1,12 @@
 import * as v from 'valibot';
-import { migrateSettingsV2 } from '../db/migrations';
+import { migrateSettingsV2, migrateTheme, THEME_MIGRATION } from '../db/migrations';
 import { DEFAULT_SETTINGS, THEMES, type Plan, type Profile, type Session, type Settings } from '../types';
 
 /**
  * Формат копии (docs/BACKUP.md). Чистые функции — без DOM и IndexedDB, покрыты юнит-тестами.
  *
  * {
- *   app: 'simple-training', schemaVersion: 3, createdAt: ISO, appVersion,
+ *   app: 'simple-training', schemaVersion: 4, createdAt: ISO, appVersion,
  *   data: { profile, plan, sessions, settings },
  *   checksum: 'sha256:<hex>' — SHA-256 от canonical(data)
  * }
@@ -14,7 +14,9 @@ import { DEFAULT_SETTINGS, THEMES, type Plan, type Profile, type Session, type S
  */
 
 export const BACKUP_APP = 'simple-training';
-export const BACKUP_SCHEMA = 3;
+/** 4 — релиз 3.0: новый набор тем, Settings.motion. Копии версии 3 читаются (темы переводятся). */
+export const BACKUP_SCHEMA = 4;
+const READABLE_SCHEMAS = [3, 4] as const;
 /** Максимальный размер файла копии */
 export const MAX_BACKUP_BYTES = 10 * 1024 * 1024;
 
@@ -162,7 +164,9 @@ const ProfileSchema = v.strictObject({
   legalAccepted: v.nullable(v.strictObject({ privacy: text(20), terms: text(20), at: iso })),
 });
 const SettingsSchema = v.strictObject({
-  theme: v.picklist(['auto', ...THEMES] as const),
+  // Темы, удалённые в 3.0 (копии версии 3), принимаем и переводим в новые после проверки суммы
+  theme: v.picklist(['auto', ...THEMES, ...Object.keys(THEME_MIGRATION)]),
+  motion: v.optional(v.picklist(['system', 'on', 'off'] as const)),
   tipsEnabled: v.boolean(),
   restBaseSec: int(15, 600),
   restIsoSec: int(15, 600),
@@ -181,7 +185,7 @@ const DataSchema = v.strictObject({
 });
 const FileSchema = v.strictObject({
   app: v.literal(BACKUP_APP),
-  schemaVersion: v.literal(BACKUP_SCHEMA),
+  schemaVersion: v.picklist(READABLE_SCHEMAS),
   createdAt: iso,
   appVersion: text(20),
   data: DataSchema,
@@ -244,8 +248,9 @@ export async function parseBackup(textContent: string, byteSize = textContent.le
   const file = res.output as BackupFile;
   const sum = 'sha256:' + (await sha256(canonical(file.data)));
   if (sum !== file.checksum) throw new BackupReadError('checksum');
+  const settings = { ...file.data.settings, theme: migrateTheme(file.data.settings.theme) };
   return {
-    data: file.data,
+    data: { ...file.data, settings },
     createdAt: file.createdAt,
     appVersion: file.appVersion,
     schemaVersion: file.schemaVersion,

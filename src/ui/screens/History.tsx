@@ -278,7 +278,7 @@ export function ExerciseDetail({ id }: { id: string }) {
     <div class="screen">
       <BackBar title={name} />
       <div class="card ex-detail-top">
-        <Pic pic={ex?.pictogram} />
+        <Pic pic={ex?.pictogram} live />
         {ex && <div class="muted">{ex.primaryMuscles.map(muscleName).join(', ')}</div>}
         {advice.map((a) => (
           <TipCard key={a.id} tip={a} />

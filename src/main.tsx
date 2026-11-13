@@ -7,6 +7,7 @@ import './styles/components.css';
 import './styles/screens.css';
 import './styles/features.css';
 import './styles/layout.css';
+import './styles/motion.css';
 
 import { App } from './ui/App';
 import { initApp } from './state/app';

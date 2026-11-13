@@ -71,7 +71,7 @@ main {
   padding-bottom: calc(var(--safe-b) + var(--timer-h) + 32px);
 }
 .nav-item.on {
-  color: var(--accent-ink);
+  color: var(--nav-on, var(--accent-ink));
 }
 .nav-ic {
   position: relative;
@@ -171,8 +171,8 @@ main {
     width: 36px;
     height: 36px;
     border-radius: 11px;
-    background: var(--accent-fill);
-    color: #fff;
+    background: var(--accent-bg);
+    color: var(--on-fill);
     font-size: 13px;
     letter-spacing: -0.04em;
   }
@@ -201,8 +201,8 @@ main {
     padding: 0 12px;
     border-radius: 12px;
     font-weight: 700;
-    background: var(--accent-fill);
-    color: #fff;
+    background: var(--accent-bg);
+    color: var(--on-fill);
   }
   main {
     margin-left: var(--side-w);

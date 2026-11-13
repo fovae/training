@@ -62,7 +62,7 @@ export function LibraryDetail({ id }: { id: string }) {
         <h1 class="screen-title sm">{exName(ex.id)}</h1>
       </header>
       <div class="card ex-detail-top">
-        <Pic pic={ex.pictogram} />
+        <Pic pic={ex.pictogram} live auto />
         <p>{t(ex.descriptionKey)}</p>
         <dl class="facts">
           <div>

@@ -9,8 +9,11 @@ const TABS: Exclude<Tab, 'legal'>[] = ['today', 'plan', 'library', 'history', 's
 /** Нижняя таб-панель на телефоне, боковая навигация на широком экране */
 export function Nav() {
   const cur = route.value.tab;
+  const idx = TABS.indexOf(cur as (typeof TABS)[number]);
   return (
     <nav class="nav" aria-label={t('nav.label')}>
+      {/* Индикатор активной вкладки плавно перетекает между вкладками (только transform) */}
+      {idx >= 0 && <span class="nav-ind" aria-hidden="true" style={{ '--i': idx }} />}
       <div class="nav-brand" aria-hidden="true">
         <span class="brand-mark">ST</span>
         <span>{t('app.name')}</span>

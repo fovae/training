@@ -172,7 +172,12 @@ function fitBg() {
         }
       }
     }
-    coef = B.map((b) => solve(A.map((r) => [...r]), [...b]));
+    coef = B.map((b) =>
+      solve(
+        A.map((r) => [...r]),
+        [...b],
+      ),
+    );
   }
   return coef;
 }
@@ -556,7 +561,9 @@ for (const [name, size] of [
   report[name] = await check(name, await readFile(ICONS + name), size);
 }
 if (report['icon-maskable-512.png'] > ICON.safe / 2)
-  throw new Error(`maskable: гантель выходит за круг 80% (${(report['icon-maskable-512.png'] * 200).toFixed(1)}%)`);
+  throw new Error(
+    `maskable: гантель выходит за круг 80% (${(report['icon-maskable-512.png'] * 200).toFixed(1)}%)`,
+  );
 
 console.log(
   [

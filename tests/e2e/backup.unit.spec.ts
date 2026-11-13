@@ -6,6 +6,7 @@ import {
   buildBackup,
   canonical,
   parseBackup,
+  sha256,
   summarize,
   type BackupData,
 } from '../../src/backup/format';
@@ -124,6 +125,51 @@ test('stage 1 backups (training-pwa, schema 2) are migrated', async () => {
   expect(parsed.data.settings.theme).toBe('classic-dark');
   expect(parsed.data.sessions).toHaveLength(1);
   expect(parsed.data.profile).toBeNull();
+});
+
+test('release 3.0: copies of schema 3 with removed themes are read, the theme is migrated', async () => {
+  const d = data();
+  const file = await buildBackup(d, '2.6.0');
+  // файл версии 2.x: схема 3, тема из старого набора, поля motion ещё нет
+  const v3 = structuredClone(file) as unknown as {
+    schemaVersion: number;
+    data: { settings: Record<string, unknown> };
+    checksum: string;
+  };
+  v3.schemaVersion = 3;
+  delete v3.data.settings.motion;
+  for (const [from, to] of [
+    ['classic-orange', 'gradient'],
+    ['gradient-1', 'gradient'],
+    ['blue', 'slate-blue'],
+    ['violet', 'violet-dusk'],
+    ['green', 'pine-dusk'],
+    ['rose', 'rose-dusk'],
+    ['gradient-2', 'ocean-night'],
+    ['classic-dark', 'classic-dark'],
+    ['auto', 'auto'],
+  ] as const) {
+    v3.data.settings.theme = from;
+    v3.checksum = 'sha256:' + (await sha256(canonical(v3.data)));
+    const parsed = await parseBackup(JSON.stringify(v3));
+    expect(parsed.schemaVersion).toBe(3);
+    expect(parsed.data.settings.theme, from).toBe(to);
+    expect(parsed.data.sessions).toHaveLength(1);
+  }
+  // неизвестная тема — файл не принимается
+  v3.data.settings.theme = 'neon';
+  v3.checksum = 'sha256:' + (await sha256(canonical(v3.data)));
+  await expect(parseBackup(JSON.stringify(v3))).rejects.toMatchObject({ code: 'invalid' });
+  // новая копия: схема 4, настройка «Анимации» сохраняется
+  const now = await buildBackup(
+    { ...d, settings: { ...d.settings, theme: 'teal-night', motion: 'off' } },
+    '3.0.0',
+  );
+  expect(now.schemaVersion).toBe(4);
+  expect((await parseBackup(JSON.stringify(now))).data.settings).toMatchObject({
+    theme: 'teal-night',
+    motion: 'off',
+  });
 });
 
 test('reminder: every 7 days, snooze 3 days', () => {

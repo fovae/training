@@ -90,17 +90,22 @@ export interface Session {
   entries: SessionEntry[];
 }
 
+/**
+ * Темы в порядке показа в настройках (перед ними — «Авто»). Цвета — src/themes/themes.json.
+ * gradient — бывшая classic-orange; цветные тёмные темы собраны по рецепту (docs/ARCHITECTURE.md).
+ */
 export const THEMES = [
-  'classic-orange',
   'classic-light',
   'classic-dark',
   'monochrome',
-  'blue',
-  'violet',
-  'green',
-  'rose',
-  'gradient-1',
-  'gradient-2',
+  'gradient',
+  'pine-dusk',
+  'ocean-night',
+  'violet-dusk',
+  'rose-dusk',
+  'slate-blue',
+  'teal-night',
+  'crimson-night',
 ] as const;
 /** 'auto' — по системе: classic-light / classic-dark */
 export type ThemeId = (typeof THEMES)[number] | 'auto';
@@ -110,8 +115,13 @@ export interface TipMark {
   dismissedAt: string;
 }
 
+/** Анимации: как в системе («уменьшение движения»), всегда включены, выключены */
+export type MotionPref = 'system' | 'on' | 'off';
+
 export interface Settings {
   theme: ThemeId;
+  /** Необязательно: копии до 3.0 его не содержат */
+  motion?: MotionPref;
   tipsEnabled: boolean;
   restBaseSec: number;
   restIsoSec: number;
@@ -127,7 +137,7 @@ export interface Settings {
 }
 
 export const DEFAULT_SETTINGS: Settings = {
-  theme: 'classic-orange',
+  theme: 'auto',
   tipsEnabled: true,
   restBaseSec: 150,
   restIsoSec: 90,

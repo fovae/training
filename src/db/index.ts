@@ -1,18 +1,19 @@
 import { openDB, type DBSchema, type IDBPDatabase } from 'idb';
 import type { Plan, Profile, Session, Settings } from '../types';
-import { migrateProfileV2, migrateSettingsV2 } from './migrations';
+import { migrateProfileV2, migrateSettingsV2, migrateSettingsV3 } from './migrations';
 
 /**
  * IndexedDB. Версии схемы:
  *  v2 — этап 1: sessions + kv(profile, plan, settings, activeSession).
  *  v3 — этап 2: новые поля настроек и профиля (см. migrations.ts); удалены остатки v1
  *       (хранилище workouts, kv.legacyPrefs, kv.activeWorkout).
+ *  v4 — релиз 3.0: новый набор тем (сохранённая тема переводится по карте), настройка «Анимации».
  *
  * При изменении структуры увеличь DB_VERSION и добавь шаг `if (oldVersion < N)` в upgrade().
  * Шаги идут по порядку от старой версии к новой. Старые шаги не удаляются.
  */
 export const DB_NAME = 'training-pwa';
-export const DB_VERSION = 3;
+export const DB_VERSION = 4;
 
 /** Снимок данных перед восстановлением из копии — для «Отменить восстановление» */
 export interface RestoreSnapshot {
@@ -58,6 +59,13 @@ export function db(): Promise<IDBPDatabase<TrainingDB>> {
         const p = migrateProfileV2(await kv.get('profile'));
         if (p) await kv.put(p, 'profile');
         for (const k of ['legacyPrefs', 'activeWorkout'] as unknown as KvKey[]) await kv.delete(k);
+      }
+
+      if (oldVersion < 4) {
+        // v3 → v4: удалённые темы → новые; настроек нет (тему не выбирали) — останется «Авто»
+        const kv = tx.objectStore('kv');
+        const s = await kv.get('settings');
+        if (s !== undefined) await kv.put(migrateSettingsV3(s), 'settings');
       }
     },
     blocked() {

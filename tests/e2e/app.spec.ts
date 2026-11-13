@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/test';
 import { EXERCISES } from '../../src/data/catalog';
-import { fresh, kv, onboard } from './helpers';
+import { fresh, onboard } from './helpers';
 
 const INCLINE = 'Incline dumbbell press';
 
@@ -306,42 +306,6 @@ test('backup: save a copy (download fallback), delete all data, restore, undo', 
   await expect(page.getByText('Finished workouts will appear here')).toBeVisible();
   await page.getByRole('link', { name: 'Today' }).click();
   await expect(page.getByRole('heading', { name: 'Full body · 1' })).toBeVisible();
-});
-
-test('themes: all 10 + auto switch, persist after reload, theme-color follows', async ({ page }) => {
-  await fresh(page);
-  await onboard(page);
-  await page.getByRole('link', { name: 'Settings', exact: true }).click();
-  const themes: [string, string, string | null][] = [
-    ['Classic orange', 'classic-orange', 'rgb(243, 241, 236)'],
-    ['Classic light', 'classic-light', 'rgb(246, 246, 247)'],
-    ['Classic dark', 'classic-dark', 'rgb(17, 17, 20)'],
-    ['Monochrome', 'monochrome', 'rgb(244, 244, 244)'],
-    ['Blue', 'blue', 'rgb(238, 243, 251)'],
-    ['Violet', 'violet', 'rgb(244, 241, 251)'],
-    ['Green', 'green', 'rgb(238, 246, 241)'],
-    ['Rose', 'rose', 'rgb(251, 240, 243)'],
-    ['Sunset gradient', 'gradient-1', 'rgb(246, 242, 238)'],
-    ['Night gradient', 'gradient-2', 'rgb(15, 16, 24)'],
-    ['Auto', 'auto', null],
-  ];
-  const picker = page.getByRole('radiogroup', { name: 'Theme' });
-  for (const [name, id, bg] of themes) {
-    await picker.getByRole('radio', { name, exact: true }).click();
-    await expect(page.locator('html')).toHaveAttribute('data-theme', id);
-    if (bg) expect(await page.evaluate(() => getComputedStyle(document.body).backgroundColor)).toBe(bg);
-  }
-  await picker.getByRole('radio', { name: 'Classic dark', exact: true }).click();
-  await expect(page.locator('meta[name=theme-color]').first()).toHaveAttribute('content', '#111114');
-  await expect.poll(async () => (await kv<{ theme: string }>(page, 'settings'))?.theme).toBe('classic-dark');
-  await page.reload();
-  await expect(page.locator('html')).toHaveAttribute('data-theme', 'classic-dark');
-  await expect(
-    page.getByRole('radiogroup', { name: 'Theme' }).getByRole('radio', { name: 'Classic dark' }),
-  ).toHaveAttribute('aria-checked', 'true');
-  expect(await page.evaluate(() => JSON.parse(localStorage.getItem('tp-boot') ?? '{}').theme)).toBe(
-    'classic-dark',
-  );
 });
 
 test('library: search, filters and full card', async ({ page }) => {

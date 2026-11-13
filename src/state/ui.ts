@@ -2,6 +2,8 @@ import { computed, effect, signal } from '@preact/signals';
 import type { ComponentChildren } from 'preact';
 import { settings, settingsReady } from './settings';
 import { resolveTheme, themeColor } from '../themes';
+import { saveBoot } from '../i18n';
+import { crossfade } from '../lib/motion';
 import { dayColor, plan } from './plan';
 import { active, suggestedDayId } from './session';
 
@@ -60,20 +62,32 @@ effect(() => {
   st.setProperty('--accent', `var(--${c})`);
   st.setProperty('--accent-fill', `var(--${c}-fill)`);
   st.setProperty('--accent-ink', `var(--${c}-ink)`);
+  // Градиент главной карточки и крупных акцентных элементов (в темах без градиента — заливка)
+  st.setProperty('--accent-bg', `var(--${c}-bg)`);
 });
 
 // ---------- тема ----------
+
+let themeApplied = false;
 
 effect(() => {
   // До чтения настроек не трогаем тему: иначе тема по умолчанию на миг перекрасит экран
   if (!settingsReady.value) return;
   const th = settings.value.theme;
-  document.documentElement.dataset.theme = th;
+  const root = document.documentElement;
   // theme-color: для «Авто» — свой цвет для светлой и тёмной системной темы, иначе цвет темы
-  document.querySelectorAll<HTMLMetaElement>('meta[name="theme-color"]').forEach((m) => {
-    const dark = (m.media || '').includes('dark');
-    m.content = themeColor(resolveTheme(th, dark));
-  });
+  const apply = () => {
+    root.dataset.theme = th;
+    document.querySelectorAll<HTMLMetaElement>('meta[name="theme-color"]').forEach((m) => {
+      const dark = (m.media || '').includes('dark');
+      m.content = themeColor(resolveTheme(th, dark));
+    });
+  };
+  // Смена темы — короткое перекрёстное затухание (View Transitions, где есть); первая установка — сразу
+  if (themeApplied) crossfade(apply);
+  else apply();
+  themeApplied = true;
+  saveBoot({ themeColor: th === 'auto' ? undefined : themeColor(th) });
 });
 
 // ---------- тосты ----------
