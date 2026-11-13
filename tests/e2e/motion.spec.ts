@@ -130,6 +130,13 @@ test('120 exercises: scroll, search fades the list, "Back" restores the scroll p
   await page.getByPlaceholder(/Search/).fill('squat');
   await expect(page.locator('.lib-card').first()).toBeVisible();
   expect(await page.locator('.lib-card').count()).toBeLessThan(120);
+  // после возврата и поиска под коротким списком нет пустого «хвоста» от прежней высоты
+  const tail = await page.evaluate(() => {
+    const last = [...document.querySelectorAll('.lib-grid > li')].pop()!;
+    return document.documentElement.scrollHeight - (last.getBoundingClientRect().bottom + scrollY);
+  });
+  expect(tail).toBeLessThan(400);
+  expect(await page.evaluate(() => document.body.style.minHeight)).toBe('');
   await page.getByLabel('Equipment').selectOption({ index: 1 });
   await expect(page.getByText(/exercises? found|exercise/).first()).toBeVisible();
 });

@@ -66,6 +66,8 @@ addEventListener('hashchange', () => {
   const prev = route.value;
   const next = parseRoute(location.hash);
   scrollPos.set(curKey, window.scrollY);
+  // высота самого содержимого — без подпорки от прошлого возврата
+  document.body.style.minHeight = '';
   pageH.set(curKey, document.documentElement.scrollHeight);
   const dir: NavDir = depth(next) > depth(prev) ? 'push' : depth(next) < depth(prev) ? 'pop' : 'tab';
   navDir.value = prev.tab === next.tab || dir !== 'tab' ? dir : 'tab';
@@ -74,15 +76,23 @@ addEventListener('hashchange', () => {
   // Назад — на прежнее место, иначе — наверх. После отрисовки нового экрана, мгновенно.
   const y = dir === 'pop' ? (scrollPos.get(curKey) ?? 0) : 0;
   // Пока невидимые карточки не дорисованы, страница короче прежней и прокрутка упёрлась бы в конец —
-  // держим прежнюю высоту до следующей смены экрана
-  document.body.style.minHeight = y > 0 ? `${pageH.get(curKey) ?? 0}px` : '';
+  // на время восстановления держим прежнюю высоту, потом убираем (иначе после поиска или удаления
+  // под списком осталась бы пустота)
   window.scrollTo({ top: 0, behavior: 'instant' });
   if (y > 0) {
+    const body = document.body.style;
+    body.minHeight = `${pageH.get(curKey) ?? 0}px`;
     let tries = 36;
     const step = () => {
       window.scrollTo({ top: y, behavior: 'instant' });
-      if (Math.abs(window.scrollY - y) > 2 && --tries > 0) requestAnimationFrame(step);
+      if (Math.abs(window.scrollY - y) > 2 && --tries > 0) return void requestAnimationFrame(step);
+      // видимые карточки дорисованы — подпорка больше не нужна
+      requestAnimationFrame(() => {
+        if (curKey !== key) return;
+        body.minHeight = '';
+      });
     };
+    const key = curKey;
     requestAnimationFrame(step);
   }
 });
