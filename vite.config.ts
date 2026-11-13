@@ -143,7 +143,7 @@ export default defineConfig({
     VitePWA({
       registerType: 'prompt',
       injectRegister: false,
-      includeAssets: ['icons/*.png', 'icons/*.svg', 'splash/*.png'],
+      includeAssets: ['icons/*.png', 'icons/*.svg', 'icons/*.ico', 'splash/*.png'],
       manifest: {
         id: base,
         name: 'Simple Training',
@@ -156,6 +156,7 @@ export default defineConfig({
         scope: base,
         display: 'standalone',
         orientation: 'portrait',
+        // Тема по умолчанию — «Авто»; в манифесте один цвет, берём светлую (Classic Light)
         theme_color: BRAND.light.bg,
         background_color: BRAND.light.bg,
         categories: ['health', 'fitness', 'sports'],
@@ -163,7 +164,7 @@ export default defineConfig({
           { src: 'icons/icon-192.png', sizes: '192x192', type: 'image/png', purpose: 'any' },
           { src: 'icons/icon-512.png', sizes: '512x512', type: 'image/png', purpose: 'any' },
           {
-            src: 'icons/maskable-512.png',
+            src: 'icons/icon-maskable-512.png',
             sizes: '512x512',
             type: 'image/png',
             purpose: 'maskable',

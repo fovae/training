@@ -1,0 +1,237 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Simple Training — иконка (контактный лист)</title>
+    <!--
+      Контактный лист иконки: размеры 1024, 180, 120, 60 на светлом и тёмном фоне, в маске iOS
+      (скругление ≈ 22,37% стороны) и в маске-круге. Открывать из репозитория как файл.
+      Картинки — из public/icons и design (npm run icons). В сборку приложения не попадает.
+    -->
+    <style>
+      body {
+        margin: 0;
+        font: 15px/1.5 system-ui, -apple-system, sans-serif;
+        color: #16161a;
+        background: #fff;
+      }
+      header {
+        padding: 24px 32px 8px;
+      }
+      h1 {
+        margin: 0 0 4px;
+        font-size: 22px;
+      }
+      h2 {
+        margin: 0 0 16px;
+        font-size: 16px;
+      }
+      p {
+        margin: 0;
+        color: #5e5f66;
+      }
+      code {
+        font-size: 13px;
+      }
+      section {
+        padding: 24px 32px;
+      }
+      .light {
+        background: #f6f6f7;
+      }
+      .dark {
+        background: #111114;
+        color: #f2f1ee;
+      }
+      .dark p,
+      .dark figcaption {
+        color: #9c9ca6;
+      }
+      .wall {
+        background: linear-gradient(160deg, #3b6fd6, #8a4fd0 55%, #e0607a);
+        color: #fff;
+      }
+      .wall figcaption {
+        color: #fff;
+      }
+      .row {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: flex-end;
+        gap: 32px;
+      }
+      figure {
+        margin: 0;
+        display: grid;
+        gap: 8px;
+        justify-items: center;
+      }
+      figcaption {
+        font-size: 12px;
+        color: #5e5f66;
+        text-align: center;
+      }
+      img {
+        display: block;
+      }
+      .ios {
+        border-radius: 22.37%;
+      }
+      .circle {
+        border-radius: 50%;
+      }
+      /* Android вырезает из maskable центральную часть: видимая область — круг 80% стороны */
+      .mask-crop {
+        overflow: hidden;
+        border-radius: 50%;
+      }
+      .mask-crop img {
+        margin: -12.5%;
+        width: 125%;
+        max-width: none;
+      }
+      .safe {
+        position: relative;
+      }
+      .safe::after {
+        content: '';
+        position: absolute;
+        inset: 10%;
+        border: 2px dashed #e5484d;
+        border-radius: 50%;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>Иконка Simple Training</h1>
+      <p>
+        Одна на все темы. Пересобрать: <code>npm run icons</code> (исходник <code>design/icon-source.png</code>).
+        Файлы — полный квадрат без прозрачности; скругление здесь нарисовано масками, как это делает система.
+      </p>
+    </header>
+
+    <section class="light">
+      <h2>Светлый фон — маска iOS (скругление 22,37%)</h2>
+      <div class="row">
+        <figure>
+          <img class="ios" src="../../design/icon-1024.png" width="512" height="512" alt="" />
+          <figcaption>1024 (показана в 512)</figcaption>
+        </figure>
+        <figure>
+          <img class="ios" src="../../public/icons/apple-touch-icon.png" width="180" height="180" alt="" />
+          <figcaption>180 · apple-touch-icon</figcaption>
+        </figure>
+        <figure>
+          <img class="ios" src="../../public/icons/apple-touch-icon.png" width="120" height="120" alt="" />
+          <figcaption>120</figcaption>
+        </figure>
+        <figure>
+          <img class="ios" src="../../public/icons/apple-touch-icon.png" width="60" height="60" alt="" />
+          <figcaption>60</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="dark">
+      <h2>Тёмный фон — маска iOS</h2>
+      <div class="row">
+        <figure>
+          <img class="ios" src="../../design/icon-1024.png" width="512" height="512" alt="" />
+          <figcaption>1024 (показана в 512)</figcaption>
+        </figure>
+        <figure>
+          <img class="ios" src="../../public/icons/apple-touch-icon.png" width="180" height="180" alt="" />
+          <figcaption>180</figcaption>
+        </figure>
+        <figure>
+          <img class="ios" src="../../public/icons/apple-touch-icon.png" width="120" height="120" alt="" />
+          <figcaption>120</figcaption>
+        </figure>
+        <figure>
+          <img class="ios" src="../../public/icons/apple-touch-icon.png" width="60" height="60" alt="" />
+          <figcaption>60</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="wall">
+      <h2>Обои — маска iOS и маска-круг</h2>
+      <div class="row">
+        <figure>
+          <img class="ios" src="../../public/icons/apple-touch-icon.png" width="180" height="180" alt="" />
+          <figcaption>180 · iOS</figcaption>
+        </figure>
+        <figure>
+          <img class="ios" src="../../public/icons/apple-touch-icon.png" width="60" height="60" alt="" />
+          <figcaption>60 · iOS</figcaption>
+        </figure>
+        <figure>
+          <img class="circle" src="../../public/icons/icon-512.png" width="180" height="180" alt="" />
+          <figcaption>180 · круг (icon-512)</figcaption>
+        </figure>
+        <figure>
+          <img class="circle" src="../../public/icons/icon-512.png" width="60" height="60" alt="" />
+          <figcaption>60 · круг</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="light">
+      <h2>Maskable (Android): безопасная зона — круг 80%</h2>
+      <div class="row">
+        <figure>
+          <span class="safe"><img src="../../public/icons/icon-maskable-512.png" width="256" height="256" alt="" /></span>
+          <figcaption>весь файл, пунктир — круг 80%</figcaption>
+        </figure>
+        <figure>
+          <span class="mask-crop" style="width: 180px; height: 180px">
+            <img src="../../public/icons/icon-maskable-512.png" alt="" />
+          </span>
+          <figcaption>180 · самая тесная маска (круг 80%)</figcaption>
+        </figure>
+        <figure>
+          <img class="circle" src="../../public/icons/icon-maskable-512.png" width="180" height="180" alt="" />
+          <figcaption>180 · круг по всему файлу</figcaption>
+        </figure>
+        <figure>
+          <img class="ios" src="../../public/icons/icon-maskable-512.png" width="180" height="180" alt="" />
+          <figcaption>180 · скруглённый квадрат</figcaption>
+        </figure>
+        <figure>
+          <span class="mask-crop" style="width: 60px; height: 60px">
+            <img src="../../public/icons/icon-maskable-512.png" alt="" />
+          </span>
+          <figcaption>60</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="light">
+      <h2>Favicon</h2>
+      <div class="row">
+        <figure>
+          <img src="../../public/icons/favicon.svg" width="128" height="128" alt="" />
+          <figcaption>favicon.svg · 128</figcaption>
+        </figure>
+        <figure>
+          <img src="../../public/icons/favicon.svg" width="48" height="48" alt="" />
+          <figcaption>48</figcaption>
+        </figure>
+        <figure>
+          <img src="../../public/icons/favicon.svg" width="32" height="32" alt="" />
+          <figcaption>32</figcaption>
+        </figure>
+        <figure>
+          <img src="../../public/icons/favicon.svg" width="16" height="16" alt="" />
+          <figcaption>16</figcaption>
+        </figure>
+        <figure>
+          <img src="../../public/icons/favicon.ico" width="48" height="48" alt="" />
+          <figcaption>favicon.ico (16, 32, 48)</figcaption>
+        </figure>
+      </div>
+    </section>
+  </body>
+</html>

@@ -1,7 +1,7 @@
 {
   "name": "simple-training",
   "private": true,
-  "version": "2.6.0",
+  "version": "3.0.0",
   "description": "Simple Training: plan and log your workouts. Offline PWA, data stays on the device.",
   "author": "Fovae & Claude",
   "type": "module",
@@ -9,7 +9,7 @@
     "dev": "node scripts/licenses.mjs && vite",
     "build": "node scripts/i18n-check.mjs && node scripts/theme-check.mjs && node scripts/legal-check.mjs && node scripts/licenses.mjs && tsc --noEmit && vite build",
     "preview": "vite preview",
-    "assets": "node scripts/generate-assets.mjs",
+    "icons": "node scripts/make-icons.mjs",
     "lint": "eslint .",
     "format": "prettier --write .",
     "typecheck": "node scripts/licenses.mjs && tsc --noEmit",

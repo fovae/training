@@ -54,7 +54,7 @@ npm run licenses   # собрать список лицензий (делает�
 npm run pics:sheet # контактный лист всех схем упражнений → docs/review/pictograms.html
 npm run lint       # ESLint
 npm run format     # Prettier
-npm run assets     # перегенерировать иконки и splash-экраны из assets-src/icon.svg
+npm run icons      # пересобрать иконки и splash-экраны из design/icon-source.png
 npm run test:e2e   # Playwright (первый раз: npx playwright install webkit chromium)
 ```
 
@@ -95,7 +95,7 @@ e2e-тесты → публикация на GitHub Pages (Settings → Pages �
 | Splash | только точные размеры экрана | 10 размеров × 2 темы; для неизвестных (новые модели, складной iPhone) — фон `background_color` |
 
 Разрешения экранов сверены с официальными спецификациями Apple (support.apple.com, ноябрь 2026),
-таблица — `scripts/ios-devices.mjs`. Для новой модели добавь строку и выполни `npm run assets`.
+таблица — `scripts/ios-devices.mjs`. Для новой модели добавь строку и выполни `npm run icons`.
 
 ## Проверка
 

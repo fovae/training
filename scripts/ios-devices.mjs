@@ -26,8 +26,8 @@ export const splashName = (d, theme) => `splash-${d.w * d.dpr}x${d.h * d.dpr}-${
 export const splashMedia = (d, theme) =>
   `(device-width: ${d.w}px) and (device-height: ${d.h}px) and (-webkit-device-pixel-ratio: ${d.dpr}) and (orientation: portrait) and (prefers-color-scheme: ${theme})`;
 
+/** Фон заставок и манифеста — фон темы по умолчанию («Авто»: Classic Light / Classic Dark) */
 export const BRAND = {
-  light: { bg: '#F3F1EC', ink: '#16161A' },
-  dark: { bg: '#111114', ink: '#F2F1EE' },
-  accent: '#E5603F',
+  light: { bg: '#F6F6F7' },
+  dark: { bg: '#111114' },
 };
