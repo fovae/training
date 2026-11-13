@@ -48,7 +48,9 @@ src/
   content/legal/          Privacy и Terms (en, дословно, frontmatter с версиями); принятие версий
   content/licenses.ts     лицензии (собираются при сборке scripts/licenses.mjs → content/generated/)
   data/weightLimits.ts    таблица порогов веса (docs/WEIGHT_LIMITS.md)
-  themes/themes.json      10 тем: из него собирается CSS (virtual:themes.css) и проверяется контраст
+  themes/themes.json      11 тем (+ «Авто»): из него собирается CSS (virtual:themes.css), проверяется контраст
+  themes/derive.mjs       вывод токенов цветных тем из рецепта (4 цвета); только для сборки и проверок
+  lib/motion.ts           анимации: настройка «Анимации», уход элементов, плавная прокрутка, смена темы
   lib/markdown.tsx        безопасный рендер Markdown юридических текстов (узлы Preact, без innerHTML)
   lib/stats.ts            статистика по неделям и рекорды — чистые функции
   state/
@@ -71,7 +73,8 @@ src/
 scripts/
   i18n-check.mjs          проверка словарей (npm run i18n:check)
   pics-sheet.mjs          контактный лист всех схем → docs/review/pictograms.html (npm run pics:sheet)
-  generate-assets.mjs     иконки и splash-экраны
+  make-icons.mjs          иконки и splash-экраны из design/icon-source.png (npm run icons)
+  themes-sheet.mjs        контактный лист тем → docs/review/themes.html (npm run themes:sheet)
 tests/e2e/                Playwright: iPhone (WebKit), Pixel (Chromium), офлайн и обновление, ПК, axe,
                           миграция, сеть, экран установки, скриншоты 375/390/430, русская версия
 tests/e2e/*.unit.spec.ts  юнит-тесты без браузера (проект `unit`)
@@ -79,21 +82,29 @@ tests/e2e/*.unit.spec.ts  юнит-тесты без браузера (прое�
 
 ## Данные и миграции
 
-База `training-pwa`, текущая версия — **3**.
+База `training-pwa`, текущая версия — **4**.
 
 | Версия | Хранилища и поля |
 | ------ | ---------------- |
 | v2 | `sessions`, `kv.profile`, `kv.plan`, `kv.settings`, `kv.activeSession` (этап 1) |
 | v3 | то же + `Settings`: 10 тем и `auto`, `tipState`, `weightWarningIgnored`, `backupReminderDismissedAt`; `Profile.legalAccepted`; `kv.restoreSnapshot` (откат восстановления) |
+| v4 | релиз 3.0: новый набор тем (`Settings.theme` переводится по `THEME_MIGRATION`), `Settings.motion` |
 
 Шаг v2 → v3 (`upgrade()` в `src/db/index.ts`, чистые функции в `src/db/migrations.ts`):
 
-- тема: `light` → `classic-orange`, `dark` → `classic-dark`, `system` → `auto`;
+- тема: `light` → `classic-orange` (с 3.0 — `gradient`), `dark` → `classic-dark`, `system` → `auto`;
 - в настройки добавляются новые поля со значениями по умолчанию;
 - у профиля `legalAccepted: null`, поэтому при запуске появляется «We updated our documents»;
 - остатки v1 (хранилище `workouts`, `kv.legacyPrefs`, `kv.activeWorkout`) удаляются.
 
-Тест: `tests/e2e/migration.spec.ts` (фикстура v2) и юнит-тесты в `logic.unit.spec.ts`.
+Шаг v3 → v4 (`migrateSettingsV3`): тема по карте `THEME_MIGRATION` (`src/db/migrations.ts`), `motion:
+'system'`, остальное без изменений. Нет сохранённых настроек (тему не выбирали) — «Авто». Явный выбор
+не перетирается, кроме перевода удалённых тем. Неизвестное значение → «Авто». Та же карта — в
+загрузочном скрипте `index.html` (совпадение проверяет юнит-тест). Копии формата 3 читаются, тема
+переводится; новые копии — формат 4.
+
+Тест: `tests/e2e/migration.spec.ts` (фикстуры v2 и v3) и юнит-тесты в `logic.unit.spec.ts`,
+`backup.unit.spec.ts`.
 
 Миграция с v1 удалена на этапе 2: владелец переносит старые тренировки вручную.
 
@@ -210,37 +221,97 @@ tests/e2e/*.unit.spec.ts  юнит-тесты без браузера (прое�
 
 ## Темы и цвета дней
 
-Все цвета задаются в `src/themes/themes.json`. Это 10 тем: `classic-orange` (по умолчанию),
-`classic-light`, `classic-dark`, `monochrome`, `blue`, `violet`, `green`, `rose`, `gradient-1`,
-`gradient-2`. Режим `auto` берёт `classic-light` или `classic-dark` по системной теме.
+Цвета — `src/themes/themes.json`. 11 тем + «Авто» (12 пунктов в настройках): `auto` (по умолчанию),
+`classic-light`, `classic-dark`, `monochrome`, `gradient`, `pine-dusk`, `ocean-night`, `violet-dusk`,
+`rose-dusk`, `slate-blue`, `teal-night`, `crimson-night`. «Авто» = `classic-light` / `classic-dark` по
+системной теме, переключается без перезагрузки (CSS `prefers-color-scheme`).
 
-**Сборка CSS.** Плагин `themesCss` в `vite.config.ts` превращает JSON в CSS-переменные
-`:root[data-theme="…"]`:
-- `--bg`, `--card`, `--soft`, `--line`, `--ink`, `--muted`;
-- `--danger`, `--danger-fill`;
-- `--chart-1`, `--chart-2`;
-- для каждого из 7 дней: `--cN` (декор), `--cN-fill` (фон под белым текстом), `--cN-ink` (цветной
-  текст), `--cN-bg` (шапка дня: в градиентных темах градиент из `fill` и `fill2`).
+**Как записаны.** Классические, монохром и «Градиент» — целиком (у «Градиента» у каждого дня `fill2` —
+конец градиента). Цветные тёмные — рецептом `{ bg, accent1, accent2, surface }`; остальные токены
+выводит `src/themes/derive.mjs`:
 
-**Где градиент.** Только на шапке дня и превью тем, под обычным текстом градиента нет.
+- `soft` = поверхность + 5% белого, `line` = поверхность + 10% белого;
+- `ink` = белый с 8% фона, `muted` = белый с 34% фона (неактивные вкладки — тоже `muted`);
+- графики: акцент 1 и акцент 2; 7 цветов дней — точки на отрезке акцент 1 → акцент 2, цветной текст дня
+  осветляется белым ровно настолько, чтобы пройти AA;
+- главная карточка и крупные акцентные элементы (`--accent-bg`: шапка дня, основная кнопка, таймер по
+  окончании, значок на ПК) — градиент акцент 1 → акцент 2 (135°); текст на нём — цвет фона;
+- кнопка на градиентной карточке: фон темы, текст — акцент 1; активная вкладка (`--nav-on`) — акцент 1;
+- ошибки `#ff8f8f` / заливка `#c62828`; в тёмных темах вместо тени — обводка 1 px цветом `line`.
 
-**Монохром.** Дни различаются яркостью заливки и подписью «День N».
+**Итоговые цвета (после проверки контраста; рецепты владельца прошли AA без сдвигов):**
 
-**Без мигания при запуске.** Тема зеркалится в `localStorage['tp-boot']`, и загрузочный скрипт
-`index.html` ставит `data-theme` до отрисовки. Приложение меняет тему только после чтения настроек из
-базы.
+| Тема | Фон | Акцент 1 | Акцент 2 | Поверхность | Текст | Второст. | Активная вкладка | Текст на градиенте |
+|---|---|---|---|---|---|---|---|---|
+| classic-light | #f6f6f7 | #d2411c | #d2411c | #ffffff | #111114 | #5e5f66 | #be3b19 (цвет дня) | #ffffff |
+| classic-dark | #111114 | #d2411c | #d2411c | #1b1b20 | #f2f1ee | #9c9ca6 | #ff7a5a (цвет дня) | #ffffff |
+| monochrome | #f4f4f4 | #111111 | #111111 | #ffffff | #111111 | #595959 | #111111 (цвет дня) | #ffffff |
+| gradient | #f3f1ec | #d2411c | #ad6000 | #ffffff | #16161a | #6b6b73 | #be3b19 (цвет дня) | #ffffff |
+| pine-dusk | #14201C | #59C99A | #B2D76D | #263B32 | #eceded | #afb3b2 | #61cc9f | #14201C |
+| ocean-night | #121B22 | #5AB6D8 | #7AE0C3 | #22343F | #eceded | #aeb1b4 | #66bbdb | #121B22 |
+| violet-dusk | #19151F | #9C8CF0 | #D69BE8 | #2E2740 | #edeced | #b1afb3 | #a89af2 | #19151F |
+| rose-dusk | #1F1519 | #EE8FA8 | #F5BE8B | #3A262E | #edeced | #b3afb1 | #ee8fa8 | #1F1519 |
+| slate-blue | #121722 | #6C9CF5 | #8FD0F0 | #232B40 | #ececed | #aeb0b4 | #7ca7f6 | #121722 |
+| teal-night | #11201F | #4FCBC2 | #9BE3A0 | #213937 | #eceded | #aeb3b3 | #4fcbc2 | #11201F |
+| crimson-night | #1E1416 | #E5566B | #F09A6A | #3A2428 | #edecec | #b3afb0 | #ec8090 | #1E1416 |
 
-**Контраст.** `npm run theme:check` (в CI) проверяет WCAG AA:
-- текст 4.5:1: основной и второстепенный на `bg`, `card` и `soft`; цветной текст дней на
-  поверхностях и на подкраске цветом дня (14% поверх карточки); белый на заливках и на обоих цветах
-  градиента; `danger`;
-- 3:1: декор дня и цвета графиков.
 
-**Новая тема.**
-1. Добавь объект в `themes.json`.
-2. Добавь id в `THEMES` (`src/types/index.ts`).
-3. Добавь название `theme.<id>` в словари.
-4. Запусти `npm run theme:check`.
+**Сборка CSS.** Плагин `themesCss` в `vite.config.ts`: `:root[data-theme="…"]` с переменными `--bg`,
+`--card`, `--soft`, `--line`, `--ink`, `--muted`, `--danger`, `--danger-fill`, `--chart-1/2`, `--on-fill`,
+`--card-btn`, `--card-btn-ink`, `--nav-on`, `--shadow`, `--shadow-pop`, и для 7 дней `--cN`, `--cN-fill`,
+`--cN-ink`, `--cN-bg` (градиент или заливка). `virtual:themes-meta` — превью для настроек (фон,
+поверхность, текст, градиент, два акцента).
+
+**Без мигания при запуске.** Тема зеркалится в `localStorage['tp-boot']`; загрузочный скрипт `index.html`
+ставит `data-theme` (удалённые темы переводит по той же карте, неизвестные → «Авто») и `theme-color` до
+отрисовки. Тест: `tests/e2e/themes.spec.ts` записывает фон каждого кадра с самого начала.
+
+**Контраст.** `npm run theme:check` (CI, сборка): 4.5:1 — основной и второстепенный текст на фоне,
+карточке и `soft`; текст на подкраске; цветной текст дней; текст на заливке и на обоих концах градиента;
+кнопка на цветной карточке; активная вкладка; ошибки; тост; кнопки свайпа. 3:1 — декор дня, графики.
+`--table` печатает таблицу выше.
+
+**Новая тема по рецепту.** Объект `{ "recipe": {…} }` в `themes.json` (порядок = порядок в настройках),
+id в `THEMES` (`src/types`) и в списке загрузочного скрипта `index.html`, название `theme.<id>` в словарях,
+`EXPECTED` в `scripts/theme-check.mjs`; `npm run theme:check && npm run themes:sheet`.
+
+## Анимации и прокрутка
+
+Токены (`src/styles/motion.css`): `--dur-fast` 150 мс, `--dur-base` 240 мс, `--dur-slow` 320 мс,
+`--dur-out` 200 мс (= `OUT_MS`), `--ease-out`, `--ease-in-out`, `--stagger` 35 мс. Компоненты не задают
+свои цифры (проверяет `tests/e2e/motion.unit.spec.ts`). Анимируются только `transform` и `opacity`
+(у мелких элементов — ещё цвет фона и обводки).
+
+- Экраны: `main[data-nav]` = `push` (вложенный — справа), `pop` (назад — слева), `tab` (снизу);
+  направление считает `state/ui.ts`. Экран ключуется по маршруту и появляется заново.
+- Нижняя панель: индикатор `.nav-ind` — `translateX` по индексу вкладки; повторное нажатие — наверх.
+- Каскад только первых 8 элементов; 120 карточек целиком не анимируются; поиск — `blink()` (opacity).
+- Листы и окна: выезд снизу и затемнение; уход — `usePresence`/`leave()`; фокус возвращается кнопке,
+  открывшей окно (`opener()` в `lib/focus.ts` — Safari не фокусирует кнопки при нажатии).
+- Смена темы — View Transitions (перекрёстное затухание 260 мс), без него — сразу.
+- Прокрутка: `scroll-behavior: smooth` только при включённых анимациях, `scroll-padding` под панели,
+  `overscroll-behavior: none` у страницы и `contain` у листов, позиция экрана запоминается и
+  возвращается при «Назад»; длинные списки — `content-visibility: auto`.
+- Выключение: `html[data-motion="off"]` (настройка) или `prefers-reduced-motion` (если не `"on"`) —
+  все длительности 0, прокрутка без плавности. Настройка зеркалится в `tp-boot` и ставится до отрисовки.
+
+## Отступы, типографика
+
+Шкала отступов 4/8 px: `--space-1` … `--space-12` (`styles/tokens.css`); все `padding`, `margin`, `gap`
+в стилях — из неё (кроме 1–2 px у тонких деталей). Поля экрана на телефоне 16 px, на ПК 32 px, контент
+по центру с максимальной шириной. Радиусы `--r-sm/md/lg`. Заголовки — `text-wrap: balance`, абзацы —
+`pretty`; цифры — `tabular-nums`. Области нажатия не меньше 44 × 44 px. Основной шрифт предзагружается
+со своего домена (`preloadFont` в `vite.config.ts`), `font-display: swap`.
+
+## Иконки
+
+Одна иконка на все темы. Исходник `design/icon-source.png`; `npm run icons` (`scripts/make-icons.mjs`,
+sharp) заливает чёрные углы, вырезает гантель с тенью, увеличивает на 12%, центрирует по bounding box,
+кладёт на ровный градиент `#F6F6F6 → #E4E5E8`, собирает `public/icons/` (`apple-touch-icon.png` 180,
+`icon-192/512.png`, `icon-maskable-512.png`, `favicon.ico` 16/32/48, `favicon.svg`), `design/icon-1024.png`
+и splash-экраны, и сам проверяет углы и безопасную зону. Повторный запуск даёт те же файлы. Контактный
+лист — `docs/review/icon.html`. Тесты — `icons.unit.spec.ts`, `icons.spec.ts`. На iOS установленное
+приложение иконку не обновляет — нужна переустановка (`docs/CHECKLIST.md`).
 
 ## CI
 

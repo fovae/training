@@ -139,7 +139,8 @@ for (const it of ITEMS) {
 await browser.close();
 await server.close();
 
-const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
+const esc = (s) =>
+  String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
 const chips = (id) => {
   const t = themes[id];
   if (!t) return '';
@@ -157,7 +158,10 @@ const chips = (id) => {
         ...(t.days[0].fill2 ? [['градиент до', t.days[0].fill2]] : []),
       ];
   return list
-    .map(([n, c]) => `<span class="chip"><i style="background:${c}"></i>${n} <code>${c.toUpperCase()}</code></span>`)
+    .map(
+      ([n, c]) =>
+        `<span class="chip"><i style="background:${c}"></i>${n} <code>${c.toUpperCase()}</code></span>`,
+    )
     .join('');
 };
 
