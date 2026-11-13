@@ -46,6 +46,8 @@ export const navDir = signal<NavDir>('tab');
 
 /** Положение прокрутки экранов — чтобы «Назад» вернул туда же (список упражнений, история) */
 const scrollPos = new Map<string, number>();
+/** Высота страницы на момент ухода — карточки за экраном (content-visibility) сначала ниже настоящих */
+const pageH = new Map<string, number>();
 let curKey = routeKey(route.value);
 let raf = 0;
 addEventListener(
@@ -64,15 +66,17 @@ addEventListener('hashchange', () => {
   const prev = route.value;
   const next = parseRoute(location.hash);
   scrollPos.set(curKey, window.scrollY);
+  pageH.set(curKey, document.documentElement.scrollHeight);
   const dir: NavDir = depth(next) > depth(prev) ? 'push' : depth(next) < depth(prev) ? 'pop' : 'tab';
   navDir.value = prev.tab === next.tab || dir !== 'tab' ? dir : 'tab';
   curKey = routeKey(next);
   route.value = next;
   // Назад — на прежнее место, иначе — наверх. После отрисовки нового экрана, мгновенно.
   const y = dir === 'pop' ? (scrollPos.get(curKey) ?? 0) : 0;
+  // Пока невидимые карточки не дорисованы, страница короче прежней и прокрутка упёрлась бы в конец —
+  // держим прежнюю высоту до следующей смены экрана
+  document.body.style.minHeight = y > 0 ? `${pageH.get(curKey) ?? 0}px` : '';
   window.scrollTo({ top: 0, behavior: 'instant' });
-  // Список может дорисовываться несколько кадров (120 карточек, content-visibility) — повторяем,
-  // пока не дойдём до места или не истечёт ~0,6 с
   if (y > 0) {
     let tries = 36;
     const step = () => {
