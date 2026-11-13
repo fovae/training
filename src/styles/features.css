@@ -3,16 +3,16 @@
 /* ---------- поля форм ---------- */
 .form {
   display: grid;
-  gap: 14px;
+  gap: var(--space-4);
 }
 .form-row {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 12px;
+  gap: var(--space-3);
 }
 .field {
   display: grid;
-  gap: 6px;
+  gap: var(--space-2);
   min-width: 0;
 }
 .field > label,
@@ -41,7 +41,7 @@
   border-radius: 12px;
   border: 1.5px solid var(--line);
   background: var(--soft);
-  padding: 0 12px;
+  padding: 0 var(--space-3);
   font: inherit;
   font-size: 16px; /* меньше 16px — iOS зумит поле */
   font-weight: 600;
@@ -51,7 +51,7 @@
   max-width: 120px;
 }
 .note-in {
-  padding: 10px 12px;
+  padding: var(--space-3) var(--space-3);
   min-height: 64px;
   resize: vertical;
   font-weight: 500;
@@ -70,11 +70,11 @@
 .ftin {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 8px;
+  gap: var(--space-2);
 }
 .select {
   display: inline-grid;
-  gap: 6px;
+  gap: var(--space-2);
   min-width: 0;
   font-size: 13px;
   font-weight: 700;
@@ -83,7 +83,7 @@
 .select select {
   appearance: none;
   -webkit-appearance: none;
-  padding-right: 34px;
+  padding-right: var(--space-8);
   background-image:
     linear-gradient(45deg, transparent 50%, currentColor 50%),
     linear-gradient(135deg, currentColor 50%, transparent 50%);
@@ -97,7 +97,7 @@
 .check {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: var(--space-3);
   min-height: 48px;
   font-weight: 700;
   font-size: 16px;
@@ -121,43 +121,41 @@
 .ob-progress {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
-  gap: 6px;
-  margin-top: 12px;
+  gap: var(--space-2);
+  margin-top: var(--space-3);
 }
 .ob-progress i {
   height: 4px;
   border-radius: 2px;
   background: var(--line);
 }
-.ob-progress i.on {
-  background: var(--accent-fill);
-}
+
 .onboarding section {
-  margin-top: 8px;
+  margin-top: var(--space-2);
 }
 .onboarding section > p:first-child {
-  margin: 0 0 16px;
+  margin: 0 0 var(--space-4);
 }
 .onboarding section > p:last-child {
-  margin: 16px 0 0;
+  margin: var(--space-4) 0 0;
 }
 .onboarding .card {
   display: grid;
-  gap: 12px;
+  gap: var(--space-3);
 }
 .ob-sub {
   font-size: 17px;
   font-weight: 800;
-  margin: 18px 0 10px;
+  margin: var(--space-4) 0 var(--space-3);
 }
 .ob-restore {
   display: grid;
-  gap: 12px;
-  margin: 8px 0 12px;
+  gap: var(--space-3);
+  margin: var(--space-2) 0 var(--space-3);
 }
 .ob-restore-txt {
   display: grid;
-  gap: 4px;
+  gap: var(--space-1);
 }
 /*
  * Онбординг: экран на всю высоту, панель «Назад / Далее» всегда у нижнего края (над полоской
@@ -178,7 +176,7 @@
   z-index: 5;
   bottom: 0;
   display: flex;
-  gap: 10px;
+  gap: var(--space-3);
   /* отступ от последнего блока шага — чтобы подписи не упирались в панель */
   margin: auto calc(-1 * (var(--gutter) + var(--safe-r))) 0 calc(-1 * (var(--gutter) + var(--safe-l)));
   padding: 12px calc(var(--gutter) + var(--safe-r)) calc(var(--safe-b) + 12px)
@@ -187,7 +185,7 @@
   border-top: 1px solid var(--line);
 }
 .screen.onboarding > :not(.ob-actions):nth-last-child(2) {
-  margin-bottom: 28px;
+  margin-bottom: var(--space-7);
 }
 .ob-actions .btn {
   flex: none;
@@ -205,15 +203,15 @@
 
 .choices {
   display: grid;
-  gap: 8px;
+  gap: var(--space-2);
 }
 .choice {
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: var(--space-4);
   width: 100%;
   min-height: 56px;
-  padding: 12px 16px;
+  padding: var(--space-3) var(--space-4);
   border-radius: 18px;
   background: var(--card);
   box-shadow: var(--shadow);
@@ -261,14 +259,14 @@
   flex-direction: column;
   background: var(--bg);
   border-radius: 24px 24px 0 0;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-  animation: rest-in 0.2s ease-out;
+  box-shadow: var(--shadow-pop);
+  animation: rest-in var(--dur-base) var(--ease-out);
   outline: none;
 }
 .sheet-grip {
   width: 40px;
   height: 5px;
-  margin: 8px auto 0;
+  margin: var(--space-2) auto 0;
   border-radius: 3px;
   background: var(--line);
 }
@@ -276,8 +274,8 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 8px;
-  padding: 14px 10px 6px 18px;
+  gap: var(--space-2);
+  padding: var(--space-4) var(--space-3) var(--space-2) var(--space-4);
 }
 .sheet-h h2 {
   font-size: 19px;
@@ -287,10 +285,10 @@
 .sheet-body {
   overflow-y: auto;
   overscroll-behavior: contain;
-  padding: 0 16px 16px;
+  padding: 0 var(--space-4) var(--space-4);
 }
 .sheet-f {
-  padding: 10px 16px calc(var(--safe-b) + 12px);
+  padding: var(--space-3) var(--space-4) calc(var(--safe-b) + var(--space-3));
   border-top: 1px solid var(--line);
 }
 @media (min-width: 960px) {
@@ -298,20 +296,20 @@
     border-radius: 24px;
   }
   .sheet-f {
-    padding-bottom: 14px;
+    padding-bottom: var(--space-4);
   }
 }
 
 /* ---------- фильтры ---------- */
 .filters {
   display: grid;
-  gap: 8px;
-  margin: 4px 0 8px;
+  gap: var(--space-2);
+  margin: var(--space-1) 0 var(--space-2);
 }
 .filter-row {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 8px;
+  gap: var(--space-2);
 }
 .filter-row .select {
   display: grid;
@@ -320,7 +318,7 @@
   -webkit-appearance: none;
 }
 .pick-list {
-  margin-top: 4px;
+  margin-top: var(--space-1);
 }
 .pick-list .row,
 .list button.row {
@@ -333,10 +331,10 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 6px;
+  gap: var(--space-2);
   width: 100%;
   min-height: 52px;
-  margin-top: 10px;
+  margin-top: var(--space-3);
   border-radius: 20px;
   border: 2px dashed var(--line);
   color: var(--accent-ink);
@@ -344,8 +342,8 @@
 }
 .day-tools {
   display: grid;
-  gap: 10px;
-  margin: 12px 0;
+  gap: var(--space-3);
+  margin: var(--space-3) 0;
 }
 .day-tools > .select {
   display: grid;
@@ -353,13 +351,13 @@
 .tool-row {
   display: flex;
   flex-wrap: wrap;
-  gap: 6px;
+  gap: var(--space-2);
 }
 /* Кнопки дня: ровная сетка 2 × 2 на телефоне, одна строка на широком экране — без «повисшей» кнопки */
 .day-tools > .tool-row {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 8px;
+  gap: var(--space-2);
 }
 @media (min-width: 560px) {
   .day-tools > .tool-row {
@@ -382,9 +380,9 @@
 .items {
   list-style: none;
   padding: 0;
-  margin: 0 0 12px;
+  margin: 0 0 var(--space-3);
   display: grid;
-  gap: 8px;
+  gap: var(--space-2);
 }
 .item {
   background: var(--card);
@@ -394,9 +392,9 @@
 .item summary {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: var(--space-3);
   min-height: 60px;
-  padding: 10px 14px;
+  padding: var(--space-3) var(--space-4);
   list-style: none;
   cursor: pointer;
 }
@@ -406,7 +404,7 @@
 .item summary > .icon {
   flex: none;
   color: var(--muted);
-  transition: transform 0.15s;
+  transition: transform var(--dur-fast) var(--ease-out);
 }
 .item details[open] summary > .icon {
   transform: rotate(90deg);
@@ -436,12 +434,12 @@
 }
 .item-body {
   display: grid;
-  gap: 4px;
-  padding: 0 14px 14px;
+  gap: var(--space-1);
+  padding: 0 var(--space-4) var(--space-4);
 }
 .item-pic {
   display: grid;
-  gap: 4px;
+  gap: var(--space-1);
   justify-items: center;
 }
 .item-pic .pic {
@@ -451,7 +449,7 @@
 .range {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
+  gap: var(--space-2);
 }
 .range .num-in {
   width: 64px;
@@ -465,16 +463,16 @@
 .lib-grid {
   list-style: none;
   padding: 0;
-  margin: 8px 0 0;
+  margin: var(--space-2) 0 0;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 10px;
+  gap: var(--space-3);
 }
 .lib-card {
   display: grid;
-  gap: 8px;
+  gap: var(--space-2);
   height: 100%;
-  padding: 10px 10px 14px;
+  padding: var(--space-3) var(--space-3) var(--space-4);
   border-radius: var(--r-md);
   background: var(--card);
   box-shadow: var(--shadow);
@@ -492,8 +490,8 @@
 }
 .lib-txt {
   display: grid;
-  gap: 4px;
-  padding: 0 4px;
+  gap: var(--space-1);
+  padding: 0 var(--space-1);
 }
 .lib-txt b {
   font-size: 15px;
@@ -512,8 +510,8 @@
 }
 .facts {
   display: grid;
-  gap: 10px;
-  margin: 12px 0 0;
+  gap: var(--space-3);
+  margin: var(--space-3) 0 0;
 }
 .facts div {
   display: grid;
@@ -531,10 +529,10 @@
   font-weight: 600;
 }
 .cues {
-  margin: 6px 0 0;
-  padding-left: 20px;
+  margin: var(--space-2) 0 0;
+  padding-left: var(--space-5);
   display: grid;
-  gap: 6px;
+  gap: var(--space-2);
 }
 .tech .cues {
   font-size: 14.5px;
@@ -542,7 +540,7 @@
 .more {
   display: inline-flex;
   align-items: center;
-  gap: 4px;
+  gap: var(--space-1);
   min-height: 44px;
   font-weight: 700;
   color: var(--accent-ink);
@@ -550,7 +548,7 @@
 }
 .lib-detail .card,
 .lib-detail .note {
-  margin-bottom: 12px;
+  margin-bottom: var(--space-3);
 }
 
 /* ---------- тренировка ---------- */
@@ -562,15 +560,15 @@
   justify-self: start;
 }
 .ex .note-in {
-  margin-top: 8px;
+  margin-top: var(--space-2);
 }
 .finish-zone .field {
-  margin-bottom: 4px;
+  margin-bottom: var(--space-1);
 }
 .rest-day {
   display: grid;
-  gap: 10px;
-  margin-top: 8px;
+  gap: var(--space-3);
+  margin-top: var(--space-2);
 }
 .rest-day p {
   margin: 0;
@@ -581,7 +579,7 @@
   overflow-wrap: anywhere;
 }
 .session-note {
-  margin: 12px 0 0;
+  margin: var(--space-3) 0 0;
 }
 .entry-note {
   display: block;
@@ -602,7 +600,7 @@
 
 /* ---------- о приложении, юридические заглушки ---------- */
 .credits {
-  margin: 12px 0 0;
+  margin: var(--space-3) 0 0;
   text-align: center;
   font-weight: 700;
   color: var(--muted);
@@ -614,7 +612,7 @@
 }
 .prose {
   display: grid;
-  gap: 10px;
+  gap: var(--space-3);
 }
 .prose p,
 .prose h2 {
@@ -623,10 +621,10 @@
 .prose h2 {
   font-size: 17px;
   font-weight: 800;
-  margin-top: 8px;
+  margin-top: var(--space-2);
 }
 .prose {
-  gap: 12px;
+  gap: var(--space-3);
 }
 .prose a {
   color: var(--accent-ink);
@@ -635,11 +633,11 @@
 
 .schedule-card {
   display: grid;
-  gap: 12px;
-  margin-top: 16px;
+  gap: var(--space-3);
+  margin-top: var(--space-4);
 }
 .schedule-card .card-t {
-  margin-bottom: 4px;
+  margin-bottom: var(--space-1);
 }
 .schedule-card p {
   margin: 0;
@@ -659,7 +657,7 @@
   min-height: 100dvh;
 }
 .install-gate > * + * {
-  margin-top: 12px;
+  margin-top: var(--space-3);
 }
 .install-gate .screen-title:focus {
   outline: none;
@@ -684,7 +682,7 @@
   transition: transform 0.1s linear;
 }
 .ig-why p {
-  margin: 0 0 10px;
+  margin: 0 0 var(--space-3);
   font-weight: 700;
 }
 .ig-why ul {
@@ -692,11 +690,11 @@
   margin: 0;
   padding: 0;
   display: grid;
-  gap: 8px;
+  gap: var(--space-2);
 }
 .ig-why li {
   display: flex;
-  gap: 10px;
+  gap: var(--space-3);
   align-items: flex-start;
 }
 .ig-why-ic {
@@ -711,7 +709,7 @@
 }
 .ig-now {
   display: grid;
-  gap: 6px;
+  gap: var(--space-2);
   text-align: center;
 }
 .btn.lg {
@@ -720,15 +718,15 @@
 }
 .ig-steps {
   list-style: none;
-  margin: 12px 0 0;
+  margin: var(--space-3) 0 0;
   padding: 0;
   display: grid;
-  gap: 12px;
+  gap: var(--space-3);
 }
 .ig-step {
   display: grid;
   grid-template-columns: 44px 1fr;
-  gap: 4px 12px;
+  gap: var(--space-1) var(--space-3);
   align-items: start;
 }
 .ig-num {
@@ -750,25 +748,25 @@
   line-height: 1.4;
 }
 .ig-txt p + p {
-  margin-top: 6px;
+  margin-top: var(--space-2);
   font-weight: 500;
 }
 .ig-scenes {
   grid-column: 1 / -1;
   display: grid;
   justify-items: center;
-  margin-top: 8px;
+  margin-top: var(--space-2);
 }
 .ig-scenes.two {
   grid-template-columns: 1fr 1fr;
-  gap: 8px;
+  gap: var(--space-2);
 }
 .ig-scenes figure,
 .ig-done figure {
   margin: 0;
   display: grid;
   justify-items: center;
-  gap: 4px;
+  gap: var(--space-1);
   width: 100%;
 }
 .ig-scenes figcaption {
@@ -796,7 +794,7 @@
   left: 50%;
   bottom: calc(var(--safe-b) + 14px);
   transform: translateX(-50%);
-  padding: 10px 18px;
+  padding: var(--space-3) var(--space-4);
   border-radius: 999px;
   background: var(--card);
   box-shadow: var(--shadow);
@@ -818,15 +816,16 @@
   position: sticky;
   bottom: 0;
   display: grid;
-  gap: 4px;
+  gap: var(--space-1);
   justify-items: center;
-  margin: 16px calc(-1 * (var(--gutter) + var(--safe-r))) 0 calc(-1 * (var(--gutter) + var(--safe-l)));
+  margin: var(--space-4) calc(-1 * (var(--gutter) + var(--safe-r))) 0
+    calc(-1 * (var(--gutter) + var(--safe-l)));
   padding: 14px calc(var(--gutter) + var(--safe-r)) calc(var(--safe-b) + 12px)
     calc(var(--gutter) + var(--safe-l));
   background: var(--bg);
   border-top: 1px solid var(--line);
   box-shadow: 0 -8px 24px rgba(20, 20, 30, 0.06);
-  animation: rest-in 0.25s ease-out;
+  animation: rest-in var(--dur-base) var(--ease-out);
 }
 .ig-fine {
   margin: 0;
@@ -834,7 +833,7 @@
 }
 .link-btn {
   min-height: 44px;
-  padding: 0 12px;
+  padding: 0 var(--space-3);
   font-size: 15px;
   font-weight: 700;
   color: var(--accent-ink);
@@ -843,11 +842,11 @@
 }
 .install-gate.done .link-btn {
   display: block;
-  margin: 12px auto 0;
+  margin: var(--space-3) auto 0;
 }
 .ig-done {
   display: grid;
-  gap: 12px;
+  gap: var(--space-3);
 }
 .ig-done p {
   margin: 0;
@@ -1008,23 +1007,23 @@ button.back {
 .dayhead + .empty + .ex-grid,
 .dayhead + .tip,
 .tip + .ex-grid {
-  margin-top: 22px;
+  margin-top: var(--space-6);
 }
 
 /* ---------- советы: карточка в потоке, закрывается ---------- */
 .tip {
   display: grid;
   grid-template-columns: 28px 1fr 44px;
-  gap: 8px;
+  gap: var(--space-2);
   align-items: start;
-  margin: 10px 0 0;
-  padding: 10px 6px 10px 12px;
+  margin: var(--space-3) 0 0;
+  padding: var(--space-3) var(--space-2) var(--space-3) var(--space-3);
   border-radius: 14px;
   background: color-mix(in srgb, var(--accent) 10%, var(--card));
   border: 1px solid color-mix(in srgb, var(--accent) 22%, transparent);
 }
 .tip p {
-  margin: 4px 0 0;
+  margin: var(--space-1) 0 0;
   font-size: 14.5px;
   line-height: 1.4;
 }
@@ -1034,24 +1033,24 @@ button.back {
   text-align: center;
 }
 .tip-x {
-  margin: -8px 0 -8px 0;
+  margin: calc(-1 * var(--space-2)) 0 calc(-1 * var(--space-2)) 0;
 }
 .tip.recovery {
-  margin-top: 22px;
+  margin-top: var(--space-6);
 }
 
 /* ---------- выбор темы ---------- */
 .theme-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(96px, 1fr));
-  gap: 8px;
+  gap: var(--space-2);
 }
 .tp {
   position: relative;
   display: grid;
   align-content: start;
-  gap: 8px;
-  padding: 4px 4px 8px;
+  gap: var(--space-2);
+  padding: var(--space-1) var(--space-1) var(--space-2);
   border-radius: 16px;
   border: 2px solid var(--line);
   background: var(--card);
@@ -1068,19 +1067,19 @@ button.back {
 }
 .tp-auto .tp-sw {
   border-radius: 0;
-  padding: 8px 4px;
+  padding: var(--space-2) var(--space-1);
 }
 .tp-sw {
   display: block;
   height: 64px;
-  padding: 8px;
+  padding: var(--space-2);
   border-radius: 10px;
 }
 .tp-card {
   display: grid;
   align-content: space-between;
   height: 100%;
-  padding: 4px;
+  padding: var(--space-1);
   border-radius: 6px;
 }
 .tp-head {
@@ -1091,7 +1090,7 @@ button.back {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 4px;
+  gap: var(--space-1);
 }
 .tp-line {
   flex: 1;
@@ -1113,7 +1112,7 @@ button.back {
   display: none;
 }
 .tp-name {
-  padding: 0 4px;
+  padding: 0 var(--space-1);
   font-size: 13px;
   font-weight: 700;
   line-height: 1.25;
@@ -1143,22 +1142,22 @@ button.back {
 /* ---------- напоминание о копии ---------- */
 .backup-reminder {
   display: grid;
-  gap: 10px;
-  margin: 12px 0;
+  gap: var(--space-3);
+  margin: var(--space-3) 0;
   border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent);
 }
 .br-text {
   display: grid;
-  gap: 4px;
+  gap: var(--space-1);
 }
 .br-actions {
   display: flex;
-  gap: 8px;
+  gap: var(--space-2);
   align-items: center;
   justify-content: space-between;
 }
 .restore-summary .facts {
-  margin: 0 0 10px;
+  margin: 0 0 var(--space-3);
 }
 .restore-summary p {
   margin: 0;
@@ -1166,9 +1165,9 @@ button.back {
 .licenses {
   list-style: none;
   padding: 0;
-  margin: 12px 0 0;
+  margin: var(--space-3) 0 0;
   display: grid;
-  gap: 8px;
+  gap: var(--space-2);
 }
 .licenses summary {
   display: grid;
@@ -1177,7 +1176,7 @@ button.back {
   cursor: pointer;
 }
 .licenses pre {
-  margin: 10px 0 0;
+  margin: var(--space-3) 0 0;
   white-space: pre-wrap;
   overflow-wrap: anywhere;
   font-size: 12px;
@@ -1185,19 +1184,19 @@ button.back {
   color: var(--muted);
 }
 .legal > .note {
-  margin: 0 0 12px;
+  margin: 0 0 var(--space-3);
 }
 .toc {
   background: var(--soft);
   border-radius: var(--r-sm);
-  padding: 8px 10px;
+  padding: var(--space-2) var(--space-3);
 }
 .toc ul {
   list-style: none;
   margin: 0;
   padding: 0;
   display: grid;
-  gap: 0 16px;
+  gap: 0 var(--space-4);
 }
 @media (min-width: 640px) {
   .toc ul {
@@ -1214,8 +1213,8 @@ button.back {
   grid-template-columns: 1.7em 1fr;
   align-items: baseline;
   width: 100%;
-  min-height: 32px;
-  padding: 4px 0;
+  min-height: 44px;
+  padding: var(--space-1) 0;
   text-align: left;
   color: var(--accent-ink);
   font-weight: 700;
@@ -1232,12 +1231,12 @@ button.back {
 }
 .prose ul {
   margin: 0;
-  padding-left: 20px;
+  padding-left: var(--space-5);
   display: grid;
-  gap: 6px;
+  gap: var(--space-2);
 }
 .prose h3 {
-  margin: 4px 0 0;
+  margin: var(--space-1) 0 0;
   font-size: 15.5px;
   font-weight: 800;
 }
@@ -1248,16 +1247,16 @@ button.back {
   margin: 0;
 }
 .legal-update .btn {
-  margin-top: 14px;
+  margin-top: var(--space-4);
 }
 .weight-warn p {
-  margin: 0 0 10px;
+  margin: 0 0 var(--space-3);
 }
 
 /* ---------- статистика ---------- */
 .charts-2 {
   display: grid;
-  gap: 10px;
+  gap: var(--space-3);
 }
 @media (min-width: 760px) {
   .charts-2 {
@@ -1289,7 +1288,7 @@ button.back {
 }
 .chart-table th,
 .chart-table td {
-  padding: 6px 4px;
+  padding: var(--space-2) var(--space-1);
   border-top: 1px solid var(--line);
   text-align: left;
   font-weight: 600;
@@ -1302,8 +1301,8 @@ button.back {
 }
 
 .next-time {
-  margin: 14px 0 4px;
+  margin: var(--space-4) 0 var(--space-1);
 }
 .next-time .card-t {
-  margin: 0 4px;
+  margin: 0 var(--space-1);
 }

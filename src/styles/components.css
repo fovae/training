@@ -3,9 +3,9 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
+  gap: var(--space-2);
   min-height: 48px;
-  padding: 0 20px;
+  padding: 0 var(--space-5);
   border-radius: 14px;
   font-size: 16px;
   font-weight: 800;
@@ -43,17 +43,20 @@
 .btn-ghost {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
+  gap: var(--space-2);
   min-height: 44px;
-  padding: 0 12px;
+  padding: 0 var(--space-3);
   border-radius: 12px;
   font-size: 14px;
   font-weight: 700;
   color: var(--muted);
 }
-.btn-ghost:hover {
-  background: var(--soft);
-  color: var(--ink);
+/* hover — только там, где есть наведение: на телефоне подсветка не «залипает» после касания */
+@media (hover: hover) {
+  .btn-ghost:hover {
+    background: var(--soft);
+    color: var(--ink);
+  }
 }
 .btn-ghost.sm {
   font-size: 13.5px;
@@ -73,8 +76,8 @@
   display: grid;
   grid-auto-flow: column;
   grid-auto-columns: 1fr;
-  gap: 4px;
-  padding: 4px;
+  gap: var(--space-1);
+  padding: var(--space-1);
   border-radius: 16px;
   background: var(--soft);
   border: 1px solid var(--line);
@@ -118,7 +121,7 @@
 }
 .seg.mini .seg-btn {
   min-height: 44px;
-  padding: 0 12px;
+  padding: 0 var(--space-3);
   font-size: 13.5px;
 }
 
@@ -127,7 +130,7 @@
   background: var(--accent-bg);
   color: var(--on-fill);
   border-radius: var(--r-lg);
-  padding: 22px 22px 20px;
+  padding: var(--space-6) var(--space-6) var(--space-5);
   position: relative;
   overflow: hidden;
 }
@@ -150,7 +153,7 @@
   font-size: clamp(22px, 4vw, 30px);
   font-weight: 800;
   letter-spacing: -0.02em;
-  margin: 4px 0 8px;
+  margin: var(--space-1) 0 var(--space-2);
   position: relative;
   line-height: 1.2;
 }
@@ -163,8 +166,8 @@
 .prog {
   display: flex;
   align-items: center;
-  gap: 12px;
-  margin-top: 16px;
+  gap: var(--space-3);
+  margin-top: var(--space-4);
   position: relative;
 }
 .prog .track {
@@ -179,7 +182,7 @@
   height: 100%;
   background: currentColor;
   transform-origin: left center;
-  transition: transform var(--t-slow) var(--ease-out);
+  transition: transform var(--dur-slow) var(--ease-out);
 }
 .prog span {
   font-size: 13px;
@@ -192,8 +195,8 @@
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
-  gap: 10px 14px;
-  margin-top: 18px;
+  gap: var(--space-3) var(--space-4);
+  margin-top: var(--space-4);
 }
 .dayhead-cta .btn {
   flex: 1 1 auto;
@@ -210,16 +213,16 @@
 .ex-grid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 10px;
+  gap: var(--space-3);
 }
 .ex {
   background: var(--card);
   border-radius: var(--r-md);
-  padding: 16px 16px 14px;
+  padding: var(--space-4) var(--space-4) var(--space-4);
   box-shadow: var(--shadow);
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: var(--space-3);
   min-width: 0;
 }
 .ex.skipped {
@@ -231,7 +234,7 @@
 }
 .ex-top {
   display: flex;
-  gap: 12px;
+  gap: var(--space-3);
   align-items: flex-start;
 }
 .chk {
@@ -247,7 +250,7 @@
 }
 .chk .icon {
   opacity: 0;
-  transition: opacity 0.15s;
+  transition: opacity var(--dur-fast) var(--ease-out);
 }
 .chk.on {
   background: var(--accent-fill);
@@ -273,12 +276,12 @@
 .pills {
   display: flex;
   flex-wrap: wrap;
-  gap: 6px;
+  gap: var(--space-2);
 }
 .pill {
   font-size: 12.5px;
   font-weight: 700;
-  padding: 5px 10px;
+  padding: var(--space-1) var(--space-3);
   border-radius: 10px;
   background: var(--soft);
 }
@@ -296,13 +299,13 @@
   font-size: 13.5px;
   color: var(--muted);
   border-top: 1px dashed var(--line);
-  padding-top: 4px;
+  padding-top: var(--space-1);
 }
 .tech summary {
   display: flex;
   align-items: center;
-  gap: 6px;
-  min-height: 40px;
+  gap: var(--space-2);
+  min-height: 44px;
   cursor: pointer;
   list-style: none;
   color: var(--ink);
@@ -315,11 +318,11 @@
   width: 8px;
   height: 8px;
   margin-left: auto;
-  margin-right: 4px;
+  margin-right: var(--space-1);
   border-right: 2px solid var(--muted);
   border-bottom: 2px solid var(--muted);
   transform: rotate(45deg) translateY(-2px);
-  transition: transform 0.2s;
+  transition: transform var(--dur-base) var(--ease-out);
 }
 .tech[open] summary::after {
   transform: rotate(-135deg) translateY(-2px);
@@ -329,13 +332,13 @@
   font-weight: 700;
 }
 .tech p {
-  padding-bottom: 4px;
+  padding-bottom: var(--space-1);
 }
 
 .hint-up {
   font-size: 13px;
   font-weight: 700;
-  padding: 8px 12px;
+  padding: var(--space-2) var(--space-3);
   border-radius: 12px;
   background: color-mix(in srgb, var(--c4) 13%, transparent);
   color: var(--c4-ink);
@@ -349,13 +352,13 @@
 .sets {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: var(--space-2);
 }
 .sets-h,
 .set {
   display: grid;
   grid-template-columns: 28px 1fr 1fr 48px;
-  gap: 8px;
+  gap: var(--space-2);
   align-items: center;
 }
 .sets-h {
@@ -384,7 +387,7 @@
   border-radius: 12px;
   border: 1.5px solid var(--line);
   background: var(--soft);
-  padding: 0 12px;
+  padding: 0 var(--space-3);
   font-size: 17px;
   font-weight: 700;
   font-variant-numeric: tabular-nums;
@@ -428,12 +431,12 @@
 .ex-actions {
   display: flex;
   flex-wrap: wrap;
-  gap: 4px;
-  margin-left: -8px;
+  gap: var(--space-1);
+  margin-left: calc(-1 * var(--space-2));
 }
 .ex-actions {
   justify-content: space-between;
-  margin-right: -8px;
+  margin-right: calc(-1 * var(--space-2));
 }
 .ex-actions .btn-ghost:only-child {
   margin-left: auto;
@@ -443,7 +446,7 @@
 .pic {
   background: var(--soft);
   border-radius: var(--r-sm);
-  margin: -4px -4px 2px;
+  margin: calc(-1 * var(--space-1)) calc(-1 * var(--space-1)) 2px;
   height: 150px;
   display: grid;
   place-items: center;
@@ -568,13 +571,13 @@
 .card {
   background: var(--card);
   border-radius: var(--r-md);
-  padding: 16px;
+  padding: var(--space-4);
   box-shadow: var(--shadow);
 }
 .card + .card,
 .card + section,
 section + .card {
-  margin-top: 12px;
+  margin-top: var(--space-3);
 }
 /*
  * Единый ритм экрана: любые два соседних блока верхнего уровня (карточки, плашки, списки,
@@ -598,24 +601,24 @@ section + .card {
     details
   ) {
   /* :where — нулевая специфичность: явные отступы конкретных блоков важнее */
-  margin-top: 12px;
+  margin-top: var(--space-3);
 }
 .card-t {
   font-size: 16px;
   font-weight: 800;
   letter-spacing: -0.01em;
-  margin-bottom: 8px;
+  margin-bottom: var(--space-2);
 }
 .note {
-  margin-top: 12px;
+  margin-top: var(--space-3);
   background: var(--card);
   border-radius: 18px;
-  padding: 14px 16px;
+  padding: var(--space-4) var(--space-4);
   box-shadow: var(--shadow);
   font-size: 13.5px;
   color: var(--muted);
   display: flex;
-  gap: 10px;
+  gap: var(--space-3);
 }
 .note b {
   color: var(--ink);
@@ -630,7 +633,7 @@ section + .card {
   flex: none;
   font-size: 12px;
   font-weight: 800;
-  padding: 4px 10px;
+  padding: var(--space-1) var(--space-3);
   border-radius: 99px;
   color: var(--on-fill);
   white-space: nowrap;
@@ -651,7 +654,7 @@ section + .card {
     0 10px 40px rgba(0, 0, 0, 0.18),
     0 0 0 1px var(--line);
   overflow: hidden;
-  animation: rest-in 0.25s ease-out;
+  animation: rest-in var(--dur-base) var(--ease-out);
 }
 @keyframes rest-in {
   from {
@@ -668,14 +671,15 @@ section + .card {
   height: 100%;
   background: var(--accent);
   transform-origin: left center;
-  transition: transform 0.25s linear;
+  /* таймер тикает каждые 250 мс — линейно, чтобы полоса шла ровно */
+  transition: transform 250ms linear;
 }
 .rest-row {
   display: grid;
   grid-template-columns: 56px 1fr 56px 48px;
   align-items: center;
-  gap: 6px;
-  padding: 8px 10px 10px;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-3) var(--space-3);
 }
 .rest-adj {
   height: 52px;
@@ -772,15 +776,15 @@ section + .card {
   width: min(440px, calc(100% - 24px));
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: var(--space-2);
   pointer-events: none;
 }
 .toast {
   pointer-events: auto;
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 8px 8px 8px 16px;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-2) var(--space-2) var(--space-4);
   min-height: 52px;
   border-radius: 16px;
   background: var(--ink);
@@ -788,14 +792,14 @@ section + .card {
   font-size: 14.5px;
   font-weight: 600;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
-  animation: rest-in 0.2s ease-out;
+  animation: rest-in var(--dur-base) var(--ease-out);
 }
 .toast > span {
   flex: 1;
 }
 .toast-act {
-  min-height: 40px;
-  padding: 0 14px;
+  min-height: 44px;
+  padding: 0 var(--space-4);
   border-radius: 11px;
   background: var(--accent-fill);
   color: var(--on-fill);
@@ -804,8 +808,8 @@ section + .card {
 .toast-x {
   display: grid;
   place-items: center;
-  width: 40px;
-  height: 40px;
+  width: 44px;
+  height: 44px;
   color: inherit;
   opacity: 0.7;
 }
@@ -818,9 +822,10 @@ section + .card {
   display: grid;
   align-items: end;
   justify-items: center;
-  padding: 12px calc(var(--safe-r) + 12px) calc(var(--safe-b) + 12px) calc(var(--safe-l) + 12px);
-  background: rgba(10, 10, 14, 0.45);
-  animation: fade 0.15s ease-out;
+  padding: var(--space-3) calc(var(--safe-r) + var(--space-3)) calc(var(--safe-b) + var(--space-3))
+    calc(var(--safe-l) + var(--space-3));
+  background: var(--scrim);
+  animation: fade var(--dur-base) var(--ease-out);
 }
 @keyframes fade {
   from {
@@ -831,24 +836,24 @@ section + .card {
   width: min(440px, 100%);
   background: var(--card);
   border-radius: 24px;
-  padding: 22px 18px 14px;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-  animation: rest-in 0.2s ease-out;
+  padding: var(--space-6) var(--space-4) var(--space-4);
+  box-shadow: var(--shadow-pop);
+  animation: rest-in var(--dur-base) var(--ease-out);
 }
 .modal h2 {
   font-size: 19px;
   font-weight: 800;
   letter-spacing: -0.02em;
-  margin: 0 4px 6px;
+  margin: 0 var(--space-1) var(--space-2);
 }
 .modal-body {
   color: var(--muted);
   font-size: 15px;
-  margin: 0 4px 16px;
+  margin: 0 var(--space-1) var(--space-4);
 }
 .modal-actions {
   display: grid;
-  gap: 8px;
+  gap: var(--space-2);
 }
 
 /* ---------- настройки ---------- */
@@ -869,7 +874,7 @@ section + .card {
   border-radius: 50%;
   background: #fff;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
-  transition: transform 0.2s;
+  transition: transform var(--dur-base) var(--ease-in-out);
 }
 .switch.on {
   background: var(--accent);
@@ -883,16 +888,16 @@ section + .card {
 .stepper {
   display: inline-flex;
   align-items: center;
-  gap: 4px;
+  gap: var(--space-1);
   background: var(--soft);
   border-radius: 14px;
-  padding: 3px;
+  padding: var(--space-1);
 }
 .stepper button {
   display: grid;
   place-items: center;
   width: 44px;
-  height: 40px;
+  height: 44px;
   border-radius: 11px;
 }
 .stepper button:disabled {
@@ -946,8 +951,8 @@ section + .card {
 .legend {
   display: flex;
   flex-wrap: wrap;
-  gap: 6px 16px;
-  margin-top: 8px;
+  gap: var(--space-2) var(--space-4);
+  margin-top: var(--space-2);
   font-size: 12.5px;
   color: var(--muted);
   font-weight: 600;
@@ -957,7 +962,7 @@ section + .card {
   width: 14px;
   height: 3px;
   border-radius: 2px;
-  margin-right: 6px;
+  margin-right: var(--space-2);
   vertical-align: middle;
 }
 .lg.s1 i {
@@ -980,7 +985,7 @@ section + .card {
 .sr-front {
   position: relative;
   z-index: 1;
-  transition: transform 0.22s cubic-bezier(0.2, 0.8, 0.2, 1);
+  transition: transform var(--dur-base) var(--ease-out);
   will-change: transform;
 }
 .sr-front.dragging {
@@ -1014,7 +1019,7 @@ section + .card {
   flex: 1;
   display: grid;
   place-items: center;
-  padding: 0 8px;
+  padding: 0 var(--space-2);
   font-size: 14px;
   font-weight: 800;
   color: var(--bg);
@@ -1032,7 +1037,7 @@ section + .card {
   z-index: 2;
   top: 6px;
   right: 6px;
-  padding: 8px 12px;
+  padding: var(--space-2) var(--space-3);
   border-radius: 10px;
   background: var(--ink);
   color: var(--bg);
@@ -1051,9 +1056,9 @@ section + .card {
 /* ---------- меню действий снизу (action sheet) ---------- */
 .action-sheet {
   display: grid;
-  gap: 8px;
+  gap: var(--space-2);
   width: min(440px, 100%);
-  animation: rest-in 0.2s ease-out;
+  animation: rest-in var(--dur-base) var(--ease-out);
 }
 .as-group {
   display: grid;
@@ -1064,7 +1069,7 @@ section + .card {
 }
 .as-title {
   margin: 0;
-  padding: 12px 16px;
+  padding: var(--space-3) var(--space-4);
   text-align: center;
   font-size: 13px;
   font-weight: 700;
@@ -1073,7 +1078,7 @@ section + .card {
 }
 .as-btn {
   min-height: 54px;
-  padding: 0 16px;
+  padding: 0 var(--space-4);
   font-size: 17px;
   font-weight: 600;
   color: var(--accent-ink);
@@ -1093,4 +1098,3 @@ section + .card {
   font-weight: 800;
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
 }
-

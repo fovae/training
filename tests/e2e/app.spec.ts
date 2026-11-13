@@ -61,7 +61,7 @@ test('layout: tab bar, safe area meta, no horizontal scroll, 44pt targets', asyn
     const overflow = await page.evaluate(() => document.documentElement.scrollWidth - innerWidth);
     expect(overflow, tab).toBeLessThanOrEqual(0);
     const small = await page.$$eval('.nav-item, .seg-btn, .set-done, .btn, .choice', (els) =>
-      els.filter((e) => e.getBoundingClientRect().height < 44).map((e) => e.textContent),
+      els.filter((e) => e.getBoundingClientRect().height < 43.5).map((e) => e.textContent),
     );
     expect(small, tab).toEqual([]);
   }

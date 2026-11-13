@@ -23,7 +23,19 @@
   --safe-b: env(safe-area-inset-bottom, 0px);
   --safe-l: env(safe-area-inset-left, 0px);
   --safe-r: env(safe-area-inset-right, 0px);
-  --gutter: 16px;
+  /* Шкала отступов 4/8 px: все отступы и промежутки — только эти значения */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-7: 28px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  /* боковые поля: телефон 16 px (широкий — 20), ПК — 32, контент по центру */
+  --gutter: var(--space-4);
   --tabbar-h: 60px;
   --timer-h: 0px;
 }

@@ -129,6 +129,28 @@ function iosSplash(): Plugin {
   };
 }
 
+/**
+ * Предзагрузка основного шрифта (Manrope, латиница) со своего домена: текст сразу в нужном шрифте,
+ * без прыжка вёрстки. Кириллица грузится по unicode-range, когда нужна.
+ */
+function preloadFont(): Plugin {
+  return {
+    name: 'preload-font',
+    apply: 'build',
+    transformIndexHtml(_html, ctx) {
+      const file = Object.keys(ctx.bundle ?? {}).find((f) => /manrope-latin-wght-normal-.*\.woff2$/.test(f));
+      if (!file) return [];
+      return [
+        {
+          tag: 'link',
+          attrs: { rel: 'preload', href: base + file, as: 'font', type: 'font/woff2', crossorigin: '' },
+          injectTo: 'head-prepend',
+        },
+      ];
+    },
+  };
+}
+
 export default defineConfig({
   base,
   define: {
@@ -139,6 +161,7 @@ export default defineConfig({
     iosSplash(),
     legalMeta(),
     themesCss(),
+    preloadFont(),
     VitePWA({
       registerType: 'prompt',
       injectRegister: false,

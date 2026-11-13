@@ -1,7 +1,7 @@
 /* ---------- верхняя панель экранов ---------- */
 .topbar {
-  margin: 0 calc(-1 * var(--gutter)) 14px;
-  padding: calc(var(--safe-t) + 14px) var(--gutter) 6px;
+  margin: 0 calc(-1 * var(--gutter)) var(--space-4);
+  padding: calc(var(--safe-t) + var(--space-4)) var(--gutter) var(--space-2);
 }
 /* Плашка под статус-баром: при black-translucent контент иначе уезжает под часы */
 .status-shim {
@@ -26,8 +26,8 @@
   display: flex;
   align-items: flex-end;
   justify-content: space-between;
-  gap: 12px;
-  margin-bottom: 10px;
+  gap: var(--space-3);
+  margin-bottom: var(--space-3);
 }
 .screen-title {
   font-size: 28px;
@@ -44,8 +44,8 @@
   align-items: center;
   gap: 2px;
   min-height: 44px;
-  margin-left: -8px;
-  padding-right: 8px;
+  margin-left: calc(-1 * var(--space-2));
+  padding-right: var(--space-2);
   font-weight: 700;
   color: var(--accent-ink);
   text-decoration: none;
@@ -69,7 +69,7 @@
 }
 
 section {
-  margin-top: 28px;
+  margin-top: var(--space-7);
 }
 .topbar + section {
   margin-top: 0;
@@ -78,8 +78,8 @@ section {
   display: flex;
   align-items: baseline;
   justify-content: space-between;
-  gap: 12px;
-  margin-bottom: 12px;
+  gap: var(--space-3);
+  margin-bottom: var(--space-3);
 }
 .sec-h h2 {
   font-size: 20px;
@@ -92,13 +92,13 @@ section {
 .days {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 10px;
+  gap: var(--space-3);
 }
 .day {
   text-align: left;
   background: var(--card);
   border-radius: 20px;
-  padding: 16px;
+  padding: var(--space-4);
   box-shadow: var(--shadow);
   position: relative;
   overflow: hidden;
@@ -117,7 +117,7 @@ section {
   font-size: 16px;
   font-weight: 800;
   letter-spacing: -0.01em;
-  margin: 4px 0 10px;
+  margin: var(--space-1) 0 var(--space-3);
   line-height: 1.25;
 }
 .day .meta {
@@ -139,12 +139,12 @@ section {
 .rules {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 10px;
+  gap: var(--space-3);
 }
 .rule {
   background: var(--card);
   border-radius: 20px;
-  padding: 16px;
+  padding: var(--space-4);
   box-shadow: var(--shadow);
 }
 .rule .ic {
@@ -155,12 +155,12 @@ section {
   place-items: center;
   background: var(--soft);
   font-size: 17px;
-  margin-bottom: 10px;
+  margin-bottom: var(--space-3);
 }
 .rule-t {
   font-size: 14.5px;
   font-weight: 800;
-  margin-bottom: 4px;
+  margin-bottom: var(--space-1);
 }
 .rule p {
   font-size: 13.5px;
@@ -170,8 +170,8 @@ section {
 /* ---------- сегодня ---------- */
 .finish-zone {
   display: grid;
-  gap: 10px;
-  margin-top: 28px;
+  gap: var(--space-3);
+  margin-top: var(--space-7);
 }
 
 /* ---------- история ---------- */
@@ -179,7 +179,7 @@ section {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 12px;
+  gap: var(--space-3);
 }
 .week-big {
   font-size: 30px;
@@ -195,7 +195,7 @@ section {
 }
 .week-dots {
   display: flex;
-  gap: 6px;
+  gap: var(--space-2);
 }
 .week-dots i {
   width: 14px;
@@ -215,14 +215,14 @@ section {
 .list {
   list-style: none;
   display: grid;
-  gap: 8px;
+  gap: var(--space-2);
 }
 .row {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: var(--space-3);
   min-height: 64px;
-  padding: 12px 14px;
+  padding: var(--space-3) var(--space-4);
   border-radius: 18px;
   background: var(--card);
   box-shadow: var(--shadow);
@@ -261,12 +261,12 @@ section {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 12px;
+  gap: var(--space-3);
 }
 .summary-grid {
   display: grid;
   grid-template-columns: repeat(3, auto);
-  gap: 12px 24px;
+  gap: var(--space-3) var(--space-6);
 }
 .summary-grid div {
   display: flex;
@@ -278,18 +278,18 @@ section {
 }
 .detail {
   list-style: none;
-  margin: 14px 0 20px;
+  margin: var(--space-4) 0 var(--space-5);
   display: grid;
   gap: 2px;
   background: var(--card);
   border-radius: var(--r-md);
   box-shadow: var(--shadow);
-  padding: 6px 16px;
+  padding: var(--space-2) var(--space-4);
 }
 .detail li {
   display: flex;
   flex-direction: column;
-  padding: 10px 0;
+  padding: var(--space-3) 0;
   border-bottom: 1px solid var(--line);
 }
 .detail li:last-child {
@@ -304,30 +304,30 @@ section {
 }
 .ex-detail-top {
   display: grid;
-  gap: 10px;
+  gap: var(--space-3);
 }
 .empty {
   text-align: center;
-  padding: 28px 16px;
+  padding: var(--space-7) var(--space-4);
   color: var(--muted);
   display: grid;
-  gap: 14px;
+  gap: var(--space-4);
   justify-items: center;
 }
 
 /* ---------- настройки ---------- */
 .group-card {
   display: grid;
-  gap: 4px;
-  margin-top: 12px;
+  gap: var(--space-1);
+  margin-top: var(--space-3);
 }
 .srow {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 12px;
+  gap: var(--space-3);
   min-height: 56px;
-  padding: 6px 0;
+  padding: var(--space-2) 0;
   border-top: 1px solid var(--line);
 }
 .card-t + .srow,
@@ -348,15 +348,15 @@ section {
 .srow-act {
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: var(--space-1);
 }
 .btn-row {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 8px;
-  margin: 8px 0;
+  gap: var(--space-2);
+  margin: var(--space-2) 0;
 }
 .btn-row .btn {
-  padding: 0 10px;
+  padding: 0 var(--space-3);
   font-size: 15px;
 }
