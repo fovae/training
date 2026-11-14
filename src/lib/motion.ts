@@ -86,19 +86,14 @@ export function crossfade(apply: () => void): void {
  * обрабатываются сразу, даже пока дорисовываются сотни карточек со схемами.
  * При «Назад» (eager) — сразу всё: восстановление прокрутки ищет карточку-якорь по индексу.
  */
-export function useProgressive(total: number, eager = false, first = 24, step = 32): number {
+export function useProgressive(total: number, eager = false, first = 24, step = 64): number {
   const [n, setN] = useState(() => (eager ? Infinity : first));
   useEffect(() => {
     if (n >= total) return;
-    let t = 0;
-    // кадр на отрисовку, затем порция в отдельной задаче (между ними браузер обрабатывает касания)
-    const raf = requestAnimationFrame(() => {
-      t = window.setTimeout(() => setN((v) => (v + step >= total ? Infinity : v + step)), 0);
-    });
-    return () => {
-      cancelAnimationFrame(raf);
-      clearTimeout(t);
-    };
+    // эффект и так выполняется после отрисовки кадра; порция — отдельной задачей, между задачами
+    // браузер обрабатывает касания
+    const t = window.setTimeout(() => setN((v) => (v + step >= total ? Infinity : v + step)), 0);
+    return () => clearTimeout(t);
   }, [n, total]);
   return n;
 }
