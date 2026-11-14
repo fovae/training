@@ -134,8 +134,10 @@ test('plan editor: empty days, picker with search and filters, edit, reorder, co
   // Порядок
   await page.getByRole('button', { name: `Move ${INCLINE} up` }).click();
   await expect(items.first()).toContainText(INCLINE);
+  // Перестановка не сворачивает открытый редактор: карточка та же, просто переехала выше
+  await expect(items.first().locator('details')).toHaveAttribute('open', '');
+  await expect(items.nth(1).locator('details')).not.toHaveAttribute('open', '');
   // Подходы, повторы, вес, отдых, «необязательное»
-  await items.first().locator('summary').click();
   await page.getByRole('button', { name: `${INCLINE}: sets: more` }).click();
   await page.getByLabel(`${INCLINE}: minimum`).fill('6');
   await page.getByLabel(`${INCLINE}: minimum`).blur();
