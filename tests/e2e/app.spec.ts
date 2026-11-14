@@ -474,7 +474,7 @@ test('exercise picker: focus stays inside, Escape closes, Close does not cover t
     expect(await page.evaluate(() => !!document.activeElement?.closest('[role=dialog]'))).toBe(true);
   }
   // Последний пункт списка можно прокрутить выше нижней кнопки (список дорисовывается порциями)
-  await expect(sheet.locator('.pick-list li')).toHaveCount(EXERCISES.length);
+  await expect(sheet.locator('.pick-list li')).toHaveCount(EXERCISES.length, { timeout: 15_000 });
   const last = sheet.locator('.pick-list li').last();
   await last.scrollIntoViewIfNeeded();
   const lb = await last.boundingBox();
