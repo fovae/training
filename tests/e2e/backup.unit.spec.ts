@@ -145,7 +145,7 @@ test('release 3.0: copies of schema 3 with removed themes are read, the theme is
     ['violet', 'violet-dusk'],
     ['green', 'pine-dusk'],
     ['rose', 'rose-dusk'],
-    ['gradient-2', 'ocean-night'],
+    ['gradient-2', 'golden-hour'],
     ['classic-dark', 'classic-dark'],
     ['auto', 'auto'],
   ] as const) {
@@ -162,12 +162,12 @@ test('release 3.0: copies of schema 3 with removed themes are read, the theme is
   await expect(parseBackup(JSON.stringify(v3))).rejects.toMatchObject({ code: 'invalid' });
   // новая копия: схема 4, настройка «Анимации» сохраняется
   const now = await buildBackup(
-    { ...d, settings: { ...d.settings, theme: 'teal-night', motion: 'off' } },
+    { ...d, settings: { ...d.settings, theme: 'sun-paper', motion: 'off' } },
     '3.0.0',
   );
   expect(now.schemaVersion).toBe(4);
   expect((await parseBackup(JSON.stringify(now))).data.settings).toMatchObject({
-    theme: 'teal-night',
+    theme: 'sun-paper',
     motion: 'off',
   });
 });

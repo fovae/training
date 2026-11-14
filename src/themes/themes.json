@@ -1,5 +1,5 @@
 {
-  "$comment": "Темы приложения (docs/ARCHITECTURE.md, «Темы»). Классические (classic-light, classic-dark, monochrome) и gradient (бывшая classic-orange + градиенты fill → fill2) записаны целиком; цветные тёмные — рецептом из четырёх цветов владельца (recipe: фон, акцент 1, акцент 2, поверхность), остальные токены выводит src/themes/derive.mjs. Отсюда собирается CSS (vite.config.ts → virtual:themes.css) и проверяется контраст (npm run theme:check). days: 7 цветов дней — c (декор), fill (заливка под текстом onFill), ink (цветной текст), fill2 (второй цвет градиента главной карточки и крупных акцентных элементов).",
+  "$comment": "Темы приложения (docs/ARCHITECTURE.md, «Темы»). Классические (classic-light, classic-dark, monochrome) и gradient (бывшая classic-orange + градиенты fill → fill2) записаны целиком; sun-paper (светлая «Солнечная бумага», текст на заливках — графитовый) тоже записана целиком; цветные тёмные — рецептом из четырёх цветов владельца (recipe: фон, акцент 1, акцент 2, поверхность; необязательно ink и muted — свои цвета текста, как у golden-hour и coffee-dusk), остальные токены выводит src/themes/derive.mjs. Отсюда собирается CSS (vite.config.ts → virtual:themes.css) и проверяется контраст (npm run theme:check). days: 7 цветов дней — c (декор), fill (заливка под текстом onFill), ink (цветной текст), fill2 (второй цвет градиента главной карточки и крупных акцентных элементов).",
   "themes": {
     "classic-light": {
       "scheme": "light",
@@ -212,12 +212,14 @@
         "surface": "#263B32"
       }
     },
-    "ocean-night": {
+    "golden-hour": {
       "recipe": {
-        "bg": "#121B22",
-        "accent1": "#5AB6D8",
-        "accent2": "#7AE0C3",
-        "surface": "#22343F"
+        "bg": "#211E16",
+        "accent1": "#F2C14E",
+        "accent2": "#FFE08A",
+        "surface": "#2B271C",
+        "ink": "#FFF8E7",
+        "muted": "#C7B993"
       }
     },
     "violet-dusk": {
@@ -244,20 +246,69 @@
         "surface": "#232B40"
       }
     },
-    "teal-night": {
-      "recipe": {
-        "bg": "#11201F",
-        "accent1": "#4FCBC2",
-        "accent2": "#9BE3A0",
-        "surface": "#213937"
-      }
+    "sun-paper": {
+      "scheme": "light",
+      "bg": "#f7f3e8",
+      "card": "#fffcf4",
+      "soft": "#f1ebdc",
+      "line": "#e6decb",
+      "ink": "#292820",
+      "muted": "#6f6958",
+      "danger": "#b42424",
+      "dangerFill": "#b42424",
+      "chart": [
+        "#ad8428",
+        "#6f6958"
+      ],
+      "onFill": "#292820",
+      "cardBtn": "#fffcf4",
+      "cardBtnInk": "#292820",
+      "days": [
+        {
+          "c": "#ad8428",
+          "fill": "#c99a2e",
+          "ink": "#83641e"
+        },
+        {
+          "c": "#84913a",
+          "fill": "#8c9a3e",
+          "ink": "#636d2c"
+        },
+        {
+          "c": "#c6744d",
+          "fill": "#cb7c57",
+          "ink": "#98593b"
+        },
+        {
+          "c": "#689278",
+          "fill": "#6e9a7e",
+          "ink": "#50705c"
+        },
+        {
+          "c": "#ad8255",
+          "fill": "#b88a5a",
+          "ink": "#836240"
+        },
+        {
+          "c": "#6c8cab",
+          "fill": "#7493b1",
+          "ink": "#526b82"
+        },
+        {
+          "c": "#a07aa0",
+          "fill": "#a885a8",
+          "ink": "#7d5f7d"
+        }
+      ]
     },
-    "crimson-night": {
+    "coffee-dusk": {
       "recipe": {
-        "bg": "#1E1416",
-        "accent1": "#E5566B",
-        "accent2": "#F09A6A",
-        "surface": "#3A2428"
+        "bg": "#211913",
+        "accent1": "#C47A4A",
+        "accent2": "#E1AD7A",
+        "surface": "#30241B",
+        "ink": "#FBF3EA",
+        "muted": "#C0A997"
       }
     }
   }

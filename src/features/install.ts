@@ -32,6 +32,18 @@ export const platform: Platform = detectPlatform({
 export const browser: Browser = detectBrowser(ua, platform);
 export const iosSafariVersion = safariVersion(ua);
 
+/**
+ * Какую инструкцию установки показывать на iOS: 2 — Safari 27+ (меню «≡» → Share → View More),
+ * 1 — всё, что раньше (и когда версию определить не удалось, например не Safari).
+ * Берём версию Safari (`Version/NN`), а не «iPhone OS» из UA — там версия ОС заморожена.
+ * Для проверки: `?ios=27` или `?ios=26` в адресе принудительно выбирает инструкцию.
+ */
+export function getIosInstructionVersion(search = location.search, userAgent = ua): 1 | 2 {
+  const forced = /[?&]ios=(\d+)/.exec(search);
+  const v = forced ? Number(forced[1]) : safariVersion(userAgent);
+  return v != null && v >= 27 ? 2 : 1;
+}
+
 export const isStandalone = (): boolean =>
   isStandaloneEnv({
     matchMedia: (q) => matchMedia(q),

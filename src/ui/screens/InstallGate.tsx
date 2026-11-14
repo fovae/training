@@ -6,6 +6,7 @@ import {
   continueInBrowser,
   gate,
   gateManual,
+  getIosInstructionVersion,
   installPrompt,
   iosSafariVersion,
   markInstalled,
@@ -20,13 +21,15 @@ interface Step {
   key: string;
   text: string;
   note?: string | undefined;
-  scenes: { id: SceneId; caption?: string }[];
+  /** id — нарисованная сцена; img — скриншот (Инструкция 2, iOS 27+) */
+  scenes: ({ id: SceneId; caption?: string } | { img: string; caption?: string })[];
 }
 
 /** Шаги iOS. Встроенный браузер (Instagram, Telegram…) — одна строка «открой в Safari», без шагов. */
 function iosSteps(): Step[] {
   if (browser === 'in-app')
     return [{ key: 'open', text: t('install.ios.openInApp'), scenes: [{ id: 'open-browser' }] }];
+  if (getIosInstructionVersion() === 2) return ios27Steps();
   const steps: Step[] = [];
   const inSafari = browser === 'safari';
 
@@ -66,6 +69,31 @@ function iosSteps(): Step[] {
   });
   steps.push({ key: 'home', text: t('install.openHome'), scenes: [{ id: 'home' }] });
   return steps;
+}
+
+/** Скриншоты Инструкции 2 — public/install/ios27-1.png … ios27-4.png (пока заглушки) */
+const shot = (n: number) => `${import.meta.env.BASE_URL}install/ios27-${n}.png`;
+
+/** Инструкция 2: Safari 27+ — «≡» → Share → View More → Add to Home Screen */
+function ios27Steps(): Step[] {
+  return [
+    {
+      key: 'menu27',
+      text: t('install.ios27.menu'),
+      note: t('install.ios27.menuNote'),
+      scenes: [{ img: shot(1) }],
+    },
+    { key: 'share27', text: t('install.ios27.share'), scenes: [{ img: shot(2) }] },
+    {
+      key: 'more27',
+      text: t('install.ios27.more'),
+      note: t('install.ios27.moreNote'),
+      scenes: [{ img: shot(3) }],
+    },
+    { key: 'add27', text: t('install.ios27.add'), scenes: [{ img: shot(4) }] },
+    { key: 'webapp', text: t('install.ios.webApp'), scenes: [{ id: 'ios-add' }] },
+    { key: 'home', text: t('install.openHome'), scenes: [{ id: 'home' }] },
+  ];
 }
 
 /** Шаги Android — общие, без названий конкретных браузеров */
@@ -203,8 +231,12 @@ function InstallSteps() {
             </div>
             <div class={'ig-scenes' + (s.scenes.length > 1 ? ' two' : '')}>
               {s.scenes.map((sc) => (
-                <figure key={sc.id}>
-                  <InstallScene id={sc.id} />
+                <figure key={'img' in sc ? sc.img : sc.id}>
+                  {'img' in sc ? (
+                    <img class="scene ig-shot" src={sc.img} alt="" loading="lazy" decoding="async" />
+                  ) : (
+                    <InstallScene id={sc.id} />
+                  )}
                   {sc.caption && <figcaption>{sc.caption}</figcaption>}
                 </figure>
               ))}

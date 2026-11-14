@@ -8,6 +8,9 @@ export interface ThemeRecipe {
   bg: string;
   accent1: string;
   accent2: string;
+  /** свои цвета текста (необязательно) */
+  ink?: string;
+  muted?: string;
   surface: string;
 }
 export interface ThemeDef {

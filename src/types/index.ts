@@ -100,12 +100,12 @@ export const THEMES = [
   'monochrome',
   'gradient',
   'pine-dusk',
-  'ocean-night',
+  'golden-hour',
   'violet-dusk',
   'rose-dusk',
   'slate-blue',
-  'teal-night',
-  'crimson-night',
+  'sun-paper',
+  'coffee-dusk',
 ] as const;
 /** 'auto' — по системе: classic-light / classic-dark */
 export type ThemeId = (typeof THEMES)[number] | 'auto';

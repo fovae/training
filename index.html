@@ -3,11 +3,38 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-    <title>Simple Training</title>
+    <title>Simple Training — Workout Planner &amp; Progress Tracker</title>
     <meta
       name="description"
-      content="Plan your training week and log your sets. Rest timer and history. Works offline; your data stays on your device."
+      content="Plan workouts, log sets, and track progress with a free, ad-free workout planner. Your training data stays on your device."
     />
+    <link rel="canonical" href="https://fovae.github.io/training/" />
+
+    <!-- Предпросмотр ссылки (Open Graph, Twitter/X). Адрес сайта — GitHub Pages (README); при смене
+         домена поменять og:url, canonical и оба адреса картинки. og-image.png — иконка icon-512.png без
+         изменений в центре карточки 1200×630 на продолжении её собственного фона. -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Simple Training" />
+    <meta property="og:title" content="Simple Training — Plan. Train. Track." />
+    <meta
+      property="og:description"
+      content="A simple workout planner to build your routine, log each session, and follow your progress. Your training data stays on your device."
+    />
+    <meta property="og:url" content="https://fovae.github.io/training/" />
+    <meta property="og:image" content="https://fovae.github.io/training/og-image.png" />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Simple Training app icon" />
+    <meta property="og:locale" content="en_US" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Simple Training — Plan. Train. Track." />
+    <meta
+      name="twitter:description"
+      content="A simple workout planner to build your routine, log each session, and follow your progress. Your training data stays on your device."
+    />
+    <meta name="twitter:image" content="https://fovae.github.io/training/og-image.png" />
+    <meta name="twitter:image:alt" content="Simple Training app icon" />
     <meta name="author" content="Fovae &amp; Claude" />
 
     <!-- Цвет системных панелей: по теме системы, затем уточняется скриптом по ручной теме -->
@@ -49,10 +76,13 @@
             violet: 'violet-dusk',
             green: 'pine-dusk',
             rose: 'rose-dusk',
-            'gradient-2': 'ocean-night'
+            'gradient-2': 'golden-hour',
+            'ocean-night': 'golden-hour',
+            'teal-night': 'pine-dusk',
+            'crimson-night': 'coffee-dusk'
           };
           var known =
-            'classic-light classic-dark monochrome gradient pine-dusk ocean-night violet-dusk rose-dusk slate-blue teal-night crimson-night';
+            'classic-light classic-dark monochrome gradient pine-dusk golden-hour violet-dusk rose-dusk slate-blue sun-paper coffee-dusk';
           var th = old.hasOwnProperty(b.theme) ? old[b.theme] : b.theme;
           var ok = typeof th === 'string' && (' ' + known + ' ').indexOf(' ' + th + ' ') >= 0;
           if (ok) d.dataset.theme = th;

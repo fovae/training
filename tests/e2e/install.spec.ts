@@ -185,6 +185,42 @@ test('iPad (MacIntel + touch) is treated as iOS', async ({ page, browserName }) 
   expect(await page.content()).toContain('Open as Web App');
 });
 
+test('iOS: ?ios=27 / ?ios=26 force the instruction; without it Version/ from UA decides', async ({
+  page,
+  browserName,
+}) => {
+  test.skip(browserName !== 'webkit', 'iPhone projects');
+  const errors: string[] = [];
+  page.on('pageerror', (e) => errors.push(e.message));
+  page.on('console', (m) => m.type() === 'error' && errors.push(m.text()));
+  await fresh(page, { gate: true });
+  // Инструкция 2 (iOS 27+): ≡ → Share → View More → Add to Home Screen → подтвердить → Домой
+  await page.goto('./?ios=27');
+  await expect(title(page)).toBeVisible();
+  await expect(page.locator('.ig-step')).toHaveCount(6);
+  await expect(page.getByText(/three lines \(≡\)/)).toBeVisible();
+  await expect(page.getByText(/“View More”/)).toBeVisible();
+  await expect(page.locator('.ig-step img')).toHaveCount(4);
+  // Инструкция 1 (младше 27) — как была
+  await page.goto('./?ios=26');
+  await expect(title(page)).toBeVisible();
+  await expect(page.getByText(/three lines/)).toHaveCount(0);
+  await expect(page.locator('.ig-step img')).toHaveCount(0);
+  expect(errors).toEqual([]);
+});
+
+test('iOS: Safari Version/27 in UA picks instruction 2', async ({ page, browserName }) => {
+  test.skip(browserName !== 'webkit', 'iPhone projects');
+  await page.addInitScript(() => {
+    const ua =
+      'Mozilla/5.0 (iPhone; CPU iPhone OS 18_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/27.0 Mobile/15E148 Safari/604.1';
+    Object.defineProperty(navigator, 'userAgent', { get: () => ua });
+  });
+  await fresh(page, { gate: true });
+  await expect(page.locator('.ig-step')).toHaveCount(6);
+  await expect(page.getByText(/“View More”/)).toBeVisible();
+});
+
 test('iOS in-app browser: one line "Open this link in Safari"', async ({ page, browserName }) => {
   test.skip(browserName !== 'webkit', 'iPhone projects');
   await page.addInitScript(() => {

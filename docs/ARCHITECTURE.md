@@ -222,8 +222,8 @@ tests/e2e/*.unit.spec.ts  юнит-тесты без браузера (прое�
 ## Темы и цвета дней
 
 Цвета — `src/themes/themes.json`. 11 тем + «Авто» (12 пунктов в настройках): `auto` (по умолчанию),
-`classic-light`, `classic-dark`, `monochrome`, `gradient`, `pine-dusk`, `ocean-night`, `violet-dusk`,
-`rose-dusk`, `slate-blue`, `teal-night`, `crimson-night`. «Авто» = `classic-light` / `classic-dark` по
+`classic-light`, `classic-dark`, `monochrome`, `gradient`, `pine-dusk`, `golden-hour`, `violet-dusk`,
+`rose-dusk`, `slate-blue`, `sun-paper`, `coffee-dusk`. «Авто» = `classic-light` / `classic-dark` по
 системной теме, переключается без перезагрузки (CSS `prefers-color-scheme`).
 
 **Как записаны.** Классические, монохром и «Градиент» — целиком (у «Градиента» у каждого дня `fill2` —
@@ -248,12 +248,12 @@ tests/e2e/*.unit.spec.ts  юнит-тесты без браузера (прое�
 | monochrome | #f4f4f4 | #111111 | #111111 | #ffffff | #111111 | #595959 | #111111 (цвет дня) | #ffffff |
 | gradient | #f3f1ec | #d2411c | #ad6000 | #ffffff | #16161a | #6b6b73 | #be3b19 (цвет дня) | #ffffff |
 | pine-dusk | #14201C | #59C99A | #B2D76D | #263B32 | #eceded | #afb3b2 | #61cc9f | #14201C |
-| ocean-night | #121B22 | #5AB6D8 | #7AE0C3 | #22343F | #eceded | #aeb1b4 | #66bbdb | #121B22 |
+| golden-hour | #211E16 | #F2C14E | #FFE08A | #2B271C | #FFF8E7 | #C7B993 | #f2c14e | #211E16 |
 | violet-dusk | #19151F | #9C8CF0 | #D69BE8 | #2E2740 | #edeced | #b1afb3 | #a89af2 | #19151F |
 | rose-dusk | #1F1519 | #EE8FA8 | #F5BE8B | #3A262E | #edeced | #b3afb1 | #ee8fa8 | #1F1519 |
 | slate-blue | #121722 | #6C9CF5 | #8FD0F0 | #232B40 | #ececed | #aeb0b4 | #7ca7f6 | #121722 |
-| teal-night | #11201F | #4FCBC2 | #9BE3A0 | #213937 | #eceded | #aeb3b3 | #4fcbc2 | #11201F |
-| crimson-night | #1E1416 | #E5566B | #F09A6A | #3A2428 | #edecec | #b3afb0 | #ec8090 | #1E1416 |
+| sun-paper | #f7f3e8 | #c99a2e | #c99a2e | #fffcf4 | #292820 | #6f6958 | #83641e (цвет дня) | #292820 |
+| coffee-dusk | #211913 | #C47A4A | #E1AD7A | #30241B | #FBF3EA | #C0A997 | #ce9169 | #211913 |
 
 
 **Сборка CSS.** Плагин `themesCss` в `vite.config.ts`: `:root[data-theme="…"]` с переменными `--bg`,
@@ -277,8 +277,11 @@ id в `THEMES` (`src/types`) и в списке загрузочного скр�
 
 ## Анимации и прокрутка
 
-Токены (`src/styles/motion.css`): `--dur-fast` 150 мс, `--dur-base` 240 мс, `--dur-slow` 320 мс,
-`--dur-out` 200 мс (= `OUT_MS`), `--ease-out`, `--ease-in-out`, `--stagger` 35 мс. Компоненты не задают
+Токены (`src/styles/motion.css`): `--dur-fast` 150 мс, `--dur-base` 260 мс, `--dur-slow` 340 мс,
+`--dur-out` 200 мс (= `OUT_MS`), нажатие `--dur-press` 90 мс / возврат `--dur-release` 340 мс,
+`--ease-out`, `--ease-in-out`, `--ease-glide` (листы, экраны), `--ease-spring` (лёгкий перелёт ~5% —
+только мелкие элементы: возврат после нажатия, индикатор вкладки, переключатели, всплывашки),
+`--stagger` 35 мс. При «уменьшении движения» нажатие видно по бледности, без сжатия. Компоненты не задают
 свои цифры (проверяет `tests/e2e/motion.unit.spec.ts`). Анимируются только `transform` и `opacity`
 (у мелких элементов — ещё цвет фона и обводки).
 

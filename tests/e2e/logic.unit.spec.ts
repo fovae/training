@@ -468,7 +468,7 @@ test.describe('theme migration (release 3.0, v3 → v4)', () => {
     ['violet', 'violet-dusk'],
     ['green', 'pine-dusk'],
     ['rose', 'rose-dusk'],
-    ['gradient-2', 'ocean-night'],
+    ['gradient-2', 'golden-hour'],
     ['classic-light', 'classic-light'],
     ['classic-dark', 'classic-dark'],
     ['monochrome', 'monochrome'],

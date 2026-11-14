@@ -251,7 +251,7 @@ for (const [from, to] of [
   ['green', 'pine-dusk'],
   ['rose', 'rose-dusk'],
   ['gradient-1', 'gradient'],
-  ['gradient-2', 'ocean-night'],
+  ['gradient-2', 'golden-hour'],
   ['classic-light', 'classic-light'],
   ['monochrome', 'monochrome'],
 ] as const) {

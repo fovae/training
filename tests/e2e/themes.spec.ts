@@ -12,12 +12,12 @@ const THEMES: [name: string, id: string, bg: string | null][] = [
   ['Monochrome', 'monochrome', '#f4f4f4'],
   ['Gradient', 'gradient', '#f3f1ec'],
   ['Pine Dusk', 'pine-dusk', '#14201c'],
-  ['Ocean Night', 'ocean-night', '#121b22'],
+  ['Golden Hour', 'golden-hour', '#211e16'],
   ['Violet Dusk', 'violet-dusk', '#19151f'],
   ['Rose Dusk', 'rose-dusk', '#1f1519'],
   ['Slate Blue', 'slate-blue', '#121722'],
-  ['Teal Night', 'teal-night', '#11201f'],
-  ['Crimson Night', 'crimson-night', '#1e1416'],
+  ['Sun Paper', 'sun-paper', '#f7f3e8'],
+  ['Coffee Dusk', 'coffee-dusk', '#211913'],
 ];
 const rgb = (hex: string) => `rgb(${[1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 16)).join(', ')})`;
 const bodyBg = (page: Page) => page.evaluate(() => getComputedStyle(document.body).backgroundColor);
@@ -179,7 +179,8 @@ test.describe('boot script', () => {
     await page.route(/\/assets\/.*\.js$/, (r) => r.abort());
     for (const [id, bg] of [
       ['pine-dusk', '#14201c'],
-      ['crimson-night', '#1e1416'],
+      ['coffee-dusk', '#211913'],
+      ['crimson-night', '#211913'],
       ['gradient', '#f3f1ec'],
       // удалённые темы прошлых версий — сразу в новом цвете
       ['classic-orange', '#f3f1ec'],

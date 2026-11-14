@@ -30,7 +30,11 @@ export const THEME_MIGRATION: Readonly<Record<string, ThemeId>> = {
   violet: 'violet-dusk',
   green: 'pine-dusk',
   rose: 'rose-dusk',
-  'gradient-2': 'ocean-night',
+  'gradient-2': 'golden-hour',
+  // 3.0: три темы заменены — Морская ночь → Золотой час, Бирюзовая → Хвойный сумрак, Багровая → Кофейный сумрак
+  'ocean-night': 'golden-hour',
+  'teal-night': 'pine-dusk',
+  'crimson-night': 'coffee-dusk',
 };
 
 /**

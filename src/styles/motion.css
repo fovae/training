@@ -1,6 +1,8 @@
 /*
  * Анимации интерфейса (docs/ARCHITECTURE.md, «Анимации»).
- * Только transform и opacity, 150–350 мс, замедление в конце, без отскоков. Бесконечно — только
+ * Только transform и opacity, 150–350 мс, замедление в конце. Упругость (--ease-spring, перелёт ~5%)
+ * — только у мелких элементов: возврат после нажатия, индикатор вкладки, переключатели, всплывашки.
+ * Листы и экраны — без перелёта. Бесконечно — только
  * подсветка в инструкции установки и пульс точки идущей тренировки.
  * Выключаются системным «уменьшением движения» и переключателем «Анимации» в настройках
  * (html[data-motion="off"]; "on" — включены вопреки системе). Без анимаций — мгновенно.
@@ -9,13 +11,20 @@
 :root {
   /* Токены движения — все компоненты берут длительности и кривые только отсюда */
   --dur-fast: 150ms;
-  --dur-base: 240ms;
-  --dur-slow: 320ms;
+  --dur-base: 260ms;
+  --dur-slow: 340ms;
+  /* нажатие: сжатие — сразу, возврат — мягко с упругостью */
+  --dur-press: 90ms;
+  --dur-release: 340ms;
   /* уход (закрытие листа, плашки) — чуть быстрее появления; = OUT_MS в src/lib/motion.ts */
   --dur-out: 200ms;
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
   --ease-in-out: cubic-bezier(0.45, 0, 0.25, 1);
   --ease-in: cubic-bezier(0.4, 0, 1, 1);
+  /* лёгкая упругость: перелёт ~5% и успокоение без колебаний */
+  --ease-spring: cubic-bezier(0.34, 1.36, 0.64, 1);
+  /* листы и экраны: быстрый старт, долгое мягкое торможение */
+  --ease-glide: cubic-bezier(0.16, 1, 0.3, 1);
   --stagger: 35ms;
 }
 
@@ -27,7 +36,21 @@
 @keyframes m-rise {
   from {
     opacity: 0;
-    transform: translateY(10px);
+    transform: translateY(12px);
+  }
+}
+/* всплывающие окна и уведомления: подъём с лёгким увеличением — ощущение глубины */
+@keyframes m-float {
+  from {
+    opacity: 0;
+    transform: translateY(14px) scale(0.96);
+  }
+}
+/* экран вкладки: подъём из глубины */
+@keyframes m-screen {
+  from {
+    opacity: 0;
+    transform: translateY(14px) scale(0.985);
   }
 }
 @keyframes m-up {
@@ -38,7 +61,7 @@
 @keyframes m-pop {
   from {
     opacity: 0;
-    transform: scale(0.6);
+    transform: scale(0.5);
   }
 }
 @keyframes m-out-down {
@@ -82,17 +105,17 @@
 @keyframes m-in-push {
   from {
     opacity: 0;
-    transform: translateX(12px);
+    transform: translateX(28px);
   }
 }
 @keyframes m-in-pop {
   from {
     opacity: 0;
-    transform: translateX(-12px);
+    transform: translateX(-28px);
   }
 }
 :where(main > .screen) {
-  animation: m-rise var(--dur-base) var(--ease-out) backwards;
+  animation: m-screen var(--dur-slow) var(--ease-glide) backwards;
 }
 :where(main[data-nav='push'] > .screen) {
   animation-name: m-in-push;
@@ -168,14 +191,20 @@ html {
   width: calc((100% - var(--safe-l) - var(--safe-r)) / 5);
   height: 3px;
   transform: translateX(calc(var(--i, 0) * 100%));
-  transition: transform var(--dur-slow) var(--ease-out);
+  transition: transform var(--dur-slow) var(--ease-spring);
   pointer-events: none;
 }
 .nav-item .nav-ic {
-  transition: transform var(--dur-fast) var(--ease-out);
+  transition: transform var(--dur-release) var(--ease-spring);
+}
+/* активная вкладка: значок чуть приподнимается */
+.nav-item[aria-current='page'] .nav-ic {
+  transform: translateY(-1px) scale(1.06);
 }
 .nav-item:active .nav-ic {
-  transform: scale(0.9);
+  transform: scale(0.86);
+  transition-duration: var(--dur-press);
+  transition-timing-function: var(--ease-out);
 }
 .nav-ind::before {
   content: '';
@@ -203,7 +232,7 @@ html {
 .chk,
 .switch {
   transition:
-    transform var(--dur-fast) var(--ease-out),
+    transform var(--dur-release) var(--ease-spring),
     opacity var(--dur-fast) var(--ease-out);
 }
 .btn:active:not(:disabled),
@@ -225,8 +254,19 @@ html {
 .as-btn:active:not(:disabled),
 .item summary:active,
 .pic-live:active {
-  transform: scale(0.97);
+  transform: scale(0.96);
   opacity: 1;
+  /* сжатие — мгновенно, отпускание — мягкий возврат с упругостью (transition выше и в base.css) */
+  transition-duration: var(--dur-press);
+  transition-timing-function: var(--ease-out);
+}
+/* крупные карточки сжимаются меньше — иначе заметно «прыгают» края */
+.lib-card:active,
+.list > li > a:active,
+.list > li > button:active,
+.item summary:active,
+.pic-live:active {
+  transform: scale(0.98);
 }
 
 /* 4. Окна и листы: фон затемняется, панель выезжает снизу; закрытие — обратная анимация */
@@ -236,14 +276,14 @@ html {
 .sheet,
 .modal,
 .action-sheet {
-  animation: m-up var(--dur-slow) var(--ease-out);
+  animation: m-up var(--dur-slow) var(--ease-glide);
 }
 @media (min-width: 760px) {
   /* на ПК окно по центру: короткий подъём вместо выезда из-за края */
   .sheet,
   .modal,
   .action-sheet {
-    animation: m-rise var(--dur-base) var(--ease-out);
+    animation: m-float var(--dur-base) var(--ease-spring);
   }
 }
 .scrim.leaving {
@@ -254,7 +294,7 @@ html {
   animation: m-out-down var(--dur-out) var(--ease-in) forwards;
 }
 .toast {
-  animation: m-rise var(--dur-base) var(--ease-out);
+  animation: m-float var(--dur-base) var(--ease-spring);
 }
 
 /* Онбординг: полоска прогресса шагов заполняется плавно */
@@ -298,7 +338,7 @@ html {
   position: relative;
 }
 .set-done.on > .icon {
-  animation: m-pop var(--dur-base) var(--ease-out);
+  animation: m-pop var(--dur-slow) var(--ease-spring);
 }
 .set-done.on::after {
   content: '';
@@ -311,7 +351,7 @@ html {
   animation: m-ring 420ms var(--ease-out);
 }
 .tp .tp-sw {
-  transition: transform var(--dur-fast) var(--ease-out);
+  transition: transform var(--dur-release) var(--ease-spring);
 }
 .tp.on .tp-sw {
   transform: scale(1.03);
@@ -424,5 +464,17 @@ html {
     transition-duration: 0s !important;
     transition-delay: 0s !important;
     scroll-behavior: auto !important;
+  }
+}
+
+/* Без движения нажатие всё равно видно: элемент на миг становится бледнее, без сжатия */
+:root[data-motion='off'] :is(.btn, .btn-ghost, .seg-btn, .set-done, .day, .row, .icon-btn, .rest-adj, .rest-main, .rest-skip, .stepper button, .toast-act, .lib-card, .list > li > a, .list > li > button, .tp, .as-btn, .item summary, .pic-live, .nav-item .nav-ic):active {
+  transform: none;
+  opacity: 0.6;
+}
+@media (prefers-reduced-motion: reduce) {
+  :root:not([data-motion='on']) :is(.btn, .btn-ghost, .seg-btn, .set-done, .day, .row, .icon-btn, .rest-adj, .rest-main, .rest-skip, .stepper button, .toast-act, .lib-card, .list > li > a, .list > li > button, .tp, .as-btn, .item summary, .pic-live, .nav-item .nav-ic):active {
+    transform: none;
+    opacity: 0.6;
   }
 }

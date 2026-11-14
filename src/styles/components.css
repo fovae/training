@@ -874,7 +874,7 @@ section + .card {
   border-radius: 50%;
   background: #fff;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
-  transition: transform var(--dur-base) var(--ease-in-out);
+  transition: transform var(--dur-slow) var(--ease-spring);
 }
 .switch.on {
   background: var(--accent);

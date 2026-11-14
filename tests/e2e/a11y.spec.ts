@@ -54,12 +54,12 @@ const THEMES = [
   'monochrome',
   'gradient',
   'pine-dusk',
-  'ocean-night',
+  'golden-hour',
   'violet-dusk',
   'rose-dusk',
   'slate-blue',
-  'teal-night',
-  'crimson-night',
+  'sun-paper',
+  'coffee-dusk',
 ];
 
 test('accessibility in every theme on key screens', async ({ page }, info) => {

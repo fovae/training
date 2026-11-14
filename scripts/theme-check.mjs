@@ -27,12 +27,12 @@ export const EXPECTED = [
   'monochrome',
   'gradient',
   'pine-dusk',
-  'ocean-night',
+  'golden-hour',
   'violet-dusk',
   'rose-dusk',
   'slate-blue',
-  'teal-night',
-  'crimson-night',
+  'sun-paper',
+  'coffee-dusk',
 ];
 
 /** Самая сильная подкраска цветом под текстом — 14% поверх карточки (плашки, вкладка; в CSS 8–13%) */

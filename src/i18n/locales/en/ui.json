@@ -522,6 +522,14 @@
       "continue": "Continue in browser",
       "profileNote": "Fill in your profile in the installed app: the browser tab and the installed app keep separate data."
     },
+    "ios27": {
+      "menu": "Tap the button with three lines (≡) to the left of the address bar at the bottom of the screen.",
+      "menuNote": "It’s at the bottom, next to the address bar.",
+      "share": "In the menu that opens, tap “Share”.",
+      "more": "Tap “View More” — the button with a down arrow to the right of Copy, Add to Bookmarks and Add to Reading List.",
+      "moreNote": "The full list of actions opens.",
+      "add": "Tap “Add to Home Screen” (a plus in a square)."
+    },
     "ios": {
       "openInApp": "Open this link in Safari.",
       "dots": "Tap “⋯” next to the address bar.",
@@ -648,12 +656,12 @@
     "monochrome": "Monochrome",
     "gradient": "Gradient",
     "pine-dusk": "Pine Dusk",
-    "ocean-night": "Ocean Night",
+    "golden-hour": "Golden Hour",
     "violet-dusk": "Violet Dusk",
     "rose-dusk": "Rose Dusk",
     "slate-blue": "Slate Blue",
-    "teal-night": "Teal Night",
-    "crimson-night": "Crimson Night"
+    "sun-paper": "Sun Paper",
+    "coffee-dusk": "Coffee Dusk"
   },
   "stats": {
     "weeksTitle": "Last 10 weeks",
