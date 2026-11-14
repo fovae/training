@@ -46,7 +46,7 @@ async function check(page: Page, name: string) {
     // длинный список (250+ карточек) выше предела скриншота 32767 px — тогда снимаем только экран
     .attach(name, {
       body: await page.screenshot({
-        fullPage: (await page.evaluate(() => document.documentElement.scrollHeight)) < 30000,
+        fullPage: (await page.evaluate(() => document.documentElement.scrollHeight)) < 20000,
       }),
       contentType: 'image/png',
     });

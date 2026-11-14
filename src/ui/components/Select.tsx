@@ -95,51 +95,62 @@ const GAP = 6;
 const EDGE = 12;
 const MAX_H = 360;
 
+type Pos = { left: number; top?: number; bottom?: number; width: number; maxH: number; up: boolean };
+
+/** Положение списка: под кнопкой или над ней (где больше места), в пределах экрана */
+function place(cur: OpenList): Pos {
+  const r = cur.anchor.getBoundingClientRect();
+  const vh = window.innerHeight;
+  const vw = document.documentElement.clientWidth;
+  const below = vh - r.bottom - GAP - EDGE;
+  const above = r.top - GAP - EDGE;
+  const want = Math.min(MAX_H, cur.options.length * 46 + 12);
+  const up = below < want && above > below;
+  const width = Math.min(Math.max(r.width, 200), vw - 2 * EDGE);
+  const left = Math.min(Math.max(EDGE, r.left), vw - EDGE - width);
+  return up
+    ? { left, bottom: vh - r.top + GAP, width, maxH: Math.min(MAX_H, above), up }
+    : { left, top: r.bottom + GAP, width, maxH: Math.min(MAX_H, below), up };
+}
+
 /** Слой открытого списка (один на приложение, App.tsx) */
 export function SelectHost() {
   const { item: cur, leaving } = usePresence(openList.value);
   const box = useRef<HTMLDivElement>(null);
-  const [pos, setPos] = useState<{ left: number; top?: number; bottom?: number; width: number; maxH: number; up: boolean } | null>(null);
+  const [pos, setPos] = useState<Pos | null>(null);
   const [act, setAct] = useState(0);
+  // список только что открыт: фокус и прокрутка к выбранному — один раз, не при каждом сдвиге
+  const fresh = useRef(false);
 
-  // Положение: под кнопкой или над ней, в пределах экрана; пункт выбранного — в центре видимого
   useLayoutEffect(() => {
     if (!cur || leaving) return;
-    const r = cur.anchor.getBoundingClientRect();
-    const vh = window.innerHeight;
-    const vw = document.documentElement.clientWidth;
-    const below = vh - r.bottom - GAP - EDGE;
-    const above = r.top - GAP - EDGE;
-    const want = Math.min(MAX_H, cur.options.length * 46 + 12);
-    const up = below < want && above > below;
-    const width = Math.min(Math.max(r.width, 200), vw - 2 * EDGE);
-    const left = Math.min(Math.max(EDGE, r.left), vw - EDGE - width);
-    setPos(
-      up
-        ? { left, bottom: vh - r.top + GAP, width, maxH: Math.min(MAX_H, above), up }
-        : { left, top: r.bottom + GAP, width, maxH: Math.min(MAX_H, below), up },
+    fresh.current = true;
+    setPos(place(cur));
+    setAct(
+      Math.max(
+        0,
+        cur.options.findIndex((o) => o.value === cur.value),
+      ),
     );
-    const i = Math.max(
-      0,
-      cur.options.findIndex((o) => o.value === cur.value),
-    );
-    setAct(i);
   }, [cur, leaving]);
 
   useLayoutEffect(() => {
     const el = box.current;
-    if (!el || !cur || leaving || !pos) return;
+    if (!el || !cur || leaving || !pos || !fresh.current) return;
+    fresh.current = false;
     el.focus({ preventScroll: true });
     const sel = el.querySelector<HTMLElement>('[aria-selected="true"]');
     if (sel) el.scrollTop = sel.offsetTop - (el.clientHeight - sel.offsetHeight) / 2;
   }, [pos]);
 
-  // Прокрутка страницы, поворот экрана — список закрывается (иначе «отрывается» от кнопки)
+  // Прокрутка страницы: список едет вместе с полем; поле ушло за край экрана или поворот — закрыть
   useLayoutEffect(() => {
     if (!cur || leaving) return;
     const onScroll = (e: Event) => {
       if (box.current && e.target instanceof Node && box.current.contains(e.target)) return;
-      close(false);
+      const r = cur.anchor.getBoundingClientRect();
+      if (!cur.anchor.isConnected || r.bottom < 0 || r.top > window.innerHeight) return close(false);
+      setPos(place(cur));
     };
     const onResize = () => close(false);
     addEventListener('scroll', onScroll, { capture: true, passive: true });
