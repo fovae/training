@@ -83,8 +83,13 @@ export async function buildBackup(
   };
 }
 
-export const backupFileName = (now = new Date()): string =>
-  `simple-training-backup-${now.toISOString().slice(0, 10)}.json`;
+/**
+ * Одно постоянное имя внешней копии: при повторном сохранении система может предложить заменить
+ * прежний файл. Дата и версия схемы — внутри JSON (createdAt, schemaVersion). Импорт читает файл по
+ * содержимому, поэтому старые копии с датой в имени тоже открываются.
+ */
+export const BACKUP_FILE_NAME = 'simple-training-backup.json';
+export const backupFileName = (): string => BACKUP_FILE_NAME;
 
 // ---------- строгая схема ----------
 
@@ -171,6 +176,8 @@ const SettingsSchema = v.strictObject({
   restBaseSec: int(15, 600),
   restIsoSec: int(15, 600),
   sound: v.boolean(),
+  // копии до 3.3 поля не содержат — вспышка выключена
+  flash: v.optional(v.boolean()),
   wakeLock: v.boolean(),
   lastBackupAt: v.optional(iso),
   backupReminderDismissedAt: v.optional(iso),

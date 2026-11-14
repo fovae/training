@@ -250,7 +250,8 @@ test('timer counts from timestamps and signals the end', async ({ page }) => {
   // ровно до конца отдыха: сигнал подаётся, только если отдых закончился < 30 с назад
   await page.clock.fastForward((await secs()) * 1000 + 1000);
   await expect(clock).toHaveText('Go!');
-  await expect(page.locator('.flash')).toBeVisible();
+  // звук и вспышка по умолчанию выключены (включаются в настройках)
+  await expect(page.locator('.flash')).toHaveCount(0);
 });
 
 test('weekdays mode: today follows the day of the week', async ({ page }) => {
@@ -276,7 +277,7 @@ test('backup: save a copy (download fallback), delete all data, restore, undo', 
   await page.getByRole('link', { name: 'Settings', exact: true }).click();
   // Подписи из Terms и Privacy — буквально: «Settings → About», «Settings → Delete all data»
   await expect(page.getByRole('heading', { name: 'About', exact: true })).toBeVisible();
-  await expect(page.getByText('not saved yet')).toBeVisible();
+  await expect(page.getByText('not exported yet')).toBeVisible();
   // Нет системного «Поделиться» с файлом — обычная загрузка
   await page.evaluate(() => {
     Object.defineProperty(navigator, 'canShare', { value: undefined, configurable: true });
@@ -285,8 +286,13 @@ test('backup: save a copy (download fallback), delete all data, restore, undo', 
   await page.getByRole('button', { name: 'Save a copy' }).click();
   const file = await dl;
   const path = await file.path();
-  expect(file.suggestedFilename()).toMatch(/^simple-training-backup-\d{4}-\d{2}-\d{2}\.json$/);
-  await expect(page.getByText('not saved yet')).toHaveCount(0);
+  expect(file.suggestedFilename()).toBe('simple-training-backup.json');
+  // скачивание браузер не подтверждает — спрашиваем; пока не ответили «Да», копия не засчитана
+  const askSaved = page.getByRole('alertdialog').filter({ hasText: 'Did the file save?' });
+  await expect(askSaved).toBeVisible();
+  await expect(page.getByText('not exported yet')).toBeVisible();
+  await askSaved.getByRole('button', { name: 'Yes, the file is there' }).click();
+  await expect(page.getByText('not exported yet')).toHaveCount(0);
 
   await page.getByRole('button', { name: 'Delete all data' }).click();
   await expect(page.getByRole('alertdialog')).toContainText('cannot be undone');

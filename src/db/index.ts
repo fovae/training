@@ -8,12 +8,14 @@ import { migrateProfileV2, migrateSettingsV2, migrateSettingsV3 } from './migrat
  *  v3 — этап 2: новые поля настроек и профиля (см. migrations.ts); удалены остатки v1
  *       (хранилище workouts, kv.legacyPrefs, kv.activeWorkout).
  *  v4 — релиз 3.0: новый набор тем (сохранённая тема переводится по карте), настройка «Анимации».
+ *  v5 — 3.3: локальные точки восстановления (хранилище restorePoints, не больше трёх). Перед каждым
+ *       обновлением схемы данные сохраняются точкой «перед обновлением» — до шагов миграции.
  *
  * При изменении структуры увеличь DB_VERSION и добавь шаг `if (oldVersion < N)` в upgrade().
  * Шаги идут по порядку от старой версии к новой. Старые шаги не удаляются.
  */
 export const DB_NAME = 'training-pwa';
-export const DB_VERSION = 4;
+export const DB_VERSION = 5;
 
 /** Снимок данных перед восстановлением из копии — для «Отменить восстановление» */
 export interface RestoreSnapshot {
@@ -27,6 +29,22 @@ export interface RestoreSnapshot {
 
 type KvKey = 'profile' | 'plan' | 'settings' | 'activeSession' | 'restoreSnapshot';
 
+/**
+ * Локальная точка восстановления: полные данные приложения на момент перед рискованной операцией.
+ * Хранится в этом же IndexedDB — защищает от ошибок импорта и обновления, но не от потери или
+ * очистки устройства (для этого — внешняя копия-файл). Не больше MAX_RESTORE_POINTS, старые удаляются.
+ */
+export type RestoreReason = 'upgrade' | 'import' | 'restore';
+export interface RestorePoint {
+  id: string;
+  takenAt: string;
+  reason: RestoreReason;
+  /** Версия схемы IndexedDB, в которой сняты данные (при восстановлении — миграция до текущей) */
+  dbVersion: number;
+  data: FullData;
+}
+export const MAX_RESTORE_POINTS = 3;
+
 interface TrainingDB extends DBSchema {
   sessions: {
     key: string;
@@ -34,6 +52,7 @@ interface TrainingDB extends DBSchema {
     indexes: { 'by-started': string; 'by-day': string };
   };
   kv: { key: KvKey; value: unknown };
+  restorePoints: { key: string; value: RestorePoint };
 }
 
 let dbp: Promise<IDBPDatabase<TrainingDB>> | null = null;
@@ -48,7 +67,31 @@ export function db(): Promise<IDBPDatabase<TrainingDB>> {
         s.createIndex('by-started', 'startedAt');
         s.createIndex('by-day', 'dayId');
       }
+      if (!names.contains('restorePoints')) database.createObjectStore('restorePoints', { keyPath: 'id' });
       if (oldVersion < 1) return; // новая установка
+
+      // Перед любым обновлением схемы — точка восстановления с данными ДО миграции (v2+)
+      if (oldVersion >= 2) {
+        const kv = tx.objectStore('kv');
+        const data: FullData = {
+          profile: ((await kv.get('profile')) as Profile | undefined) ?? null,
+          plan: ((await kv.get('plan')) as Plan | undefined) ?? null,
+          settings: ((await kv.get('settings')) as Settings | undefined) ?? null,
+          active: ((await kv.get('activeSession')) as Session | undefined) ?? null,
+          sessions: await tx.objectStore('sessions').getAll(),
+        };
+        const points = tx.objectStore('restorePoints');
+        // снимок «Отменить восстановление» прежних версий тоже становится точкой
+        const undo = (await kv.get('restoreSnapshot')) as RestoreSnapshot | undefined;
+        if (undo && oldVersion < 5) {
+          const { takenAt, ...rest } = undo;
+          await points.put({ id: 'p-' + Date.parse(takenAt), takenAt, reason: 'import', dbVersion: oldVersion, data: rest });
+        }
+        const now = new Date().toISOString();
+        await points.put({ id: 'p-' + Date.now(), takenAt: now, reason: 'upgrade', dbVersion: oldVersion, data });
+        const all = (await points.getAll()).sort((a, b) => a.takenAt.localeCompare(b.takenAt));
+        for (const old of all.slice(0, Math.max(0, all.length - MAX_RESTORE_POINTS))) await points.delete(old.id);
+      }
 
       if (oldVersion < 3) {
         // v2 → v3: новые поля настроек и профиля; остатки v1 больше не нужны
@@ -181,9 +224,49 @@ export async function readAll(): Promise<FullData> {
   return { profile, plan, settings, active, sessions };
 }
 
-/** Полный сброс: журнал, профиль, план, настройки */
+/** Полный сброс: журнал, профиль, план, настройки и локальные точки восстановления — удаляется всё */
 export async function clearAll(): Promise<void> {
   const d = await db();
-  const tx = d.transaction(['sessions', 'kv'], 'readwrite');
-  await Promise.all([tx.objectStore('sessions').clear(), tx.objectStore('kv').clear(), tx.done]);
+  const tx = d.transaction(['sessions', 'kv', 'restorePoints'], 'readwrite');
+  await Promise.all([
+    tx.objectStore('sessions').clear(),
+    tx.objectStore('kv').clear(),
+    tx.objectStore('restorePoints').clear(),
+    tx.done,
+  ]);
+}
+
+// ---------- локальные точки восстановления ----------
+
+/** Точки, новые первыми */
+export async function listRestorePoints(): Promise<RestorePoint[]> {
+  const all = await (await db()).getAll('restorePoints');
+  return all.sort((a, b) => b.takenAt.localeCompare(a.takenAt));
+}
+
+export const getRestorePoint = async (id: string): Promise<RestorePoint | null> =>
+  (await (await db()).get('restorePoints', id)) ?? null;
+
+/** Сохраняет текущие данные точкой восстановления; самые старые сверх трёх удаляются */
+export async function addRestorePoint(reason: RestoreReason, data?: FullData): Promise<void> {
+  const snap = data ?? (await readAll());
+  const d = await db();
+  const tx = d.transaction('restorePoints', 'readwrite');
+  const st = tx.objectStore('restorePoints');
+  const takenAt = new Date().toISOString();
+  await st.put({ id: 'p-' + Date.now() + '-' + Math.random().toString(36).slice(2, 6), takenAt, reason, dbVersion: DB_VERSION, data: snap });
+  const all = (await st.getAll()).sort((a, b) => a.takenAt.localeCompare(b.takenAt));
+  for (const old of all.slice(0, Math.max(0, all.length - MAX_RESTORE_POINTS))) await st.delete(old.id);
+  await tx.done;
+}
+
+/** Данные точки, снятой в старой схеме, — к текущей (те же шаги, что в upgrade()) */
+export function upgradePointData(p: RestorePoint): FullData {
+  const d = structuredClone(p.data);
+  if (p.dbVersion < 3) {
+    if (d.settings) d.settings = migrateSettingsV2(d.settings) as Settings;
+    d.profile = (migrateProfileV2(d.profile) as Profile | null) ?? d.profile;
+  }
+  if (p.dbVersion < 4 && d.settings) d.settings = migrateSettingsV3(d.settings) as Settings;
+  return d;
 }

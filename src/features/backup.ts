@@ -9,10 +9,14 @@ import { setLocale, t } from '../i18n';
 import { loadPlan } from '../state/plan';
 import { history, loadSessions } from '../state/session';
 import { loadSettingsAndProfile, profile, settings, updateSettings } from '../state/settings';
+import { ask, toast } from '../state/ui';
 
 /**
  * «Сохранить копию» и «Восстановить из копии» (формат — src/backup/format.ts, docs/BACKUP.md).
  * Копия через системное меню «Поделиться» (файл), запасной путь — обычная загрузка файла.
+ * Дата экспорта (settings.lastBackupAt) пишется только при подтверждении: «Поделиться» сообщило об
+ * успехе или человек сам ответил «Да, файл на месте» после скачивания. Открытие меню — не подтверждение.
+ * Куда ушёл файл (Файлы, iCloud, почта), приложение не знает и об облаке не говорит.
  */
 
 export type SaveResult = 'shared' | 'downloaded' | 'cancelled';
@@ -38,6 +42,7 @@ export async function saveCopy(): Promise<SaveResult> {
     }
   }
   if (!result) {
+    // Скачивание: браузер не сообщает, сохранился ли файл, — дату здесь не пишем (см. saveCopyFlow)
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
@@ -46,10 +51,40 @@ export async function saveCopy(): Promise<SaveResult> {
     a.click();
     a.remove();
     setTimeout(() => URL.revokeObjectURL(url), 10_000);
-    result = 'downloaded';
+    return 'downloaded';
   }
-  updateSettings({ lastBackupAt: new Date().toISOString() });
+  markExported();
   return result;
+}
+
+/** Экспорт подтверждён — запоминаем точное время (от него считается напоминание) */
+export function markExported(): void {
+  updateSettings({ lastBackupAt: new Date().toISOString() });
+}
+
+/**
+ * «Сохранить копию» целиком, для кнопок в настройках и в напоминании: «Поделиться» с успехом —
+ * копия засчитана; скачивание — спрашиваем, сохранился ли файл, и засчитываем только по «Да».
+ */
+export async function saveCopyFlow(): Promise<void> {
+  try {
+    const r = await saveCopy();
+    if (r === 'shared') toast(t('backup.saved'));
+    if (r !== 'downloaded') return;
+    const ok = await ask({
+      title: t('backup.askSavedTitle'),
+      body: t('backup.askSavedBody'),
+      confirm: t('backup.askSavedYes'),
+      cancel: t('backup.askSavedNo'),
+    });
+    if (ok === 'confirm') {
+      markExported();
+      toast(t('backup.saved'));
+    } else toast(t('backup.notCounted'));
+  } catch (e) {
+    console.error(e);
+    toast(t('backup.saveFailed'));
+  }
 }
 
 // ---------- восстановление ----------
@@ -83,6 +118,8 @@ async function reloadState(): Promise<void> {
 /** Заменить данные одной транзакцией, сохранив снимок прежних для отката */
 export async function applyRestore(r: ReadyRestore): Promise<void> {
   const cur = await store.readAll();
+  // Локальная точка «перед импортом» — переживает дальнейшие изменения (в отличие от «Отменить»)
+  await store.addRestorePoint('import', cur);
   const snapshot: store.RestoreSnapshot = { takenAt: new Date().toISOString(), ...cur };
   const d = r.parsed.data;
   await store.replaceAll(
@@ -98,6 +135,7 @@ export async function applyRestore(r: ReadyRestore): Promise<void> {
   );
   await reloadState();
   undoAvailable.value = true;
+  await loadRestorePoints();
 }
 
 export async function undoRestore(): Promise<boolean> {
@@ -165,9 +203,38 @@ export async function requestPersist(): Promise<void> {
   }
 }
 
-/** «Delete all data»: удаляет всё, приложение возвращается к онбордингу */
+/** «Delete all data»: удаляет всё, включая локальные точки восстановления; приложение — к онбордингу */
 export async function resetAll(): Promise<void> {
   await store.clearAll();
   undoAvailable.value = false;
+  restorePoints.value = [];
   await reloadState();
+}
+
+// ---------- локальные точки восстановления (не больше трёх, src/db) ----------
+
+export const restorePoints = signal<store.RestorePoint[]>([]);
+
+export async function loadRestorePoints(): Promise<void> {
+  restorePoints.value = await store.listRestorePoints();
+}
+
+/** Вернуть данные точки. Текущее состояние перед этим тоже сохраняется точкой («перед восстановлением»). */
+export async function restoreFromPoint(id: string): Promise<boolean> {
+  const p = await store.getRestorePoint(id);
+  if (!p) return false;
+  const data = store.upgradePointData(p);
+  await store.addRestorePoint('restore');
+  await store.replaceAll(
+    {
+      ...data,
+      // дата экспорта — текущая: точка не делает внешнюю копию свежее или старее
+      settings: data.settings ? { ...data.settings, lastBackupAt: settings.value.lastBackupAt } : data.settings,
+    },
+    null,
+  );
+  await reloadState();
+  undoAvailable.value = false;
+  await loadRestorePoints();
+  return true;
 }

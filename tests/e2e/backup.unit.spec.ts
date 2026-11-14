@@ -55,7 +55,9 @@ test('round trip: build → parse, checksum, summary, temporary settings dropped
   expect(file.schemaVersion).toBe(BACKUP_SCHEMA);
   expect(file.checksum).toMatch(/^sha256:[0-9a-f]{64}$/);
   expect(file.data.settings.tipState).toEqual({});
-  expect(backupFileName(new Date('2026-11-12T09:00:00Z'))).toBe('simple-training-backup-2026-11-12.json');
+  // одно постоянное имя; дата и версия схемы — внутри JSON
+  expect(backupFileName()).toBe('simple-training-backup.json');
+  expect(file.createdAt).toBe('2026-11-12T09:00:00.000Z');
   const text = JSON.stringify(file, null, 2);
   const parsed = await parseBackup(text);
   expect(parsed.data.sessions[0]!.note).toBe('Felt good\nline two');
@@ -172,13 +174,15 @@ test('release 3.0: copies of schema 3 with removed themes are read, the theme is
   });
 });
 
-test('reminder: every 7 days, snooze 3 days', () => {
+test('reminder: every 14 days after the last export, dismissed — until the next due date', () => {
   const now = Date.parse('2026-11-12T10:00:00Z');
   const ago = (d: number) => new Date(now - d * DAY).toISOString();
   expect(backupReminderDue({}, 0, now)).toBe(false);
   expect(backupReminderDue({}, 1, now)).toBe(true);
-  expect(backupReminderDue({ lastBackupAt: ago(6) }, 5, now)).toBe(false);
-  expect(backupReminderDue({ lastBackupAt: ago(7) }, 5, now)).toBe(true);
-  expect(backupReminderDue({ lastBackupAt: ago(8), backupReminderDismissedAt: ago(2) }, 5, now)).toBe(false);
-  expect(backupReminderDue({ lastBackupAt: ago(8), backupReminderDismissedAt: ago(3) }, 5, now)).toBe(true);
+  expect(backupReminderDue({ lastBackupAt: ago(13) }, 5, now)).toBe(false);
+  expect(backupReminderDue({ lastBackupAt: ago(14) }, 5, now)).toBe(true);
+  expect(backupReminderDue({ lastBackupAt: ago(20), backupReminderDismissedAt: ago(13) }, 5, now)).toBe(false);
+  expect(backupReminderDue({ lastBackupAt: ago(30), backupReminderDismissedAt: ago(14) }, 5, now)).toBe(true);
+  // копии не было: закрытое напоминание тоже молчит до следующего срока
+  expect(backupReminderDue({ backupReminderDismissedAt: ago(5) }, 3, now)).toBe(false);
 });

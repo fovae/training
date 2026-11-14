@@ -138,7 +138,7 @@ type Session = {
     sets: { weightKg?: number; reps?: number; seconds?: number; done: boolean }[] }[];
 };
 type Settings = { theme: string; tipsEnabled: boolean; restBaseSec: number; restIsoSec: number;
-  sound: boolean; wakeLock: boolean; lastBackupAt?: string; };
+  sound: boolean; flash?: boolean; wakeLock: boolean; lastBackupAt?: string; };
 ```
 
 Вес храним в кг, конвертируем только на выводе. `exerciseId` стабильный, никогда не переиспользуется.

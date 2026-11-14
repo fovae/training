@@ -133,7 +133,7 @@ test('tips: progression shows after top reps, can be dismissed, switch turns all
   await expect(page.getByRole('note').filter({ hasText: 'you can add a little weight' })).toHaveCount(0);
 });
 
-test('backup via the share sheet; reminder every 7 days with a fake clock', async ({ page }) => {
+test('backup via the share sheet; reminder every 14 days with a fake clock', async ({ page }) => {
   await page.clock.install({ time: new Date('2026-11-12T10:00:00') });
   await fresh(page);
   await onboard(page);
@@ -142,7 +142,7 @@ test('backup via the share sheet; reminder every 7 days with a fake clock', asyn
   await page.getByRole('link', { name: 'Today' }).click();
   const reminder = page.getByRole('complementary', { name: 'Backup reminder' });
   await expect(reminder).toContainText("Save a copy so you don't lose your progress");
-  // Закрыли — нет 3 дня
+  // Закрыли — нет до следующего срока (14 дней)
   await reminder.getByRole('button', { name: 'Remind me later' }).click();
   await expect(reminder).toHaveCount(0);
   await expect
@@ -151,10 +151,12 @@ test('backup via the share sheet; reminder every 7 days with a fake clock', asyn
         (await kv<{ backupReminderDismissedAt?: string }>(page, 'settings'))?.backupReminderDismissedAt,
     )
     .toBeTruthy();
-  await page.clock.setFixedTime(new Date('2026-11-14T10:00:00'));
+  await page.clock.setFixedTime(new Date('2026-11-20T10:00:00'));
+  await page.evaluate(() => localStorage.setItem('tp-install-skip', new Date().toISOString()));
   await page.reload();
   await expect(reminder).toHaveCount(0);
-  await page.clock.setFixedTime(new Date('2026-11-15T11:00:00'));
+  await page.clock.setFixedTime(new Date('2026-11-26T11:00:00'));
+  await page.evaluate(() => localStorage.setItem('tp-install-skip', new Date().toISOString()));
   await page.reload();
   await expect(reminder).toBeVisible();
 
@@ -170,16 +172,16 @@ test('backup via the share sheet; reminder every 7 days with a fake clock', asyn
     });
   });
   await reminder.getByRole('button', { name: 'Save a copy' }).click();
-  await expect(page.getByText('Copy ready')).toBeVisible();
+  await expect(page.getByText('Copy exported')).toBeVisible();
   expect(await page.evaluate(() => (window as unknown as { __shared?: string }).__shared)).toBe(
-    'simple-training-backup-2026-11-15.json|application/json',
+    'simple-training-backup.json|application/json',
   );
   await expect(reminder).toHaveCount(0);
   await expect
     .poll(async () => (await kv<{ lastBackupAt?: string }>(page, 'settings'))?.lastBackupAt)
-    .toMatch(/^2026-11-15/);
-  // Через 7 дней — снова
-  await page.clock.setFixedTime(new Date('2026-11-22T12:00:00'));
+    .toMatch(/^2026-11-26/);
+  // Через 14 дней — снова
+  await page.clock.setFixedTime(new Date('2026-12-10T12:00:00'));
   // за 10 дней истёк и недельный пропуск экрана установки — ставим заново
   await page.evaluate(() => localStorage.setItem('tp-install-skip', new Date().toISOString()));
   await page.reload();
@@ -306,4 +308,45 @@ test('Russian: legal documents open in English with a notice', async ({ page }) 
     timeout: 15_000,
   });
   await expect(page.getByText('Юридические документы пока доступны только на английском')).toBeVisible();
+});
+
+test('restore points: one before an import, restoring brings data back, delete all removes them', async ({
+  page,
+}, info) => {
+  await fresh(page);
+  await onboard(page);
+  await page.getByRole('link', { name: 'Settings', exact: true }).click();
+  const points = page.locator('#data');
+  await expect(points).toContainText('Restore points');
+  await expect(points).toContainText('None yet');
+  // импорт копии с другой темой — перед ним появляется точка «Before an import»
+  const file = await buildBackup(
+    { profile: null, plan: null, settings: { ...DEFAULT_SETTINGS, theme: 'monochrome' }, sessions: [] },
+    '3.3.0',
+  );
+  const path = info.outputPath('empty.json');
+  writeFileSync(path, JSON.stringify(file));
+  await page.getByTestId('import-input').setInputFiles(path);
+  await page.getByRole('alertdialog').getByRole('button', { name: 'Replace current data' }).click();
+  await expect(page.getByText('Data restored')).toBeVisible();
+  await expect.poll(async () => (await kv<{ theme?: string }>(page, 'settings'))?.theme).toBe('monochrome');
+  await expect(points).toContainText('Before an import');
+  // восстановить точку: тема прежняя
+  await points.getByRole('button', { name: 'Restore', exact: true }).first().click();
+  await page.getByRole('alertdialog').getByRole('button', { name: 'Restore', exact: true }).click();
+  await expect.poll(async () => (await kv<{ theme?: string }>(page, 'settings'))?.theme).not.toBe('monochrome');
+  // текущее состояние перед восстановлением тоже сохранено — точек две, не больше трёх
+  await expect(points).toContainText('Before restoring a point');
+  expect(
+    await page.evaluate(
+      () =>
+        new Promise<number>((res) => {
+          const r = indexedDB.open('training-pwa');
+          r.onsuccess = () => {
+            const q = r.result.transaction('restorePoints').objectStore('restorePoints').count();
+            q.onsuccess = () => res(q.result);
+          };
+        }),
+    ),
+  ).toBeLessThanOrEqual(3);
 });

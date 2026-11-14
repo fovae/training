@@ -37,6 +37,7 @@ export function sanitizeSettings(raw: unknown): Settings {
         ]
       : [],
   };
+  if (typeof r.flash === 'boolean') out.flash = r.flash;
   if (iso(r.lastBackupAt)) out.lastBackupAt = r.lastBackupAt as string;
   if (iso(r.backupReminderDismissedAt)) out.backupReminderDismissedAt = r.backupReminderDismissedAt as string;
   return out;

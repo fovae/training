@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'preact/hooks';
-import { LOCALES, fmtDate, locale, setLocale, t } from '../../i18n';
+import { LOCALES, fmtDate, fmtTime, locale, setLocale, t } from '../../i18n';
 import { CONTACT_EMAIL } from '../../lib/meta';
 import { profile, saveProfile, settings, updateProfile, updateSettings } from '../../state/settings';
 import { ask, route, toast } from '../../state/ui';
@@ -10,8 +10,11 @@ import {
   persistStatus,
   readBackupFile,
   requestPersist,
+  loadRestorePoints,
   resetAll,
-  saveCopy,
+  restoreFromPoint,
+  restorePoints,
+  saveCopyFlow,
   undoAvailable,
   undoRestore,
 } from '../../features/backup';
@@ -42,16 +45,26 @@ export function Settings() {
 
   useEffect(() => {
     void checkPersist();
+    void loadRestorePoints();
   }, []);
 
-  const onSave = async () => {
+  const onSave = () => saveCopyFlow();
+
+  /** Точная дата и время: «14 ноября, пт, 12:33» */
+  const when = (iso: string) => `${fmtDate(Date.parse(iso))}, ${fmtTime(Date.parse(iso))}`;
+
+  const onRestorePoint = async (id: string, takenAt: string) => {
+    const r = await ask({
+      title: t('backup.pointsAskTitle'),
+      body: t('backup.pointsAskBody', { date: when(takenAt) }),
+      confirm: t('backup.pointsRestore'),
+    });
+    if (r !== 'confirm') return;
     try {
-      const r = await saveCopy();
-      if (r === 'downloaded') toast(t('backup.downloaded'));
-      if (r === 'shared') toast(t('backup.saved'));
+      if (await restoreFromPoint(id)) toast(t('backup.restored'));
     } catch (e) {
       console.error(e);
-      toast(t('backup.saveFailed'));
+      toast(t('backup.err.invalid'));
     }
   };
 
@@ -210,6 +223,13 @@ export function Settings() {
         </div>
         <div class="srow">
           <span>
+            {t('settings.flash')}
+            <small>{t('settings.flashHint')}</small>
+          </span>
+          <Toggle label={t('settings.flash')} on={!!s.flash} onChange={(v) => set('flash', v)} />
+        </div>
+        <div class="srow">
+          <span>
             {t('settings.wake')}
             <small>{t(`settings.wake_${wakeStatus.value}`)}</small>
           </span>
@@ -228,7 +248,7 @@ export function Settings() {
         <div class="srow">
           <span>
             {t('backup.lastCopy')}
-            <small>{s.lastBackupAt ? fmtDate(Date.parse(s.lastBackupAt)) : t('backup.never')}</small>
+            <small>{s.lastBackupAt ? when(s.lastBackupAt) : t('backup.never')}</small>
           </span>
         </div>
         <div class="btn-row">
@@ -251,6 +271,27 @@ export function Settings() {
           <button type="button" class="btn secondary block" onClick={() => void onUndo()}>
             {t('backup.undo')}
           </button>
+        )}
+        <div class="srow">
+          <span>
+            {t('backup.pointsTitle')}
+            <small>
+              {restorePoints.value.length === 0 ? t('backup.pointsNone') : t('backup.pointsNote')}
+            </small>
+          </span>
+        </div>
+        {restorePoints.value.length > 0 && (
+          restorePoints.value.map((p) => (
+            <div class="srow" key={p.id}>
+              <span>
+                {when(p.takenAt)}
+                <small>{t(`backup.pointReason.${p.reason}`)}</small>
+              </span>
+              <button type="button" class="btn-ghost sm" onClick={() => void onRestorePoint(p.id, p.takenAt)}>
+                {t('backup.pointsRestore')}
+              </button>
+            </div>
+          ))
         )}
         <div class="srow">
           <span>

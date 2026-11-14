@@ -74,7 +74,7 @@ function signalDone(): void {
   } catch {
     /* ignore */
   }
-  flash.value++;
+  if (settings.value.flash) flash.value++;
 }
 
 effect(() => {

@@ -125,7 +125,10 @@ export interface Settings {
   tipsEnabled: boolean;
   restBaseSec: number;
   restIsoSec: number;
+  /** Звук в конце отдыха. По умолчанию выключен (3.3) — включает сам человек */
   sound: boolean;
+  /** Вспышка экрана в конце отдыха (3.3, отдельно от звука). Нет поля — выключена */
+  flash?: boolean;
   wakeLock: boolean;
   /** ISO, последняя сохранённая копия */
   lastBackupAt?: string;
@@ -141,7 +144,7 @@ export const DEFAULT_SETTINGS: Settings = {
   tipsEnabled: true,
   restBaseSec: 150,
   restIsoSec: 90,
-  sound: true,
+  sound: false,
   wakeLock: true,
   tipState: {},
   weightWarningIgnored: [],

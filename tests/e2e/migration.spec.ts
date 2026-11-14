@@ -131,8 +131,8 @@ test('v2 data survives the upgrade to the current schema; documents must be acce
         };
       }),
   );
-  expect(db.version).toBe(4);
-  expect(db.stores.sort()).toEqual(['kv', 'sessions']);
+  expect(db.version).toBe(5);
+  expect(db.stores.sort()).toEqual(['kv', 'restorePoints', 'sessions']);
   expect(db.legacy).toBeNull();
   expect(db.accepted).toMatchObject({ privacy: '1.2', terms: '1.0' });
 });
@@ -231,9 +231,26 @@ test('v3 → v4: saved classic-orange becomes Gradient, other settings and histo
   );
 
   const db = await dbState(page);
-  expect(db.version).toBe(4);
+  expect(db.version).toBe(5);
   expect(db.settings).toEqual({ ...SETTINGS_V3, theme: 'gradient', motion: 'system' });
   expect(db.sessions).toBe(1);
+  // перед обновлением схемы — локальная точка восстановления с данными ДО миграции
+  const point = await page.evaluate(
+    () =>
+      new Promise<{ reason: string; dbVersion: number; theme: unknown; sessions: number } | null>((res) => {
+        const r = indexedDB.open('training-pwa');
+        r.onsuccess = () => {
+          const q = r.result.transaction('restorePoints').objectStore('restorePoints').getAll();
+          q.onsuccess = () => {
+            const p = (q.result as { reason: string; dbVersion: number; data: { settings: { theme: unknown }; sessions: unknown[] } }[]).find(
+              (x) => x.reason === 'upgrade',
+            );
+            res(p ? { reason: p.reason, dbVersion: p.dbVersion, theme: p.data.settings.theme, sessions: p.data.sessions.length } : null);
+          };
+        };
+      }),
+  );
+  expect(point).toEqual({ reason: 'upgrade', dbVersion: 3, theme: 'classic-orange', sessions: 1 });
 
   await page.getByRole('link', { name: 'Settings', exact: true }).click();
   await expect(

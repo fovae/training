@@ -25,7 +25,7 @@ import { DayHead } from '../components/DayHead';
 import { DaySwitcher } from '../components/DaySwitcher';
 import { ExerciseCard, TipCard } from '../components/ExerciseCard';
 import { dayTips } from '../../advice';
-import { dismissReminder, reminderDue, saveCopy } from '../../features/backup';
+import { dismissReminder, reminderDue, saveCopyFlow } from '../../features/backup';
 import { Icon } from '../components/Icon';
 import { dayNumber, exName, muscleName } from '../labels';
 import { leave, scrollBehavior } from '../../lib/motion';
@@ -317,13 +317,9 @@ function exActions(
   return actions;
 }
 
-/** «Сохрани копию»: раз в 7 дней, закрытие откладывает на 3 дня. Никаких push. */
+/** «Обнови копию»: раз в 14 дней после подтверждённого экспорта; закрыл — до следующего срока. Никаких push. */
 function BackupReminder() {
-  const onSave = async () => {
-    const r = await saveCopy();
-    if (r === 'downloaded') toast(t('backup.downloaded'));
-    if (r === 'shared') toast(t('backup.saved'));
-  };
+  const onSave = () => saveCopyFlow();
   return (
     <aside class="card backup-reminder" aria-label={t('backup.reminderLabel')}>
       <div class="br-text">

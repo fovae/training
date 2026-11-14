@@ -2,13 +2,14 @@ import type { Settings } from '../types';
 
 /** Напоминание «Сохрани копию» — отдельно от формата копии (тот грузится лениво). */
 
-export const REMIND_EVERY_DAYS = 7;
-export const REMIND_SNOOZE_DAYS = 3;
+export const REMIND_EVERY_DAYS = 14;
+/** Закрытое напоминание не показывается до следующего срока — тоже 14 дней */
+export const REMIND_SNOOZE_DAYS = 14;
 const DAY = 86_400_000;
 
 /**
- * Плашка «Сохрани копию»: с последней копии прошло ≥ 7 дней (или копии не было, а завершённые
- * тренировки есть), и её не закрывали последние 3 дня.
+ * Плашка «Обнови копию»: с последнего подтверждённого экспорта прошло ≥ 14 дней (или экспорта не было,
+ * а сохранить уже есть что — завершённые тренировки), и её не закрывали последние 14 дней.
  */
 export function backupReminderDue(
   s: Pick<Settings, 'lastBackupAt' | 'backupReminderDismissedAt'>,
