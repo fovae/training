@@ -8,6 +8,18 @@ import { useRef } from 'preact/hooks';
 
 const TABS: Exclude<Tab, 'legal'>[] = ['today', 'plan', 'library', 'history', 'settings'];
 
+/**
+ * Наверх, как в iOS: издалека — мгновенный прыжок на экран от верха и плавно последний экран.
+ * Плавная прокрутка через сотни ещё не нарисованных карточек (content-visibility) медленная, а
+ * WebKit её обрывает, когда карточки по пути дорисовываются и меняют высоту.
+ */
+function scrollToTop(): void {
+  const b = scrollBehavior();
+  if (b === 'smooth' && scrollY > innerHeight * 1.5)
+    window.scrollTo({ top: innerHeight, behavior: 'instant' });
+  window.scrollTo({ top: 0, behavior: b });
+}
+
 /** Нижняя таб-панель на телефоне, боковая навигация на широком экране */
 export function Nav() {
   // Нажатая вкладка подсвечивается сразу, ещё до отрисовки её экрана (goTab)
@@ -44,8 +56,7 @@ export function Nav() {
             if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
             e.preventDefault();
             // повторный тап по активному табу — наверх
-            if (cur === id && route.value.tab === id && !route.value.sub)
-              window.scrollTo({ top: 0, behavior: scrollBehavior() });
+            if (cur === id && route.value.tab === id && !route.value.sub) scrollToTop();
             else goTab(id);
           }}
         >
