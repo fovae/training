@@ -43,7 +43,13 @@ async function check(page: Page, name: string) {
   expect(await clipped(page), name).toEqual([]);
   await test
     .info()
-    .attach(name, { body: await page.screenshot({ fullPage: true }), contentType: 'image/png' });
+    // длинный список (250+ карточек) выше предела скриншота 32767 px — тогда снимаем только экран
+    .attach(name, {
+      body: await page.screenshot({
+        fullPage: (await page.evaluate(() => document.documentElement.scrollHeight)) < 30000,
+      }),
+      contentType: 'image/png',
+    });
 }
 
 for (const scheme of ['light', 'dark'] as const) {

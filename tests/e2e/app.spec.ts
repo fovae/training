@@ -94,11 +94,17 @@ test('plan editor: empty days, picker with search and filters, edit, reorder, co
   await page.getByRole('button', { name: 'Add exercise' }).click();
   const sheet = page.getByRole('dialog', { name: 'Add exercise' });
   await sheet.getByRole('searchbox').fill('press');
-  await expect(sheet.getByRole('button', { name: /Leg press/ })).toBeVisible();
+  // имя кнопки — «название + мышцы»: «Leg press Quads…», а не «Leg press calf raise…»
+  await expect(sheet.getByRole('button', { name: /^Leg press [A-Z]/ })).toBeVisible();
   await sheet.getByRole('searchbox').fill('');
   await sheet.getByLabel('Muscle').selectOption('triceps');
   await sheet.getByLabel('Equipment').selectOption('cable');
-  await expect(sheet.getByText('3 exercises')).toBeVisible();
+  const tricepsCable = EXERCISES.filter(
+    (e) =>
+      (e.primaryMuscles.includes('triceps') || e.secondaryMuscles.includes('triceps')) &&
+      e.equipment.includes('cable'),
+  ).length;
+  await expect(sheet.getByText(`${tricepsCable} exercises`)).toBeVisible();
   await sheet.getByRole('button', { name: /Rope triceps pushdown/ }).click();
   await sheet.getByLabel('Muscle').selectOption('');
   await sheet.getByLabel('Equipment').selectOption('');

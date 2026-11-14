@@ -73,7 +73,8 @@ test('tab bar: the indicator slides to the active tab; tapping the active tab sc
   await page.evaluate(() => window.scrollTo({ top: 3000, behavior: 'instant' }));
   await expect.poll(() => page.evaluate(() => scrollY)).toBeGreaterThan(500);
   await page.getByRole('link', { name: 'Exercises' }).click();
-  await expect.poll(() => page.evaluate(() => scrollY)).toBe(0);
+  // плавная прокрутка наверх длинного списка (250+ карточек) — даём ей время
+  await expect.poll(() => page.evaluate(() => scrollY), { timeout: 10_000 }).toBe(0);
   await expect(page).toHaveURL(/#\/library$/);
 });
 

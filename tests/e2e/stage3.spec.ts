@@ -43,7 +43,7 @@ test('library: the whole catalog, search and filters by muscle and equipment sta
   );
   await page.getByLabel('Muscle', { exact: true }).selectOption('');
   await page.getByLabel('Equipment').selectOption('jump-rope');
-  await expect(page.locator('.lib-card')).toHaveCount(1);
+  await expect(page.locator('.lib-card')).toHaveCount(count((e) => e.equipment.includes('jump-rope')));
   // Ярлыков «дом» и «зал» нет
   for (const opt of await page.getByLabel('Equipment').locator('option').allTextContents())
     expect(opt).not.toMatch(/home|gym|дом|зал/i);
@@ -66,7 +66,8 @@ test('library in Russian: search, no English names, new filters translated', asy
   await page.getByRole('searchbox').fill('Присед');
   await expect(page.getByRole('link', { name: /Приседания со штангой на спине/ })).toBeVisible();
   await page.getByRole('searchbox').fill('ягодичный мостик');
-  await expect(page.locator('.lib-card')).toHaveCount(2);
+  // мостик, мостик со штангой, мостик на одной ноге
+  await expect(page.locator('.lib-card')).toHaveCount(3);
   await page.getByRole('searchbox').fill('');
   const opts = await page.getByLabel('Оборудование').locator('option').allTextContents();
   expect(opts).toContain('Скакалка');
@@ -87,7 +88,8 @@ test('add a new exercise to the plan and log it in a workout', async ({ page }) 
   await sheet.getByRole('button', { name: new RegExp(BENCH) }).click();
   await sheet.getByLabel('Equipment').selectOption('');
   await sheet.getByRole('searchbox').fill('plank');
-  await sheet.getByRole('button', { name: /^Plank/ }).click();
+  // «Plank Deep core…», а не «Plank shoulder tap…» / «Plank up-down…»
+  await sheet.getByRole('button', { name: /^Plank [A-Z]/ }).click();
   await sheet.getByRole('button', { name: /Done · 2 added/ }).click();
   await expect(page.locator('.item')).toHaveCount(2);
   await expect(page.locator('.item').first()).toContainText('3 × 6–10');
