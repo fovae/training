@@ -33,7 +33,8 @@
     "kg": "kg",
     "lb": "lb",
     "sec": "s",
-    "min": "min"
+    "min": "min",
+    "cm": "cm"
   },
   "fmt": {
     "minutes": "{n} min",
@@ -183,6 +184,15 @@
       "heightRequired": "Enter your height.",
       "heightRange": "Check the number: it looks unusual for height.",
       "age": "Age should be a number from 16 to 100, or leave it empty."
+    },
+    "card": {
+      "weight": "Weight",
+      "height": "Height",
+      "workouts": "Workouts",
+      "since": "Training since",
+      "noName": "Athlete",
+      "edit": "Edit profile",
+      "editTitle": "Edit profile"
     }
   },
   "today": {
@@ -219,7 +229,10 @@
     "cancelTitle": "Cancel the workout?",
     "cancelBody": "The sets you entered for this workout will be deleted.",
     "sessionNote": "Workout note",
-    "sessionNotePh": "How did it go? (optional)"
+    "sessionNotePh": "How did it go? (optional)",
+    "savedWithTime": "Workout saved 💪 · {time}",
+    "duration": "Workout time",
+    "approx": "about {time}"
   },
   "ex": {
     "optional": "optional",
@@ -334,7 +347,8 @@
     "changeInSettings": "Change in Settings",
     "addWeight": "Working weight (optional)",
     "minutesRange": "Minutes",
-    "timeUnit": "{name}: time unit"
+    "timeUnit": "{name}: time unit",
+    "dayContent": "Day workout"
   },
   "rules": {
     "title": "Rules",
@@ -695,7 +709,9 @@
     "maxWeight": "Heaviest weight",
     "maxReps": "Most reps in a set",
     "maxSeconds": "Longest set",
-    "maxSetVolume": "Best set (weight × reps)"
+    "maxSetVolume": "Best set (weight × reps)",
+    "time": "Training time, min",
+    "timeLabel": "Training time per week, minutes, last 10 weeks"
   },
   "menu": {
     "title": "Actions",

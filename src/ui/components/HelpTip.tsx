@@ -21,9 +21,13 @@ export function HelpTip({ topic, text }: { topic: string; text: string }) {
   const btn = useRef<HTMLButtonElement>(null);
   const box = useRef<HTMLDivElement>(null);
   const open = openTip.value === id;
-  const [pos, setPos] = useState<{ left: number; top: number; width: number; arrow: number; up: boolean } | null>(
-    null,
-  );
+  const [pos, setPos] = useState<{
+    left: number;
+    top: number;
+    width: number;
+    arrow: number;
+    up: boolean;
+  } | null>(null);
 
   // Положение: под кнопкой, а если внизу мало места — над ней; ширина — по экрану телефона
   useLayoutEffect(() => {
@@ -34,7 +38,13 @@ export function HelpTip({ topic, text }: { topic: string; text: string }) {
     const left = Math.min(Math.max(EDGE, r.left + r.width / 2 - width / 2), vw - EDGE - width);
     const h = box.current?.offsetHeight ?? 120;
     const up = r.bottom + GAP + h > window.innerHeight - EDGE && r.top - GAP - h > EDGE;
-    setPos({ left, top: up ? r.top - GAP - h : r.bottom + GAP, width, arrow: r.left + r.width / 2 - left, up });
+    setPos({
+      left,
+      top: up ? r.top - GAP - h : r.bottom + GAP,
+      width,
+      arrow: r.left + r.width / 2 - left,
+      up,
+    });
   }, [open]);
 
   // Закрытие: Escape, нажатие вне подсказки и кнопки, прокрутка, смена размеров окна
@@ -87,8 +97,18 @@ export function HelpTip({ topic, text }: { topic: string; text: string }) {
           class={'help-tip' + (pos?.up ? ' up' : '')}
           style={
             pos
-              ? { left: pos.left + 'px', top: pos.top + 'px', width: pos.width + 'px', '--ax': pos.arrow + 'px' }
-              : { visibility: 'hidden', left: '0px', top: '0px', width: Math.min(MAX_W, innerWidth - 2 * EDGE) + 'px' }
+              ? {
+                  left: pos.left + 'px',
+                  top: pos.top + 'px',
+                  width: pos.width + 'px',
+                  '--ax': pos.arrow + 'px',
+                }
+              : {
+                  visibility: 'hidden',
+                  left: '0px',
+                  top: '0px',
+                  width: Math.min(MAX_W, innerWidth - 2 * EDGE) + 'px',
+                }
           }
         >
           {text}

@@ -190,9 +190,6 @@ main {
   .ex-grid {
     grid-template-columns: repeat(2, 1fr);
   }
-  .rules {
-    grid-template-columns: repeat(2, 1fr);
-  }
   .pic {
     height: auto;
     aspect-ratio: 200 / 120;
@@ -202,9 +199,6 @@ main {
 @media (min-width: 760px) {
   .days {
     grid-template-columns: repeat(4, 1fr);
-  }
-  .rules {
-    grid-template-columns: repeat(3, 1fr);
   }
 }
 

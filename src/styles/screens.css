@@ -136,18 +136,28 @@ section {
   pointer-events: none;
 }
 
+/* Правила — одна карточка-список: строки через тонкие линии, а не шесть отдельных карточек */
 .rules {
   display: grid;
-  grid-template-columns: 1fr;
-  gap: var(--space-3);
+  background: var(--card);
+  border-radius: var(--r-md);
+  box-shadow: var(--shadow);
+  overflow: hidden;
 }
 .rule {
-  background: var(--card);
-  border-radius: 20px;
-  padding: var(--space-4);
-  box-shadow: var(--shadow);
+  display: grid;
+  grid-template-columns: 34px minmax(0, 1fr);
+  column-gap: var(--space-3);
+  row-gap: 2px;
+  padding: var(--space-3) var(--space-4);
+}
+/* линия от текста, а не от края — как в списках iOS */
+.rule + .rule {
+  background: linear-gradient(var(--hairline), var(--hairline)) no-repeat
+    calc(var(--space-4) + 34px + var(--space-3)) 0 / 100% 1px;
 }
 .rule .ic {
+  grid-row: span 2;
   width: 34px;
   height: 34px;
   border-radius: 11px;
@@ -155,18 +165,27 @@ section {
   place-items: center;
   background: var(--soft);
   font-size: 17px;
-  margin-bottom: var(--space-3);
 }
 .rule-t {
+  align-self: end;
   font-size: 14.5px;
   font-weight: 800;
-  margin-bottom: var(--space-1);
 }
 .rule p {
   font-size: 13.5px;
   color: var(--muted);
 }
 
+/* ---------- План: тонкие полупрозрачные разделители между разделами ---------- */
+:root {
+  --hairline: color-mix(in srgb, var(--ink) 9%, transparent);
+}
+.sec-div {
+  height: 1px;
+  margin: var(--space-6) var(--space-2) 0;
+  border: 0;
+  background: linear-gradient(90deg, transparent, var(--hairline) 12%, var(--hairline) 88%, transparent);
+}
 /* ---------- сегодня ---------- */
 .finish-zone {
   display: grid;
@@ -454,4 +473,94 @@ section {
 }
 .contact-ic .icon {
   color: inherit;
+}
+
+/* ---------- Профиль: карточка пользователя (Настройки), редактирование — лист по «⋯» ---------- */
+.profile-card {
+  display: grid;
+  gap: var(--space-4);
+}
+.pc-head {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  /* «⋯» прижата к правому верхнему углу карточки */
+  margin: calc(-1 * var(--space-2)) calc(-1 * var(--space-2)) 0 0;
+}
+.pc-ava {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: var(--accent-bg);
+  color: var(--on-fill);
+  font-size: 24px;
+  font-weight: 800;
+}
+.pc-id {
+  flex: 1;
+  min-width: 0;
+  display: grid;
+  gap: 2px;
+}
+.pc-name {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 800;
+  line-height: 1.2;
+  overflow-wrap: anywhere;
+}
+.pc-level {
+  justify-self: start;
+  padding: 2px var(--space-2);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--accent) 12%, transparent);
+  color: var(--accent-ink);
+  font-size: 12.5px;
+  font-weight: 700;
+}
+.pc-more {
+  flex: none;
+  align-self: flex-start;
+  border-radius: 50%;
+}
+.pc-more .icon {
+  stroke-width: 3.2;
+}
+.pc-stats {
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-2);
+}
+.pc-stat {
+  min-width: 0;
+  display: grid;
+  gap: 2px;
+  padding: var(--space-3);
+  border-radius: var(--r-sm);
+  background: var(--soft);
+}
+.pc-stat dt {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--muted);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.pc-stat dd {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.profile-edit {
+  display: grid;
+  gap: var(--space-4);
 }

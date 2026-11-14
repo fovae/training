@@ -31,14 +31,39 @@ import { dayNumber, exName, muscleName } from '../labels';
 import { leave, scrollBehavior } from '../../lib/motion';
 import { SwipeRow, type RowAction } from '../components/SwipeRow';
 
-function useElapsed(fromIso: string | undefined): number {
+/** «0:42», «12:05», «1:02:03» — время идущей тренировки */
+export function fmtStopwatch(ms: number): string {
+  const sec = Math.max(0, Math.floor(ms / 1000));
+  const h = Math.floor(sec / 3600);
+  const m = Math.floor((sec % 3600) / 60);
+  const ss = String(sec % 60).padStart(2, '0');
+  return h ? `${h}:${String(m).padStart(2, '0')}:${ss}` : `${m}:${ss}`;
+}
+
+/**
+ * Живой секундомер тренировки: тикает раз в секунду, считает от времени старта (после перезапуска
+ * приложения продолжает с того же места). Обновляет только свой текст, не весь экран.
+ */
+function WorkoutClock({ from }: { from: string }) {
+  const start = Date.parse(from);
   const [now, setNow] = useState(Date.now());
   useEffect(() => {
-    if (!fromIso) return;
-    const id = setInterval(() => setNow(Date.now()), 15_000);
-    return () => clearInterval(id);
-  }, [fromIso]);
-  return fromIso ? now - Date.parse(fromIso) : 0;
+    let id = 0;
+    // тик точно на границе секунды от старта — цифры меняются ровно, без «прыжков» через одну
+    const tick = () => {
+      const t = Date.now();
+      setNow(t);
+      id = window.setTimeout(tick, 1000 - ((t - start) % 1000) + 5);
+    };
+    tick();
+    return () => clearTimeout(id);
+  }, [start]);
+  return (
+    <span class="dayhead-note wk-clock" role="timer" aria-label={t('today.duration')}>
+      <Icon name="clock" size={16} />
+      <span class="wk-time">{fmtStopwatch(now - start)}</span>
+    </span>
+  );
 }
 
 export function Today() {
@@ -47,7 +72,6 @@ export function Today() {
   const dayId = todayDayId.value;
   const day = dayId ? findDay(dayId) : undefined;
   const suggested = suggestedDayId.value;
-  const elapsed = useElapsed(s?.startedAt);
   const perWeek = p?.days.length ?? 0;
 
   const setDay = (id: string) => {
@@ -81,10 +105,16 @@ export function Today() {
     });
     if (r !== 'confirm') return;
     try {
-      await finishSession();
+      const done = await finishSession();
       stopRest();
       pickedDayId.value = null;
-      toast(t('today.saved'));
+      toast(
+        done?.endedAt
+          ? t('today.savedWithTime', {
+              time: fmtDuration(Date.parse(done.endedAt) - Date.parse(done.startedAt)),
+            })
+          : t('today.saved'),
+      );
       window.scrollTo({ top: 0, behavior: scrollBehavior() });
     } catch (e) {
       console.error(e);
@@ -160,7 +190,7 @@ export function Today() {
             )}
             {s && (
               <div class="dayhead-cta">
-                <span class="dayhead-note">⏱ {fmtDuration(elapsed)}</span>
+                <WorkoutClock from={s.startedAt} />
                 <button type="button" class="btn on-color" onClick={() => void onFinish()}>
                   <Icon name="check" size={18} /> {t('today.finish')}
                 </button>

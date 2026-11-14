@@ -29,6 +29,8 @@ interface OpenList {
 }
 
 const openList = signal<OpenList | null>(null);
+/** Кнопка, по которой только что закрыли список тапом: тот же тап не должен открыть его снова */
+let closedBy: { el: HTMLElement; at: number } | null = null;
 
 function close(focusBack = true): void {
   const cur = openList.value;
@@ -55,6 +57,10 @@ export function Select({ label, value, options, onChange, caption, describedBy, 
   const open = () => {
     if (!btn.current) return;
     if (isOpen) return close();
+    if (closedBy?.el === btn.current && performance.now() - closedBy.at < 600) {
+      closedBy = null;
+      return;
+    }
     openList.value = { anchor: btn.current, label, options, value, pick: onChange };
   };
   return (
@@ -169,7 +175,17 @@ export function SelectHost() {
   };
   const id = 'sel-opt-';
   return (
-    <div class={'select-layer' + (leaving ? ' leaving' : '')} onPointerDown={(e) => e.target === e.currentTarget && close(false)}>
+    <div
+      class={'select-layer' + (leaving ? ' leaving' : '')}
+      onPointerDown={(e) => {
+        if (e.target !== e.currentTarget) return;
+        // повторный тап по кнопке поля — закрыть (клик после этого нажатия дойдёт до кнопки: игнорируем)
+        const r = cur.anchor.getBoundingClientRect();
+        if (e.clientX >= r.left && e.clientX <= r.right && e.clientY >= r.top && e.clientY <= r.bottom)
+          closedBy = { el: cur.anchor, at: performance.now() };
+        close(false);
+      }}
+    >
       <div
         ref={box}
         class={'select-list' + (pos.up ? ' up' : '')}

@@ -38,8 +38,20 @@ test('onboarding: English by default, gentle validation, back steps', async ({ p
   await expect(page.getByRole('heading', { name: 'Full body · 1' })).toBeVisible();
   // Значения в настройках
   await page.getByRole('link', { name: 'Settings' }).click();
-  await expect(page.getByLabel('Body weight, kg')).toHaveValue('72.5');
-  await expect(page.getByLabel('Level', { exact: true })).toHaveText("I'm a beginner, this is my first time");
+  // Профиль — карточка пользователя: данные видны, правка — в листе по «⋯»
+  const card = page.locator('.profile-card');
+  await expect(card).toContainText('72.5 kg');
+  await expect(card).toContainText("I'm a beginner, this is my first time");
+  await card.getByRole('button', { name: 'Edit profile' }).click();
+  const sheet = page.getByRole('dialog', { name: 'Edit profile' });
+  await expect(sheet.getByLabel('Body weight, kg')).toHaveValue('72.5');
+  await expect(sheet.getByLabel('Level', { exact: true })).toHaveText(
+    "I'm a beginner, this is my first time",
+  );
+  await sheet.getByLabel('Name or nickname').fill('fovae');
+  await sheet.getByRole('button', { name: 'Save' }).click();
+  await expect(sheet).toHaveCount(0);
+  await expect(card.getByRole('heading')).toContainText('fovae');
 });
 
 test('layout: tab bar, safe area meta, no horizontal scroll, 44pt targets', async ({ page }) => {
@@ -428,9 +440,11 @@ test('inputs: numeric keyboards, enterkeyhint, no autocomplete, font ≥ 16px', 
   await fresh(page);
   await onboard(page);
   await page.getByRole('link', { name: 'Settings', exact: true }).click();
+  await page.getByRole('button', { name: 'Edit profile' }).click();
   await expect(page.getByLabel('Body weight, kg')).toHaveAttribute('inputmode', 'decimal');
   await expect(page.getByLabel('Height, cm')).toHaveAttribute('inputmode', 'decimal');
   await expect(page.getByLabel('Age', { exact: true })).toHaveAttribute('inputmode', 'numeric');
+  await page.keyboard.press('Escape');
   await page.getByRole('link', { name: 'Today' }).click();
   await page.getByRole('button', { name: 'Start workout' }).click();
   await expect(page.getByLabel(`${INCLINE}, set 1: weight, kg`)).toHaveAttribute('inputmode', 'decimal');

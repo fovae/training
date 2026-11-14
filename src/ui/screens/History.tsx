@@ -80,6 +80,15 @@ function WeeklyCharts() {
             unit={' ' + u}
           />
         </div>
+        <div class="card">
+          <h3 class="card-t">{t('stats.time')}</h3>
+          <BarChart
+            labels={labels}
+            values={weeks.map((w) => w.minutes)}
+            label={t('stats.timeLabel')}
+            unit={' ' + t('unit.min')}
+          />
+        </div>
       </div>
     </section>
   );

@@ -130,7 +130,13 @@ export function App() {
       </a>
       {!onboarding && <Nav />}
       {/* key — новый экран монтируется заново и плавно появляется; data-nav — направление */}
-      <main ref={mainRef} id="main" tabIndex={-1} data-nav={navDir.value} data-side={tabSide.value || undefined}>
+      <main
+        ref={mainRef}
+        id="main"
+        tabIndex={-1}
+        data-nav={navDir.value}
+        data-side={tabSide.value || undefined}
+      >
         <Screen key={screenKey} />
       </main>
       <RestTimerBar />

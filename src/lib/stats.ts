@@ -28,6 +28,8 @@ export interface WeekStat {
   workouts: number;
   /** Суммарный объём (вес × повторы), кг */
   volumeKg: number;
+  /** Время тренировок (от старта до завершения), минуты */
+  minutes: number;
 }
 
 /** Последние `weeks` недель, старые первыми; завершённые тренировки по дате окончания */
@@ -38,7 +40,7 @@ export function weeklyStats(sessions: Session[], now: number, weeks = 10): WeekS
     // через setDate, чтобы не сбиться на переходе на летнее время
     const d = new Date(thisWeek);
     d.setDate(d.getDate() - 7 * i);
-    out.push({ start: d.getTime(), workouts: 0, volumeKg: 0 });
+    out.push({ start: d.getTime(), workouts: 0, volumeKg: 0, minutes: 0 });
   }
   const first = out[0]!.start;
   for (const s of sessions) {
@@ -49,8 +51,10 @@ export function weeklyStats(sessions: Session[], now: number, weeks = 10): WeekS
     if (!w) continue;
     w.workouts++;
     w.volumeKg += sessionVolumeKg(s);
+    // забытая открытой тренировка (больше 6 часов) не раздувает график
+    w.minutes += Math.min(360, Math.max(0, (t - Date.parse(s.startedAt)) / 60000));
   }
-  return out.map((w) => ({ ...w, volumeKg: Math.round(w.volumeKg) }));
+  return out.map((w) => ({ ...w, volumeKg: Math.round(w.volumeKg), minutes: Math.round(w.minutes) }));
 }
 
 export interface Record_ {

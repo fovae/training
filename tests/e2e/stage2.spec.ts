@@ -30,7 +30,9 @@ test('levels: beginners see technique open and the light-start tip; experienced 
   await expect(card.getByText('start with a light weight')).toBeVisible();
 
   await page.getByRole('link', { name: 'Settings', exact: true }).click();
+  await page.getByRole('button', { name: 'Edit profile' }).click();
   await choose(page.getByLabel('Level', { exact: true }), 'veteran');
+  await page.getByRole('dialog', { name: 'Edit profile' }).getByRole('button', { name: 'Save' }).click();
   await page.getByRole('link', { name: 'Today' }).click();
   await expect(card.locator('details.tech')).not.toHaveAttribute('open', '');
   await expect(page.getByText('start with a light weight')).toHaveCount(0);

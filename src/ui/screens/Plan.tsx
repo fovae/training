@@ -92,8 +92,13 @@ export function Plan() {
         )}
       </section>
 
-      <section>
+      <hr class="sec-div" />
+
+      <section aria-labelledby="day-h">
         <>
+          <div class="sec-h">
+            <h2 id="day-h">{t('plan.dayContent')}</h2>
+          </div>
           <DayHead day={day} />
           <DayTools day={day} />
           {day.items.length === 0 && (
@@ -119,7 +124,11 @@ export function Plan() {
         </>
       </section>
 
+      <hr class="sec-div" />
+
       <Rules />
+
+      <hr class="sec-div" />
 
       <section class="card schedule-card" aria-labelledby="schedule-h">
         <div>
@@ -212,7 +221,10 @@ function DayTools({ day }: { day: Day }) {
           caption={t('plan.weekday')}
           value={String(day.weekday ?? '')}
           onChange={(v) => setWeekday(day.id, Number(v) as Weekday)}
-          options={([0, 1, 2, 3, 4, 5, 6] as Weekday[]).map((w) => ({ value: String(w), label: weekdayLong(w) }))}
+          options={([0, 1, 2, 3, 4, 5, 6] as Weekday[]).map((w) => ({
+            value: String(w),
+            label: weekdayLong(w),
+          }))}
         />
       )}
       <div class="tool-row">
@@ -444,7 +456,9 @@ function ItemEditor({
                 options={[
                   {
                     value: '',
-                    label: t('plan.restAuto', { time: fmtClock(restFor(ex, { ...item, restSec: undefined })) }),
+                    label: t('plan.restAuto', {
+                      time: fmtClock(restFor(ex, { ...item, restSec: undefined })),
+                    }),
                   },
                   ...REST_OPTIONS.map((s) => ({ value: String(s), label: fmtClock(s) })),
                 ]}

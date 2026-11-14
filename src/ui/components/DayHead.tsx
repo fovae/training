@@ -2,7 +2,7 @@ import type { ComponentChildren } from 'preact';
 import { t } from '../../i18n';
 import { dayColor } from '../../state/plan';
 import type { Day } from '../../types';
-import { dayEyebrow, dayMeta, dayTitle } from '../labels';
+import { dayEstimate, dayEyebrow, dayMeta, dayTitle } from '../labels';
 
 interface Props {
   day: Day;
@@ -17,7 +17,10 @@ export function DayHead({ day, progress, children }: Props) {
     <div class="dayhead" style={{ background: `var(--${dayColor(day.id)}-bg)` }}>
       <div class="eyebrow">{dayEyebrow(day)}</div>
       <h2 class="dayhead-title">{dayTitle(day)}</h2>
-      <p>{dayMeta(day)}</p>
+      <p>
+        {dayMeta(day)}
+        {dayEstimate(day) && <span class="dayhead-est"> · {dayEstimate(day)}</span>}
+      </p>
       {progress && (
         <div class="prog">
           <div

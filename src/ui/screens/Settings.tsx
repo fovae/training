@@ -1,7 +1,9 @@
 import { useEffect, useRef, useState } from 'preact/hooks';
 import { LOCALES, fmtDate, fmtTime, locale, setLocale, t } from '../../i18n';
 import { CONTACT_EMAIL } from '../../lib/meta';
-import { profile, saveProfile, settings, updateProfile, updateSettings } from '../../state/settings';
+import { profile, saveProfile, settings, units, updateProfile, updateSettings } from '../../state/settings';
+import { history } from '../../state/session';
+import { cmToFtIn, fmtWeight } from '../../lib/format';
 import { ask, route, toast } from '../../state/ui';
 import { plan, setMode } from '../../state/plan';
 import {
@@ -39,6 +41,8 @@ import { askRestore } from '../components/RestoreDialog';
 import { scrollBehavior } from '../../lib/motion';
 import { Select } from '../components/Select';
 import { HelpTip } from '../components/HelpTip';
+import { Sheet } from '../components/Sheet';
+import { resetLibraryFilter } from '../components/ExerciseFilters';
 
 export function Settings() {
   const s = settings.value;
@@ -108,6 +112,7 @@ export function Settings() {
     }
     if (r !== 'confirm') return;
     await resetAll();
+    resetLibraryFilter();
     location.hash = '#/';
     toast(t('reset.done'));
   };
@@ -277,7 +282,7 @@ export function Settings() {
             </small>
           </span>
         </div>
-        {restorePoints.value.length > 0 && (
+        {restorePoints.value.length > 0 &&
           restorePoints.value.map((p) => (
             <div class="srow" key={p.id}>
               <span>
@@ -288,8 +293,7 @@ export function Settings() {
                 {t('backup.pointsRestore')}
               </button>
             </div>
-          ))
-        )}
+          ))}
         <div class="srow">
           <span>
             {t('settings.persist')}
@@ -412,54 +416,118 @@ function ContactCard() {
   );
 }
 
+/**
+ * Профиль — карточка пользователя, а не форма: ник, уровень и данные; «⋯» справа вверху открывает
+ * лист редактирования (вес, рост, ник, возраст, пол, уровень) с кнопкой «Сохранить».
+ */
 function ProfileCard() {
   const p = profile.value;
-  const [draft, setDraft] = useState<ProfileDraft>(() => draftFrom(p));
-  const [tried, setTried] = useState(false);
+  const [editing, setEditing] = useState(false);
   if (!p) return null;
+  const name = p.name?.trim();
+  const done = history.value.length;
+  const ft = units.value === 'imperial' ? cmToFtIn(p.heightCm) : null;
+  const stats: [string, string][] = [
+    [t('profile.card.weight'), fmtWeight(p.weightKg)],
+    [t('profile.card.height'), ft ? `${ft.ft}′${ft.inch}″` : `${p.heightCm} ${t('unit.cm')}`],
+    [t('profile.age'), p.age ? String(p.age) : '—'],
+    [t('profile.card.workouts'), String(done)],
+    // «11.2026» — коротко, чтобы влезало в плитку
+    [
+      t('profile.card.since'),
+      new Intl.DateTimeFormat(locale.value, { month: '2-digit', year: 'numeric' }).format(
+        Date.parse(p.confirmedAt),
+      ),
+    ],
+    [t('profile.sex'), p.sex ? t(`profile.${p.sex}`) : '—'],
+  ];
+  return (
+    <section class="card profile-card" aria-labelledby="pc-name">
+      <div class="pc-head">
+        <span class="pc-ava" aria-hidden="true">
+          {name ? [...name][0]!.toUpperCase() : <Icon name="today" size={26} />}
+        </span>
+        <div class="pc-id">
+          <h2 id="pc-name" class="pc-name">
+            <span class="sr-only">{t('settings.profile')}: </span>
+            {name || t('profile.card.noName')}
+          </h2>
+          <span class="pc-level">{t(`level.${p.level}`)}</span>
+        </div>
+        <button
+          type="button"
+          class="icon-btn pc-more"
+          aria-label={t('profile.card.edit')}
+          aria-haspopup="dialog"
+          onClick={() => setEditing(true)}
+        >
+          <Icon name="more" />
+        </button>
+      </div>
+      <dl class="pc-stats">
+        {stats.map(([k, v]) => (
+          <div key={k} class="pc-stat">
+            <dt>{k}</dt>
+            <dd>{v}</dd>
+          </div>
+        ))}
+      </dl>
+      {editing && <ProfileEditor onClose={() => setEditing(false)} />}
+    </section>
+  );
+}
+
+/** Лист редактирования профиля: всё сохраняется одной кнопкой */
+function ProfileEditor({ onClose }: { onClose: () => void }) {
+  const p = profile.value!;
+  const [draft, setDraft] = useState<ProfileDraft>(() => draftFrom(p));
+  const [level, setLevel] = useState<Level>(p.level);
+  const [tried, setTried] = useState(false);
   const errors = tried ? validateProfile(draft).errors : {};
-  const dirty = JSON.stringify(draft) !== JSON.stringify(draftFrom(p));
 
   const onSave = async () => {
     setTried(true);
     const { value } = validateProfile(draft);
     if (!value) return;
-    const next = { ...p, ...value };
+    const next = { ...p, ...value, level };
     if (!value.name) delete next.name;
     if (!value.age) delete next.age;
     if (!value.sex) delete next.sex;
     await saveProfile(next);
-    setDraft(draftFrom(next));
-    setTried(false);
+    onClose();
     toast(t('settings.profileSaved'));
   };
 
   return (
-    <section class="card group-card">
-      <h2 class="card-t">{t('settings.profile')}</h2>
-      <ProfileForm draft={draft} update={setDraft} errors={errors} />
-      <div class="field">
-        <span class="field-lb">{t('settings.level')}</span>
-        <Select
-          label={t('settings.level')}
-          describedBy="level-desc"
-          value={p.level}
-          onChange={(v) => updateProfile({ level: v as Level })}
-          options={(['first', 'few', 'intermediate', 'veteran'] as const).map((v) => ({
-            value: v,
-            label: t(`level.${v}`),
-          }))}
-        />
-        <small id="level-desc" class="muted">
-          {t(`level.desc.${p.level}`)}
-        </small>
-      </div>
-      {dirty && (
+    <Sheet
+      title={t('profile.card.editTitle')}
+      onClose={onClose}
+      footer={
         <button type="button" class="btn primary block" onClick={() => void onSave()}>
           {t('common.save')}
         </button>
-      )}
-    </section>
+      }
+    >
+      <div class="profile-edit">
+        <ProfileForm draft={draft} update={setDraft} errors={errors} />
+        <div class="field">
+          <span class="field-lb">{t('settings.level')}</span>
+          <Select
+            label={t('settings.level')}
+            describedBy="level-desc"
+            value={level}
+            onChange={(v) => setLevel(v as Level)}
+            options={(['first', 'few', 'intermediate', 'veteran'] as const).map((v) => ({
+              value: v,
+              label: t(`level.${v}`),
+            }))}
+          />
+          <small id="level-desc" class="muted">
+            {t(`level.desc.${level}`)}
+          </small>
+        </div>
+      </div>
+    </Sheet>
   );
 }
 

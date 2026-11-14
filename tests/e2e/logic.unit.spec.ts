@@ -543,6 +543,9 @@ test.describe('stats', () => {
     expect(weeks).toHaveLength(10);
     expect(weeks[9]!.workouts).toBe(2);
     expect(weeks[9]!.volumeKg).toBe(20 * 10 + 25 * 6);
+    // время тренировки: от старта до завершения, в минутах
+    const long = { ...mk('2026-11-11T10:00:00', 20, 10), endedAt: '2026-11-11T10:45:00' };
+    expect(weeklyStats([long], now, 10)[9]!.minutes).toBe(45);
     expect(weeks[8]!.workouts).toBe(1);
     const r = exerciseRecords(list, 'incline-db-press');
     expect(r.maxWeight?.value).toBe(25);

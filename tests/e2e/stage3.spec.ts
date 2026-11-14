@@ -262,3 +262,39 @@ test('rest timer: "?" tips open and close, steppers keep working', async ({ page
   await expect(tip).toHaveCount(0);
   await expect(group.locator('output')).not.toHaveText(before!);
 });
+
+test('select closes on a second tap of its button; full reset clears the library search', async ({
+  page,
+}) => {
+  await fresh(page);
+  await onboard(page);
+  await page.getByRole('link', { name: 'Exercises' }).click();
+  const muscle = page.getByRole('button', { name: 'Muscle', exact: true });
+  await muscle.click();
+  await expect(page.getByRole('listbox')).toBeVisible();
+  await expect(muscle).toHaveAttribute('aria-expanded', 'true');
+  // повторный тап по той же кнопке — закрыть, а не открыть снова. Кнопку накрывает слой списка,
+  // поэтому касаемся по координатам, как палец (click() по локатору ждал бы, пока слой уйдёт)
+  const b = (await muscle.boundingBox())!;
+  await page.touchscreen.tap(b.x + b.width / 2, b.y + b.height / 2);
+  await expect(page.getByRole('listbox')).toHaveCount(0);
+  await expect(muscle).toHaveAttribute('aria-expanded', 'false');
+
+  await page.getByRole('searchbox').fill('squat');
+  await page.getByRole('link', { name: 'Settings', exact: true }).click();
+  await page.getByRole('button', { name: 'Delete all data' }).click();
+  await page.getByRole('alertdialog').getByRole('button', { name: 'Delete everything' }).click();
+  await onboard(page);
+  await page.getByRole('link', { name: 'Exercises' }).click();
+  await expect(page.getByRole('searchbox')).toHaveValue('');
+});
+
+test('workout clock is live: ticks every second from the start', async ({ page }) => {
+  await fresh(page);
+  await onboard(page);
+  await page.getByRole('button', { name: 'Start workout' }).click();
+  const clock = page.getByRole('timer', { name: 'Workout time' });
+  await expect(clock).toHaveText(/^0:0\d$/);
+  const first = await clock.textContent();
+  await expect.poll(() => clock.textContent(), { timeout: 4000 }).not.toBe(first);
+});

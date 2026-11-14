@@ -21,6 +21,11 @@ const EMPTY: ExerciseFilter = { query: '', muscle: '', equipment: '' };
  */
 export const libraryFilter = signal<ExerciseFilter>(EMPTY);
 
+/** Полный сброс данных: поиск и фильтры экрана «Упражнения» — тоже к началу */
+export function resetLibraryFilter(): void {
+  libraryFilter.value = EMPTY;
+}
+
 /**
  * Поиск + фильтры по мышцам и оборудованию; общий для библиотеки и выбора упражнения.
  * `keep` — где хранить фильтр между открытиями экрана; без него фильтр свой у каждого открытия.
