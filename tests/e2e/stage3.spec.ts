@@ -75,6 +75,7 @@ test('library in Russian: search, no English names, new filters translated', asy
   const muscles = await optionTexts(page.getByLabel('Мышцы', { exact: true }));
   for (const m of ['Приводящие бедра', 'Отводящие бедра', 'Сгибатели бедра']) expect(muscles).toContain(m);
   // Названия на карточках — по-русски (латиница только в аббревиатурах)
+  await expect(page.locator('.lib-txt b')).toHaveCount(EXERCISES.length);
   const names = await page.locator('.lib-txt b').allTextContents();
   expect(names.length).toBe(EXERCISES.length);
   for (const n of names) expect(n, n).toMatch(/[а-яё]/i);

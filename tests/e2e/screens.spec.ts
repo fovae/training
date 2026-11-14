@@ -38,6 +38,17 @@ async function clipped(page: Page): Promise<string[]> {
 async function check(page: Page, name: string) {
   await page.waitForSelector('main .screen');
   await page.waitForTimeout(150);
+  // длинные списки дорисовываются порциями — ждём, пока высота страницы перестанет расти
+  await expect
+    .poll(
+      async () => {
+        const a = await page.evaluate(() => document.documentElement.scrollHeight);
+        await page.waitForTimeout(200);
+        return (await page.evaluate(() => document.documentElement.scrollHeight)) === a;
+      },
+      { timeout: 10_000 },
+    )
+    .toBe(true);
   const overflow = await page.evaluate(() => document.documentElement.scrollWidth - innerWidth);
   expect(overflow, name).toBeLessThanOrEqual(0);
   expect(await clipped(page), name).toEqual([]);
