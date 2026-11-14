@@ -28,12 +28,28 @@ main {
 }
 
 /* нижняя таб-панель — в зоне большого пальца */
+/*
+ * iOS, установленное приложение: при запуске окно иногда считается короче экрана на высоту
+ * статус-бара, пока не прокрутишь, — нижняя панель «подпрыгивает» вверх. Нижние фиксированные
+ * элементы привязываем к большой высоте экрана (100lvh): --vp-shift = высота окна − 100lvh,
+ * в обычном состоянии это 0, при сбое — отрицательный сдвиг на величину нехватки.
+ */
+:root {
+  --vp-shift: 0px;
+}
+@supports (height: 100lvh) {
+  @media (display-mode: standalone) {
+    :root {
+      --vp-shift: calc(100% - 100lvh);
+    }
+  }
+}
 .nav {
   position: fixed;
   z-index: 30;
   left: 0;
   right: 0;
-  bottom: 0;
+  bottom: var(--vp-shift);
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   padding: 0 var(--safe-r) var(--safe-b) var(--safe-l);

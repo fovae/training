@@ -46,11 +46,11 @@
     transform: translateY(14px) scale(0.96);
   }
 }
-/* экран вкладки: подъём из глубины */
+/* экран вкладки: подъём снизу (без масштаба — размеры элементов не меняются даже на первом кадре) */
 @keyframes m-screen {
   from {
     opacity: 0;
-    transform: translateY(14px) scale(0.985);
+    transform: translateY(16px);
   }
 }
 @keyframes m-up {

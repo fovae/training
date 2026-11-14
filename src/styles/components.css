@@ -647,7 +647,7 @@ section + .card {
   z-index: 40;
   left: calc(var(--safe-l) + 10px);
   right: calc(var(--safe-r) + 10px);
-  bottom: calc(var(--tabbar-h) + var(--safe-b) + 8px);
+  bottom: calc(var(--tabbar-h) + var(--safe-b) + 8px + var(--vp-shift));
   border-radius: 22px;
   background: var(--card);
   box-shadow:
@@ -772,7 +772,7 @@ section + .card {
   z-index: 60;
   left: 50%;
   transform: translateX(-50%);
-  bottom: calc(var(--tabbar-h) + var(--safe-b) + var(--timer-h) + 12px);
+  bottom: calc(var(--tabbar-h) + var(--safe-b) + var(--timer-h) + 12px + var(--vp-shift));
   width: min(440px, calc(100% - 24px));
   display: flex;
   flex-direction: column;
