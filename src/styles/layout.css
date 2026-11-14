@@ -56,25 +56,47 @@ main {
   --nav-space: calc(var(--tabbar-h) + var(--nav-b));
 }
 .nav {
+  /* Liquid Glass: блик по верхней кромке и тонкий светлый обод. Светлые темы — яркий,
+     тёмные — приглушённый (light-dark по color-scheme темы; без поддержки — светлый вариант). */
+  --glass-rim: rgba(255, 255, 255, 0.7);
+  --glass-rim: light-dark(rgba(255, 255, 255, 0.75), rgba(255, 255, 255, 0.16));
+  --glass-gloss: rgba(255, 255, 255, 0.38);
+  --glass-gloss: light-dark(rgba(255, 255, 255, 0.42), rgba(255, 255, 255, 0.07));
   position: fixed;
   z-index: 30;
   left: 0;
   right: 0;
   bottom: calc(var(--nav-b) + var(--vp-shift));
-  width: min(440px, calc(100% - 24px - var(--safe-l) - var(--safe-r)));
+  width: min(460px, calc(100% - 24px - var(--safe-l) - var(--safe-r)));
   margin: 0 auto;
   display: grid;
   grid-template-columns: repeat(5, 1fr);
-  padding: 4px;
-  border-radius: 26px;
-  background: color-mix(in srgb, var(--card) 74%, transparent);
-  -webkit-backdrop-filter: blur(14px) saturate(1.3);
-  backdrop-filter: blur(14px) saturate(1.3);
-  border: 1px solid color-mix(in srgb, var(--ink) 10%, transparent);
+  padding: 6px;
+  border-radius: 999px;
+  /* стекло в оттенке темы: фон страницы просвечивает, размыт и чуть насыщеннее */
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--card) 74%, transparent),
+    color-mix(in srgb, var(--card) 62%, transparent)
+  );
+  -webkit-backdrop-filter: blur(22px) saturate(1.8);
+  backdrop-filter: blur(22px) saturate(1.8);
+  border: 1px solid color-mix(in srgb, var(--ink) 7%, transparent);
   box-shadow:
-    0 8px 28px rgba(0, 0, 0, 0.12),
-    0 1px 3px rgba(0, 0, 0, 0.06),
-    inset 0 1px 0 color-mix(in srgb, #fff 6%, transparent);
+    0 12px 32px -8px rgba(0, 0, 0, 0.2),
+    0 2px 6px rgba(0, 0, 0, 0.05),
+    inset 0 1px 1px var(--glass-rim),
+    inset 0 -1px 1px color-mix(in srgb, var(--ink) 4%, transparent);
+}
+/* мягкий блик сверху, как у стеклянной капсулы */
+.nav::before {
+  content: '';
+  position: absolute;
+  z-index: -2;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(180deg, var(--glass-gloss), transparent 55%);
+  pointer-events: none;
 }
 /* нет размытия или «уменьшение прозрачности» — непрозрачный фон темы, панель остаётся читаемой */
 @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
@@ -88,6 +110,9 @@ main {
     -webkit-backdrop-filter: none;
     backdrop-filter: none;
   }
+  .nav::before {
+    display: none;
+  }
 }
 .nav-brand,
 .nav-install {
@@ -99,12 +124,13 @@ main {
   align-items: center;
   justify-content: center;
   gap: 2px;
-  height: calc(var(--tabbar-h) - 8px);
-  border-radius: 22px;
+  height: calc(var(--tabbar-h) - 12px);
+  border-radius: 999px;
   color: var(--muted);
   text-decoration: none;
   font-size: 11px;
-  font-weight: 700;
+  font-weight: 650;
+  letter-spacing: 0.01em;
   min-width: 0;
 }
 .nav-lb {
@@ -123,6 +149,10 @@ main {
 }
 .nav-ic {
   position: relative;
+}
+/* чуть тоньше линии, как у системных значков таб-бара */
+.nav-ic > .icon {
+  stroke-width: 1.85;
 }
 .nav-live {
   position: absolute;
@@ -194,6 +224,9 @@ main {
     --nav-space: var(--safe-b);
   }
   /* ПК: боковая панель как раньше — без капсулы и стекла */
+  .nav::before {
+    display: none;
+  }
   .nav {
     top: 0;
     bottom: 0;
@@ -240,6 +273,8 @@ main {
     padding: 0 var(--space-3);
     border-radius: 12px;
     font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 0;
   }
   @media (hover: hover) {
     .nav-item:hover {

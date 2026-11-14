@@ -4,6 +4,7 @@ import { installPrompt, promptInstall } from '../../features/install';
 import { active } from '../../state/session';
 import { Icon } from './Icon';
 import { scrollBehavior } from '../../lib/motion';
+import { useRef } from 'preact/hooks';
 
 const TABS: Exclude<Tab, 'legal'>[] = ['today', 'plan', 'library', 'history', 'settings'];
 
@@ -12,10 +13,22 @@ export function Nav() {
   // Нажатая вкладка подсвечивается сразу, ещё до отрисовки её экрана (goTab)
   const cur = pendingTab.value ?? route.value.tab;
   const idx = TABS.indexOf(cur as (typeof TABS)[number]);
+  // Капля «тянется» только при переезде на другую вкладку, не при первом показе
+  const prev = useRef(idx);
+  const moved = useRef(false);
+  if (prev.current !== idx) {
+    moved.current = prev.current >= 0 && idx >= 0;
+    prev.current = idx;
+  }
   return (
     <nav class="nav" aria-label={t('nav.label')}>
       {/* Индикатор активной вкладки плавно перетекает между вкладками (только transform) */}
-      {idx >= 0 && <span class="nav-ind" aria-hidden="true" style={{ '--i': idx }} />}
+      {idx >= 0 && (
+        <span class="nav-ind" aria-hidden="true" style={{ '--i': idx }}>
+          {/* key — новая капля на каждую смену вкладки: анимация растяжения запускается заново */}
+          <span key={idx} class={'nav-blob' + (moved.current ? ' go' : '')} />
+        </span>
+      )}
       <div class="nav-brand" aria-hidden="true">
         <span class="brand-mark">ST</span>
         <span>{t('app.name')}</span>
