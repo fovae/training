@@ -225,9 +225,9 @@ html {
 }
 
 /*
- * Нижняя панель. Отклик в кадре нажатия: значок сжимается под пальцем, подсветка вкладки (мягкая
- * «капсула» под значком и полоска сверху) переходит на нажатую вкладку сразу, ещё до отрисовки её
- * экрана (pendingTab в src/state/ui.ts). Без перелёта и подпрыгиваний.
+ * Нижняя панель (капсула, layout.css). Отклик в кадре нажатия: значок сжимается под пальцем,
+ * подложка активной вкладки перетекает на нажатую сразу, ещё до отрисовки её экрана (pendingTab в
+ * src/state/ui.ts). Без перелёта и подпрыгиваний.
  */
 .nav {
   isolation: isolate;
@@ -235,49 +235,25 @@ html {
 .nav-item {
   touch-action: manipulation;
 }
+/* активная вкладка: мягкая подложка в оттенке темы перетекает под нажатую вкладку */
 .nav-ind {
   position: absolute;
   z-index: -1;
-  top: 0;
-  left: var(--safe-l);
-  width: calc((100% - var(--safe-l) - var(--safe-r)) / 5);
-  height: 3px;
+  top: 4px;
+  bottom: 4px;
+  left: 4px;
+  width: calc((100% - 8px) / 5);
+  border-radius: 22px;
+  background: color-mix(in srgb, var(--nav-on, var(--accent-ink)) 13%, transparent);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--nav-on, var(--accent-ink)) 16%, transparent);
   transform: translateX(calc(var(--i, 0) * 100%));
   transition: transform var(--dur-slow) var(--ease-glide);
   pointer-events: none;
-}
-.nav-ind::before {
-  content: '';
-  display: block;
-  width: 32px;
-  height: 3px;
-  margin: 0 auto;
-  border-radius: 0 0 3px 3px;
-  background: var(--nav-on, var(--accent-ink));
 }
 .nav-item .nav-ic {
   display: grid;
   place-items: center;
   transition: transform var(--dur-release) var(--ease-soft);
-}
-/* капсула под значком активной вкладки: проявляется и чуть растягивается в ширину */
-.nav-item .nav-ic::before {
-  content: '';
-  position: absolute;
-  z-index: -1;
-  inset: -3px -16px;
-  border-radius: 99px;
-  background: color-mix(in srgb, var(--nav-on, var(--accent-ink)) 14%, transparent);
-  opacity: 0;
-  transform: scaleX(0.55);
-  transition:
-    opacity var(--dur-base) var(--ease-fade),
-    transform var(--dur-slow) var(--ease-glide);
-  pointer-events: none;
-}
-.nav-item.on .nav-ic::before {
-  opacity: 1;
-  transform: none;
 }
 /* подпись и цвет значка меняются плавно */
 .nav-item {
@@ -288,9 +264,8 @@ html {
   transition-duration: var(--dur-press);
   transition-timing-function: var(--ease-out);
 }
-@media (min-width: 1024px) {
-  .nav-ind,
-  .nav-item .nav-ic::before {
+@media (min-width: 960px) {
+  .nav-ind {
     display: none;
   }
 }
