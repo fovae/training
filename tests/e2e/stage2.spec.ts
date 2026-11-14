@@ -76,7 +76,13 @@ test('weight warning: unrealistic weight on a confirmed exercise; normal values 
   await w2.fill('160');
   await w2.blur();
   await dlg.getByRole('checkbox').check();
+  await expect(dlg.getByRole('checkbox')).toBeChecked();
   await dlg.getByRole('button', { name: "That's right" }).click();
+  // окно успело закрыться (анимация ухода), и «не предупреждать» сохранено — только потом новый ввод
+  await expect(page.getByRole('alertdialog')).toHaveCount(0);
+  await expect
+    .poll(async () => (await kv<{ weightWarningIgnored: string[] }>(page, 'settings'))?.weightWarningIgnored)
+    .toHaveLength(1);
   const w3 = page.getByLabel(`${INCLINE}, set 3: weight, kg`);
   await w3.fill('170');
   await w3.blur();
@@ -334,7 +340,9 @@ test('restore points: one before an import, restoring brings data back, delete a
   // восстановить точку: тема прежняя
   await points.getByRole('button', { name: 'Restore', exact: true }).first().click();
   await page.getByRole('alertdialog').getByRole('button', { name: 'Restore', exact: true }).click();
-  await expect.poll(async () => (await kv<{ theme?: string }>(page, 'settings'))?.theme).not.toBe('monochrome');
+  await expect
+    .poll(async () => (await kv<{ theme?: string }>(page, 'settings'))?.theme)
+    .not.toBe('monochrome');
   // текущее состояние перед восстановлением тоже сохранено — точек две, не больше трёх
   await expect(points).toContainText('Before restoring a point');
   expect(

@@ -33,8 +33,9 @@ test('library: the whole catalog, search and filters by muscle and equipment sta
       e.equipment.includes('barbell'),
   );
   await expect(page.locator('.lib-card')).toHaveCount(want);
-  // два выбора в своих списках (открытие и закрытие с анимацией) + фильтрация
-  expect(Date.now() - t0).toBeLessThan(6000);
+  // два выбора в своих списках (открытие и закрытие с анимацией) + фильтрация; запас на медленные
+  // раннеры CI (на них 250 карточек под стеклянной панелью рисуются программно, без GPU)
+  expect(Date.now() - t0).toBeLessThan(8000);
   for (const name of ['Barbell back squat', 'Front squat']) await expect(page.getByText(name)).toBeVisible();
   // Новые мышцы и оборудование в фильтрах
   await choose(page.getByLabel('Muscle', { exact: true }), 'adductors');
