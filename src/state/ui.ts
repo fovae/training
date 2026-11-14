@@ -56,30 +56,14 @@ export const tabSide = signal<'l' | 'r' | ''>('');
 export const pendingTab = signal<Tab | null>(null);
 let pendingTimer = 0;
 
-/** Мягкое затухание старого экрана перед сменой вкладки (мс); main[data-leave] в motion.css */
-const LEAVE_MS = 90;
-
 /**
- * Переход на вкладку из нижней панели: подсветка — в кадре нажатия; затем старый экран за 90 мс
- * мягко гаснет и сменяется новым — без резкого обрыва картинки.
+ * Переход на вкладку из нижней панели: подсветка и адрес — сразу (в кадре нажатия), а сам экран
+ * рисуется следующим кадром (hashchange ниже) — отклик не ждёт отрисовки тяжёлого экрана.
  */
 export function goTab(tab: Tab): void {
   pendingTab.value = tab;
-  cancelAnimationFrame(pendingTimer);
-  const nav = () => {
-    if (pendingTab.value !== tab) return;
-    if (location.hash === '#/' + tab) {
-      pendingTab.value = null;
-      delete document.querySelector('main')?.dataset.leave;
-    } else location.hash = '#/' + tab;
-  };
-  // rAF: браузер успевает нарисовать подсветку вкладки до тяжёлой отрисовки экрана
-  pendingTimer = requestAnimationFrame(() => {
-    const main = document.querySelector('main');
-    if (motionOff() || !main) return void setTimeout(nav, 0);
-    main.dataset.leave = '';
-    setTimeout(nav, LEAVE_MS);
-  });
+  if (location.hash === '#/' + tab) pendingTab.value = null;
+  else location.hash = '#/' + tab;
 }
 
 /**
@@ -149,20 +133,28 @@ addEventListener('hashchange', () => {
   const next = parseRoute(location.hash);
   marks.set(curKey, mark());
   const dir: NavDir = depth(next) > depth(prev) ? 'push' : depth(next) < depth(prev) ? 'pop' : 'tab';
-  navDir.value = prev.tab === next.tab || dir !== 'tab' ? dir : 'tab';
   const a = TAB_ORDER.indexOf(prev.tab);
   const b = TAB_ORDER.indexOf(next.tab);
-  tabSide.value = dir === 'tab' && a >= 0 && b >= 0 && a !== b ? (b > a ? 'r' : 'l') : '';
   curKey = routeKey(next);
-  batch(() => {
-    pendingTab.value = null;
-    route.value = next;
-  });
-  delete document.querySelector('main')?.dataset.leave;
-  // Новый экран — сверху; «Назад» — на прежнее место (после отрисовки), мгновенно
-  window.scrollTo({ top: 0, behavior: 'instant' });
-  const m = dir === 'pop' ? marks.get(curKey) : undefined;
-  if (m && m.y > 0) restore(m, curKey);
+  const key = curKey;
+  const apply = () => {
+    if (curKey !== key) return;
+    // направление — вместе с новым экраном: смена data-nav у старого экрана перезапустила бы его анимацию
+    batch(() => {
+      navDir.value = prev.tab === next.tab || dir !== 'tab' ? dir : 'tab';
+      tabSide.value = dir === 'tab' && a >= 0 && b >= 0 && a !== b ? (b > a ? 'r' : 'l') : '';
+      pendingTab.value = null;
+      route.value = next;
+    });
+    // Новый экран — сверху; «Назад» — на прежнее место (после отрисовки), мгновенно
+    window.scrollTo({ top: 0, behavior: 'instant' });
+    const m = dir === 'pop' ? marks.get(key) : undefined;
+    if (m && m.y > 0) restore(m, key);
+  };
+  // Нажатие в нижней панели: сначала кадр с подсветкой вкладки, затем отрисовка экрана
+  cancelAnimationFrame(pendingTimer);
+  if (pendingTab.value && !motionOff()) pendingTimer = requestAnimationFrame(() => setTimeout(apply, 0));
+  else apply();
 });
 
 export function go(path: string): void {

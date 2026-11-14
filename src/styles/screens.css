@@ -360,3 +360,98 @@ section {
   padding: 0 var(--space-3);
   font-size: 15px;
 }
+
+/* Подсказка «?» у пунктов настроек (src/ui/components/HelpTip.tsx): цвета из токенов темы */
+.srow-title {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+.help-btn {
+  position: relative;
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 1.5px solid var(--line);
+  background: var(--soft);
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 800;
+  line-height: 1;
+}
+/* зона нажатия 44×44 при маленьком значке */
+.help-btn::after {
+  content: '';
+  position: absolute;
+  inset: -11px;
+}
+.help-btn.on,
+.help-btn:focus-visible {
+  border-color: var(--accent);
+  color: var(--accent-ink);
+  background: var(--card);
+}
+.help-btn:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+.help-tip {
+  position: fixed;
+  z-index: 70;
+  padding: var(--space-3) var(--space-4);
+  border-radius: 14px;
+  background: var(--card);
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow-pop);
+  color: var(--ink);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.45;
+  text-align: left;
+}
+/* стрелка к кнопке «?» */
+.help-tip::before {
+  content: '';
+  position: absolute;
+  top: -6px;
+  left: calc(var(--ax, 50%) - 6px);
+  width: 10px;
+  height: 10px;
+  background: var(--card);
+  border-left: 1px solid var(--line);
+  border-top: 1px solid var(--line);
+  transform: rotate(45deg);
+}
+.help-tip.up::before {
+  top: auto;
+  bottom: -6px;
+  transform: rotate(225deg);
+}
+
+/* Contact Me (Настройки): значки в мягкой плашке цветами темы, строки — как остальные списки */
+.contact-list {
+  margin-top: var(--space-3);
+}
+.contact-list .row {
+  min-height: 56px;
+}
+.contact-ic {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background: var(--soft);
+  color: var(--accent-ink);
+}
+.contact-list .row > .icon:last-child {
+  flex: none;
+  color: var(--muted);
+}
+.contact-ic .icon {
+  color: inherit;
+}

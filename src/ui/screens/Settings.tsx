@@ -38,6 +38,7 @@ import { ProfileForm, draftFrom, validateProfile, type ProfileDraft } from '../c
 import { askRestore } from '../components/RestoreDialog';
 import { scrollBehavior } from '../../lib/motion';
 import { Select } from '../components/Select';
+import { HelpTip } from '../components/HelpTip';
 
 export function Settings() {
   const s = settings.value;
@@ -177,7 +178,10 @@ export function Settings() {
         <h2 class="card-t">{t('settings.timer')}</h2>
         <div class="srow">
           <span>
-            {t('settings.restBase')}
+            <span class="srow-title">
+              {t('settings.restBase')}
+              <HelpTip topic={t('settings.restBase')} text={t('settings.restBaseHelp')} />
+            </span>
             <small>{t('settings.restBaseHint')}</small>
           </span>
           <Stepper
@@ -188,7 +192,10 @@ export function Settings() {
         </div>
         <div class="srow">
           <span>
-            {t('settings.restIso')}
+            <span class="srow-title">
+              {t('settings.restIso')}
+              <HelpTip topic={t('settings.restIso')} text={t('settings.restIsoHelp')} />
+            </span>
             <small>{t('settings.restIsoHint')}</small>
           </span>
           <Stepper
@@ -364,7 +371,44 @@ export function Settings() {
         </ul>
         <p class="credits">{t('about.credits')}</p>
       </section>
+
+      <ContactCard />
     </div>
+  );
+}
+
+/** Внешние профили автора (Настройки → Contact Me) */
+const CONTACTS = [
+  { id: 'instagram', href: 'https://www.instagram.com/vfovae/', handle: 'vfovae' },
+  { id: 'telegram', href: 'https://t.me/fovae', handle: 'fovae' },
+  { id: 'discord', href: 'https://discord.com/users/1468713991852396557', handle: 'fovae' },
+] as const;
+
+function ContactCard() {
+  return (
+    <section class="card group-card contact-card" aria-labelledby="contact-t">
+      <h2 class="card-t" id="contact-t">
+        {t('contact.title')}
+      </h2>
+      <p class="muted small">{t('contact.desc')}</p>
+      <ul class="list contact-list">
+        {CONTACTS.map((c) => (
+          <li key={c.id}>
+            <a class="row" href={c.href} target="_blank" rel="noopener noreferrer">
+              <span class="contact-ic">
+                <Icon name={c.id} size={22} />
+              </span>
+              <span class="row-main">
+                <b>{t(`contact.${c.id}`)}</b>
+                <span class="muted">{c.handle}</span>
+              </span>
+              <span class="sr-only">{t('contact.newTab')}</span>
+              <Icon name="external" size={18} />
+            </a>
+          </li>
+        ))}
+      </ul>
+    </section>
   );
 }
 

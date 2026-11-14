@@ -13,7 +13,7 @@
   /* Токены движения — все компоненты берут длительности и кривые только отсюда */
   --dur-fast: 180ms;
   --dur-base: 280ms;
-  --dur-slow: 400ms;
+  --dur-slow: 350ms;
   /* нажатие: сжатие — сразу, возврат — длинный и мягкий */
   --dur-press: 110ms;
   --dur-release: 420ms;
@@ -130,8 +130,7 @@
 }
 
 /*
- * 1. Экраны. Старый экран за 90 мс мягко гаснет (main[data-leave], src/state/ui.ts → goTab), новый
- * проявляется со сдвигом: соседняя вкладка — справа или слева (по порядку в нижней панели),
+ * 1. Экраны. Новый экран проявляется со сдвигом: соседняя вкладка — справа или слева (по порядку в нижней панели),
  * вложенный экран — справа, «Назад» — слева. Два экрана одновременно не держим: на iPhone 11 это
  * дороже, чем стоит эффект.
  */
@@ -177,15 +176,9 @@
 :where(main[data-nav='pop'] > .screen) {
   animation-name: m-fade, m-in-pop;
 }
-main > .screen {
-  transition:
-    opacity 90ms var(--ease-in),
-    transform 90ms var(--ease-in);
-}
-main[data-leave] > .screen {
-  opacity: 0.25;
-  transform: translateY(2px);
-  pointer-events: none;
+/* сдвиг экрана при входе не даёт горизонтальной прокрутки страницы */
+main {
+  overflow-x: clip;
 }
 
 /* Прокрутка: якоря и разделы не прячутся под статус-баром и нижней панелью */
@@ -486,6 +479,12 @@ details[open] > :not(summary) {
   animation: m-drop var(--dur-base) var(--ease-glide);
 }
 .select-list.up {
+  animation-name: m-drop-up;
+}
+.help-tip {
+  animation: m-drop var(--dur-base) var(--ease-glide);
+}
+.help-tip.up {
   animation-name: m-drop-up;
 }
 .select-layer.leaving {

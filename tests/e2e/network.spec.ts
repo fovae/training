@@ -20,14 +20,15 @@ test('no third-party requests and no external links', async ({ page, baseURL }) 
       as.map((a) => ({
         href: a.getAttribute('href')!,
         inLegal: !!a.closest('.legal .prose'),
+        inContact: !!a.closest('.contact-list'),
         target: a.getAttribute('target'),
         rel: a.getAttribute('rel') ?? '',
       })),
     );
     for (const l of links) {
-      // Единственное исключение — внешние https-ссылки в тексте Privacy и Terms
+      // Исключения — внешние https-ссылки в тексте Privacy и Terms и профили в «Contact Me»
       if (l.href.startsWith('https:')) {
-        if (!l.inLegal || l.target !== '_blank' || !/noopener/.test(l.rel) || !/noreferrer/.test(l.rel))
+        if ((!l.inLegal && !l.inContact) || l.target !== '_blank' || !/noopener/.test(l.rel) || !/noreferrer/.test(l.rel))
           external.push(l.href);
         continue;
       }

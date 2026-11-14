@@ -561,6 +561,17 @@ export const B5: Exercise[] = [
     defaults: d(3, 10, 12),
   }),
   make({
+    id: 'barbell-spider-curl',
+    pic: 'bb_spider_curl',
+    category: 'arms',
+    primary: ['biceps'],
+    equipment: ['barbell', 'bench'],
+    type: 'isolation',
+    cues: 4,
+    mistakes: 3,
+    defaults: d(3, 8, 12),
+  }),
+  make({
     id: 'cross-body-hammer-curl',
     pic: 'hammer',
     category: 'arms',

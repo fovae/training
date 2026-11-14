@@ -18,6 +18,7 @@ test('works offline after the first visit (incl. language packs and font)', asyn
   await expect(page.locator('.lib-card .pic svg').first()).toBeVisible();
   // Другой язык тоже из кэша
   await page.getByRole('link', { name: 'Настройки' }).click();
+  await expect(page.getByRole('heading', { name: 'Настройки', level: 1 })).toBeVisible();
   await choose(page.getByLabel('Язык'), 'en');
   await expect(page.getByRole('heading', { name: 'Settings', level: 1 })).toBeVisible();
   const fontOk = await page.evaluate(async () => {

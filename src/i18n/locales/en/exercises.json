@@ -1876,6 +1876,22 @@
       "mistakes": ["Elbows swinging back.", "Half reps at the top only."],
       "safety": "Light to moderate dumbbells keep the form strict."
     },
+    "barbell-spider-curl": {
+      "name": "Barbell spider curl",
+      "desc": "A biceps curl lying chest-down on an incline bench with a barbell: the arms hang straight down, so the shoulders can't help.",
+      "cues": [
+        "Set the incline bench to about 30–45° and lie chest-down on it.",
+        "Let the arms hang straight down and take the bar with an underhand grip, palms up.",
+        "Bend the elbows and curl the bar towards the shoulders, keeping the torso and shoulders still.",
+        "Lower the bar slowly back to the start."
+      ],
+      "mistakes": [
+        "Elbows drifting forward or back.",
+        "Lifting the chest off the bench to swing the bar up.",
+        "Dropping the bar instead of lowering it."
+      ],
+      "safety": "Start light: the bar hangs under the bench, so pick a load you can lower under full control, and set the bar down on the floor instead of dropping it."
+    },
     "cross-body-hammer-curl": {
       "name": "Cross-body hammer curl",
       "desc": "A hammer curl that brings the dumbbell across the body toward the opposite shoulder.",

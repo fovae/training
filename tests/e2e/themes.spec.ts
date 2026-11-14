@@ -92,6 +92,7 @@ test('Russian theme names', async ({ page }, info) => {
   await fresh(page);
   await onboard(page, { lang: 'ru' });
   await page.getByRole('link', { name: 'Настройки', exact: true }).click();
+  await expect(page.getByRole('radiogroup', { name: 'Тема' })).toBeVisible();
   expect(await page.getByRole('radiogroup', { name: 'Тема' }).getByRole('radio').allTextContents()).toEqual([
     // короткие названия тем — одинаковые на всех языках
     'System',

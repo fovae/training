@@ -105,7 +105,7 @@ test.fixme('the whole catalog: scroll, search fades the list, "Back" restores th
   await fresh(page);
   await onboard(page);
   await page.getByRole('link', { name: 'Exercises' }).click();
-  await expect(page.locator('.lib-card')).toHaveCount(252);
+  await expect(page.locator('.lib-card')).toHaveCount(253);
   // прокрутка до конца без пропусков: последняя карточка доступна
   await page.locator('.lib-grid > li').last().scrollIntoViewIfNeeded();
   await expect(page.locator('.lib-grid > li').last()).toBeInViewport();
@@ -127,7 +127,7 @@ test.fixme('the whole catalog: scroll, search fades the list, "Back" restores th
   await expect(page.locator('.lib-detail')).toBeVisible();
   expect(await page.evaluate(() => scrollY)).toBe(0);
   await page.locator('a.back').click();
-  await expect(page.locator('.lib-card')).toHaveCount(252);
+  await expect(page.locator('.lib-card')).toHaveCount(253);
   // «Назад» — та же карточка на том же месте экрана (пиксели прокрутки могут отличаться:
   // карточки выше дорисовываются и меняют высоту)
   const card = page.locator(`.lib-card[href="${before.href}"]`);
@@ -139,7 +139,7 @@ test.fixme('the whole catalog: scroll, search fades the list, "Back" restores th
   await page.evaluate(() => window.scrollTo({ top: 0, behavior: 'instant' }));
   await page.getByPlaceholder(/Search/).fill('squat');
   await expect(page.locator('.lib-card').first()).toBeVisible();
-  expect(await page.locator('.lib-card').count()).toBeLessThan(252);
+  expect(await page.locator('.lib-card').count()).toBeLessThan(253);
   // после возврата и поиска под коротким списком нет пустого «хвоста» от прежней высоты
   const tail = await page.evaluate(() => {
     const last = [...document.querySelectorAll('.lib-grid > li')].pop()!;

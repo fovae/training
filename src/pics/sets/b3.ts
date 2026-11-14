@@ -14,6 +14,10 @@ const tall = (arm: [number, number], hold: Hold): Pose => stand(arm, hold, 180, 
 const lying = (arm: [number, number]): Pose =>
   body({ at: [108, 90], torso: -90, head: -96, arm, leg: [62, 0], hold: 'bb' });
 
+// Лёжа грудью на наклонной скамье головой вправо, ноги упираются в пол
+const spider = (arm: [number, number]): Pose =>
+  body({ at: [60, 96], torso: 122, head: 118, arm, leg: [-60, -30], footAt: [30, 125], legBend: 1, hold: 'bb' });
+
 // Упор одной рукой и коленом в скамью (как тяга гантели одной рукой)
 const braced = (arm: [number, number]): Pose =>
   body({
@@ -94,6 +98,12 @@ export const PICS_B3 = {
   barbell_curl: {
     env: '',
     poses: [stand([10, 6], 'bb'), stand([8, 158], 'bb')],
+  },
+  // «Паук» со штангой: грудью на наклонной скамье (~32°), плечи за краем спинки, руки висят
+  // вертикально; локти на месте, гриф поднимается к плечам
+  bb_spider_curl: {
+    env: env.pad(46, 112, 88, 86) + `<line x1="67" y1="99" x2="67" y2="127"/>`,
+    poses: [spider([0, 0]), spider([4, 160])],
   },
   db_curl: {
     env: '',

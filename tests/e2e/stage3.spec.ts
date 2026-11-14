@@ -2,7 +2,7 @@ import { expect, test } from '@playwright/test';
 import { EXERCISES } from '../../src/data/catalog';
 import { fresh, kv, onboard, choose, optionTexts } from './helpers';
 
-/** Этап 3А: база упражнений (252 после этапа 4), штанга, шаблоны, документы */
+/** Этап 3А: база упражнений (253: этап 4 + «паук» со штангой), штанга, шаблоны, документы */
 
 const BENCH = 'Barbell bench press';
 
@@ -33,7 +33,8 @@ test('library: the whole catalog, search and filters by muscle and equipment sta
       e.equipment.includes('barbell'),
   );
   await expect(page.locator('.lib-card')).toHaveCount(want);
-  expect(Date.now() - t0).toBeLessThan(3000);
+  // два выбора в своих списках (открытие и закрытие с анимацией) + фильтрация
+  expect(Date.now() - t0).toBeLessThan(6000);
   for (const name of ['Barbell back squat', 'Front squat']) await expect(page.getByText(name)).toBeVisible();
   // Новые мышцы и оборудование в фильтрах
   await choose(page.getByLabel('Muscle', { exact: true }), 'adductors');
@@ -227,4 +228,35 @@ test('time exercises: plan editor accepts minutes, up to 3 hours per set', async
   await page.getByLabel(`${name}: minimum`).fill('90');
   await page.getByLabel(`${name}: minimum`).blur();
   await expect(item).toContainText('1 × 90–10,800 s');
+});
+
+test('rest timer: "?" tips open and close, steppers keep working', async ({ page }) => {
+  await fresh(page);
+  await onboard(page);
+  await page.getByRole('link', { name: 'Settings' }).click();
+  const help = page.getByRole('button', { name: 'About: Compound exercises' });
+  const tip = page.locator('.help-tip');
+  await help.click();
+  await expect(tip).toContainText('squats, presses and rows');
+  await expect(help).toHaveAttribute('aria-expanded', 'true');
+  // Escape закрывает, фокус остаётся на «?»
+  await page.keyboard.press('Escape');
+  await expect(tip).toHaveCount(0);
+  await expect(help).toBeFocused();
+  // повторное нажатие — открыть / закрыть
+  await help.click();
+  await expect(tip).toBeVisible();
+  await help.click();
+  await expect(tip).toHaveCount(0);
+  // нажатие вне подсказки закрывает её и не мешает регулятору
+  await page.getByRole('button', { name: 'About: Isolation' }).click();
+  await expect(tip).toContainText('biceps curls');
+  const box = await tip.boundingBox();
+  expect(box!.x).toBeGreaterThanOrEqual(0);
+  expect(box!.x + box!.width).toBeLessThanOrEqual(page.viewportSize()!.width);
+  const group = page.getByRole('group', { name: 'Isolation' });
+  const before = await group.locator('output').textContent();
+  await group.getByRole('button').last().click();
+  await expect(tip).toHaveCount(0);
+  await expect(group.locator('output')).not.toHaveText(before!);
 });

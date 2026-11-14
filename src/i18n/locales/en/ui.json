@@ -26,7 +26,8 @@
     "undo": "Undo",
     "saveFailed": "Couldn't save. Please try again.",
     "decrease": "{what}: less",
-    "increase": "{what}: more"
+    "increase": "{what}: more",
+    "helpAbout": "About: {what}"
   },
   "unit": {
     "kg": "kg",
@@ -418,8 +419,10 @@
     "timer": "Rest timer",
     "restBase": "Compound exercises",
     "restBaseHint": "usually 2–3 min",
+    "restBaseHelp": "For exercises that work several muscles and joints, such as squats, presses and rows. Rest is usually 2–3 minutes.",
     "restIso": "Isolation",
     "restIsoHint": "usually 60–120 s",
+    "restIsoHelp": "For exercises that mainly load one muscle, such as biceps curls or triceps extensions. Rest is usually 60–120 seconds.",
     "sound": "Sound when rest ends",
     "soundHint": "On iPhone the sound is muted in silent mode.",
     "soundNone": "Sound isn't available in this browser.",
@@ -711,5 +714,13 @@
   },
   "pic": {
     "swap": "Switch start / end position"
+  },
+  "contact": {
+    "title": "Contact Me",
+    "desc": "Suggestions, bug reports, exercise requests, and other feedback are welcome.",
+    "instagram": "Instagram",
+    "telegram": "Telegram",
+    "discord": "Discord",
+    "newTab": "(opens in a new tab)"
   }
 }
