@@ -1,5 +1,6 @@
 import { signal } from '@preact/signals';
 import type { Equipment, Exercise, Muscle } from '../types';
+import { makeDoc, rankByQuery, type SearchFields } from './search';
 
 /**
  * Доступ к базе упражнений. Сами записи и схемы — в ленивом чанке ./catalog
@@ -90,34 +91,80 @@ export const usedMuscles = (): Muscle[] => usedLists().muscles;
 export const usedEquipment = (): Equipment[] => usedLists().equipment;
 
 export interface ExerciseFilter {
-  /** Уже нормализованный запрос (нижний регистр) */
+  /** Текст поиска как набран */
   query?: string;
   muscle?: Muscle | '';
   equipment?: Equipment | '';
 }
 
-/** Без учёта регистра и «ё/е» — «жим», «Жим», «приседания» ≈ «приседания» */
-const norm = (s: string) => s.toLocaleLowerCase().replace(/ё/g, 'е');
+const splitList = (s: string | undefined): string[] => (s ? s.split(/\s*,\s*/).filter(Boolean) : []);
 
-/** name — переведённое название; поиск идёт по нему и по id. Все слова запроса должны найтись. */
+/** Синонимы и сленг упражнения для поиска (src/data/catalog/aliases.ts) */
+export function exerciseAliases(id: string, lang: 'ru' | 'en'): string[] {
+  return splitList(cat?.ALIASES[id]?.[lang === 'ru' ? 0 : 1]);
+}
+
+/** Синонимы мышцы или инвентаря для поиска: «бицуха», «турник»… */
+export function tagSynonyms(tag: Muscle | Equipment, lang: 'ru' | 'en'): string[] {
+  return splitList(cat?.TAG_SYNONYMS[tag]?.[lang === 'ru' ? 0 : 1]);
+}
+
+/**
+ * Что ищется у упражнения: название на языке интерфейса, синонимы на русском или английском
+ * (по языку), английские синонимы и id (на остальных языках тоже), мышцы и инвентарь с
+ * разговорными названиями. labels — подписи на языке интерфейса.
+ */
+export function exerciseSearchFields(
+  lang: string,
+  labels: { name: (id: string) => string; muscle: (m: Muscle) => string; equip: (q: Equipment) => string },
+): (e: Exercise) => SearchFields {
+  const own = lang === 'ru' ? 'ru' : 'en';
+  const tag = (label: string, syn: string[]) => [label, ...syn].join(', ');
+  const muscle = (m: Muscle) => tag(labels.muscle(m), tagSynonyms(m, own));
+  return (e) => ({
+    name: labels.name(e.id),
+    alt: lang === 'ru' || lang === 'en' ? exerciseAliases(e.id, own) : [],
+    en: [e.id.replace(/-/g, ' '), ...(lang === 'en' ? [] : exerciseAliases(e.id, 'en'))],
+    tags: [
+      ...e.primaryMuscles.map(muscle),
+      ...e.equipment.map((q) => tag(labels.equip(q), tagSynonyms(q, own))),
+    ],
+    minor: e.secondaryMuscles.map(muscle),
+  });
+}
+
+/**
+ * Отбор по мышце и оборудованию + поиск (src/data/search.ts): опечатки, словоформы, синонимы,
+ * раскладка. С запросом — по убыванию релевантности, без запроса — порядок каталога / по мышце.
+ * `fields` — что искать у упражнения (название на языке интерфейса, синонимы, мышцы…).
+ */
 export function filterExercises(
   list: Exercise[],
   f: ExerciseFilter,
-  name: (e: Exercise) => string,
+  fields: (e: Exercise) => SearchFields,
+  /** Ключ кэша поисковых записей (язык): записи строятся один раз на язык */
+  cacheKey?: string,
 ): Exercise[] {
-  const words = norm(f.query ?? '')
-    .split(/\s+/)
-    .filter(Boolean);
-  const out = list.filter((e) => {
+  let out = list.filter((e) => {
     if (f.muscle && !e.primaryMuscles.includes(f.muscle) && !e.secondaryMuscles.includes(f.muscle))
       return false;
     if (f.equipment && !e.equipment.includes(f.equipment)) return false;
-    if (!words.length) return true;
-    const hay = norm(name(e)) + ' ' + e.id;
-    return words.every((w) => hay.includes(w));
+    return true;
   });
-  return f.muscle ? sortByMuscle(out, f.muscle) : out;
+  if (f.muscle) out = sortByMuscle(out, f.muscle);
+  const q = (f.query ?? '').trim();
+  if (!q) return out;
+  const doc = (e: Exercise) => {
+    if (cacheKey === undefined) return makeDoc(fields(e));
+    const k = cacheKey + '\n' + e.id;
+    let d = docs.get(k);
+    if (!d) docs.set(k, (d = makeDoc(fields(e))));
+    return d;
+  };
+  return rankByQuery(out, q, doc);
 }
+
+const docs = new Map<string, ReturnType<typeof makeDoc>>();
 
 /**
  * Порядок при выбранной группе мышц: сначала упражнения, где она главная (первая в основных),

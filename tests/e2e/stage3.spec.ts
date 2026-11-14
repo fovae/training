@@ -15,9 +15,17 @@ test('library: the whole catalog, search and filters by muscle and equipment sta
 
   const count = (f: (e: (typeof EXERCISES)[number]) => boolean) => EXERCISES.filter(f).length;
   const search = page.getByRole('searchbox');
-  // Поиск: несколько слов в любом порядке
+  // Поиск: все приседания нашлись и стоят первыми (дальше — похожие: трастер, «стульчик»…)
   await search.fill('squat');
-  await expect(page.locator('.lib-card')).toHaveCount(EXERCISES.filter((e) => /squat/.test(e.id)).length);
+  const squats = EXERCISES.filter((e) => /squat/.test(e.id)).length;
+  await expect(page.locator('.lib-card').nth(squats - 1)).toBeVisible();
+  const firstNames = await page
+    .locator('.lib-txt b')
+    .evaluateAll((els, n) => els.slice(0, n).map((e) => e.textContent ?? ''), squats);
+  for (const n of firstNames) expect(n).toMatch(/squat/i);
+  // Опечатка и сленг тоже находят
+  await search.fill('benhc');
+  await expect(page.getByRole('link', { name: new RegExp(BENCH) })).toBeVisible();
   await search.fill('press barbell');
   await expect(page.getByRole('link', { name: new RegExp(BENCH) })).toBeVisible();
   await expect(page.getByRole('link', { name: /Leg press/ })).toHaveCount(0);
@@ -68,8 +76,11 @@ test('library in Russian: search, no English names, new filters translated', asy
   await page.getByRole('searchbox').fill('Присед');
   await expect(page.getByRole('link', { name: /Приседания со штангой на спине/ })).toBeVisible();
   await page.getByRole('searchbox').fill('ягодичный мостик');
-  // мостик, мостик со штангой, мостик на одной ноге
-  await expect(page.locator('.lib-card')).toHaveCount(3);
+  // мостик, мостик со штангой, мостик на одной ноге, мост с гантелью («мост» ≈ «мостик»)
+  await expect(page.locator('.lib-card')).toHaveCount(4);
+  // сленг: «молотки» — молотковые сгибания первыми
+  await page.getByRole('searchbox').fill('молотки');
+  await expect(page.locator('.lib-txt b').first()).toHaveText('Молотковые сгибания');
   await page.getByRole('searchbox').fill('');
   const opts = await optionTexts(page.getByLabel('Оборудование'));
   expect(opts).toContain('Скакалка');

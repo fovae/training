@@ -11,6 +11,7 @@ import { B2 } from './b2-legs';
 import { B3 } from './b3-shoulders-arms';
 import { B4 } from './b4-core-cardio-mobility';
 import { B5 } from './b5-expansion';
+export { ALIASES, TAG_SYNONYMS } from './aliases';
 
 /**
  * База упражнений и схем — отдельный ленивый чанк (грузится при запуске вместе с языком,

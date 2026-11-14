@@ -3,14 +3,14 @@ import { useMemo, useState } from 'preact/hooks';
 import {
   allExercises,
   filterExercises,
+  exerciseSearchFields,
   usedEquipment,
   usedMuscles,
   type ExerciseFilter,
 } from '../../data/exercises';
 import { locale } from '../../i18n';
 import { t } from '../../i18n';
-import type { Exercise } from '../../types';
-import { exName } from '../labels';
+import { exName, muscleName } from '../labels';
 import { Select } from './Select';
 
 const EMPTY: ExerciseFilter = { query: '', muscle: '', equipment: '' };
@@ -41,7 +41,13 @@ export function useExerciseFilter(keep?: Signal<ExerciseFilter>) {
   const lang = locale.value;
   // ~250 записей: фильтр дешёвый, но не пересчитываем его на каждый рендер без нужды
   const list = useMemo(
-    () => filterExercises(allExercises(), f, (e: Exercise) => exName(e.id)),
+    () =>
+      filterExercises(
+        allExercises(),
+        f,
+        exerciseSearchFields(lang, { name: exName, muscle: muscleName, equip: (q) => t(`equip.${q}`) }),
+        lang,
+      ),
     [f.query, f.muscle, f.equipment, lang],
   );
   return { f, setF, list };
