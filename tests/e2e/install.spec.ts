@@ -191,7 +191,11 @@ test('iOS: ?ios=27 / ?ios=26 force the instruction; without it Version/ from UA 
 }) => {
   test.skip(browserName !== 'webkit', 'iPhone projects');
   const errors: string[] = [];
-  page.on('pageerror', (e) => errors.push(e.message));
+  // «Importing a module script failed» — переход page.goto прерывает догрузку модуля прошлой страницы,
+  // это не ошибка приложения
+  page.on('pageerror', (e) => {
+    if (!/Importing a module script failed/.test(e.message)) errors.push(e.message);
+  });
   // ошибки скриптов; сетевые сообщения WebKit о загрузке ресурсов (service worker, ленивые картинки) не считаем
   page.on('console', (m) => {
     if (m.type() === 'error' && !/Failed to load resource|service ?worker/i.test(m.text())) errors.push(m.text());
