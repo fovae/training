@@ -82,6 +82,68 @@ export function goTab(tab: Tab): void {
   });
 }
 
+/**
+ * Возврат на прежнее место после «Назад» (список упражнений, история). Запоминаем не пиксели, а
+ * якорь — первую видимую карточку списка и её отступ от верха экрана: карточки за экраном
+ * (content-visibility) дорисовываются позже и меняют высоту, пиксели «уплывают», якорь — нет.
+ */
+interface ScrollMark {
+  y: number;
+  /** индекс карточки среди элементов ANCHORS и её отступ от верха окна */
+  idx: number;
+  top: number;
+}
+const ANCHORS = 'main .lib-grid > li, main .list > li';
+const marks = new Map<string, ScrollMark>();
+let curKey = routeKey(route.value);
+
+function mark(): ScrollMark {
+  const items = [...document.querySelectorAll<HTMLElement>(ANCHORS)];
+  const idx = items.findIndex((el) => el.getBoundingClientRect().bottom > 0);
+  return { y: window.scrollY, idx, top: idx >= 0 ? items[idx]!.getBoundingClientRect().top : 0 };
+}
+
+/**
+ * В Safari нет scroll anchoring: карточки над экраном дорисовываются позже (content-visibility) и
+ * сдвигают видимое. Поэтому якорь возвращаем на место при каждом изменении размеров экрана, пока
+ * список дорисовывается (до 5 с), и сразу перестаём, если человек сам начал прокручивать.
+ */
+function restore(m: ScrollMark, key: string): void {
+  const main = document.querySelector('main');
+  let frames = 12;
+  let stopped = false;
+  const fix = () => {
+    if (stopped) return;
+    if (curKey !== key) return stop();
+    const el = m.idx >= 0 ? document.querySelectorAll<HTMLElement>(ANCHORS)[m.idx] : undefined;
+    if (el) {
+      const d = el.getBoundingClientRect().top - m.top;
+      if (Math.abs(d) > 1) window.scrollBy({ top: d, behavior: 'instant' });
+    } else if (m.idx < 0 && Math.abs(window.scrollY - m.y) > 1)
+      window.scrollTo({ top: m.y, behavior: 'instant' });
+  };
+  const ro = typeof ResizeObserver === 'function' ? new ResizeObserver(fix) : null;
+  const events = ['touchstart', 'wheel', 'keydown'] as const;
+  function stop() {
+    stopped = true;
+    ro?.disconnect();
+    for (const e of events) removeEventListener(e, stop);
+  }
+  for (const e of events) addEventListener(e, stop, { passive: true });
+  if (main && ro) {
+    ro.observe(main);
+    const screen = main.firstElementChild;
+    if (screen) ro.observe(screen);
+  }
+  setTimeout(stop, 5000);
+  // первые кадры — пока экран только отрисовывается
+  const step = () => {
+    fix();
+    if (!stopped && --frames > 0) requestAnimationFrame(step);
+  };
+  requestAnimationFrame(step);
+}
+
 addEventListener('hashchange', () => {
   const prev = route.value;
   const next = parseRoute(location.hash);
