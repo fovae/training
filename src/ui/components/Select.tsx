@@ -175,7 +175,7 @@ export function SelectHost() {
         }}
         onKeyDown={(e) => {
           const n = cur.options.length;
-          let i = act;
+          let i: number;
           if (e.key === 'ArrowDown') i = Math.min(n - 1, act + 1);
           else if (e.key === 'ArrowUp') i = Math.max(0, act - 1);
           else if (e.key === 'Home') i = 0;
