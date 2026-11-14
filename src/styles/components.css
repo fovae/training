@@ -134,6 +134,38 @@
   position: relative;
   overflow: hidden;
 }
+/* Меню дня («⋯», экран «План»): круг контрастного цвета — цвет текста карточки, точки — цвет дня */
+.dayhead-act {
+  position: absolute;
+  z-index: 1;
+  top: var(--space-4);
+  right: var(--space-4);
+}
+.dayhead-more {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  position: relative;
+  border-radius: 50%;
+  background: var(--on-fill);
+  color: var(--dh-fill, var(--accent-fill));
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.14);
+}
+/* круг 40 px, зона нажатия 48 px */
+.dayhead-more::after {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+}
+.dayhead-more .icon {
+  stroke-width: 3.2;
+}
+.dayhead.has-act > .eyebrow,
+.dayhead.has-act > .dayhead-title {
+  padding-right: 48px;
+}
 .dayhead::before {
   content: '';
   position: absolute;
@@ -660,7 +692,7 @@ section + .card {
   z-index: 40;
   left: calc(var(--safe-l) + 10px);
   right: calc(var(--safe-r) + 10px);
-  bottom: calc(var(--nav-space) + 8px + var(--vp-shift));
+  bottom: calc(var(--nav-space) + 8px + var(--vp-c));
   border-radius: 22px;
   background: var(--card);
   box-shadow:
@@ -785,7 +817,7 @@ section + .card {
   z-index: 60;
   left: 50%;
   transform: translateX(-50%);
-  bottom: calc(var(--nav-space) + var(--timer-h) + 12px + var(--vp-shift));
+  bottom: calc(var(--nav-space) + var(--timer-h) + 12px + var(--vp-c));
   width: min(440px, calc(100% - 24px));
   display: flex;
   flex-direction: column;

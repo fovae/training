@@ -364,7 +364,8 @@
     "addWeight": "Рабочий вес (по желанию)",
     "minutesRange": "Минуты",
     "timeUnit": "{name}: единицы времени",
-    "dayContent": "Тренировка дня"
+    "dayContent": "Тренировка дня",
+    "dayActions": "Действия с днём: {name}"
   },
   "rules": {
     "title": "Правила",

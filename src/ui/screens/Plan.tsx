@@ -24,7 +24,7 @@ import {
   updateItem,
 } from '../../state/plan';
 import { active, restFor } from '../../state/session';
-import { ask, planDayId, toast } from '../../state/ui';
+import { ask, openMenu, planDayId, toast, type MenuAction } from '../../state/ui';
 import type { Day, PlanItem, Weekday } from '../../types';
 import { Seg, Stepper, Toggle } from '../components/Controls';
 import { DayHead } from '../components/DayHead';
@@ -99,7 +99,6 @@ export function Plan() {
           <div class="sec-h">
             <h2 id="day-h">{t('plan.dayContent')}</h2>
           </div>
-          <DayHead day={day} />
           <DayTools day={day} />
           {day.items.length === 0 && (
             <div class="empty">
@@ -213,48 +212,44 @@ function DayTools({ day }: { day: Day }) {
     if (next) planDayId.value = next.id;
   };
 
+  // Управление днём — в карточке дня: «⋯» справа вверху открывает меню снизу (как у упражнений)
+  const actions: MenuAction[] = [{ label: t('plan.rename'), run: onRename }];
+  if (p.days.length > 1)
+    actions.push({ label: t('plan.copyTo'), disabled: !day.items.length, run: () => setCopying(true) });
+  actions.push({ label: t('plan.clear'), disabled: !day.items.length, run: onClear });
+  if (p.days.length > 1)
+    actions.push({ label: t('plan.deleteDay'), danger: true, disabled: busy, run: onDelete });
+
   return (
-    <div class="day-tools">
-      {p.mode === 'weekdays' && (
-        <Select
-          label={t('plan.weekday')}
-          caption={t('plan.weekday')}
-          value={String(day.weekday ?? '')}
-          onChange={(v) => setWeekday(day.id, Number(v) as Weekday)}
-          options={([0, 1, 2, 3, 4, 5, 6] as Weekday[]).map((w) => ({
-            value: String(w),
-            label: weekdayLong(w),
-          }))}
-        />
-      )}
-      <div class="tool-row">
-        <button type="button" class="btn-ghost sm" onClick={() => void onRename()}>
-          {t('plan.rename')}
-        </button>
-        {p.days.length > 1 && (
+    <>
+      <DayHead
+        day={day}
+        action={
           <button
             type="button"
-            class="btn-ghost sm"
-            onClick={() => setCopying(true)}
-            disabled={!day.items.length}
+            class="dayhead-more"
+            aria-label={t('plan.dayActions', { name: dayTitle(day) })}
+            aria-haspopup="dialog"
+            onClick={() => openMenu({ title: dayTitle(day), actions })}
           >
-            {t('plan.copyTo')}
+            <Icon name="more" size={22} />
           </button>
-        )}
-        <button
-          type="button"
-          class="btn-ghost sm"
-          onClick={() => void onClear()}
-          disabled={!day.items.length}
-        >
-          {t('plan.clear')}
-        </button>
-        {p.days.length > 1 && (
-          <button type="button" class="btn-ghost sm danger" onClick={() => void onDelete()} disabled={busy}>
-            {t('plan.deleteDay')}
-          </button>
-        )}
-      </div>
+        }
+      />
+      {p.mode === 'weekdays' && (
+        <div class="day-tools">
+          <Select
+            label={t('plan.weekday')}
+            caption={t('plan.weekday')}
+            value={String(day.weekday ?? '')}
+            onChange={(v) => setWeekday(day.id, Number(v) as Weekday)}
+            options={([0, 1, 2, 3, 4, 5, 6] as Weekday[]).map((w) => ({
+              value: String(w),
+              label: weekdayLong(w),
+            }))}
+          />
+        </div>
+      )}
       {copying && (
         <Sheet title={t('plan.copyTitle')} onClose={() => setCopying(false)}>
           <p class="muted small">{t('plan.copyHint')}</p>
@@ -285,7 +280,7 @@ function DayTools({ day }: { day: Day }) {
           </ul>
         </Sheet>
       )}
-    </div>
+    </>
   );
 }
 
@@ -537,6 +532,10 @@ function ExercisePicker({ day, onClose }: { day: Day; onClose: (added: number) =
                 toast(t('plan.added', { name: exName(e.id) }));
               }}
             >
+              {/* миниатюра схемы: сразу видно, что за движение */}
+              <span class="pick-thumb" aria-hidden="true">
+                <Pic pic={e.pictogram} />
+              </span>
               <span class="row-main">
                 <b>{exName(e.id)}</b>
                 <span class="muted">

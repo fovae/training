@@ -8,13 +8,19 @@ interface Props {
   day: Day;
   progress?: { done: number; total: number } | undefined;
   children?: ComponentChildren;
+  /** Кнопка в правом верхнем углу карточки (меню дня на экране «План») */
+  action?: ComponentChildren;
 }
 
 /** Цветная шапка дня */
-export function DayHead({ day, progress, children }: Props) {
+export function DayHead({ day, progress, children, action }: Props) {
   const pct = progress && progress.total ? (progress.done / progress.total) * 100 : 0;
   return (
-    <div class="dayhead" style={{ background: `var(--${dayColor(day.id)}-bg)` }}>
+    <div
+      class={'dayhead' + (action ? ' has-act' : '')}
+      style={{ background: `var(--${dayColor(day.id)}-bg)`, '--dh-fill': `var(--${dayColor(day.id)}-fill)` }}
+    >
+      {action && <div class="dayhead-act">{action}</div>}
       <div class="eyebrow">{dayEyebrow(day)}</div>
       <h2 class="dayhead-title">{dayTitle(day)}</h2>
       <p>

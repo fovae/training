@@ -146,9 +146,16 @@ test('plan editor: empty days, picker with search and filters, edit, reorder, co
   await expect(items.first()).toContainText('4 × 6–12 · 3:00 · optional');
 
   // Копировать в день 2, затем очистить день 1
-  await page.getByRole('button', { name: 'Copy to…' }).click();
-  await page.getByRole('dialog').getByRole('button', { name: /Day 2/ }).click();
-  await page.getByRole('button', { name: 'Clear' }).click();
+  // Управление днём — в меню «⋯» на карточке дня
+  const dayMenu = page.getByRole('button', { name: /^Day actions: / });
+  await dayMenu.click();
+  await page.getByRole('dialog').getByRole('button', { name: 'Copy to…' }).click();
+  await page
+    .getByRole('dialog', { name: 'Copy exercises to' })
+    .getByRole('button', { name: /Day 2/ })
+    .click();
+  await dayMenu.click();
+  await page.getByRole('dialog').getByRole('button', { name: 'Clear' }).click();
   await page.getByRole('alertdialog').getByRole('button', { name: 'Clear' }).click();
   await expect(items).toHaveCount(0);
   await page.getByRole('tab', { name: /Day 2/ }).click();

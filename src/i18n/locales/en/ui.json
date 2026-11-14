@@ -348,7 +348,8 @@
     "addWeight": "Working weight (optional)",
     "minutesRange": "Minutes",
     "timeUnit": "{name}: time unit",
-    "dayContent": "Day workout"
+    "dayContent": "Day workout",
+    "dayActions": "Day actions: {name}"
   },
   "rules": {
     "title": "Rules",

@@ -306,6 +306,16 @@ html {
   }
 }
 
+/* Меню дня: круг слегка сжимается под пальцем */
+.dayhead-more {
+  transition: transform var(--dur-release) var(--ease-soft);
+}
+.dayhead-more:active {
+  transform: scale(0.9);
+  transition-duration: var(--dur-press);
+  transition-timing-function: var(--ease-out);
+}
+
 /* 3. Нажатия: кнопки, карточки, пункты списков слегка уменьшаются и возвращаются */
 .lib-card,
 .list > li > a,
