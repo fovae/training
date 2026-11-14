@@ -47,16 +47,28 @@ export function SwipeRow({
   );
   /** Клик сразу после свайпа или долгого нажатия — не переход по ссылке. Флаг живёт недолго. */
   const swallowClick = useRef(false);
+  const swallowTimer = useRef(0);
   const swallow = () => {
     swallowClick.current = true;
-    window.setTimeout(() => (swallowClick.current = false), 400);
+    window.clearTimeout(swallowTimer.current);
+    swallowTimer.current = window.setTimeout(() => (swallowClick.current = false), 400);
   };
 
   const menu = () => openMenu({ title, actions });
 
-  useEffect(() => () => void (g.current && clearTimeout(g.current.timer)), []);
+  useEffect(
+    () => () => {
+      if (g.current) clearTimeout(g.current.timer);
+      window.clearTimeout(swallowTimer.current);
+    },
+    [],
+  );
 
   const onStart = (e: TouchEvent) => {
+    // Новое касание — новый жест: флаг от прошлого свайпа или долгого нажатия больше не действует.
+    // Раньше он жил до 400 мс и «съедал» следующее быстрое нажатие (срабатывало со 2–3-го раза).
+    swallowClick.current = false;
+    window.clearTimeout(swallowTimer.current);
     const p = e.touches[0];
     if (!p || e.touches.length > 1) return;
     if ((e.target as HTMLElement).closest('input, textarea, select, .no-swipe')) return;

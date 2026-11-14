@@ -16,7 +16,7 @@ import { exName } from '../labels';
 export function useExerciseFilter(initial: ExerciseFilter = {}) {
   const [f, setF] = useState<ExerciseFilter>({ query: '', muscle: '', equipment: '', ...initial });
   const lang = locale.value;
-  // ~120 записей: фильтр дешёвый, но не пересчитываем его на каждый рендер без нужды
+  // ~250 записей: фильтр дешёвый, но не пересчитываем его на каждый рендер без нужды
   const list = useMemo(
     () => filterExercises(allExercises(), f, (e: Exercise) => exName(e.id)),
     [f.query, f.muscle, f.equipment, lang],

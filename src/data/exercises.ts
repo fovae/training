@@ -3,7 +3,7 @@ import type { Equipment, Exercise, Muscle } from '../types';
 
 /**
  * Доступ к базе упражнений. Сами записи и схемы — в ленивом чанке ./catalog
- * (≈120 упражнений): loadCatalog() вызывается при запуске (state/app.ts) параллельно с базой
+ * (≈250 упражнений): loadCatalog() вызывается при запуске (state/app.ts) параллельно с базой
  * данных и словарём, интерфейс рисуется после него. До загрузки findExercise возвращает undefined.
  * Как добавить упражнение — docs/ARCHITECTURE.md.
  */

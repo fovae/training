@@ -18,14 +18,19 @@
   --dur-release: 340ms;
   /* уход (закрытие листа, плашки) — чуть быстрее появления; = OUT_MS в src/lib/motion.ts */
   --dur-out: 200ms;
-  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  /* мягкое торможение без рывка в начале (стартовая скорость ~3× средней, а не 4–6×) */
+  --ease-out: cubic-bezier(0.25, 0.75, 0.3, 1);
   --ease-in-out: cubic-bezier(0.45, 0, 0.25, 1);
   --ease-in: cubic-bezier(0.4, 0, 1, 1);
   /* лёгкая упругость: перелёт ~5% и успокоение без колебаний */
-  --ease-spring: cubic-bezier(0.34, 1.36, 0.64, 1);
+  --ease-spring: cubic-bezier(0.34, 1.2, 0.64, 1);
   /* листы и экраны: быстрый старт, долгое мягкое торможение */
-  --ease-glide: cubic-bezier(0.16, 1, 0.3, 1);
-  --stagger: 35ms;
+  --ease-glide: cubic-bezier(0.3, 0.7, 0.2, 1);
+  /* проявление (opacity): плавный вход и выход, без «вспышки» в первом кадре */
+  --ease-fade: cubic-bezier(0.4, 0, 0.2, 1);
+  /* проявление длиннее движения: элемент уже на месте и ещё мягко «дорисовывается» */
+  --dur-fade: 420ms;
+  --stagger: 40ms;
 }
 
 @keyframes m-fade {
@@ -36,7 +41,13 @@
 @keyframes m-rise {
   from {
     opacity: 0;
-    transform: translateY(12px);
+    transform: translateY(8px);
+  }
+}
+/* сдвиг без прозрачности — в паре с m-fade (у каждой своя кривая и длительность) */
+@keyframes m-lift {
+  from {
+    transform: translateY(8px);
   }
 }
 /* всплывающие окна и уведомления: подъём с лёгким увеличением — ощущение глубины */
@@ -50,7 +61,7 @@
 @keyframes m-screen {
   from {
     opacity: 0;
-    transform: translateY(16px);
+    transform: translateY(10px);
   }
 }
 @keyframes m-up {
@@ -105,13 +116,13 @@
 @keyframes m-in-push {
   from {
     opacity: 0;
-    transform: translateX(28px);
+    transform: translateX(20px);
   }
 }
 @keyframes m-in-pop {
   from {
     opacity: 0;
-    transform: translateX(-28px);
+    transform: translateX(-20px);
   }
 }
 :where(main > .screen) {
@@ -139,37 +150,51 @@ html {
   contain-intrinsic-block-size: auto 72px;
 }
 
-/* 2. Каскад: только первые 8 элементов (по 35 мс), дальше — сразу; длинные списки целиком не анимируются */
+/*
+ * 2. Появление содержимого.
+ * Обновление внутри экрана (смена дня, фильтр, новый пункт, шаг онбординга): короткое проявление без
+ * задержек и сдвига — результат нажатия виден с первого кадра.
+ * Каскад (по очереди, со сдвигом) — только пока экран входит: main[data-enter] держится ~0,7 с после
+ * смены экрана (App.tsx). Раньше каскад проигрывался и при каждой смене дня: карточки начинали с нулевой
+ * прозрачности и проявлялись до 0,7 с — нажатие казалось запоздавшим.
+ */
 :where(.screen) > :where(:nth-child(-n + 8)),
 :where(.list, .lib-grid, .ex-grid, .items, .ig-steps, .theme-grid, .summary-grid)
   > :where(:nth-child(-n + 8)) {
-  animation: m-rise var(--dur-base) var(--ease-out) backwards;
+  animation: m-fade var(--dur-fast) var(--ease-fade) backwards;
 }
-:where(.screen, .list, .lib-grid, .ex-grid, .items, .ig-steps, .theme-grid, .summary-grid)
+:where(main[data-enter]) :where(.screen) > :where(:nth-child(-n + 8)),
+:where(main[data-enter]) :where(.list, .lib-grid, .ex-grid, .items, .ig-steps, .theme-grid, .summary-grid)
+  > :where(:nth-child(-n + 8)) {
+  animation:
+    m-fade var(--dur-fade) var(--ease-fade) backwards,
+    m-lift var(--dur-slow) var(--ease-glide) backwards;
+}
+:where(main[data-enter]) :where(.screen, .list, .lib-grid, .ex-grid, .items, .ig-steps, .theme-grid, .summary-grid)
   > :where(:nth-child(2)) {
   animation-delay: calc(1 * var(--stagger));
 }
-:where(.screen, .list, .lib-grid, .ex-grid, .items, .ig-steps, .theme-grid, .summary-grid)
+:where(main[data-enter]) :where(.screen, .list, .lib-grid, .ex-grid, .items, .ig-steps, .theme-grid, .summary-grid)
   > :where(:nth-child(3)) {
   animation-delay: calc(2 * var(--stagger));
 }
-:where(.screen, .list, .lib-grid, .ex-grid, .items, .ig-steps, .theme-grid, .summary-grid)
+:where(main[data-enter]) :where(.screen, .list, .lib-grid, .ex-grid, .items, .ig-steps, .theme-grid, .summary-grid)
   > :where(:nth-child(4)) {
   animation-delay: calc(3 * var(--stagger));
 }
-:where(.screen, .list, .lib-grid, .ex-grid, .items, .ig-steps, .theme-grid, .summary-grid)
+:where(main[data-enter]) :where(.screen, .list, .lib-grid, .ex-grid, .items, .ig-steps, .theme-grid, .summary-grid)
   > :where(:nth-child(5)) {
   animation-delay: calc(4 * var(--stagger));
 }
-:where(.screen, .list, .lib-grid, .ex-grid, .items, .ig-steps, .theme-grid, .summary-grid)
+:where(main[data-enter]) :where(.screen, .list, .lib-grid, .ex-grid, .items, .ig-steps, .theme-grid, .summary-grid)
   > :where(:nth-child(6)) {
   animation-delay: calc(5 * var(--stagger));
 }
-:where(.screen, .list, .lib-grid, .ex-grid, .items, .ig-steps, .theme-grid, .summary-grid)
+:where(main[data-enter]) :where(.screen, .list, .lib-grid, .ex-grid, .items, .ig-steps, .theme-grid, .summary-grid)
   > :where(:nth-child(7)) {
   animation-delay: calc(6 * var(--stagger));
 }
-:where(.screen, .list, .lib-grid, .ex-grid, .items, .ig-steps, .theme-grid, .summary-grid)
+:where(main[data-enter]) :where(.screen, .list, .lib-grid, .ex-grid, .items, .ig-steps, .theme-grid, .summary-grid)
   > :where(:nth-child(8)) {
   animation-delay: calc(7 * var(--stagger));
 }
@@ -254,7 +279,7 @@ html {
 .as-btn:active:not(:disabled),
 .item summary:active,
 .pic-live:active {
-  transform: scale(0.96);
+  transform: scale(0.97);
   opacity: 1;
   /* сжатие — мгновенно, отпускание — мягкий возврат с упругостью (transition выше и в base.css) */
   transition-duration: var(--dur-press);
@@ -266,12 +291,23 @@ html {
 .list > li > button:active,
 .item summary:active,
 .pic-live:active {
-  transform: scale(0.98);
+  transform: scale(0.985);
 }
 
 /* 4. Окна и листы: фон затемняется, панель выезжает снизу; закрытие — обратная анимация */
 .scrim {
-  animation: m-fade var(--dur-base) var(--ease-out);
+  animation: m-fade var(--dur-slow) var(--ease-fade);
+}
+/* содержимое листа проявляется чуть позже самого листа */
+.sheet > *,
+.action-sheet > * {
+  animation: m-fade var(--dur-fade) var(--ease-fade) var(--stagger) backwards;
+}
+/* раскрывающиеся блоки (техника, детали дня, разделы документов): содержимое проявляется */
+details[open] > :not(summary) {
+  animation:
+    m-fade var(--dur-fade) var(--ease-fade) backwards,
+    m-lift var(--dur-base) var(--ease-glide) backwards;
 }
 .sheet,
 .modal,
@@ -283,7 +319,7 @@ html {
   .sheet,
   .modal,
   .action-sheet {
-    animation: m-float var(--dur-base) var(--ease-spring);
+    animation: m-float var(--dur-slow) var(--ease-glide);
   }
 }
 .scrim.leaving {
@@ -294,7 +330,7 @@ html {
   animation: m-out-down var(--dur-out) var(--ease-in) forwards;
 }
 .toast {
-  animation: m-float var(--dur-base) var(--ease-spring);
+  animation: m-float var(--dur-slow) var(--ease-glide);
 }
 
 /* Онбординг: полоска прогресса шагов заполняется плавно */
@@ -435,7 +471,9 @@ html {
 /* 10. Подсказки и плашки: плавно появляются, уходят вправо */
 .tip,
 .backup-reminder {
-  animation: m-rise var(--dur-base) var(--ease-out) backwards;
+  animation:
+    m-fade var(--dur-fade) var(--ease-fade) backwards,
+    m-lift var(--dur-slow) var(--ease-glide) backwards;
 }
 .tip.leaving,
 .backup-reminder.leaving {

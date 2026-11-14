@@ -277,7 +277,7 @@ test('v3 → v4: theme was never chosen (no saved settings) → Auto, the new de
   expect(await page.evaluate(() => getComputedStyle(document.body).backgroundColor)).toBe('rgb(17, 17, 20)');
   await page.getByRole('link', { name: 'Settings', exact: true }).click();
   await expect(
-    page.getByRole('radiogroup', { name: 'Theme' }).getByRole('radio', { name: 'Auto', exact: true }),
+    page.getByRole('radiogroup', { name: 'Theme' }).getByRole('radio', { name: 'System', exact: true }),
   ).toHaveAttribute('aria-checked', 'true');
   expect((await dbState(page)).sessions).toBe(1);
 });

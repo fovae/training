@@ -53,9 +53,9 @@ main {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   padding: 0 var(--safe-r) var(--safe-b) var(--safe-l);
-  background: color-mix(in srgb, var(--card) 96%, transparent);
-  -webkit-backdrop-filter: saturate(1.6) blur(20px);
-  backdrop-filter: saturate(1.6) blur(20px);
+  /* без backdrop-filter: фон и так почти непрозрачный, а размытие пересчитывалось бы в каждом кадре
+     прокрутки и анимаций под панелью */
+  background: var(--card);
   border-top: 1px solid var(--line);
 }
 .nav-brand,

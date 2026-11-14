@@ -650,18 +650,18 @@
     "dontWarn": "Don't warn me again for this exercise"
   },
   "theme": {
-    "auto": "Auto",
+    "auto": "System",
     "classic-light": "Classic Light",
     "classic-dark": "Classic Dark",
     "monochrome": "Monochrome",
     "gradient": "Gradient",
-    "pine-dusk": "Pine Dusk",
-    "golden-hour": "Golden Hour",
-    "violet-dusk": "Violet Dusk",
-    "rose-dusk": "Rose Dusk",
-    "slate-blue": "Slate Blue",
-    "sun-paper": "Sun Paper",
-    "coffee-dusk": "Coffee Dusk"
+    "pine-dusk": "Forest",
+    "golden-hour": "BlackGold",
+    "violet-dusk": "Violet",
+    "rose-dusk": "Rose",
+    "slate-blue": "Silver",
+    "sun-paper": "Cream",
+    "coffee-dusk": "Coffee"
   },
   "stats": {
     "weeksTitle": "Last 10 weeks",

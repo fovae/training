@@ -676,18 +676,18 @@
     "dontWarn": "Больше не предупреждать по этому упражнению"
   },
   "theme": {
-    "auto": "Авто",
-    "classic-light": "Классика светлая",
-    "classic-dark": "Классика тёмная",
-    "monochrome": "Монохром",
-    "gradient": "Градиент",
-    "pine-dusk": "Хвойный сумрак",
-    "golden-hour": "Золотой час",
-    "violet-dusk": "Фиалковый сумрак",
-    "rose-dusk": "Розовый сумрак",
-    "slate-blue": "Серо-синяя",
-    "sun-paper": "Солнечная бумага",
-    "coffee-dusk": "Кофейный сумрак"
+    "auto": "System",
+    "classic-light": "Classic Light",
+    "classic-dark": "Classic Dark",
+    "monochrome": "Monochrome",
+    "gradient": "Gradient",
+    "pine-dusk": "Forest",
+    "golden-hour": "BlackGold",
+    "violet-dusk": "Violet",
+    "rose-dusk": "Rose",
+    "slate-blue": "Silver",
+    "sun-paper": "Cream",
+    "coffee-dusk": "Coffee"
   },
   "stats": {
     "weeksTitle": "Последние 10 недель",

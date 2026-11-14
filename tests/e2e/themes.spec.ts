@@ -6,18 +6,18 @@ import { fresh, kv, onboard } from './helpers';
  * Фон «Авто» зависит от системной темы.
  */
 const THEMES: [name: string, id: string, bg: string | null][] = [
-  ['Auto', 'auto', null],
+  ['System', 'auto', null],
   ['Classic Light', 'classic-light', '#f6f6f7'],
   ['Classic Dark', 'classic-dark', '#111114'],
   ['Monochrome', 'monochrome', '#f4f4f4'],
   ['Gradient', 'gradient', '#f3f1ec'],
-  ['Pine Dusk', 'pine-dusk', '#14201c'],
-  ['Golden Hour', 'golden-hour', '#211e16'],
-  ['Violet Dusk', 'violet-dusk', '#19151f'],
-  ['Rose Dusk', 'rose-dusk', '#1f1519'],
-  ['Slate Blue', 'slate-blue', '#121722'],
-  ['Sun Paper', 'sun-paper', '#f7f3e8'],
-  ['Coffee Dusk', 'coffee-dusk', '#211913'],
+  ['Forest', 'pine-dusk', '#14201c'],
+  ['BlackGold', 'golden-hour', '#211e16'],
+  ['Violet', 'violet-dusk', '#19151f'],
+  ['Rose', 'rose-dusk', '#1f1519'],
+  ['Silver', 'slate-blue', '#14161a'],
+  ['Cream', 'sun-paper', '#f7f3e8'],
+  ['Coffee', 'coffee-dusk', '#211913'],
 ];
 const rgb = (hex: string) => `rgb(${[1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 16)).join(', ')})`;
 const bodyBg = (page: Page) => page.evaluate(() => getComputedStyle(document.body).backgroundColor);
@@ -36,7 +36,7 @@ test('new user gets Auto; Auto follows the system light / dark theme without a r
   await page.getByRole('link', { name: 'Settings', exact: true }).click();
   const picker = page.getByRole('radiogroup', { name: 'Theme' });
   await expect(picker.getByRole('radio')).toHaveCount(12);
-  await expect(picker.getByRole('radio', { name: 'Auto', exact: true })).toHaveAttribute(
+  await expect(picker.getByRole('radio', { name: 'System', exact: true })).toHaveAttribute(
     'aria-checked',
     'true',
   );
@@ -93,18 +93,19 @@ test('Russian theme names', async ({ page }, info) => {
   await onboard(page, { lang: 'ru' });
   await page.getByRole('link', { name: 'Настройки', exact: true }).click();
   expect(await page.getByRole('radiogroup', { name: 'Тема' }).getByRole('radio').allTextContents()).toEqual([
-    'Авто',
-    'Классика светлая',
-    'Классика тёмная',
-    'Монохром',
-    'Градиент',
-    'Хвойный сумрак',
-    'Золотой час',
-    'Фиалковый сумрак',
-    'Розовый сумрак',
-    'Серо-синяя',
-    'Солнечная бумага',
-    'Кофейный сумрак',
+    // короткие названия тем — одинаковые на всех языках
+    'System',
+    'Classic Light',
+    'Classic Dark',
+    'Monochrome',
+    'Gradient',
+    'Forest',
+    'BlackGold',
+    'Violet',
+    'Rose',
+    'Silver',
+    'Cream',
+    'Coffee',
   ]);
 });
 
@@ -184,7 +185,7 @@ test.describe('boot script', () => {
       ['gradient', '#f3f1ec'],
       // удалённые темы прошлых версий — сразу в новом цвете
       ['classic-orange', '#f3f1ec'],
-      ['blue', '#121722'],
+      ['blue', '#14161a'],
       ['gradient-2', '#211e16'],
       // неизвестное значение — «Авто»
       ['neon', '#f6f6f7'],

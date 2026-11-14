@@ -67,7 +67,7 @@ for (const scheme of ['light', 'dark'] as const) {
 
 /** Английские слова, допустимые на русском экране: названия, бренды, термины (cookie, IP), язык «English» */
 const ALLOWED = new Set(
-  'simple training fovae claude safari iphone ipad android chrome edge firefox samsung internet ios icloud json github pages reverse pec deck dead bug sole trader work gmail com english cookie ip drive'.split(
+  'simple training fovae claude safari iphone ipad android chrome edge firefox samsung internet ios icloud json github pages reverse pec deck dead bug sole trader work gmail com english cookie ip drive system classic light dark monochrome gradient forest violet rose silver blackgold cream coffee'.split(
     ' ',
   ),
 );

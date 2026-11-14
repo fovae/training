@@ -240,10 +240,10 @@
     },
     "slate-blue": {
       "recipe": {
-        "bg": "#121722",
-        "accent1": "#6C9CF5",
-        "accent2": "#8FD0F0",
-        "surface": "#232B40"
+        "bg": "#14161A",
+        "accent1": "#AEB8C6",
+        "accent2": "#E2E7EE",
+        "surface": "#262A31"
       }
     },
     "sun-paper": {

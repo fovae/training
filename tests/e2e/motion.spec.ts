@@ -97,14 +97,14 @@ test('screen transitions: nested screen comes from the right, back from the left
 });
 
 // Временно отключён: на широких iPhone (15/17 Pro Max) «Назад» расходится на ~18 px — разобрать после деплоя
-test.fixme('120 exercises: scroll, search fades the list, "Back" restores the scroll position', async ({
+test.fixme('the whole catalog: scroll, search fades the list, "Back" restores the scroll position', async ({
   page,
 }) => {
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await fresh(page);
   await onboard(page);
   await page.getByRole('link', { name: 'Exercises' }).click();
-  await expect(page.locator('.lib-card')).toHaveCount(120);
+  await expect(page.locator('.lib-card')).toHaveCount(252);
   // прокрутка до конца без пропусков: последняя карточка доступна
   await page.locator('.lib-grid > li').last().scrollIntoViewIfNeeded();
   await expect(page.locator('.lib-grid > li').last()).toBeInViewport();
@@ -126,7 +126,7 @@ test.fixme('120 exercises: scroll, search fades the list, "Back" restores the sc
   await expect(page.locator('.lib-detail')).toBeVisible();
   expect(await page.evaluate(() => scrollY)).toBe(0);
   await page.locator('a.back').click();
-  await expect(page.locator('.lib-card')).toHaveCount(120);
+  await expect(page.locator('.lib-card')).toHaveCount(252);
   // «Назад» — та же карточка на том же месте экрана (пиксели прокрутки могут отличаться:
   // карточки выше дорисовываются и меняют высоту)
   const card = page.locator(`.lib-card[href="${before.href}"]`);
@@ -138,7 +138,7 @@ test.fixme('120 exercises: scroll, search fades the list, "Back" restores the sc
   await page.evaluate(() => window.scrollTo({ top: 0, behavior: 'instant' }));
   await page.getByPlaceholder(/Search/).fill('squat');
   await expect(page.locator('.lib-card').first()).toBeVisible();
-  expect(await page.locator('.lib-card').count()).toBeLessThan(120);
+  expect(await page.locator('.lib-card').count()).toBeLessThan(252);
   // после возврата и поиска под коротким списком нет пустого «хвоста» от прежней высоты
   const tail = await page.evaluate(() => {
     const last = [...document.querySelectorAll('.lib-grid > li')].pop()!;
@@ -172,4 +172,27 @@ test('sheets: open from the bottom, close with Escape, focus returns to the open
   await page.getByRole('alertdialog').getByRole('button', { name: 'Cancel' }).click();
   await expect(page.getByRole('alertdialog')).toHaveCount(0);
   await expect(reset).toBeFocused();
+});
+
+test('fast taps on days are not lost: every tap switches the day at once, without a cascade delay', async ({
+  page,
+}) => {
+  await fresh(page);
+  await onboard(page);
+  const tabs = page.locator('main .seg .seg-btn');
+  await expect(tabs.first()).toBeVisible();
+  const n = await tabs.count();
+  // экран вошёл — каскад выключен, обновления внутри экрана проявляются сразу
+  await expect(page.locator('main')).not.toHaveAttribute('data-enter', '', { timeout: 3000 });
+  // быстрые нажатия подряд, без ожиданий между ними
+  const seq = [1, 0, n - 1, 1, 0, n - 1].map((i) => Math.max(0, Math.min(n - 1, i)));
+  for (const i of seq) await tabs.nth(i).click({ delay: 0 });
+  await expect(tabs.nth(seq.at(-1)!)).toHaveAttribute('aria-selected', 'true');
+  // содержимое нового дня: короткое проявление без задержки (не каскад со сдвигом)
+  const anim = await page.locator('main .screen > *').last().evaluate((el) => {
+    const cs = getComputedStyle(el);
+    return { name: cs.animationName, delay: cs.animationDelay };
+  });
+  expect(anim.delay.split(',').every((d) => parseFloat(d) === 0)).toBe(true);
+  expect(anim.name).not.toContain('m-lift');
 });

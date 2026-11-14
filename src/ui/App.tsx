@@ -1,6 +1,6 @@
 import { computed, signal } from '@preact/signals';
 import type { ComponentType } from 'preact';
-import { useEffect } from 'preact/hooks';
+import { useEffect, useLayoutEffect, useRef } from 'preact/hooks';
 import { t } from '../i18n';
 import { navDir, route, pickedDayId, planDayId, todayDayId, toast } from '../state/ui';
 import { booted, needsOnboarding } from '../state/app';
@@ -101,6 +101,18 @@ function Screen() {
 export function App() {
   useKeyboard();
 
+  // Новый экран: каскад появления разрешён, пока экран входит (motion.css, main[data-enter]).
+  // Обновления внутри экрана (смена дня, фильтры) проявляются сразу, без каскада и задержек.
+  const screenKey = route.value.tab + '/' + (route.value.sub?.kind ?? '') + '/' + (route.value.sub?.id ?? '');
+  const mainRef = useRef<HTMLElement>(null);
+  useLayoutEffect(() => {
+    const m = mainRef.current;
+    if (!m) return;
+    m.dataset.enter = '';
+    const id = window.setTimeout(() => delete m.dataset.enter, 700);
+    return () => window.clearTimeout(id);
+  }, [screenKey, booted.value]);
+
   useEffect(() => {
     if (offlineReady.value) toast(t('app.offlineReady'));
   }, [offlineReady.value]);
@@ -117,10 +129,8 @@ export function App() {
       </a>
       {!onboarding && <Nav />}
       {/* key — новый экран монтируется заново и плавно появляется; data-nav — направление */}
-      <main id="main" tabIndex={-1} data-nav={navDir.value}>
-        <Screen
-          key={route.value.tab + '/' + (route.value.sub?.kind ?? '') + '/' + (route.value.sub?.id ?? '')}
-        />
+      <main ref={mainRef} id="main" tabIndex={-1} data-nav={navDir.value}>
+        <Screen key={screenKey} />
       </main>
       <RestTimerBar />
       <Toasts />

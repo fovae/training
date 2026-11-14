@@ -1402,6 +1402,1446 @@
       ],
       "mistakes": ["Leaning the torso to swing higher.", "Kicking hard from the start."],
       "safety": "Keep a clear space around the leg."
+    },
+    "wide-push-up": {
+      "name": "Wide push-up",
+      "desc": "A push-up with the hands set wider than usual. Puts more of the work on the chest.",
+      "cues": [
+        "Hands about one and a half shoulder widths apart.",
+        "Body in one line from head to heels.",
+        "Lower the chest between the hands, then press up."
+      ],
+      "mistakes": ["Elbows flared straight out to the sides.", "Hips sagging."],
+      "safety": "Keep the width comfortable for the shoulders. Go back to a normal grip if the shoulders pinch."
+    },
+    "knee-push-up": {
+      "name": "Knee push-up",
+      "desc": "A push-up with the knees on the floor. An easier step toward full push-ups.",
+      "cues": [
+        "Knees on the mat, hands a bit wider than the shoulders.",
+        "Straight line from head to knees.",
+        "Lower the chest close to the floor, then push away."
+      ],
+      "mistakes": ["Hips bent, bottom sticking up.", "Only the head moving down."],
+      "safety": "Put a mat or towel under the knees. Move to full push-ups when the sets feel easy."
+    },
+    "decline-push-up": {
+      "name": "Feet-elevated push-up",
+      "desc": "A push-up with the feet on a bench. Harder than the floor version and shifts work toward the upper chest and shoulders.",
+      "cues": [
+        "Feet on a bench, hands on the floor under the chest.",
+        "Glutes and abs tight, body straight.",
+        "Lower under control, press up to straight arms."
+      ],
+      "mistakes": ["Hips piking up.", "Neck dropping toward the floor."],
+      "safety": "Start with a low step. Raise the feet higher only when full reps stay clean."
+    },
+    "diamond-push-up": {
+      "name": "Diamond push-up",
+      "desc": "A push-up with the hands together under the chest, thumbs and index fingers forming a diamond. Strongly works the triceps.",
+      "cues": [
+        "Hands together under the chest.",
+        "Elbows go back along the body.",
+        "Lower until the chest nears the hands."
+      ],
+      "mistakes": ["Elbows flared wide.", "Hands placed under the face instead of the chest."],
+      "safety": "If the wrists or elbows complain, set the hands a little wider or do them from the knees."
+    },
+    "pause-push-up": {
+      "name": "Pause push-up",
+      "desc": "A push-up with a two-second pause just above the floor. Builds control and strength in the hardest position.",
+      "cues": [
+        "Lower slowly to just above the floor.",
+        "Hold for two seconds, body stays straight.",
+        "Press up without bouncing."
+      ],
+      "mistakes": ["Resting the chest on the floor during the pause.", "Hips dropping while holding."],
+      "safety": "Use the knee version if you cannot hold the pause with a straight body."
+    },
+    "archer-push-up": {
+      "name": "Archer push-up",
+      "desc": "A very wide push-up where you lower toward one hand while the other arm stays almost straight. A step toward one-arm push-ups.",
+      "cues": [
+        "Hands very wide, fingers slightly out.",
+        "Shift the chest toward one hand as you lower.",
+        "The other arm stays long and helps a little."
+      ],
+      "mistakes": ["Twisting the hips.", "Bending both arms equally like a normal push-up."],
+      "safety": "Master regular and wide push-ups first. Keep the range small at the start."
+    },
+    "clap-push-up": {
+      "name": "Explosive push-up",
+      "desc": "A push-up pressed so fast that the hands leave the floor. Trains power in the chest and arms.",
+      "cues": [
+        "Lower under control.",
+        "Push hard so the hands lift off.",
+        "Land with soft elbows and go straight into the next rep."
+      ],
+      "mistakes": ["Landing on locked arms.", "Hips sagging on the landing."],
+      "safety": "Only for people with solid regular push-ups. Start with a small lift-off on a soft surface."
+    },
+    "incline-db-fly": {
+      "name": "Incline dumbbell fly",
+      "desc": "A fly on a bench set at a low incline. Stretches and works the upper chest.",
+      "cues": [
+        "Bench at 15–30°, dumbbells above the chest.",
+        "Elbows slightly bent and fixed.",
+        "Open the arms in an arc until a stretch, bring them back up."
+      ],
+      "mistakes": ["Bending the elbows more and turning it into a press.", "Dropping the dumbbells too low."],
+      "safety": "Use light dumbbells. Stop the arc where the shoulders still feel comfortable."
+    },
+    "decline-bench-press": {
+      "name": "Decline bench press",
+      "desc": "A barbell press on a bench with the head lower than the hips. Shifts work toward the lower chest.",
+      "cues": [
+        "Hook the legs securely under the pads.",
+        "Lower the bar to the lower chest.",
+        "Press up in a slight arc over the shoulders."
+      ],
+      "mistakes": ["Bouncing the bar off the chest.", "Loose legs sliding off the pads."],
+      "safety": "Press in a rack with safety arms or with a spotter, and use collars on the bar."
+    },
+    "db-floor-press": {
+      "name": "Dumbbell floor press",
+      "desc": "A dumbbell press lying on the floor. The floor limits the depth, which keeps the shoulders in a comfortable range.",
+      "cues": [
+        "Lie on the back, knees bent, dumbbells over the chest.",
+        "Lower until the upper arms touch the floor.",
+        "Pause lightly, then press up."
+      ],
+      "mistakes": ["Slamming the elbows into the floor.", "Elbows flared at 90°."],
+      "safety": "Get the dumbbells into position from the knees and lower them to the sides when done."
+    },
+    "low-to-high-cable-fly": {
+      "name": "Low-to-high cable fly",
+      "desc": "A cable fly from low pulleys upward. Works the upper chest.",
+      "cues": [
+        "Pulleys low, step forward, slight lean.",
+        "Elbows slightly bent and fixed.",
+        "Bring the hands up and together to chin height."
+      ],
+      "mistakes": ["Shrugging the shoulders up.", "Pulling with the arms instead of moving in an arc."],
+      "safety": "Pick a weight you can control on the way back. Stop short of a deep stretch at first."
+    },
+    "machine-chest-press": {
+      "name": "Machine chest press",
+      "desc": "A seated press in a chest machine. A stable path makes it easy to learn and to train close to effort.",
+      "cues": [
+        "Handles at mid-chest height.",
+        "Back and shoulder blades against the pad.",
+        "Press forward, return slowly without letting the stack touch."
+      ],
+      "mistakes": ["Seat too low or too high.", "Shoulders rolling forward at the end."],
+      "safety": "Set the seat before the first set. Return the handles under control."
+    },
+    "incline-machine-press": {
+      "name": "Incline machine press",
+      "desc": "A press in a machine with an upward path. Works the upper chest with a stable track.",
+      "cues": [
+        "Handles about at collarbone height.",
+        "Shoulder blades back against the pad.",
+        "Press up and forward, return slowly."
+      ],
+      "mistakes": ["Arching the lower back off the pad.", "Locking the elbows hard."],
+      "safety": "Adjust the seat so the handles start at collarbone level."
+    },
+    "db-squeeze-press": {
+      "name": "Dumbbell squeeze press",
+      "desc": "A press with the dumbbells pressed together the whole time. Keeps the chest working through every rep.",
+      "cues": [
+        "Lie on a bench, dumbbells together over the chest.",
+        "Squeeze them against each other.",
+        "Lower to the chest and press up, still squeezing."
+      ],
+      "mistakes": ["Letting the dumbbells drift apart.", "Using heavy weights and losing the squeeze."],
+      "safety": "Moderate weights work best here. Keep the wrists straight."
+    },
+    "neutral-grip-pull-up": {
+      "name": "Neutral-grip pull-up",
+      "desc": "A pull-up on parallel handles with the palms facing each other. Often the most comfortable grip for the shoulders and elbows.",
+      "cues": [
+        "Hang from the parallel handles, arms straight.",
+        "Pull the elbows down toward the ribs.",
+        "Chest toward the handles, lower all the way."
+      ],
+      "mistakes": ["Kicking the legs to get up.", "Stopping halfway down."],
+      "safety": "If you cannot do full reps yet, use a band, a machine or slow lowering only."
+    },
+    "wide-grip-pull-up": {
+      "name": "Wide-grip pull-up",
+      "desc": "A pull-up with the hands well outside the shoulders. Harder than the normal grip and focuses on the lats.",
+      "cues": [
+        "Grip about one and a half shoulder widths.",
+        "Start from a full hang, shoulders pulled down.",
+        "Pull the chest toward the bar, lower slowly."
+      ],
+      "mistakes": ["Too wide a grip that shortens the range.", "Jerking with the legs."],
+      "safety": "Do not go wider than the shoulders allow. Regular pull-ups come first."
+    },
+    "negative-pull-up": {
+      "name": "Negative pull-up",
+      "desc": "Jump or step up to the top of a pull-up and lower yourself as slowly as you can. Builds strength for full pull-ups.",
+      "cues": [
+        "Step up so the chin is over the bar.",
+        "Lower slowly, 3–5 seconds.",
+        "Reach a full hang, then step up again."
+      ],
+      "mistakes": ["Dropping fast at the end.", "Jumping up with a big swing."],
+      "safety": "Use a stable box or bench to step up. Keep the sets short — slow lowering is demanding."
+    },
+    "scapular-pull-up": {
+      "name": "Scapular pull-up",
+      "desc": "From a hang, pull the shoulders down without bending the arms. Teaches the first part of every pull-up.",
+      "cues": [
+        "Hang with straight arms.",
+        "Pull the shoulders down away from the ears.",
+        "The body lifts a little; arms stay straight. Relax back."
+      ],
+      "mistakes": ["Bending the elbows.", "Swinging the body."],
+      "safety": "Move slowly. If hanging is hard on the hands, use a lower bar with the feet on the floor."
+    },
+    "feet-elevated-inverted-row": {
+      "name": "Feet-elevated inverted row",
+      "desc": "A horizontal row under a bar with the feet on a bench. Harder than the regular inverted row.",
+      "cues": [
+        "Bar at hip height, feet on a bench.",
+        "Body straight from shoulders to heels.",
+        "Pull the chest to the bar, lower to straight arms."
+      ],
+      "mistakes": ["Hips sagging.", "Pulling the chin up instead of the chest."],
+      "safety": "Use a fixed bar or a bar set securely in a rack."
+    },
+    "wide-grip-pulldown": {
+      "name": "Wide-grip lat pulldown",
+      "desc": "A pulldown with the hands wide on a long bar. Focuses on the lats.",
+      "cues": [
+        "Thighs under the pads, grip wider than the shoulders.",
+        "Lean back slightly, chest up.",
+        "Pull the bar to the upper chest, return slowly."
+      ],
+      "mistakes": ["Pulling the bar behind the neck.", "Leaning far back and rowing it."],
+      "safety": "Always pull in front of the head. Let the bar rise under control."
+    },
+    "reverse-grip-pulldown": {
+      "name": "Underhand lat pulldown",
+      "desc": "A pulldown with the palms facing you, hands about shoulder-width. The biceps help more.",
+      "cues": [
+        "Palms toward you, shoulder-width grip.",
+        "Chest up, slight lean back.",
+        "Pull to the upper chest, elbows down and back."
+      ],
+      "mistakes": ["Curling the bar with the arms.", "Rounding forward at the bottom."],
+      "safety": "Return the bar slowly so the stack does not slam."
+    },
+    "single-arm-pulldown": {
+      "name": "Single-arm cable pulldown",
+      "desc": "A pulldown with one handle. Lets each side work on its own with a full range.",
+      "cues": [
+        "Kneel or sit facing the high pulley, one handle.",
+        "Pull the elbow down to the side.",
+        "Let the arm rise fully before the next rep."
+      ],
+      "mistakes": ["Twisting the torso to move the weight.", "Short, jerky reps."],
+      "safety": "Keep the weight moderate so the trunk stays still."
+    },
+    "pendlay-row": {
+      "name": "Pendlay row",
+      "desc": "A barbell row where each rep starts from the floor with the back flat and nearly parallel to it.",
+      "cues": [
+        "Bar on the floor, torso almost horizontal, back flat.",
+        "Pull the bar fast to the lower chest.",
+        "Return it to the floor and reset."
+      ],
+      "mistakes": ["Lifting the torso to move the bar.", "Rounding the lower back."],
+      "safety": "Use plates that let the bar start at mid-shin, put collars on and keep the weight light enough for a flat back."
+    },
+    "db-bent-over-row": {
+      "name": "Bent-over dumbbell row",
+      "desc": "A row with two dumbbells in a hip hinge. Each arm moves freely.",
+      "cues": [
+        "Hinge forward, back flat, knees soft.",
+        "Dumbbells hang under the shoulders.",
+        "Pull them toward the hips, lower slowly."
+      ],
+      "mistakes": ["Standing up more with each rep.", "Shrugging instead of pulling the elbows back."],
+      "safety": "If the lower back tires, switch to a chest-supported row."
+    },
+    "kettlebell-row": {
+      "name": "Single-arm kettlebell row",
+      "desc": "A one-arm row with a kettlebell, the free hand on a bench.",
+      "cues": [
+        "Free hand on a bench, back flat.",
+        "Kettlebell hangs under the shoulder.",
+        "Pull the elbow back to the hip, lower fully."
+      ],
+      "mistakes": ["Twisting the torso open.", "Pulling the elbow out wide."],
+      "safety": "Keep the back flat; choose a weight you can lower slowly."
+    },
+    "single-arm-cable-row": {
+      "name": "Single-arm cable row",
+      "desc": "A seated or standing row with one handle at mid height.",
+      "cues": [
+        "One handle, arm straight forward.",
+        "Pull the elbow back past the ribs.",
+        "Let the shoulder reach forward on the return."
+      ],
+      "mistakes": ["Rotating the whole body.", "Shrugging the shoulder up."],
+      "safety": "Use a moderate weight and keep the hips square."
+    },
+    "band-row": {
+      "name": "Seated band row",
+      "desc": "A row with an elastic band looped around the feet. A simple home version of the cable row.",
+      "cues": [
+        "Sit tall, band around the feet, ends in the hands.",
+        "Pull the elbows back, squeeze the shoulder blades.",
+        "Return slowly."
+      ],
+      "mistakes": ["Leaning far back.", "Letting the band snap forward."],
+      "safety": "Check the band for nicks before use and keep it secured under the feet."
+    },
+    "rack-pull": {
+      "name": "Rack pull",
+      "desc": "A deadlift started from pins at knee height. Works the top part of the lift and the upper back.",
+      "cues": [
+        "Bar on the pins just below or above the knees.",
+        "Back flat, bar close to the legs.",
+        "Drive the hips forward to stand tall, lower to the pins."
+      ],
+      "mistakes": ["Leaning back at the top.", "Rounding the back to start the pull."],
+      "safety": "Pull inside a rack with pins set securely and collars on the bar."
+    },
+    "good-morning": {
+      "name": "Good morning",
+      "desc": "With a bar on the upper back, hinge forward at the hips and stand back up.",
+      "cues": [
+        "Bar on the upper back, knees soft.",
+        "Push the hips back, back stays flat.",
+        "Stop when the torso is about level with the floor or earlier, then stand up."
+      ],
+      "mistakes": ["Rounding the back.", "Bending the knees into a squat."],
+      "safety": "Start very light, take the bar from a rack set at shoulder height and use collars."
+    },
+    "sumo-deadlift": {
+      "name": "Sumo deadlift",
+      "desc": "A deadlift with a wide stance and the hands inside the knees. The torso stays more upright.",
+      "cues": [
+        "Wide stance, toes out, shins close to the bar.",
+        "Hands inside the knees, back flat.",
+        "Push the floor apart and stand up, bar close to the body."
+      ],
+      "mistakes": ["Knees caving in.", "Hips shooting up first."],
+      "safety": "Use collars and a light weight while learning; lower the bar under control."
+    },
+    "superman": {
+      "name": "Superman",
+      "desc": "Lying face down, lift the arms, chest and legs a little off the floor. Trains the muscles along the back.",
+      "cues": [
+        "Lie face down, arms reaching forward.",
+        "Lift arms, chest and legs a few centimetres.",
+        "Hold for a breath, lower slowly."
+      ],
+      "mistakes": ["Throwing the head back.", "Jerking up as high as possible."],
+      "safety": "A small lift is enough. Stop if the lower back feels pinched."
+    },
+    "pike-push-up": {
+      "name": "Pike push-up",
+      "desc": "A push-up with the hips high so the body forms an upside-down V. Moves the work toward the shoulders.",
+      "cues": [
+        "Hands on the floor, hips high, legs fairly straight.",
+        "Lower the top of the head toward the floor between the hands.",
+        "Press back up to straight arms."
+      ],
+      "mistakes": ["Turning it into a normal push-up by dropping the hips.", "Elbows flaring straight out."],
+      "safety": "Lower slowly and keep the head from touching down hard. Raise the feet on a bench only when this is easy."
+    },
+    "standing-db-press": {
+      "name": "Standing dumbbell press",
+      "desc": "Pressing two dumbbells overhead while standing. The trunk works to stay upright.",
+      "cues": [
+        "Dumbbells at shoulder height, feet hip-width.",
+        "Brace the abs and glutes.",
+        "Press up until the arms are straight, lower to the shoulders."
+      ],
+      "mistakes": ["Leaning back to finish the rep.", "Pressing the dumbbells far in front of the face."],
+      "safety": "Choose a weight you can press without arching the lower back."
+    },
+    "machine-shoulder-press": {
+      "name": "Machine shoulder press",
+      "desc": "A seated overhead press in a machine. A guided path makes it simple to learn.",
+      "cues": [
+        "Handles about at shoulder height.",
+        "Back against the pad.",
+        "Press up, lower until the hands are near the shoulders."
+      ],
+      "mistakes": ["Seat set so low the handles start below the shoulders.", "Arching away from the pad."],
+      "safety": "Set the seat before the first set and return the weight slowly."
+    },
+    "landmine-press": {
+      "name": "Landmine press",
+      "desc": "Pressing one end of a barbell anchored in a corner or landmine. The angled path is friendly to the shoulders.",
+      "cues": [
+        "Bar end at the shoulder, staggered stance.",
+        "Press up and forward until the arm is straight.",
+        "Lower back to the shoulder under control."
+      ],
+      "mistakes": ["Leaning back.", "Letting the bar drop fast."],
+      "safety": "Anchor the bar in a landmine unit or a solid corner so it cannot slide; start light."
+    },
+    "push-press": {
+      "name": "Push press",
+      "desc": "An overhead press started with a short knee dip and drive. The legs help move more weight.",
+      "cues": [
+        "Bar on the front of the shoulders, elbows slightly forward.",
+        "Short dip at the knees, torso upright.",
+        "Drive up and press the bar overhead in one motion."
+      ],
+      "mistakes": ["Dipping too deep like a squat.", "Pressing before the legs finish the drive."],
+      "safety": "Take the bar from a rack at shoulder height, use collars and lower it to the shoulders with bent knees."
+    },
+    "cable-rear-delt-fly": {
+      "name": "Cable rear delt fly",
+      "desc": "Pulling crossed cables apart at shoulder height. Works the back of the shoulders.",
+      "cues": [
+        "Pulleys at shoulder height, cables crossed in front.",
+        "Slight bend in the elbows.",
+        "Open the arms out to the sides, return slowly."
+      ],
+      "mistakes": ["Pulling with the elbows bending.", "Leaning back to move the weight."],
+      "safety": "Light weights are enough for this small muscle."
+    },
+    "kettlebell-press": {
+      "name": "Kettlebell overhead press",
+      "desc": "A strict one-arm press with a kettlebell resting on the back of the forearm.",
+      "cues": [
+        "Kettlebell in the rack position at the shoulder.",
+        "Glutes and abs tight, no knee bend.",
+        "Press straight up, lower back to the rack."
+      ],
+      "mistakes": ["Leaning to the side.", "Wrist bent back under the weight."],
+      "safety": "Keep the wrist straight. Lower the bell under control back to the shoulder."
+    },
+    "barbell-shrug": {
+      "name": "Barbell shrug",
+      "desc": "Lifting the shoulders straight up while holding a barbell. Works the upper trapezius.",
+      "cues": [
+        "Bar in front of the thighs, arms straight.",
+        "Lift the shoulders toward the ears.",
+        "Pause, then lower slowly."
+      ],
+      "mistakes": ["Rolling the shoulders in circles.", "Bending the elbows to help."],
+      "safety": "Take the bar from a rack at hip height and use collars."
+    },
+    "cable-y-raise": {
+      "name": "Cable Y-raise",
+      "desc": "Raising low cables up and out into a Y shape. Works the shoulders and lower trapezius.",
+      "cues": [
+        "Low pulleys, cables crossed, slight hinge or upright.",
+        "Raise the arms up and out into a Y.",
+        "Lower slowly to the start."
+      ],
+      "mistakes": ["Shrugging up to the ears.", "Using momentum."],
+      "safety": "Keep the weight light and the motion smooth."
+    },
+    "incline-t-raise": {
+      "name": "Incline T-raise",
+      "desc": "Lying face down on an incline bench, raise light dumbbells straight out to the sides into a T.",
+      "cues": [
+        "Chest on an incline bench, arms hanging.",
+        "Thumbs up, raise the arms out to the sides.",
+        "Squeeze the shoulder blades, lower slowly."
+      ],
+      "mistakes": ["Shrugging up.", "Swinging heavy dumbbells."],
+      "safety": "Very light dumbbells are enough."
+    },
+    "ez-bar-curl": {
+      "name": "EZ-bar curl",
+      "desc": "A biceps curl with a curved EZ bar. The angled grip is easier on the wrists than a straight bar.",
+      "cues": [
+        "Grip the angled parts, arms straight.",
+        "Elbows fixed at the sides.",
+        "Curl up, lower slowly to straight arms."
+      ],
+      "mistakes": ["Swinging the torso.", "Elbows drifting forward."],
+      "safety": "Use a light weight and collars on the bar."
+    },
+    "spider-curl": {
+      "name": "Spider curl",
+      "desc": "A curl lying chest-down on an incline bench with the arms hanging straight down.",
+      "cues": [
+        "Chest on the bench, arms hanging vertical.",
+        "Curl up without moving the elbows.",
+        "Squeeze at the top, lower fully."
+      ],
+      "mistakes": ["Elbows swinging back.", "Half reps at the top only."],
+      "safety": "Light to moderate dumbbells keep the form strict."
+    },
+    "cross-body-hammer-curl": {
+      "name": "Cross-body hammer curl",
+      "desc": "A hammer curl that brings the dumbbell across the body toward the opposite shoulder.",
+      "cues": [
+        "Palm facing in, arm straight at the side.",
+        "Curl across the body toward the other shoulder.",
+        "Lower slowly along the same path."
+      ],
+      "mistakes": ["Twisting the torso.", "Swinging the dumbbell."],
+      "safety": "Stand tall and keep the weight under control."
+    },
+    "zottman-curl": {
+      "name": "Zottman curl",
+      "desc": "Curl up with the palms up, turn the palms down at the top and lower slowly.",
+      "cues": [
+        "Palms up, curl to the top.",
+        "Rotate the palms down.",
+        "Lower slowly with palms down, rotate back at the bottom."
+      ],
+      "mistakes": ["Rushing the lowering part.", "Swinging the elbows forward."],
+      "safety": "Use light dumbbells — the palms-down lowering is the hard part."
+    },
+    "band-curl": {
+      "name": "Band curl",
+      "desc": "A biceps curl with an elastic band under the feet. The resistance grows toward the top.",
+      "cues": ["Stand on the band, ends in the hands.", "Elbows at the sides.", "Curl up, lower slowly."],
+      "mistakes": ["Elbows moving forward.", "Letting the band snap down."],
+      "safety": "Check the band for damage and keep it firmly under the feet."
+    },
+    "rope-hammer-curl": {
+      "name": "Cable rope hammer curl",
+      "desc": "A hammer curl with a rope on the low pulley.",
+      "cues": [
+        "Rope on the low pulley, palms facing each other.",
+        "Elbows fixed at the sides.",
+        "Curl up, lower slowly."
+      ],
+      "mistakes": ["Leaning back.", "Elbows drifting forward."],
+      "safety": "Return the weight slowly so the stack does not slam."
+    },
+    "bayesian-cable-curl": {
+      "name": "Behind-the-body cable curl",
+      "desc": "A one-arm curl facing away from a low pulley, the arm starting slightly behind the body. Works the biceps in a stretched position.",
+      "cues": [
+        "Face away from the low pulley, step forward.",
+        "Arm starts slightly behind the body.",
+        "Curl forward and up, return slowly."
+      ],
+      "mistakes": ["Moving the elbow forward a lot.", "Rushing out of the stretch."],
+      "safety": "Use a light weight; the stretched start should feel comfortable."
+    },
+    "straight-bar-pushdown": {
+      "name": "Straight-bar pushdown",
+      "desc": "A triceps pushdown with a short straight bar on the high pulley.",
+      "cues": [
+        "Overhand grip, elbows at the sides.",
+        "Push down until the arms are straight.",
+        "Let the bar rise to elbow height slowly."
+      ],
+      "mistakes": ["Elbows flaring out.", "Leaning over the bar to push with the body."],
+      "safety": "Return the bar slowly so the stack does not slam."
+    },
+    "reverse-grip-pushdown": {
+      "name": "Reverse-grip pushdown",
+      "desc": "A pushdown with the palms facing up. Lighter than the regular grip but works the triceps from a different angle.",
+      "cues": [
+        "Underhand grip on a straight bar.",
+        "Elbows pinned at the sides.",
+        "Push down to straight arms, return slowly."
+      ],
+      "mistakes": ["Wrists bending back.", "Using too much weight."],
+      "safety": "Pick a lighter weight than your usual pushdown."
+    },
+    "db-skull-crusher": {
+      "name": "Dumbbell lying triceps extension",
+      "desc": "Lying on a bench, lower two dumbbells beside the head by bending only the elbows.",
+      "cues": [
+        "Dumbbells above the shoulders, palms facing in.",
+        "Bend the elbows to lower them beside the head.",
+        "Straighten the arms back up."
+      ],
+      "mistakes": ["Elbows flaring wide.", "Moving the upper arms back and forth."],
+      "safety": "Start light and keep full control near the head."
+    },
+    "triceps-dip": {
+      "name": "Triceps dip",
+      "desc": "A dip on parallel bars with the body upright. Puts the work on the triceps.",
+      "cues": [
+        "Support on straight arms, body vertical.",
+        "Bend the elbows back along the body.",
+        "Lower until the upper arms are about level, press up."
+      ],
+      "mistakes": ["Leaning far forward.", "Dropping too deep with shoulders rolling forward."],
+      "safety": "Go only as deep as the shoulders allow. Use an assisted machine if needed."
+    },
+    "band-pushdown": {
+      "name": "Band pushdown",
+      "desc": "A triceps pushdown with a band anchored above the head.",
+      "cues": [
+        "Band anchored high, elbows at the sides.",
+        "Push down to straight arms.",
+        "Return slowly to elbow height."
+      ],
+      "mistakes": ["Elbows moving away from the body.", "Leaning over the band."],
+      "safety": "Anchor the band securely and check it for wear."
+    },
+    "cable-triceps-kickback": {
+      "name": "Cable triceps kickback",
+      "desc": "A kickback with a low cable. The cable keeps tension through the whole rep.",
+      "cues": [
+        "Hinge forward, upper arm along the body.",
+        "Straighten the arm back.",
+        "Return slowly, upper arm stays still."
+      ],
+      "mistakes": ["Swinging the upper arm.", "Rounding the back."],
+      "safety": "Light weight; keep the back flat."
+    },
+    "behind-back-wrist-curl": {
+      "name": "Behind-the-back wrist curl",
+      "desc": "Standing with a barbell behind the thighs, curl it up using only the wrists.",
+      "cues": [
+        "Bar behind the thighs, palms facing back.",
+        "Let the bar roll toward the fingers.",
+        "Curl the wrists up, lower slowly."
+      ],
+      "mistakes": ["Bending the elbows.", "Using a weight that is too heavy to control."],
+      "safety": "Use a light bar with collars and take it from a rack at hip height."
+    },
+    "high-plank": {
+      "name": "High plank",
+      "desc": "Holding the top of a push-up with a straight body.",
+      "cues": [
+        "Hands under the shoulders, arms straight.",
+        "Body in one line, glutes tight.",
+        "Push the floor away and breathe calmly."
+      ],
+      "mistakes": ["Hips sagging.", "Shoulders creeping toward the ears."],
+      "safety": "Drop to the knees if the line breaks. Rest the wrists between sets if they tire."
+    },
+    "plank-shoulder-tap": {
+      "name": "Plank shoulder tap",
+      "desc": "From a high plank, touch one shoulder with the opposite hand, alternating sides, without letting the hips rock.",
+      "cues": [
+        "High plank, feet a little wider than the hips.",
+        "Lift one hand and tap the opposite shoulder.",
+        "Put it down and switch, hips stay still."
+      ],
+      "mistakes": ["Hips swaying side to side.", "Rushing the taps."],
+      "safety": "Widen the feet or do it from the knees to keep the hips still."
+    },
+    "plank-up-down": {
+      "name": "Plank up-down",
+      "desc": "Moving from a forearm plank to a high plank one arm at a time and back down.",
+      "cues": [
+        "Start in a forearm plank.",
+        "Press up onto one hand, then the other.",
+        "Lower back to the forearms one at a time."
+      ],
+      "mistakes": ["Hips swinging side to side.", "Lifting the hips high."],
+      "safety": "Keep the feet wide for balance and move steadily."
+    },
+    "flutter-kicks": {
+      "name": "Flutter kicks",
+      "desc": "Lying on the back, make small alternating up-and-down kicks with straight legs.",
+      "cues": [
+        "Lower back pressed to the floor.",
+        "Legs straight, slightly raised.",
+        "Small, quick kicks up and down."
+      ],
+      "mistakes": ["Lower back arching off the floor.", "Big swinging kicks."],
+      "safety": "Raise the legs higher if the lower back lifts. Hands can go under the hips."
+    },
+    "lying-leg-raise": {
+      "name": "Lying leg raise",
+      "desc": "Lying on the back, raise straight legs up to vertical and lower them slowly.",
+      "cues": [
+        "Lower back pressed down, hands by the sides or under the hips.",
+        "Raise the legs to vertical.",
+        "Lower slowly, stop before the back lifts."
+      ],
+      "mistakes": ["Arching the lower back at the bottom.", "Dropping the legs fast."],
+      "safety": "Bend the knees to make it easier."
+    },
+    "v-up": {
+      "name": "V-up",
+      "desc": "From lying flat, lift the legs and torso at the same time so the hands reach toward the feet.",
+      "cues": [
+        "Lie flat, arms overhead.",
+        "Lift arms, chest and straight legs together.",
+        "Lower slowly back to the start."
+      ],
+      "mistakes": ["Throwing the body with momentum.", "Crashing back down."],
+      "safety": "Bend the knees (tuck-up) if full V-ups are too hard."
+    },
+    "sit-up": {
+      "name": "Sit-up",
+      "desc": "Lying with the knees bent, roll up until the torso is upright and lower back down.",
+      "cues": [
+        "Knees bent, feet on the floor.",
+        "Roll up one vertebra at a time.",
+        "Lower slowly back to the floor."
+      ],
+      "mistakes": ["Pulling on the head with the hands.", "Dropping back down fast."],
+      "safety": "Cross the arms on the chest to avoid pulling the neck."
+    },
+    "heel-touch": {
+      "name": "Heel touch",
+      "desc": "Lying with the knees bent and shoulders slightly lifted, reach side to side to touch each heel.",
+      "cues": [
+        "Knees bent, shoulders off the floor.",
+        "Reach one hand to the heel on the same side.",
+        "Alternate sides with small side bends."
+      ],
+      "mistakes": ["Letting the shoulders drop to the floor each rep.", "Pulling the neck forward."],
+      "safety": "Keep the movement small and controlled."
+    },
+    "hollow-rock": {
+      "name": "Hollow rock",
+      "desc": "Holding the hollow position and gently rocking back and forth.",
+      "cues": [
+        "Get into a hollow hold, lower back pressed down.",
+        "Rock from the upper back to the hips.",
+        "Keep the shape the same all the time."
+      ],
+      "mistakes": ["The body bending at the hips while rocking.", "Lower back lifting."],
+      "safety": "Master the hollow hold first."
+    },
+    "bear-plank": {
+      "name": "Bear plank",
+      "desc": "On hands and toes with the knees hovering just above the floor. Hold still.",
+      "cues": [
+        "Hands under the shoulders, knees under the hips.",
+        "Lift the knees a few centimetres.",
+        "Back flat, breathe calmly."
+      ],
+      "mistakes": ["Hips rising high.", "Holding the breath."],
+      "safety": "Set the knees down to rest whenever the back starts to round."
+    },
+    "toes-to-bar": {
+      "name": "Toes to bar",
+      "desc": "Hanging from a bar, lift the feet all the way up to touch it.",
+      "cues": [
+        "Hang with straight arms.",
+        "Press the bar down and lift the legs.",
+        "Touch the bar with the feet, lower under control."
+      ],
+      "mistakes": ["Wild swinging between reps.", "Bending the arms a lot."],
+      "safety": "Build up with hanging knee and leg raises first."
+    },
+    "hanging-oblique-knee-raise": {
+      "name": "Hanging oblique knee raise",
+      "desc": "A hanging knee raise that lifts the knees toward one side, then the other.",
+      "cues": [
+        "Hang or support on the dip station.",
+        "Raise the knees up and toward one side.",
+        "Lower and alternate sides."
+      ],
+      "mistakes": ["Swinging to get the knees up.", "Shrugging into the shoulders."],
+      "safety": "Keep the shoulders active and the motion slow."
+    },
+    "decline-sit-up": {
+      "name": "Decline sit-up",
+      "desc": "A sit-up on a decline bench with the feet hooked. Harder than the floor version.",
+      "cues": [
+        "Feet hooked, lie back on the bench.",
+        "Roll up toward the knees.",
+        "Lower slowly to the start."
+      ],
+      "mistakes": ["Jerking up with the arms.", "Dropping back fast."],
+      "safety": "Start with a small decline and do not hold the breath."
+    },
+    "suitcase-carry": {
+      "name": "Suitcase carry",
+      "desc": "Walking with a weight in one hand only. The trunk works to stay upright.",
+      "cues": [
+        "Weight in one hand, stand tall.",
+        "Walk with short, steady steps.",
+        "Do not lean toward the weight."
+      ],
+      "mistakes": ["Leaning to one side.", "Shrugging the loaded shoulder."],
+      "safety": "Set the weight down with a flat back, bending at the hips and knees."
+    },
+    "copenhagen-plank": {
+      "name": "Copenhagen plank",
+      "desc": "A side plank with the top leg resting on a bench and the bottom leg free. Works the inner thigh and side of the trunk.",
+      "cues": [
+        "Forearm on the floor, top foot or knee on a bench.",
+        "Lift the hips into a straight line.",
+        "Hold, breathe calmly."
+      ],
+      "mistakes": ["Hips sagging.", "Rolling forward."],
+      "safety": "Support at the knee instead of the foot to make it easier."
+    },
+    "reverse-plank": {
+      "name": "Reverse plank",
+      "desc": "Sitting with the hands behind the hips, lift the hips until the body forms a straight line, face up.",
+      "cues": [
+        "Hands behind the hips, fingers toward the feet.",
+        "Lift the hips, legs straight.",
+        "Hold a straight line from shoulders to heels."
+      ],
+      "mistakes": ["Hips sagging.", "Head dropped back."],
+      "safety": "Bend the knees (tabletop) if the straight-leg version is too hard."
+    },
+    "l-sit": {
+      "name": "L-sit",
+      "desc": "Supporting on straight arms with the legs held straight out in front.",
+      "cues": [
+        "Support on the bars, arms straight, shoulders down.",
+        "Lift the legs straight forward.",
+        "Hold, keep the legs as high as you can."
+      ],
+      "mistakes": ["Shrugging into the shoulders.", "Bending the knees without meaning to."],
+      "safety": "Start with bent knees (tuck sit) and short holds."
+    },
+    "machine-crunch": {
+      "name": "Machine crunch",
+      "desc": "A crunch in an ab machine with adjustable resistance.",
+      "cues": [
+        "Set the seat so the pads sit comfortably.",
+        "Curl the ribs toward the hips.",
+        "Return slowly without letting the stack touch."
+      ],
+      "mistakes": ["Pulling with the arms.", "Using momentum."],
+      "safety": "Choose a weight that lets you feel the abs, not the hip flexors."
+    },
+    "air-squat": {
+      "name": "Air squat",
+      "desc": "A squat with no added load. The basic pattern for all squats.",
+      "cues": [
+        "Feet about shoulder-width, toes slightly out.",
+        "Sit down between the heels, chest up.",
+        "Stand up pushing through the whole foot."
+      ],
+      "mistakes": ["Heels lifting.", "Knees caving in."],
+      "safety": "Squat to a depth you can control. Hold onto something for balance if needed."
+    },
+    "jump-squat": {
+      "name": "Jump squat",
+      "desc": "A squat followed by a jump straight up. Trains leg power.",
+      "cues": [
+        "Squat down to a comfortable depth.",
+        "Jump up explosively.",
+        "Land softly on the whole foot and sink into the next squat."
+      ],
+      "mistakes": ["Landing on straight legs.", "Knees caving in on landing."],
+      "safety": "Land quietly. Stop the set when the landings get sloppy."
+    },
+    "reverse-lunge": {
+      "name": "Reverse lunge",
+      "desc": "Step back into a lunge and return. Often easier on the knees than a forward lunge.",
+      "cues": [
+        "Stand tall, step one leg back.",
+        "Lower the back knee toward the floor.",
+        "Push through the front foot to return."
+      ],
+      "mistakes": ["Front knee caving in.", "Leaning far forward."],
+      "safety": "Hold onto support for balance at first. Add dumbbells when the steps are steady."
+    },
+    "lateral-lunge": {
+      "name": "Side lunge",
+      "desc": "Step wide to the side and sit into that hip while the other leg stays straight.",
+      "cues": [
+        "Wide stance, toes forward.",
+        "Shift to one side, bending that knee.",
+        "Push back to the middle."
+      ],
+      "mistakes": ["Heel of the bent leg lifting.", "Knee caving past the toes inward."],
+      "safety": "Go only as deep as feels comfortable for the inner thigh."
+    },
+    "curtsy-lunge": {
+      "name": "Curtsy lunge",
+      "desc": "Step one leg back and across behind the other, like a curtsy, then return.",
+      "cues": [
+        "Stand tall, hands at the chest or holding dumbbells.",
+        "Step back and across behind the front leg.",
+        "Lower, then push back to standing."
+      ],
+      "mistakes": ["Twisting the hips a lot.", "Front knee caving in."],
+      "safety": "Keep the step small at first and hold support if needed."
+    },
+    "split-squat": {
+      "name": "Split squat",
+      "desc": "A lunge done in place: feet stay in a staggered stance while you lower and rise.",
+      "cues": [
+        "Long staggered stance, back heel up.",
+        "Lower straight down until the back knee nears the floor.",
+        "Stand up without moving the feet."
+      ],
+      "mistakes": ["Front heel lifting.", "Torso falling forward."],
+      "safety": "Start without weight; hold onto support for balance."
+    },
+    "barbell-reverse-lunge": {
+      "name": "Barbell reverse lunge",
+      "desc": "A reverse lunge with a barbell on the upper back.",
+      "cues": [
+        "Bar on the upper back, stand tall.",
+        "Step back and lower the back knee.",
+        "Drive through the front foot to return."
+      ],
+      "mistakes": ["Losing balance sideways.", "Short steps that push the knee far forward."],
+      "safety": "Take the bar from a rack, use collars and start light — balance is the limit here."
+    },
+    "step-down": {
+      "name": "Step-down",
+      "desc": "Standing on a low step, slowly lower the free heel to the floor and stand back up.",
+      "cues": [
+        "Stand on the step on one leg.",
+        "Bend the knee, lower the other heel to the floor.",
+        "Lightly touch and stand back up."
+      ],
+      "mistakes": ["Knee caving inward.", "Dropping fast onto the floor."],
+      "safety": "Use a low step and hold a wall or rail for balance."
+    },
+    "single-leg-glute-bridge": {
+      "name": "Single-leg glute bridge",
+      "desc": "A glute bridge with one foot on the floor and the other leg lifted.",
+      "cues": [
+        "On the back, one foot down, other knee up.",
+        "Press through the heel, lift the hips.",
+        "Hips level at the top, lower slowly."
+      ],
+      "mistakes": ["One hip dropping.", "Arching the lower back at the top."],
+      "safety": "Master the two-leg bridge first."
+    },
+    "db-hip-thrust": {
+      "name": "Dumbbell hip thrust",
+      "desc": "A hip thrust with the upper back on a bench and a dumbbell on the hips.",
+      "cues": [
+        "Upper back on the bench, dumbbell on the hips.",
+        "Drive the hips up until the body is level.",
+        "Pause, lower slowly."
+      ],
+      "mistakes": ["Arching the lower back at the top.", "Feet too far or too close."],
+      "safety": "Hold the dumbbell with both hands; a pad under it is more comfortable."
+    },
+    "kettlebell-deadlift": {
+      "name": "Kettlebell deadlift",
+      "desc": "A deadlift with one kettlebell between the feet. A simple way to learn the hip hinge.",
+      "cues": [
+        "Kettlebell between the feet.",
+        "Push the hips back, back flat, grip the handle.",
+        "Stand up tall, lower the same way."
+      ],
+      "mistakes": ["Rounding the back.", "Squatting straight down instead of hinging."],
+      "safety": "Keep the bell close to the body. Lower it to the floor between every rep."
+    },
+    "nordic-curl": {
+      "name": "Nordic hamstring curl",
+      "desc": "Kneeling with the heels held down, lower the body forward as slowly as possible.",
+      "cues": [
+        "Kneel on a pad, heels fixed under something solid.",
+        "Body straight from knees to head.",
+        "Lower slowly, catch yourself with the hands, push back up."
+      ],
+      "mistakes": ["Bending at the hips.", "Dropping fast at the start."],
+      "safety": "Use a padded surface and only lower as far as you can control. Start with very few reps."
+    },
+    "donkey-kick": {
+      "name": "Donkey kick",
+      "desc": "On hands and knees, push one bent leg up toward the ceiling.",
+      "cues": [
+        "On all fours, back flat.",
+        "Keep the knee bent, lift the foot toward the ceiling.",
+        "Lower without touching the knee down."
+      ],
+      "mistakes": ["Arching the lower back.", "Twisting the hips open."],
+      "safety": "Lift only as high as the back stays flat."
+    },
+    "fire-hydrant": {
+      "name": "Fire hydrant",
+      "desc": "On hands and knees, lift one bent leg out to the side.",
+      "cues": ["On all fours, back flat.", "Lift the bent leg out to the side.", "Lower slowly."],
+      "mistakes": ["Leaning the whole body away.", "Rushing the reps."],
+      "safety": "Keep the movement small enough to stay square."
+    },
+    "clamshell": {
+      "name": "Clamshell",
+      "desc": "Lying on the side with the knees bent, open the top knee while the feet stay together.",
+      "cues": [
+        "Lie on the side, knees bent, feet together.",
+        "Open the top knee like a shell.",
+        "Close slowly."
+      ],
+      "mistakes": ["Rolling the hips back.", "Lifting the feet apart."],
+      "safety": "Add a band above the knees when it gets easy."
+    },
+    "single-leg-calf-raise": {
+      "name": "Single-leg calf raise",
+      "desc": "A calf raise standing on one foot, ideally on a step.",
+      "cues": [
+        "Stand on one foot, ball of the foot on a step.",
+        "Lower the heel below the step.",
+        "Rise as high as you can, pause."
+      ],
+      "mistakes": ["Bouncing at the bottom.", "Bending the knee to help."],
+      "safety": "Hold a wall or rail for balance."
+    },
+    "tibialis-raise": {
+      "name": "Tibialis raise",
+      "desc": "Leaning the back against a wall, lift the toes up toward the shins.",
+      "cues": [
+        "Back against a wall, feet a step forward.",
+        "Lift the toes as high as you can.",
+        "Lower slowly."
+      ],
+      "mistakes": ["Bending the knees.", "Rushing the reps."],
+      "safety": "Move the feet closer to the wall to make it easier."
+    },
+    "leg-press-calf-raise": {
+      "name": "Leg press calf raise",
+      "desc": "A calf raise pushing the leg press platform with the balls of the feet.",
+      "cues": [
+        "Balls of the feet on the edge of the platform, legs straight.",
+        "Lower the heels toward you.",
+        "Push the platform away with the toes."
+      ],
+      "mistakes": ["Bending the knees.", "Feet slipping off the edge."],
+      "safety": "Keep the safety catches within reach and use a moderate weight."
+    },
+    "cossack-squat": {
+      "name": "Cossack squat",
+      "desc": "A deep side squat onto one leg while the other leg stays straight with the toes up.",
+      "cues": [
+        "Very wide stance.",
+        "Sit deep over one leg, other leg straight, toes up.",
+        "Push back up and switch sides."
+      ],
+      "mistakes": ["Heel of the bent leg lifting.", "Rounding the back."],
+      "safety": "Hold onto support and go only as deep as is comfortable."
+    },
+    "cable-pull-through": {
+      "name": "Cable pull-through",
+      "desc": "Facing away from a low pulley, hinge forward and pull the rope through the legs by driving the hips forward.",
+      "cues": [
+        "Rope between the legs, step away from the pulley.",
+        "Hinge back, back flat.",
+        "Drive the hips forward to stand tall."
+      ],
+      "mistakes": ["Pulling with the arms.", "Squatting instead of hinging."],
+      "safety": "Step far enough away that the weight does not lift off the stack at the top."
+    },
+    "assisted-pistol-squat": {
+      "name": "Assisted single-leg squat",
+      "desc": "A single-leg squat down to a bench, holding a support for balance.",
+      "cues": [
+        "Stand on one leg in front of a bench, hold a support.",
+        "Sit back slowly onto the bench, other leg forward.",
+        "Stand up on the same leg."
+      ],
+      "mistakes": ["Falling onto the bench.", "Knee caving inward."],
+      "safety": "Start with a high bench and lower it over time."
+    },
+    "high-knees": {
+      "name": "High knees",
+      "desc": "Running on the spot while bringing the knees up to hip height.",
+      "cues": [
+        "Stand tall, light on the balls of the feet.",
+        "Drive the knees up to hip height.",
+        "Pump the arms in rhythm."
+      ],
+      "mistakes": ["Leaning back.", "Landing heavily on the heels."],
+      "safety": "March instead of running to make it quieter and easier."
+    },
+    "butt-kicks": {
+      "name": "Butt kicks",
+      "desc": "Running on the spot while bringing the heels up toward the glutes.",
+      "cues": ["Light, quick steps.", "Bring the heels up behind you.", "Knees point down, arms relaxed."],
+      "mistakes": ["Leaning forward.", "Knees swinging forward."],
+      "safety": "Start slowly as a warm-up and speed up gradually."
+    },
+    "skater-jump": {
+      "name": "Skater jump",
+      "desc": "Jumping side to side from one leg to the other, like a speed skater.",
+      "cues": [
+        "Stand on one leg, slight bend.",
+        "Push off sideways and land on the other leg.",
+        "Absorb softly, then jump back."
+      ],
+      "mistakes": ["Landing on a straight knee.", "Knee caving in on landing."],
+      "safety": "Start with small steps instead of jumps."
+    },
+    "squat-thrust": {
+      "name": "Squat thrust",
+      "desc": "From standing, squat, put the hands down, jump or step the feet back to a plank and return. A burpee without the push-up and jump.",
+      "cues": [
+        "Squat and place the hands on the floor.",
+        "Jump or step the feet back into a plank.",
+        "Bring the feet back in and stand up."
+      ],
+      "mistakes": ["Hips sagging in the plank.", "Rounding the back when standing."],
+      "safety": "Step instead of jumping to make it easier."
+    },
+    "box-jump": {
+      "name": "Box jump",
+      "desc": "Jumping from the floor onto a sturdy box or low platform.",
+      "cues": [
+        "Stand close to the box.",
+        "Swing the arms and jump up.",
+        "Land softly with both feet, stand up, step down."
+      ],
+      "mistakes": ["Jumping down instead of stepping down.", "Landing with the knees caving in."],
+      "safety": "Use a low, stable box that cannot slide. Always step down."
+    },
+    "shadow-boxing": {
+      "name": "Shadow boxing",
+      "desc": "Throwing light punches in the air while moving on the feet.",
+      "cues": [
+        "Fighting stance, hands up near the face.",
+        "Throw straight punches and hooks, turning from the hips.",
+        "Stay light on the feet."
+      ],
+      "mistakes": ["Locking the elbows hard at full extension.", "Dropping the hands between punches."],
+      "safety": "Do not snap the arms straight. Keep the pace comfortable at first."
+    },
+    "stair-climber": {
+      "name": "Stair climber",
+      "desc": "Climbing on a stair machine at a steady pace.",
+      "cues": [
+        "Stand tall, hands lightly on the rails.",
+        "Step with the whole foot.",
+        "Choose a pace you can keep for the planned time."
+      ],
+      "mistakes": ["Leaning heavily on the rails.", "Taking tiny steps on the toes."],
+      "safety": "Start at a slow speed and use the stop button if needed."
+    },
+    "elliptical": {
+      "name": "Elliptical",
+      "desc": "Moving on an elliptical machine with smooth, gliding strides.",
+      "cues": [
+        "Feet flat on the pedals.",
+        "Push and pull the handles in rhythm.",
+        "Keep an even, comfortable pace."
+      ],
+      "mistakes": ["Slouching over the handles.", "Rising onto the toes."],
+      "safety": "Begin with low resistance and increase it gradually."
+    },
+    "treadmill-jog": {
+      "name": "Treadmill jog",
+      "desc": "Easy running on a treadmill at a conversational pace.",
+      "cues": [
+        "Clip the safety key on.",
+        "Run tall with relaxed shoulders.",
+        "Land under the body, short quick steps."
+      ],
+      "mistakes": ["Holding the rails while running.", "Overstriding with heavy heel strikes."],
+      "safety": "Start the belt slowly and stand on the side rails before stepping on."
+    },
+    "incline-treadmill-walk": {
+      "name": "Incline treadmill walk",
+      "desc": "Walking on a treadmill set to an incline.",
+      "cues": [
+        "Set a moderate incline and walking speed.",
+        "Walk tall without holding the rails.",
+        "Keep an even breathing rhythm."
+      ],
+      "mistakes": ["Hanging on to the rails.", "Leaning far forward."],
+      "safety": "Raise the incline gradually; slow down before stopping."
+    },
+    "ski-erg": {
+      "name": "Ski erg",
+      "desc": "Pulling the handles of a ski machine down in a rhythm similar to cross-country skiing.",
+      "cues": [
+        "Handles overhead, slight knee bend.",
+        "Pull down with the arms and hinge at the hips.",
+        "Return smoothly to the top."
+      ],
+      "mistakes": ["Pulling only with the arms.", "Rounding the back hard."],
+      "safety": "Start with a low damper setting and an easy pace."
+    },
+    "bear-crawl": {
+      "name": "Bear crawl",
+      "desc": "Crawling forward and back on hands and feet with the knees just off the floor.",
+      "cues": [
+        "Hands under the shoulders, knees hovering.",
+        "Move the opposite hand and foot together.",
+        "Keep the back flat and the hips low."
+      ],
+      "mistakes": ["Hips rising high.", "Big, rushed steps."],
+      "safety": "Short distances are enough; rest the wrists between sets."
+    },
+    "db-thruster": {
+      "name": "Dumbbell thruster",
+      "desc": "A front squat with dumbbells at the shoulders flowing straight into an overhead press.",
+      "cues": [
+        "Dumbbells at the shoulders, feet shoulder-width.",
+        "Squat down, chest up.",
+        "Drive up and press the dumbbells overhead in one motion."
+      ],
+      "mistakes": ["Pressing before standing up.", "Arching the back overhead."],
+      "safety": "Use light dumbbells; the combination tires you quickly."
+    },
+    "kettlebell-clean": {
+      "name": "Kettlebell clean",
+      "desc": "Bringing a kettlebell from between the legs up to rest at the shoulder in one smooth motion.",
+      "cues": [
+        "Hike the bell back between the legs.",
+        "Drive the hips forward.",
+        "Keep the elbow close and let the bell roll onto the forearm."
+      ],
+      "mistakes": ["Letting the bell flip and bang the wrist.", "Curling it up with the arm."],
+      "safety": "Learn the swing first. Keep the bell close to the body."
+    },
+    "double-under": {
+      "name": "Double-under",
+      "desc": "A jump rope skill where the rope passes under the feet twice in one jump.",
+      "cues": [
+        "Jump a little higher than usual.",
+        "Spin the rope fast from the wrists.",
+        "Land softly on the balls of the feet."
+      ],
+      "mistakes": ["Kicking the feet back.", "Spinning from the shoulders."],
+      "safety": "Get comfortable with regular skipping first."
+    },
+    "downward-dog": {
+      "name": "Downward dog",
+      "desc": "A yoga pose with the hips high and the body in an upside-down V.",
+      "cues": [
+        "Hands and feet on the mat, hips lifted.",
+        "Push the floor away, long back.",
+        "Let the heels sink toward the floor."
+      ],
+      "mistakes": ["Rounding the back to force the heels down.", "Shoulders hunched to the ears."],
+      "safety": "Bend the knees as much as you need to keep the back long."
+    },
+    "cobra-stretch": {
+      "name": "Cobra",
+      "desc": "Lying face down, press up through the hands to lift the chest and open the front of the body.",
+      "cues": [
+        "Lie face down, hands under the shoulders.",
+        "Gently press the chest up, hips stay down.",
+        "Shoulders away from the ears, breathe calmly."
+      ],
+      "mistakes": ["Pushing up so high the lower back pinches.", "Tilting the head far back."],
+      "safety": "Keep the elbows bent if straight arms feel too much for the back."
+    },
+    "low-lunge": {
+      "name": "Low lunge",
+      "desc": "A lunge with the back knee on the floor, sinking the hips forward to stretch the front of the back hip.",
+      "cues": [
+        "Back knee on a mat, front foot flat.",
+        "Tuck the pelvis slightly, shift the hips forward.",
+        "Raise the arms or keep the hands on the front knee."
+      ],
+      "mistakes": ["Arching the lower back.", "Front knee collapsing inward."],
+      "safety": "Put a folded mat under the back knee."
+    },
+    "warrior-ii": {
+      "name": "Warrior II",
+      "desc": "A yoga standing pose: a wide stance with the front knee bent and the arms stretched out to the sides.",
+      "cues": [
+        "Wide stance, front foot forward, back foot turned in slightly.",
+        "Bend the front knee over the ankle.",
+        "Arms out at shoulder height, look over the front hand."
+      ],
+      "mistakes": ["Front knee caving inward.", "Leaning the torso forward."],
+      "safety": "Shorten the stance if balance or the knee feels off."
+    },
+    "tree-pose": {
+      "name": "Tree pose",
+      "desc": "A yoga balance on one leg with the other foot resting on the inner calf or thigh.",
+      "cues": [
+        "Stand on one foot, gaze at a fixed point.",
+        "Place the other sole on the calf or thigh, not on the knee.",
+        "Hands at the chest or overhead, breathe calmly."
+      ],
+      "mistakes": ["Pressing the foot into the side of the knee.", "Hip of the standing leg pushed far out."],
+      "safety": "Keep the toes of the lifted foot on the floor or hold a wall at first."
+    },
+    "pigeon-stretch": {
+      "name": "Pigeon stretch",
+      "desc": "From hands and knees, bring one knee forward and lay the shin across the mat, the other leg straight back.",
+      "cues": [
+        "Front shin across the mat, back leg long.",
+        "Keep the hips square to the front.",
+        "Fold forward over the front leg if comfortable."
+      ],
+      "mistakes": ["Hips tipping onto one side.", "Forcing the front knee down."],
+      "safety": "Put a cushion under the front hip. Use the figure-four stretch on the back if the knee complains."
+    },
+    "butterfly-stretch": {
+      "name": "Butterfly stretch",
+      "desc": "Sitting with the soles of the feet together and the knees falling out to the sides.",
+      "cues": [
+        "Sit tall, soles together, heels toward you.",
+        "Let the knees relax down.",
+        "Lean forward slightly from the hips."
+      ],
+      "mistakes": ["Pressing the knees down with the hands.", "Rounding the back hard."],
+      "safety": "Sit on a folded mat if the back rounds."
+    },
+    "standing-forward-fold": {
+      "name": "Standing forward fold",
+      "desc": "From standing, fold forward from the hips and let the upper body hang.",
+      "cues": [
+        "Feet hip-width, knees soft.",
+        "Hinge forward, let the head and arms hang.",
+        "Breathe slowly, relax the neck."
+      ],
+      "mistakes": ["Locking the knees hard.", "Bouncing to reach lower."],
+      "safety": "Bend the knees as much as needed and roll up slowly."
+    },
+    "worlds-greatest-stretch": {
+      "name": "Lunge with rotation",
+      "desc": "A warm-up flow: a long lunge, the inside elbow toward the front foot, then a rotation with the arm reaching up.",
+      "cues": [
+        "Long lunge, back knee down or up.",
+        "Bring the inside elbow toward the front instep.",
+        "Rotate and reach the same arm to the ceiling."
+      ],
+      "mistakes": ["Rushing through the positions.", "Front knee falling inward."],
+      "safety": "Move slowly and stay within a comfortable range."
+    },
+    "hip-90-90": {
+      "name": "90/90 hip switch",
+      "desc": "Sitting with both knees bent at 90°, rotate the knees from one side to the other.",
+      "cues": [
+        "Sit with both legs bent at 90°, one in front, one to the side.",
+        "Sit tall, hands behind for support.",
+        "Lift and rotate both knees to the other side."
+      ],
+      "mistakes": ["Collapsing the back.", "Forcing the knees to the floor."],
+      "safety": "Keep the hands down for support and move only within a comfortable range."
+    },
+    "hip-circles": {
+      "name": "Hip circles",
+      "desc": "Standing on one leg and drawing slow, big circles with the other knee.",
+      "cues": [
+        "Hold a wall, stand on one leg.",
+        "Lift the knee and draw a large circle out to the side.",
+        "Reverse the direction."
+      ],
+      "mistakes": ["Twisting the whole body.", "Moving fast and small."],
+      "safety": "Move slowly; this is a warm-up, not a workout."
+    },
+    "ankle-circles": {
+      "name": "Ankle circles",
+      "desc": "Slowly circling the foot at the ankle in both directions.",
+      "cues": [
+        "Lift one foot or sit with the leg out.",
+        "Draw slow, full circles with the toes.",
+        "Change direction halfway."
+      ],
+      "mistakes": ["Moving only the toes.", "Rushing."],
+      "safety": "Hold onto a wall if standing."
+    },
+    "cross-body-shoulder-stretch": {
+      "name": "Cross-body shoulder stretch",
+      "desc": "Pulling one straight arm across the chest with the other hand.",
+      "cues": [
+        "Bring one arm across the chest.",
+        "Hold it above the elbow with the other hand.",
+        "Pull gently, shoulder stays down."
+      ],
+      "mistakes": ["Shrugging the stretched shoulder.", "Pulling on the elbow joint itself."],
+      "safety": "Pull lightly — you should feel a stretch, not a pinch."
+    },
+    "overhead-triceps-stretch": {
+      "name": "Overhead triceps stretch",
+      "desc": "Reaching one hand down the back between the shoulder blades and gently pressing the elbow with the other hand.",
+      "cues": [
+        "Raise one arm, bend it, hand toward the upper back.",
+        "Hold the elbow with the other hand.",
+        "Gently guide the elbow back."
+      ],
+      "mistakes": ["Arching the lower back.", "Pushing the head forward."],
+      "safety": "Keep the pressure light."
+    },
+    "inchworm": {
+      "name": "Inchworm",
+      "desc": "From standing, fold forward, walk the hands out to a plank and walk them back.",
+      "cues": [
+        "Fold forward, hands to the floor.",
+        "Walk the hands out to a high plank.",
+        "Walk the hands back and stand up."
+      ],
+      "mistakes": ["Hips sagging in the plank.", "Locking the knees hard on the fold."],
+      "safety": "Bend the knees to reach the floor."
+    },
+    "thread-the-needle": {
+      "name": "Thread the needle",
+      "desc": "On hands and knees, slide one arm under the body, then open it up toward the ceiling.",
+      "cues": [
+        "On all fours, hips over the knees.",
+        "Slide one arm under the chest, shoulder toward the floor.",
+        "Rotate open and reach the arm up."
+      ],
+      "mistakes": ["Shifting the hips to the side.", "Rushing the rotation."],
+      "safety": "Move slowly within a comfortable range."
+    },
+    "open-book": {
+      "name": "Open book",
+      "desc": "Lying on the side with the knees bent, open the top arm across to the other side like turning a page.",
+      "cues": [
+        "Lie on the side, knees bent forward, arms together in front.",
+        "Open the top arm over to the other side.",
+        "Follow the hand with the eyes, return slowly."
+      ],
+      "mistakes": ["Knees lifting apart.", "Forcing the arm to the floor."],
+      "safety": "A pillow under the head keeps the neck comfortable."
+    },
+    "wall-slide": {
+      "name": "Wall slide",
+      "desc": "Standing with the back against a wall, slide the arms up and down the wall in a W-to-Y shape.",
+      "cues": [
+        "Back, head and forearms against the wall.",
+        "Slide the arms up as far as you can keep contact.",
+        "Lower back to a W."
+      ],
+      "mistakes": ["Arching the lower back off the wall.", "Shrugging the shoulders."],
+      "safety": "Stand a little away from the wall if contact is hard to keep."
+    },
+    "band-pass-through": {
+      "name": "Band pass-through",
+      "desc": "Holding a band wide, move straight arms from the front of the body overhead to behind you and back.",
+      "cues": [
+        "Wide grip on a light band.",
+        "Raise the straight arms overhead and back.",
+        "Return the same way slowly."
+      ],
+      "mistakes": ["Bending the elbows.", "Arching the lower back."],
+      "safety": "Widen the grip if the shoulders cannot pass comfortably."
+    },
+    "deep-squat-hold": {
+      "name": "Deep squat hold",
+      "desc": "Sitting relaxed at the bottom of a squat.",
+      "cues": [
+        "Feet a bit wider than shoulder-width, toes out.",
+        "Sink as deep as is comfortable, heels down.",
+        "Elbows press the knees gently apart."
+      ],
+      "mistakes": ["Heels lifting.", "Rounding forward heavily."],
+      "safety": "Hold a doorframe or put a small plate under the heels if they lift."
+    },
+    "lying-spinal-twist": {
+      "name": "Lying spinal twist",
+      "desc": "Lying on the back, drop the bent knees to one side while the shoulders stay down.",
+      "cues": [
+        "Lie on the back, knees bent, arms out.",
+        "Lower both knees to one side.",
+        "Keep both shoulders on the floor, breathe."
+      ],
+      "mistakes": ["Shoulders lifting off the floor.", "Forcing the knees down."],
+      "safety": "Place a cushion under the knees if they do not reach the floor."
+    },
+    "kettlebell-halo": {
+      "name": "Kettlebell halo",
+      "desc": "Holding a light kettlebell by the horns, circle it around the head.",
+      "cues": [
+        "Bell upside down at the chest.",
+        "Circle it close around the head.",
+        "Change direction after each set or rep."
+      ],
+      "mistakes": ["Arching the lower back.", "Moving the head instead of the bell."],
+      "safety": "Use a light weight and keep the bell close to the head without touching it."
+    },
+    "wrist-mobility": {
+      "name": "Wrist mobility",
+      "desc": "Circling the wrists and gently rocking over the hands on all fours to prepare the wrists for push-ups and planks.",
+      "cues": [
+        "Circle the wrists slowly both ways.",
+        "On all fours, gently rock forward and back.",
+        "Turn the fingers to the sides and back, rock again."
+      ],
+      "mistakes": ["Putting full weight on the wrists straight away.", "Fast, jerky movements."],
+      "safety": "Keep it gentle; ease off if anything feels sharp."
     }
   }
 }

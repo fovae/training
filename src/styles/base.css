@@ -26,6 +26,59 @@ body {
   min-height: 100dvh;
 }
 
+/*
+ * Выделение текста. Глобально не отключаем: названия упражнений, описания, техника, советы, документы,
+ * заметки и поля остаются доступными для копирования. Отключаем только у элементов управления и
+ * коротких подписей интерфейса, где выделение мешает нажатию (долгое нажатие на iPhone выделяло бы
+ * слово вместо отклика кнопки). Карточки со свайпом — components.css (.swipe-row).
+ */
+button,
+[role='button'],
+[role='tab'],
+[role='radio'],
+[role='switch'],
+summary,
+.nav,
+.switch,
+.chip,
+.pill,
+.eyebrow,
+.ig-num,
+.icon,
+svg {
+  -webkit-user-select: none;
+  user-select: none;
+}
+/* долгое нажатие на кнопке или вкладке — без системного меню «Скопировать / Поделиться» */
+button,
+[role='button'],
+[role='tab'],
+.nav {
+  -webkit-touch-callout: none;
+}
+/* ввод и редактирование — всегда с выделением, даже внутри элементов с user-select: none */
+input,
+textarea,
+select,
+[contenteditable='true'] {
+  -webkit-user-select: text;
+  user-select: text;
+}
+
+/*
+ * Цвет выделения — из токенов активной темы (в System — фактической светлой или тёмной): 30% цвета
+ * дня поверх карточки и основной текст темы. Проверено для всех тем и всех 7 цветов дней:
+ * контраст текста на выделении не ниже 5.1:1 (WCAG AA).
+ */
+::selection {
+  background: color-mix(in srgb, var(--accent-fill) 30%, var(--card));
+  color: var(--ink);
+}
+::-moz-selection {
+  background: color-mix(in srgb, var(--accent-fill) 30%, var(--card));
+  color: var(--ink);
+}
+
 body.modal-open {
   overflow: hidden;
 }

@@ -2,11 +2,11 @@ import { expect, test } from '@playwright/test';
 import { EXERCISES } from '../../src/data/catalog';
 import { fresh, kv, onboard } from './helpers';
 
-/** Этап 3А: база ~120 упражнений, штанга, шаблоны, документы */
+/** Этап 3А: база упражнений (252 после этапа 4), штанга, шаблоны, документы */
 
 const BENCH = 'Barbell bench press';
 
-test('library: 120 exercises, search and filters by muscle and equipment stay fast', async ({ page }) => {
+test('library: the whole catalog, search and filters by muscle and equipment stay fast', async ({ page }) => {
   await fresh(page);
   await onboard(page);
   await page.getByRole('link', { name: 'Exercises' }).click();

@@ -177,6 +177,8 @@ function mutate(fn: (s: Session) => void): void {
 }
 
 export function startSession(dayId: string): void {
+  // Двойное быстрое нажатие «Начать»: второй вызов приходит до перерисовки — не создаём вторую сессию
+  if (active.value) return;
   const day = findDay(dayId);
   if (!day) return;
   const s: Session = {

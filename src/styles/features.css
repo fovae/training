@@ -482,7 +482,7 @@
 .lib-card .pic {
   margin: 0;
 }
-/* 120 карточек со схемами: браузер рисует только видимые (iPhone 11 без подвисаний) */
+/* ~250 карточек со схемами: браузер рисует только видимые (iPhone 11 без подвисаний) */
 .lib-grid > li {
   content-visibility: auto;
   contain-intrinsic-block-size: auto 230px;
