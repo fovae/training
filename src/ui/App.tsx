@@ -102,7 +102,7 @@ function Screen() {
 export function App() {
   useKeyboard();
 
-  // Новый экран: каскад появления разрешён, пока экран входит (motion.css, main[data-enter]).
+  // Новый экран: main[data-enter] ~1 с после смены экрана (метка для тестов и стилей входа).
   // Обновления внутри экрана (смена дня, фильтры) проявляются сразу, без каскада и задержек.
   const screenKey = route.value.tab + '/' + (route.value.sub?.kind ?? '') + '/' + (route.value.sub?.id ?? '');
   const mainRef = useRef<HTMLElement>(null);

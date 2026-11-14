@@ -1,12 +1,12 @@
 import { expect, test, type Page } from '@playwright/test';
 import { fresh, kv, onboard, choose } from './helpers';
 
-/** Длительность анимации экрана и переходов кнопок (мс) — по вычисленному стилю */
+/** Длительность появления экрана (его первый блок) и переходов кнопок (мс) — по вычисленному стилю */
 const durations = (page: Page) =>
   page.evaluate(() => {
     const ms = (v: string) =>
       Math.max(...v.split(',').map((x) => parseFloat(x) * (x.includes('ms') ? 1 : 1000)));
-    const screen = document.querySelector('main > .screen')!;
+    const screen = document.querySelector('main > .screen > *')!;
     const btn = document.querySelector('.btn')!;
     return {
       screen: ms(getComputedStyle(screen).animationDuration),
@@ -85,14 +85,14 @@ test('screen transitions: nested screen comes from the right, back from the left
   await expect(page.locator('main')).toHaveAttribute('data-nav', 'tab');
   await page.locator('.lib-card').first().click();
   await expect(page.locator('main')).toHaveAttribute('data-nav', 'push');
-  expect(await page.locator('main > .screen').evaluate((el) => getComputedStyle(el).animationName)).toContain(
-    'm-in-push',
-  );
+  expect(
+    await page.locator('main > .screen > *').first().evaluate((el) => getComputedStyle(el).animationName),
+  ).toBe('m-soft-r');
   await page.locator('a.back').click();
   await expect(page.locator('main')).toHaveAttribute('data-nav', 'pop');
-  expect(await page.locator('main > .screen').evaluate((el) => getComputedStyle(el).animationName)).toContain(
-    'm-in-pop',
-  );
+  expect(
+    await page.locator('main > .screen > *').first().evaluate((el) => getComputedStyle(el).animationName),
+  ).toBe('m-soft-l');
   // ни одного кадра без экрана
   await expect(page.locator('main > .screen')).toHaveCount(1);
 });
@@ -192,9 +192,9 @@ test('fast taps on days are not lost: every tap switches the day at once, withou
   // содержимое нового дня: короткое проявление без задержки (не каскад со сдвигом)
   const anim = await page.locator('main .screen > *').last().evaluate((el) => {
     const cs = getComputedStyle(el);
-    return { name: cs.animationName, delay: cs.animationDelay, lift: cs.getPropertyValue('--lift-d').trim() };
+    return { name: cs.animationName, delay: cs.animationDelay };
   });
   expect(anim.delay.split(',').every((d) => parseFloat(d) === 0)).toBe(true);
-  // не каскад: подъём короткий (4 px), а не 12 px входа экрана
-  if (anim.name !== 'none') expect(anim.lift).toBe('4px');
+  // не каскад: то же короткое проявление, что и при входе экрана
+  if (anim.name !== 'none') expect(anim.name).toBe('m-soft');
 });

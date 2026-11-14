@@ -34,43 +34,45 @@
   /* проявление длиннее движения: элемент уже на месте и ещё мягко «дорисовывается» */
   --dur-fade: 460ms;
   --stagger: 45ms;
-  /* расстояния: подъём карточек, сдвиг экрана между вкладками и во вложенный экран */
-  --lift: 12px;
-  --shift-tab: 18px;
-  --shift-push: 28px;
 }
 
-/*
- * Откуда начинается проявление и подъём. Не наследуются: значение каскада у карточки не меняет
- * анимации вложенных элементов. Имена анимаций у карточки одни и те же и во время входа экрана, и
- * после: когда main[data-enter] снимается, браузер не перезапускает анимацию (смена имени
- * перезапустила бы её — всё на экране мигнуло бы).
- */
-@property --fade-from {
-  syntax: '<number>';
-  inherits: false;
-  initial-value: 0;
-}
-@property --lift-d {
-  syntax: '<length>';
-  inherits: false;
-  initial-value: 12px;
-}
 @keyframes m-fade {
   from {
-    opacity: var(--fade-from, 0);
+    opacity: 0;
+  }
+}
+/*
+ * Появление содержимого экрана — как смена дня: видно с первого кадра (прозрачность от 0,35, а не от
+ * нуля) и мягко дорисовывается с небольшим сдвигом. Вложенный экран — сдвиг справа, «Назад» — слева.
+ */
+@keyframes m-soft {
+  from {
+    opacity: 0.35;
+    transform: translateY(6px);
+  }
+}
+@keyframes m-soft-r {
+  from {
+    opacity: 0.35;
+    transform: translateX(14px);
+  }
+}
+@keyframes m-soft-l {
+  from {
+    opacity: 0.35;
+    transform: translateX(-14px);
   }
 }
 @keyframes m-rise {
   from {
     opacity: 0;
-    transform: translateY(var(--lift));
+    transform: translateY(8px);
   }
 }
 /* сдвиг без прозрачности — в паре с m-fade (у каждой своя кривая и длительность) */
 @keyframes m-lift {
   from {
-    transform: translateY(var(--lift-d, 12px));
+    transform: translateY(8px);
   }
 }
 /* всплывающие окна и уведомления: подъём с лёгким увеличением — ощущение глубины */
@@ -130,52 +132,10 @@
 }
 
 /*
- * 1. Экраны. Новый экран проявляется со сдвигом: соседняя вкладка — справа или слева (по порядку в нижней панели),
- * вложенный экран — справа, «Назад» — слева. Два экрана одновременно не держим: на iPhone 11 это
- * дороже, чем стоит эффект.
+ * 1. Экраны (3.6). Экран целиком не анимируется: длинный экран (сотни карточек) — огромный слой,
+ * его сдвиг и прозрачность на iPhone дорогие и давали задержку при смене вкладки. Анимируются только
+ * первые блоки экрана (небольшие слои) — раздел 2. Два экрана одновременно не держим.
  */
-@keyframes m-screen {
-  from {
-    transform: translateY(var(--lift));
-  }
-}
-@keyframes m-in-r {
-  from {
-    transform: translateX(var(--shift-tab));
-  }
-}
-@keyframes m-in-l {
-  from {
-    transform: translateX(calc(-1 * var(--shift-tab)));
-  }
-}
-@keyframes m-in-push {
-  from {
-    transform: translateX(var(--shift-push));
-  }
-}
-@keyframes m-in-pop {
-  from {
-    transform: translateX(calc(-1 * var(--shift-push)));
-  }
-}
-:where(main > .screen) {
-  animation:
-    m-fade var(--dur-slow) var(--ease-fade) backwards,
-    m-screen var(--dur-slow) var(--ease-glide) backwards;
-}
-:where(main[data-side='r'] > .screen) {
-  animation-name: m-fade, m-in-r;
-}
-:where(main[data-side='l'] > .screen) {
-  animation-name: m-fade, m-in-l;
-}
-:where(main[data-nav='push'] > .screen) {
-  animation-name: m-fade, m-in-push;
-}
-:where(main[data-nav='pop'] > .screen) {
-  animation-name: m-fade, m-in-pop;
-}
 /* сдвиг экрана при входе не даёт горизонтальной прокрутки страницы */
 main {
   overflow-x: clip;
@@ -197,65 +157,24 @@ html {
 }
 
 /*
- * 2. Появление содержимого.
- * Обновление внутри экрана (смена дня, фильтр, новый пункт, шаг онбординга): видно с первого кадра
- * (прозрачность от 0,35, а не от нуля, подъём 4 px) и мягко дорисовывается, без задержек.
- * Каскад (по очереди, с подъёмом) — только пока экран входит: main[data-enter] держится ~0,8 с после
- * смены экрана (App.tsx).
+ * 2. Появление содержимого — одинаково при входе экрана и при обновлении внутри него (смена дня,
+ * фильтр, новый пункт): без каскада и задержек, результат нажатия виден с первого кадра. Списки
+ * анимируются по пунктам (первые 10), а не целиком.
  */
-:where(.screen) > :where(:nth-child(-n + 10)),
-:where(.list, .lib-grid, .ex-grid, .items, .ig-steps, .theme-grid, .summary-grid)
-  > :where(:nth-child(-n + 10)) {
-  --fade-from: 0.35;
-  --lift-d: 4px;
-  animation:
-    m-fade var(--dur-base) var(--ease-fade) backwards,
-    m-lift var(--dur-base) var(--ease-glide) backwards;
+:where(.screen)
+  > :where(:nth-child(-n + 10)):where(:not(.list, .lib-grid, .ex-grid, .items, .ig-steps, .theme-grid, .summary-grid)),
+:where(.list, .lib-grid, .ex-grid, .items, .ig-steps, .theme-grid, .summary-grid) > :where(:nth-child(-n + 10)) {
+  animation: m-soft var(--dur-base) var(--ease-glide) backwards;
 }
-:where(main[data-enter]) :where(.screen) > :where(:nth-child(-n + 10)),
-:where(main[data-enter]) :where(.list, .lib-grid, .ex-grid, .items, .ig-steps, .theme-grid, .summary-grid)
-  > :where(:nth-child(-n + 10)) {
-  --fade-from: 0;
-  --lift-d: var(--lift);
-  animation:
-    m-fade var(--dur-fade) var(--ease-fade) backwards,
-    m-lift var(--dur-slow) var(--ease-glide) backwards;
+:where(main[data-nav='push'])
+  :where(.screen)
+  > :where(:nth-child(-n + 10)):where(:not(.list, .lib-grid, .ex-grid, .items, .ig-steps, .theme-grid, .summary-grid)) {
+  animation-name: m-soft-r;
 }
-:where(main[data-enter]) :where(.screen, .list, .lib-grid, .ex-grid, .items, .ig-steps, .theme-grid, .summary-grid)
-  > :where(:nth-child(2)) {
-  animation-delay: calc(1 * var(--stagger));
-}
-:where(main[data-enter]) :where(.screen, .list, .lib-grid, .ex-grid, .items, .ig-steps, .theme-grid, .summary-grid)
-  > :where(:nth-child(3)) {
-  animation-delay: calc(2 * var(--stagger));
-}
-:where(main[data-enter]) :where(.screen, .list, .lib-grid, .ex-grid, .items, .ig-steps, .theme-grid, .summary-grid)
-  > :where(:nth-child(4)) {
-  animation-delay: calc(3 * var(--stagger));
-}
-:where(main[data-enter]) :where(.screen, .list, .lib-grid, .ex-grid, .items, .ig-steps, .theme-grid, .summary-grid)
-  > :where(:nth-child(5)) {
-  animation-delay: calc(4 * var(--stagger));
-}
-:where(main[data-enter]) :where(.screen, .list, .lib-grid, .ex-grid, .items, .ig-steps, .theme-grid, .summary-grid)
-  > :where(:nth-child(6)) {
-  animation-delay: calc(5 * var(--stagger));
-}
-:where(main[data-enter]) :where(.screen, .list, .lib-grid, .ex-grid, .items, .ig-steps, .theme-grid, .summary-grid)
-  > :where(:nth-child(7)) {
-  animation-delay: calc(6 * var(--stagger));
-}
-:where(main[data-enter]) :where(.screen, .list, .lib-grid, .ex-grid, .items, .ig-steps, .theme-grid, .summary-grid)
-  > :where(:nth-child(8)) {
-  animation-delay: calc(7 * var(--stagger));
-}
-:where(main[data-enter]) :where(.screen, .list, .lib-grid, .ex-grid, .items, .ig-steps, .theme-grid, .summary-grid)
-  > :where(:nth-child(9)) {
-  animation-delay: calc(8 * var(--stagger));
-}
-:where(main[data-enter]) :where(.screen, .list, .lib-grid, .ex-grid, .items, .ig-steps, .theme-grid, .summary-grid)
-  > :where(:nth-child(10)) {
-  animation-delay: calc(9 * var(--stagger));
+:where(main[data-nav='pop'])
+  :where(.screen)
+  > :where(:nth-child(-n + 10)):where(:not(.list, .lib-grid, .ex-grid, .items, .ig-steps, .theme-grid, .summary-grid)) {
+  animation-name: m-soft-l;
 }
 
 /*

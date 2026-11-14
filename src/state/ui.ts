@@ -175,9 +175,14 @@ export const todayDayId = computed<string | null>(() => {
 /** День на экране «План» */
 export const planDayId = signal<string | null>(null);
 
+let accentOf = '';
 effect(() => {
   const id = route.value.tab === 'plan' ? planDayId.value : todayDayId.value;
   const c = id ? dayColor(id) : 'c1';
+  // Переменные на <html> меняем, только если цвет другой: иначе каждая смена вкладки заставляла
+  // браузер заново пересчитывать стили всей страницы
+  if (c === accentOf) return;
+  accentOf = c;
   const st = document.documentElement.style;
   st.setProperty('--accent', `var(--${c})`);
   st.setProperty('--accent-fill', `var(--${c}-fill)`);

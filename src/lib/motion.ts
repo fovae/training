@@ -81,23 +81,24 @@ export function crossfade(apply: () => void): void {
 }
 
 /**
- * Длинный список при входе экрана рисуется частями: сначала `first` пунктов (то, что видно на
- * экране), остальное — через кадр. Нажатие на вкладку не ждёт отрисовки сотен карточек, а
- * анимация входа идёт без пропущенных кадров. При «Назад» (eager) — сразу всё: восстановление прокрутки
- * ищет карточку-якорь по индексу.
+ * Длинный список рисуется порциями: сначала `first` пунктов (то, что видно на экране), затем по
+ * `step` за кадр. Ни одна порция не занимает главный поток надолго — нажатия на вкладки и кнопки
+ * обрабатываются сразу, даже пока дорисовываются сотни карточек со схемами.
+ * При «Назад» (eager) — сразу всё: восстановление прокрутки ищет карточку-якорь по индексу.
  */
-export function useProgressive(total: number, eager = false, first = 24): number {
+export function useProgressive(total: number, eager = false, first = 24, step = 32): number {
   const [n, setN] = useState(() => (eager ? Infinity : first));
   useEffect(() => {
     if (n >= total) return;
     let t = 0;
+    // кадр на отрисовку, затем порция в отдельной задаче (между ними браузер обрабатывает касания)
     const raf = requestAnimationFrame(() => {
-      t = window.setTimeout(() => setN(Infinity), 0);
+      t = window.setTimeout(() => setN((v) => (v + step >= total ? Infinity : v + step)), 0);
     });
     return () => {
       cancelAnimationFrame(raf);
       clearTimeout(t);
     };
-  }, []);
+  }, [n, total]);
   return n;
 }
