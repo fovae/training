@@ -105,3 +105,17 @@ export function fmtTimeRange(min: number, max: number): string {
   if (min >= 60 && min % 60 === 0 && max % 60 === 0) return `${range(min / 60, max / 60)} ${t('unit.min')}`;
   return `${range(min, max)} ${t('unit.sec')}`;
 }
+
+/**
+ * Ключи для списка упражнений: id упражнения + номер его повтора в списке («squat#0», «squat#1»).
+ * При перестановке карточка остаётся той же (раскрытый редактор, заметка и фокус не теряются) —
+ * ключ с номером позиции пересоздавал бы обе переставленные карточки.
+ */
+export function occurrenceKeys(ids: string[]): string[] {
+  const seen = new Map<string, number>();
+  return ids.map((id) => {
+    const n = seen.get(id) ?? 0;
+    seen.set(id, n + 1);
+    return `${id}#${n}`;
+  });
+}

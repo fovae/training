@@ -1004,6 +1004,9 @@ button.back {
 .sc-sheet {
   fill: var(--card);
 }
+.sc-tile {
+  fill: var(--soft);
+}
 .sc-dim {
   fill: rgba(10, 10, 14, 0.28);
 }

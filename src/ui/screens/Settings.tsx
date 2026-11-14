@@ -4,7 +4,8 @@ import { CONTACT_EMAIL } from '../../lib/meta';
 import { profile, saveProfile, settings, units, updateProfile, updateSettings } from '../../state/settings';
 import { history } from '../../state/session';
 import { cmToFtIn, fmtWeight } from '../../lib/format';
-import { ask, route, toast } from '../../state/ui';
+import { ask, pickedDayId, planDayId, route, toast } from '../../state/ui';
+import { stopRest } from '../../features/timer';
 import { plan, setMode } from '../../state/plan';
 import {
   applyRestore,
@@ -113,6 +114,10 @@ export function Settings() {
     if (r !== 'confirm') return;
     await resetAll();
     resetLibraryFilter();
+    // Всё, что жило только в памяти: идущий таймер отдыха и выбранные дни — тоже к началу
+    stopRest();
+    pickedDayId.value = null;
+    planDayId.value = null;
     location.hash = '#/';
     toast(t('reset.done'));
   };

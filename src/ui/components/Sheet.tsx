@@ -20,11 +20,15 @@ export function Sheet({
   const ref = useRef<HTMLDivElement>(null);
   const scrim = useRef<HTMLDivElement>(null);
   const closing = useRef(false);
+  // Всегда свежий onClose: обработчик Escape вешается один раз, а onClose меняется с каждым кадром
+  // (в выборе упражнения он знает, сколько добавлено)
+  const onCloseRef = useRef(onClose);
+  onCloseRef.current = onClose;
   // Закрытие самим листом (крестик, фон, Escape, свайп вниз) — с обратной анимацией
   const close = () => {
     if (closing.current) return;
     closing.current = true;
-    leave(scrim.current, onClose);
+    leave(scrim.current, () => onCloseRef.current());
   };
   const drag = useRef<{ y: number; t: number } | null>(null);
 

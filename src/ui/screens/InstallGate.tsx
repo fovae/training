@@ -21,8 +21,8 @@ interface Step {
   key: string;
   text: string;
   note?: string | undefined;
-  /** id — нарисованная сцена; img — скриншот (Инструкция 2, iOS 27+) */
-  scenes: ({ id: SceneId; caption?: string } | { img: string; caption?: string })[];
+  /** Нарисованные сцены шага (src/ui/components/InstallScene.tsx) */
+  scenes: { id: SceneId; caption?: string }[];
 }
 
 /** Шаги iOS. Встроенный браузер (Instagram, Telegram…) — одна строка «открой в Safari», без шагов. */
@@ -71,9 +71,6 @@ function iosSteps(): Step[] {
   return steps;
 }
 
-/** Скриншоты Инструкции 2 — public/install/ios27-1.png … ios27-4.png (пока заглушки) */
-const shot = (n: number) => `${import.meta.env.BASE_URL}install/ios27-${n}.png`;
-
 /** Инструкция 2: Safari 27+ — «≡» → Share → View More → Add to Home Screen */
 function ios27Steps(): Step[] {
   return [
@@ -81,16 +78,16 @@ function ios27Steps(): Step[] {
       key: 'menu27',
       text: t('install.ios27.menu'),
       note: t('install.ios27.menuNote'),
-      scenes: [{ img: shot(1) }],
+      scenes: [{ id: 'ios27-menu' }],
     },
-    { key: 'share27', text: t('install.ios27.share'), scenes: [{ img: shot(2) }] },
+    { key: 'share27', text: t('install.ios27.share'), scenes: [{ id: 'ios27-share' }] },
     {
       key: 'more27',
       text: t('install.ios27.more'),
       note: t('install.ios27.moreNote'),
-      scenes: [{ img: shot(3) }],
+      scenes: [{ id: 'ios27-more' }],
     },
-    { key: 'add27', text: t('install.ios27.add'), scenes: [{ img: shot(4) }] },
+    { key: 'add27', text: t('install.ios27.add'), scenes: [{ id: 'ios27-add' }] },
     { key: 'webapp', text: t('install.ios.webApp'), scenes: [{ id: 'ios-add' }] },
     { key: 'home', text: t('install.openHome'), scenes: [{ id: 'home' }] },
   ];
@@ -231,12 +228,13 @@ function InstallSteps() {
             </div>
             <div class={'ig-scenes' + (s.scenes.length > 1 ? ' two' : '')}>
               {s.scenes.map((sc) => (
-                <figure key={'img' in sc ? sc.img : sc.id}>
-                  {'img' in sc ? (
-                    <img class="scene ig-shot" src={sc.img} alt="" loading="lazy" decoding="async" />
-                  ) : (
-                    <InstallScene id={sc.id} />
-                  )}
+                <figure key={sc.id}>
+                  <InstallScene
+                    id={sc.id}
+                    label={
+                      t('install.gate.sceneLabel', { n: i + 1 }) + (sc.caption ? ` (${sc.caption})` : '')
+                    }
+                  />
                   {sc.caption && <figcaption>{sc.caption}</figcaption>}
                 </figure>
               ))}

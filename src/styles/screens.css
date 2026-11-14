@@ -3,23 +3,33 @@
   margin: 0 calc(-1 * var(--gutter)) var(--space-4);
   padding: calc(var(--safe-t) + var(--space-4)) var(--gutter) var(--space-2);
 }
-/* Плашка под статус-баром: при black-translucent контент иначе уезжает под часы */
+/*
+ * Плашка под статус-баром: при black-translucent контент иначе уезжает под часы.
+ * iOS 26+ в установленном приложении рисует под статус-баром своё размытие и захватывает им первую
+ * строку экрана (дата на «Сегодня» выглядела мыльной). WebKit не размывает край, если у верхнего
+ * края окна находит фиксированный блок на всю ширину выше 10 px с ровным background-color — и берёт
+ * его цвет. Поэтому плашка — сплошная полоса цвета фона ровно по высоте статус-бара: без градиента,
+ * backdrop-filter и pointer-events: none (такой блок WebKit может не засчитать). Мягкий переход в
+ * прозрачность под ней — отдельным псевдоэлементом: контент не обрывается резкой линией.
+ * Без выреза (ПК, старые телефоны, вкладка Safari) safe-t = 0 — и полосы нет вовсе.
+ */
 .status-shim {
   position: fixed;
   z-index: 35;
   top: 0;
   left: 0;
   right: 0;
-  /* Подложка под статус-бар и Dynamic Island. iOS 26 размывает полосу ниже статус-бара — поэтому
-     подложка выше safe area и плавно уходит в прозрачность: под размытием всегда ровный фон, а не
-     прокрученный текст («текстуры»). */
-  /* без выреза (ПК, старые телефоны) safe-t = 0 — и полосы нет вовсе */
-  --fade: min(18px, var(--safe-t));
-  height: calc(var(--safe-t) + var(--fade));
-  background: linear-gradient(
-    var(--bg) calc(100% - var(--fade)),
-    color-mix(in srgb, var(--bg) 0%, transparent)
-  );
+  height: var(--safe-t);
+  background-color: var(--bg);
+}
+.status-shim::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  height: min(12px, var(--safe-t));
+  background: linear-gradient(var(--bg), color-mix(in srgb, var(--bg) 0%, transparent));
   pointer-events: none;
 }
 .topbar-row {

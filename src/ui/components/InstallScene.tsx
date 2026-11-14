@@ -16,6 +16,10 @@ export type SceneId =
   | 'ios-share-bar'
   | 'ios-share-sheet'
   | 'ios-add'
+  | 'ios27-menu'
+  | 'ios27-share'
+  | 'ios27-more'
+  | 'ios27-add'
   | 'home'
   | 'android-menu'
   | 'android-item'
@@ -141,6 +145,13 @@ const Chevron = ({ x, y, left }: { x: number; y: number; left?: boolean }) => (
     }
   />
 );
+/** Три полоски «≡» */
+const Burger = ({ x, y, hl }: { x: number; y: number; hl?: boolean }) => (
+  <path class={hl ? 'sc-icon hl' : 'sc-icon'} d={`M${x - 5} ${y - 4} H${x + 5} M${x - 5} ${y} H${x + 5} M${x - 5} ${y + 4} H${x + 5}`} />
+);
+const ChevronDown = ({ x, y, hl }: { x: number; y: number; hl?: boolean }) => (
+  <path class={hl ? 'sc-icon hl' : 'sc-icon'} d={`M${x - 4} ${y - 2} L${x} ${y + 2} L${x + 4} ${y - 2}`} />
+);
 const AppIcon = ({ x, y, s = 18, accent }: { x: number; y: number; s?: number; accent?: boolean }) => (
   <g>
     <rect class={accent ? 'sc-app accent' : 'sc-app'} x={x} y={y} width={s} height={s} rx={s * 0.24} />
@@ -172,6 +183,21 @@ function CompactBar({ hlDots }: { hlDots?: boolean }) {
       <Chevron x={S.x + 16} y={y + 11} left />
       <rect class="sc-line" x={S.x + 28} y={y + 8.5} width="50" height="5" rx="2.5" />
       <Dots x={S.x + S.w - 18} y={y + 11} hl={hlDots} />
+    </>
+  );
+}
+
+/** Нижняя панель Safari 27: круглая «≡» слева, строка адреса, круглая кнопка справа */
+function Bar27({ hlMenu }: { hlMenu?: boolean }) {
+  const y = S.y + S.h - 30;
+  return (
+    <>
+      <circle class="sc-bar" cx={S.x + 17} cy={y + 11} r="11" />
+      <Burger x={S.x + 17} y={y + 11} hl={hlMenu} />
+      <rect class="sc-bar" x={S.x + 32} y={y} width="44" height="22" rx="11" />
+      <rect class="sc-line" x={S.x + 40} y={y + 8.5} width="28" height="5" rx="2.5" />
+      <circle class="sc-bar" cx={S.x + S.w - 17} cy={y + 11} r="11" />
+      <rect class="sc-icon-r" x={S.x + S.w - 22} y={y + 6} width="10" height="10" rx="2.5" />
     </>
   );
 }
@@ -325,6 +351,120 @@ export function InstallScene({ id, label }: { id: SceneId; label?: string | unde
           <Lines y={S.y + 132} n={3} w={80} />
           <Ring cx={R - 19} cy={S.y + 40.5} r={11} from="left" />
           <Ring cx={R - 23} cy={S.y + 109} r={10} from="left" />
+        </Phone>
+      );
+    case 'ios27-menu':
+      // Шаг 1: «≡» слева от адресной строки
+      return (
+        <Phone label={label}>
+          <Page />
+          <Bar27 hlMenu />
+          <Ring cx={S.x + 17} cy={B - 19} r={13} from="right" />
+        </Phone>
+      );
+    case 'ios27-share':
+      // Шаг 2: меню от кнопки «≡», пункт «Share»
+      return (
+        <Phone label={label}>
+          <Page />
+          <rect class="sc-dim" x={S.x} y={S.y} width={S.w} height={S.h} />
+          <rect class="sc-sheet" x={S.x + 6} y={B - 136} width="76" height="100" rx="10" />
+          {[0, 1, 2, 3, 4].map((i) => {
+            const y = B - 122 + i * 18;
+            const hl = i === 1;
+            return (
+              <g key={i}>
+                {hl && <rect class="sc-row-hl" x={S.x + 10} y={y - 7} width="68" height="14" rx="5" />}
+                <rect
+                  class={hl ? 'sc-line strong' : 'sc-line'}
+                  x={S.x + 16}
+                  y={y - 2.5}
+                  width={hl ? 30 : i % 2 ? 36 : 42}
+                  height="5"
+                  rx="2.5"
+                />
+                {hl ? (
+                  <ShareIcon x={S.x + 68} y={y} hl />
+                ) : (
+                  <circle class="sc-icon-c" cx={S.x + 68} cy={y} r="3.5" />
+                )}
+              </g>
+            );
+          })}
+          <Bar27 />
+          <Ring cx={S.x + 68} cy={B - 104} r={10} from="right" />
+        </Phone>
+      );
+    case 'ios27-more': {
+      // Шаг 3: лист «Поделиться»; в ряду действий справа — «View More» (стрелка вниз)
+      const ty = S.y + 150;
+      return (
+        <Phone label={label}>
+          <Page />
+          <Sheet top={S.y + 82}>
+            <rect class="sc-line" x={S.x + S.w / 2 - 10} y={S.y + 87} width="20" height="3" rx="1.5" />
+            <AppIcon x={S.x + 10} y={S.y + 96} s={16} accent />
+            <rect class="sc-line strong" x={S.x + 32} y={S.y + 99} width="44" height="5" rx="2.5" />
+            <rect class="sc-line" x={S.x + 32} y={S.y + 108} width="30" height="4" rx="2" />
+            {[0, 1, 2, 3].map((i) => (
+              <circle key={i} class="sc-app" cx={S.x + 20 + i * 23} cy={S.y + 130} r="8" />
+            ))}
+            {[0, 1, 2, 3].map((i) => {
+              const x = S.x + 8 + i * 24;
+              const hl = i === 3;
+              return (
+                <g key={i}>
+                  <rect class={hl ? 'sc-row-hl' : 'sc-tile'} x={x} y={ty} width="20" height="28" rx="6" />
+                  {hl ? (
+                    <ChevronDown x={x + 10} y={ty + 10} hl />
+                  ) : (
+                    <rect class="sc-icon-r" x={x + 6} y={ty + 6} width="8" height="8" rx="2" />
+                  )}
+                  <rect
+                    class={hl ? 'sc-line strong' : 'sc-line'}
+                    x={x + 4}
+                    y={ty + 20}
+                    width="12"
+                    height="3"
+                    rx="1.5"
+                  />
+                </g>
+              );
+            })}
+            <Row y={S.y + 218} icon={<circle class="sc-icon-c" cx={R - 16} cy={S.y + 218} r="3.5" />} />
+          </Sheet>
+          <Ring cx={S.x + 90} cy={ty + 14} r={16} from="bottom" />
+        </Phone>
+      );
+    }
+    case 'ios27-add':
+      // Шаг 4: полный список действий, «Add to Home Screen» (плюс в квадрате)
+      return (
+        <Phone label={label}>
+          <Page />
+          <Sheet top={S.y + 30}>
+            <rect class="sc-line" x={S.x + S.w / 2 - 10} y={S.y + 35} width="20" height="3" rx="1.5" />
+            {[0, 1, 2, 3, 4, 5, 6, 7, 8].map((i) => {
+              const y = S.y + 54 + i * 19;
+              const hl = i === 4;
+              return (
+                <Row
+                  key={i}
+                  y={y}
+                  hl={hl}
+                  w={hl ? 62 : [52, 40, 58, 46, 0, 36, 54, 44, 50][i]!}
+                  icon={
+                    hl ? (
+                      <PlusSquare x={R - 16} y={y} hl />
+                    ) : (
+                      <circle class="sc-icon-c" cx={R - 16} cy={y} r="3.5" />
+                    )
+                  }
+                />
+              );
+            })}
+          </Sheet>
+          <Ring cx={R - 16} cy={S.y + 54 + 4 * 19} r={10} from="left" />
         </Phone>
       );
     case 'home':

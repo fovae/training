@@ -207,7 +207,16 @@ test('iOS: ?ios=27 / ?ios=26 force the instruction; without it Version/ from UA 
   await expect(page.locator('.ig-step')).toHaveCount(6);
   await expect(page.getByText(/three lines \(≡\)/)).toBeVisible();
   await expect(page.getByText(/“View More”/)).toBeVisible();
-  await expect(page.locator('.ig-step img')).toHaveCount(4);
+  // Все шесть шагов — нарисованные сцены (не картинки-заглушки), у каждой подпись для VoiceOver
+  await expect(page.locator('.ig-step img')).toHaveCount(0);
+  await expect(page.locator('.ig-step svg.scene')).toHaveCount(6);
+  await expect(page.locator('.ig-step svg.scene').first()).toHaveAttribute(
+    'aria-label',
+    'Illustration for step 1',
+  );
+  // у сцен шагов 1–4 есть подсветка нужной кнопки (кольцо со стрелкой)
+  for (let i = 0; i < 4; i++)
+    await expect(page.locator('.ig-step').nth(i).locator('svg.scene .sc-ring').first()).toBeVisible();
   // Инструкция 1 (младше 27) — как была
   await page.goto('./?ios=26');
   await expect(title(page)).toBeVisible();

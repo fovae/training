@@ -1,7 +1,7 @@
 {
   "name": "simple-training",
   "private": true,
-  "version": "3.11.0",
+  "version": "3.12.0",
   "description": "Simple Training: plan and log your workouts. Offline PWA, data stays on the device.",
   "author": "Fovae & Claude",
   "type": "module",

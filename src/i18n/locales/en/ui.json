@@ -551,6 +551,7 @@
       "warn": "Data in the browser and in the installed app are separate and don't carry over. Use the installed app so your workouts aren't lost.",
       "orSteps": "Or follow the steps below.",
       "stepsLabel": "Installation steps",
+      "sceneLabel": "Illustration for step {n}",
       "translated": "Menu items are named in English here; on your phone they may be translated.",
       "scrollHint": "Scroll down",
       "installed": "I've installed it",

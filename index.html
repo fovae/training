@@ -63,6 +63,8 @@
       (function () {
         var d = document.documentElement;
         d.dataset.theme = 'auto';
+        // iOS, запуск с экрана «Домой»: метка для стилей (src/styles/layout.css — высота страницы)
+        if (navigator.standalone === true) d.dataset.standalone = '';
         try {
           var b = JSON.parse(localStorage.getItem('tp-boot') || '{}');
           var old = {

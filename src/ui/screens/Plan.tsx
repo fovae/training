@@ -5,7 +5,15 @@ import { findExercise } from '../../data/exercises';
 import { fmtNum, t, tList, weekdayLong, weekdayShort } from '../../i18n';
 import { useProgressive } from '../../lib/motion';
 import { Select } from '../components/Select';
-import { fmtClock, fromUnit, inputNum, parseDecimal, toUnit, unitLabel } from '../../lib/format';
+import {
+  fmtClock,
+  fromUnit,
+  inputNum,
+  occurrenceKeys,
+  parseDecimal,
+  toUnit,
+  unitLabel,
+} from '../../lib/format';
 import {
   MAX_DAYS,
   addDay,
@@ -40,11 +48,13 @@ const REST_OPTIONS = [30, 45, 60, 75, 90, 120, 150, 180, 240, 300];
 export function Plan() {
   const p = plan.value;
   const [picker, setPicker] = useState(false);
-  const [openIdx, setOpenIdx] = useState<number | null>(null);
+  /** Ключ только что добавленного упражнения: его редактор открывается сам (средний и опытный уровень) */
+  const [openKey, setOpenKey] = useState<string | null>(null);
   const addBtn = useRef<HTMLButtonElement>(null);
   if (!p) return null;
   const day = (planDayId.value && findDay(planDayId.value)) || p.days[0]!;
   const select = (id: string) => (planDayId.value = id);
+  const keys = occurrenceKeys(day.items.map((i) => i.exerciseId));
 
   const onAddDay = () => {
     const id = addDay();
@@ -108,12 +118,13 @@ export function Plan() {
           <ol class="items">
             {day.items.map((item, i) => (
               <ItemEditor
-                key={item.exerciseId + i}
+                key={day.id + '/' + keys[i]}
                 day={day}
                 item={item}
                 idx={i}
                 count={day.items.length}
-                autoOpen={openIdx === i}
+                autoOpen={openKey === keys[i]}
+                onAutoOpened={() => setOpenKey(null)}
               />
             ))}
           </ol>
@@ -152,7 +163,7 @@ export function Plan() {
             setPicker(false);
             // Средний и опытный: сразу открыть последнее добавленное упражнение — ввести вес и повторы
             if (added && levelBehavior(profile.value?.level).askWeightOnAdd) {
-              setOpenIdx(day.items.length - 1);
+              setOpenKey(keys[keys.length - 1] ?? null);
               return;
             }
             // Safari не фокусирует кнопку по клику — возвращаем фокус явно
@@ -178,10 +189,19 @@ function DayTools({ day }: { day: Day }) {
           class="text-in"
           type="text"
           maxLength={40}
+          autoComplete="off"
+          enterKeyHint="done"
+          data-autofocus
           aria-label={t('plan.dayName')}
           placeholder={dayTitle({ ...day, label: '' })}
           defaultValue={value}
           onInput={(e) => (value = e.currentTarget.value)}
+          // «Готово» на клавиатуре — то же, что «Сохранить»
+          onKeyDown={(e) => {
+            if (e.key !== 'Enter' || e.isComposing) return;
+            e.preventDefault();
+            e.currentTarget.closest('.modal')?.querySelector<HTMLButtonElement>('.modal-actions .btn')?.click();
+          }}
         />
       ),
       confirm: t('common.save'),
@@ -290,21 +310,29 @@ function ItemEditor({
   idx,
   count,
   autoOpen,
+  onAutoOpened,
 }: {
   day: Day;
   item: PlanItem;
   idx: number;
   count: number;
   autoOpen?: boolean;
+  onAutoOpened?: () => void;
 }) {
   const ex = findExercise(item.exerciseId);
   const lvl = levelBehavior(profile.value?.level);
   const [showWeight, setShowWeight] = useState(lvl.showTargetWeight || item.targetWeightKg != null);
   const weightRef = useRef<HTMLInputElement>(null);
   const repsRef = useRef<HTMLInputElement>(null);
+  const details = useRef<HTMLDetailsElement>(null);
+  // Только что добавленное упражнение: раскрыть редактор и поставить курсор в вес — один раз.
+  // Раскрываем через DOM, а не атрибутом: после сброса метки редактор остаётся открытым, а
+  // перестановка и удаление соседей его больше не открывают заново.
   useEffect(() => {
     if (!autoOpen) return;
+    if (details.current) details.current.open = true;
     (showWeight ? weightRef : repsRef).current?.focus();
+    onAutoOpened?.();
   }, [autoOpen]);
   const name = exName(item.exerciseId);
   const isTime = ex?.metric === 'time';
@@ -340,7 +368,7 @@ function ItemEditor({
   return (
     <li class="item">
       <SwipeRow title={name} actions={actions}>
-        <details open={autoOpen || undefined}>
+        <details ref={details}>
           <summary>
             <span class="item-n">{idx + 1}</span>
             <span class="item-main">

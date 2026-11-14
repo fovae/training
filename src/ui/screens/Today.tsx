@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'preact/hooks';
 import { fmtDate, t, weekdayLong } from '../../i18n';
-import { fmtDuration } from '../../lib/format';
+import { fmtDuration, occurrenceKeys } from '../../lib/format';
 import { ask, go, pickedDayId, todayDayId, toast } from '../../state/ui';
 import { findDay, moveItem, plan, removeItem } from '../../state/plan';
 import {
@@ -144,6 +144,9 @@ export function Today() {
       })
     : [];
   const restDay = !s && !day && p?.mode === 'weekdays';
+  // Ключи карточек не зависят от позиции: «Выше / Ниже» переставляет карточки, а не пересоздаёт их
+  const entryKeys = occurrenceKeys(s ? s.entries.map((e) => e.exerciseId) : []);
+  const itemKeys = occurrenceKeys(day ? day.items.map((i) => i.exerciseId) : []);
   const title = s
     ? t('today.inProgress')
     : restDay
@@ -219,7 +222,7 @@ export function Today() {
             {s
               ? s.entries.map((entry, i) => (
                   <SwipeRow
-                    key={entry.exerciseId + i}
+                    key={entryKeys[i]}
                     title={exName(entry.exerciseId)}
                     actions={exActions(
                       day,
@@ -239,7 +242,7 @@ export function Today() {
                 ))
               : day.items.map((item, i) => (
                   <SwipeRow
-                    key={item.exerciseId + i}
+                    key={itemKeys[i]}
                     title={exName(item.exerciseId)}
                     actions={exActions(day, item.exerciseId, i, day.items.length, null)}
                   >
