@@ -288,6 +288,7 @@ function exActions(
     actions.push({
       label: t(session === 'skipped' ? 'menu.unskipToday' : 'menu.skipToday'),
       quick: true,
+      icon: session === 'skipped' ? 'play' : 'skip',
       run: () => toggleSkip(i),
     });
   actions.push(

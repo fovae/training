@@ -996,40 +996,50 @@ section + .card {
   z-index: 0;
   top: 0;
   right: 0;
-  bottom: 0;
+  /* по центру строки, а у высоких карточек (тренировка, раскрытый пункт плана) — у заголовка */
+  height: 100%;
+  max-height: 88px;
   display: flex;
-  overflow: hidden;
-  border-radius: 0 var(--r-md) var(--r-md) 0;
+  align-items: center;
+  justify-content: space-evenly;
+  padding-left: 6px;
 }
-/* Пока карточка сдвинута — обрезаем по её границам, как в iOS (в покое не обрезаем: тень видна) */
-.swipe-row.open,
-.swipe-row.moving {
-  overflow: hidden;
+/* Карточку не обрезаем ни в покое, ни при свайпе: тень и скруглённые углы остаются чистыми.
+   В покое кнопки под карточкой прозрачны и не нажимаются. */
+.swipe-row:not(.open) .sr-actions {
+  pointer-events: none;
 }
-/* Кнопки под карточкой видны только при свайпе: тень карточки не обрезается */
-.swipe-row:not(.open):not(.moving) .sr-actions {
-  visibility: hidden;
-}
-/* Карточка плана сама прозрачная (фон у li) — подложим фон, чтобы кнопки не просвечивали */
+/* Карточка плана: фон и тень у сдвигаемой части (сам li прозрачный) */
 .item > .swipe-row > .sr-front {
   border-radius: var(--r-md);
   background: var(--card);
+  box-shadow: var(--shadow);
 }
+/* Круглая кнопка под карточкой: проявляется и вырастает вслед за пальцем (--p: 0…1 из SwipeRow) */
 .sr-btn {
-  flex: 1;
+  flex: none;
   display: grid;
   place-items: center;
-  padding: 0 var(--space-2);
-  font-size: 14px;
-  font-weight: 800;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border-radius: 50%;
   color: var(--bg);
   background: var(--muted);
+  opacity: var(--p, 0);
+  transform: scale(calc(0.6 + 0.4 * var(--p, 0)));
+  transition:
+    transform var(--dur-base) var(--ease-out),
+    opacity var(--dur-base) var(--ease-out);
+}
+.swipe-row.moving .sr-btn {
+  transition: none;
 }
 .sr-btn.danger {
   background: var(--danger-fill);
 }
-.sr-btn:last-child {
-  border-radius: 0 var(--r-md) var(--r-md) 0;
+.sr-btn:disabled {
+  opacity: calc(var(--p, 0) * 0.45);
 }
 /* Кнопка «Действия» для клавиатуры и VoiceOver: невидима, пока не в фокусе */
 .sr-menu-btn {

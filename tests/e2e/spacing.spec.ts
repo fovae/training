@@ -45,6 +45,24 @@ async function glued(page: Page, where: string): Promise<string[]> {
         return r.width > 40 && r.height > 16 && cs.visibility !== 'hidden' && cs.display !== 'none';
       };
       const els = [...document.querySelectorAll(`main ${sel}`)].filter(vis);
+      // Строки длинных списков с запасом под тень (padding + отрицательный margin, pointer-events: none):
+      // меряем по содержимому, а не по невидимому запасу
+      const box = (el: Element) => {
+        const r = el.getBoundingClientRect();
+        const cs = getComputedStyle(el);
+        if (cs.pointerEvents !== 'none') return r;
+        const pt = parseFloat(cs.paddingTop),
+          pb = parseFloat(cs.paddingBottom);
+        const pl = parseFloat(cs.paddingLeft),
+          pr = parseFloat(cs.paddingRight);
+        return {
+          top: r.top + pt,
+          bottom: r.bottom - pb,
+          left: r.left + pl,
+          right: r.right - pr,
+          width: r.width - pl - pr,
+        };
+      };
       const name = (el: Element) =>
         (el.className && typeof el.className === 'string'
           ? '.' + el.className.trim().split(/\s+/).join('.')
@@ -56,8 +74,8 @@ async function glued(page: Page, where: string): Promise<string[]> {
       for (const a of els)
         for (const b of els) {
           if (a === b || a.contains(b) || b.contains(a)) continue;
-          const ra = a.getBoundingClientRect();
-          const rb = b.getBoundingClientRect();
+          const ra = box(a);
+          const rb = box(b);
           // b ниже a, по горизонтали перекрываются заметно
           const overlap = Math.min(ra.right, rb.right) - Math.max(ra.left, rb.left);
           if (overlap < Math.min(ra.width, rb.width) * 0.4) continue;

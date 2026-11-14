@@ -154,6 +154,13 @@ html {
 .history .list > li {
   content-visibility: auto;
   contain-intrinsic-block-size: auto 72px;
+  /* запас под тень карточки (иначе срезается по краю li — серый ореол в углах), см. .lib-grid > li */
+  padding: 32px;
+  margin: -32px;
+  pointer-events: none;
+}
+.history .list > li > * {
+  pointer-events: auto;
 }
 
 /*
@@ -162,18 +169,25 @@ html {
  * анимируются по пунктам (первые 10), а не целиком.
  */
 :where(.screen)
-  > :where(:nth-child(-n + 10)):where(:not(.list, .lib-grid, .ex-grid, .items, .ig-steps, .theme-grid, .summary-grid)),
-:where(.list, .lib-grid, .ex-grid, .items, .ig-steps, .theme-grid, .summary-grid) > :where(:nth-child(-n + 10)) {
+  > :where(:nth-child(-n + 10)):where(
+    :not(.list, .lib-grid, .ex-grid, .items, .ig-steps, .theme-grid, .summary-grid)
+  ),
+:where(.list, .lib-grid, .ex-grid, .items, .ig-steps, .theme-grid, .summary-grid)
+  > :where(:nth-child(-n + 10)) {
   animation: m-soft var(--dur-base) var(--ease-glide) backwards;
 }
 :where(main[data-nav='push'])
   :where(.screen)
-  > :where(:nth-child(-n + 10)):where(:not(.list, .lib-grid, .ex-grid, .items, .ig-steps, .theme-grid, .summary-grid)) {
+  > :where(:nth-child(-n + 10)):where(
+    :not(.list, .lib-grid, .ex-grid, .items, .ig-steps, .theme-grid, .summary-grid)
+  ) {
   animation-name: m-soft-r;
 }
 :where(main[data-nav='pop'])
   :where(.screen)
-  > :where(:nth-child(-n + 10)):where(:not(.list, .lib-grid, .ex-grid, .items, .ig-steps, .theme-grid, .summary-grid)) {
+  > :where(:nth-child(-n + 10)):where(
+    :not(.list, .lib-grid, .ex-grid, .items, .ig-steps, .theme-grid, .summary-grid)
+  ) {
   animation-name: m-soft-l;
 }
 
@@ -182,29 +196,29 @@ html {
  * состояния, раскрытые действия): мягкое проявление с небольшим подъёмом, а не «выскакивание».
  */
 :where(
-    .note,
-    .field-err,
-    .empty,
-    .session-note,
-    .entry-note,
-    .dayhead-note,
-    .dayhead-cta,
-    .tech,
-    .more,
-    .toc,
-    .finish-zone,
-    .ex-actions,
-    .ex-focus,
-    .sheet-f,
-    .modal-body,
-    .ig-scroll-hint,
-    .ig-now,
-    .ig-actions,
-    .tp-auto,
-    .pill,
-    .chip,
-    .badge
-  ) {
+  .note,
+  .field-err,
+  .empty,
+  .session-note,
+  .entry-note,
+  .dayhead-note,
+  .dayhead-cta,
+  .tech,
+  .more,
+  .toc,
+  .finish-zone,
+  .ex-actions,
+  .ex-focus,
+  .sheet-f,
+  .modal-body,
+  .ig-scroll-hint,
+  .ig-now,
+  .ig-actions,
+  .tp-auto,
+  .pill,
+  .chip,
+  .badge
+) {
   animation:
     m-fade var(--dur-base) var(--ease-fade) backwards,
     m-lift var(--dur-base) var(--ease-glide) backwards;
@@ -561,12 +575,56 @@ details[open] > :not(summary) {
 }
 
 /* Без движения нажатие всё равно видно: элемент на миг становится бледнее, без сжатия */
-:root[data-motion='off'] :is(.btn, .btn-ghost, .seg-btn, .set-done, .day, .row, .icon-btn, .rest-adj, .rest-main, .rest-skip, .stepper button, .toast-act, .lib-card, .list > li > a, .list > li > button, .tp, .as-btn, .item summary, .pic-live, .nav-item .nav-ic):active {
+:root[data-motion='off']
+  :is(
+    .btn,
+    .btn-ghost,
+    .seg-btn,
+    .set-done,
+    .day,
+    .row,
+    .icon-btn,
+    .rest-adj,
+    .rest-main,
+    .rest-skip,
+    .stepper button,
+    .toast-act,
+    .lib-card,
+    .list > li > a,
+    .list > li > button,
+    .tp,
+    .as-btn,
+    .item summary,
+    .pic-live,
+    .nav-item .nav-ic
+  ):active {
   transform: none;
   opacity: 0.6;
 }
 @media (prefers-reduced-motion: reduce) {
-  :root:not([data-motion='on']) :is(.btn, .btn-ghost, .seg-btn, .set-done, .day, .row, .icon-btn, .rest-adj, .rest-main, .rest-skip, .stepper button, .toast-act, .lib-card, .list > li > a, .list > li > button, .tp, .as-btn, .item summary, .pic-live, .nav-item .nav-ic):active {
+  :root:not([data-motion='on'])
+    :is(
+      .btn,
+      .btn-ghost,
+      .seg-btn,
+      .set-done,
+      .day,
+      .row,
+      .icon-btn,
+      .rest-adj,
+      .rest-main,
+      .rest-skip,
+      .stepper button,
+      .toast-act,
+      .lib-card,
+      .list > li > a,
+      .list > li > button,
+      .tp,
+      .as-btn,
+      .item summary,
+      .pic-live,
+      .nav-item .nav-ic
+    ):active {
     transform: none;
     opacity: 0.6;
   }

@@ -3,10 +3,12 @@ import { signal } from '@preact/signals';
 import { useEffect, useRef, useState } from 'preact/hooks';
 import { t } from '../../i18n';
 import { openMenu, type MenuAction } from '../../state/ui';
+import { Icon, type IconName } from './Icon';
 
 /**
  * Карточка с действиями, как в iOS:
- *  - свайп влево — справа выезжают быстрые кнопки (например, «Удалить»); свайп вправо или тап — прячет;
+ *  - свайп влево — из-под карточки справа проявляются круглые кнопки со значком (например, корзина
+ *    «Удалить»); свайп вправо или тап — прячет;
  *  - долгое нажатие (и правый клик на ПК) — меню со всеми действиями снизу;
  *  - для клавиатуры и VoiceOver — кнопка «Действия», видимая при фокусе.
  * Свайп от левого края экрана не перехватываем: это системный жест «Назад».
@@ -15,6 +17,8 @@ import { openMenu, type MenuAction } from '../../state/ui';
 export interface RowAction extends MenuAction {
   /** Показать как быструю кнопку при свайпе (не больше двух) */
   quick?: boolean;
+  /** Значок круглой кнопки (по умолчанию: опасное действие — корзина) */
+  icon?: IconName;
 }
 
 /** Открыта может быть только одна карточка */
@@ -22,7 +26,9 @@ const openId = signal<string | null>(null);
 let seq = 0;
 
 const EDGE = 24;
-const BTN_W = 84;
+/** Место под одну круглую кнопку: круг 44 px + поля */
+const BTN_W = 60;
+const PAD = 6;
 const LONG_MS = 480;
 
 export function SwipeRow({
@@ -39,7 +45,7 @@ export function SwipeRow({
 }) {
   const [id] = useState(() => 'sr' + ++seq);
   const quick = actions.filter((a) => a.quick).slice(0, 2);
-  const width = quick.length * BTN_W;
+  const width = quick.length ? quick.length * BTN_W + PAD : 0;
   const isOpen = openId.value === id;
   const [drag, setDrag] = useState<number | null>(null);
   const g = useRef<{ x: number; y: number; dir: 'h' | 'v' | null; timer: number; long: boolean } | null>(
@@ -126,6 +132,8 @@ export function SwipeRow({
   };
 
   const x = drag ?? (isOpen ? -width : 0);
+  /** Насколько открыто (0…1): по нему кнопки проявляются и вырастают вслед за пальцем */
+  const p = width ? Math.min(1, Math.max(0, -x / width)) : 0;
   return (
     <div
       class={'swipe-row' + (cls ? ' ' + cls : '') + (isOpen ? ' open' : '') + (drag != null ? ' moving' : '')}
@@ -140,12 +148,14 @@ export function SwipeRow({
       }}
     >
       {quick.length > 0 && (
-        <div class="sr-actions" aria-hidden={!isOpen} style={{ width: width + 'px' }}>
+        <div class="sr-actions" aria-hidden={!isOpen} style={{ width: width + 'px', '--p': p.toFixed(3) }}>
           {quick.map((a) => (
             <button
               key={a.label}
               type="button"
               class={'sr-btn' + (a.danger ? ' danger' : '')}
+              aria-label={a.label}
+              title={a.label}
               tabIndex={isOpen ? 0 : -1}
               disabled={a.disabled}
               onClick={() => {
@@ -153,7 +163,7 @@ export function SwipeRow({
                 void a.run();
               }}
             >
-              {a.label}
+              <Icon name={a.icon ?? (a.danger ? 'trash' : 'skip')} size={20} />
             </button>
           ))}
         </div>

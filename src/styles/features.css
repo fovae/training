@@ -474,10 +474,10 @@
   display: grid;
   gap: var(--space-2);
 }
+/* Фон и тень — у самой карточки внутри свайпа (components.css: .item > .swipe-row > .sr-front):
+   при свайпе она уезжает, а круглая кнопка остаётся на фоне экрана, без белой подложки */
 .item {
-  background: var(--card);
   border-radius: var(--r-md);
-  box-shadow: var(--shadow);
 }
 .item summary {
   display: flex;
@@ -572,11 +572,20 @@
 .lib-card .pic {
   margin: 0;
 }
-/* ~250 карточек со схемами: браузер рисует только видимые (iPhone 11 без подвисаний) */
+/* ~250 карточек со схемами: браузер рисует только видимые (iPhone 11 без подвисаний).
+   content-visibility обрезает отрисовку по границе li — без запаса мягкая тень карточки срезалась
+   прямоугольником и в скруглённых углах оставался серый ореол. Запас 32 px вокруг (тень до 32 px вниз)
+   с отрицательным полем: сетка и промежутки не меняются, а пустой запас не перехватывает нажатия. */
 .lib-grid > li {
   content-visibility: auto;
   contain-intrinsic-block-size: auto 230px;
   min-width: 0;
+  padding: 32px;
+  margin: -32px;
+  pointer-events: none;
+}
+.lib-grid > li > * {
+  pointer-events: auto;
 }
 .lib-txt {
   display: grid;
