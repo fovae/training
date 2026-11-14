@@ -108,7 +108,7 @@ export function filterExercises(
   const words = norm(f.query ?? '')
     .split(/\s+/)
     .filter(Boolean);
-  return list.filter((e) => {
+  const out = list.filter((e) => {
     if (f.muscle && !e.primaryMuscles.includes(f.muscle) && !e.secondaryMuscles.includes(f.muscle))
       return false;
     if (f.equipment && !e.equipment.includes(f.equipment)) return false;
@@ -116,4 +116,23 @@ export function filterExercises(
     const hay = norm(name(e)) + ' ' + e.id;
     return words.every((w) => hay.includes(w));
   });
+  return f.muscle ? sortByMuscle(out, f.muscle) : out;
+}
+
+/**
+ * Порядок при выбранной группе мышц: сначала упражнения, где она главная (первая в основных),
+ * затем — где она одна из основных, затем — где второстепенная, и дальше по месту в списке
+ * второстепенных. Внутри одного уровня — прежний порядок каталога (сортировка устойчивая).
+ */
+function sortByMuscle(list: Exercise[], m: Muscle): Exercise[] {
+  const rank = (e: Exercise) => {
+    const p = e.primaryMuscles.indexOf(m);
+    if (p >= 0) return p === 0 ? 0 : 1;
+    const s = e.secondaryMuscles.indexOf(m);
+    return s >= 0 ? 2 + s : 99;
+  };
+  return list
+    .map((e, i) => ({ e, i, r: rank(e) }))
+    .sort((a, b) => a.r - b.r || a.i - b.i)
+    .map((x) => x.e);
 }

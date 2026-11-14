@@ -65,6 +65,8 @@ export function DialogHost() {
     const el = ref.current;
     el?.querySelector<HTMLButtonElement>('[data-autofocus]')?.focus();
     const onKey = (e: KeyboardEvent) => {
+      // открытый выпадающий список (Select.tsx) сам обрабатывает клавиши
+      if (e.target instanceof Element && e.target.closest('.select-list')) return;
       if (e.key === 'Escape') {
         e.preventDefault();
         d.resolve('cancel');
@@ -141,6 +143,8 @@ export function MenuHost() {
     const el = ref.current;
     el?.querySelector<HTMLButtonElement>('button:not([disabled])')?.focus();
     const onKey = (e: KeyboardEvent) => {
+      // открытый выпадающий список (Select.tsx) сам обрабатывает клавиши
+      if (e.target instanceof Element && e.target.closest('.select-list')) return;
       if (e.key === 'Escape') {
         e.preventDefault();
         closeMenu();

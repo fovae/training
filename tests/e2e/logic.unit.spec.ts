@@ -320,15 +320,12 @@ test.describe('weight limits: barbell (stage 3A)', () => {
       ignored: [],
     });
 
-  test('rows exist, wait for the owner, off in production until approved', () => {
-    expect(BARBELL_LIMITS_APPROVED).toBe(false);
+  test('rows exist and are on in production (table approved by the owner)', () => {
+    expect(BARBELL_LIMITS_APPROVED).toBe(true);
     for (const id of BARBELL) {
-      const lim = findWeightLimit(id, { includePending: true });
-      expect(lim, id).toBeTruthy();
-      expect(lim!.pending, id).toBe(true);
-      expect(findWeightLimit(id), id).toBeUndefined();
-      expect(weightLimitKg(id, 80, 'male', 'veteran'), id).toBeNull();
-      expect(check(id, 'male', 80, 2000)).toBeNull();
+      expect(findWeightLimit(id), id).toBeTruthy();
+      expect(weightLimitKg(id, 80, 'male', 'veteran'), id).not.toBeNull();
+      expect(check(id, 'male', 80, 2000), id).not.toBeNull();
     }
     for (const id of ['back-squat', 'barbell-bench-press', 'deadlift'])
       expect(findWeightLimit(id, { includePending: true })!.basis, id).toBe('class-record');

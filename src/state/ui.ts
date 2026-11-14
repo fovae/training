@@ -1,9 +1,9 @@
-import { computed, effect, signal } from '@preact/signals';
+import { batch, computed, effect, signal } from '@preact/signals';
 import type { ComponentChildren } from 'preact';
 import { settings, settingsReady } from './settings';
 import { resolveTheme, themeColor } from '../themes';
 import { saveBoot } from '../i18n';
-import { crossfade } from '../lib/motion';
+import { crossfade, motionOff } from '../lib/motion';
 import { dayColor, plan } from './plan';
 import { active, suggestedDayId } from './session';
 
@@ -44,66 +44,42 @@ const routeKey = (r: Route) => r.tab + (r.sub ? '/' + r.sub.id : '');
 export type NavDir = 'push' | 'pop' | 'tab';
 export const navDir = signal<NavDir>('tab');
 
-/**
- * Возврат на прежнее место после «Назад» (список упражнений, история). Запоминаем не пиксели, а
- * якорь — первую видимую карточку списка и её отступ от верха экрана: карточки за экраном
- * (content-visibility) дорисовываются позже и меняют высоту, пиксели «уплывают», якорь — нет.
- */
-interface ScrollMark {
-  y: number;
-  /** индекс карточки среди элементов ANCHORS и её отступ от верха окна */
-  idx: number;
-  top: number;
-}
-const ANCHORS = 'main .lib-grid > li, main .list > li';
-const marks = new Map<string, ScrollMark>();
-let curKey = routeKey(route.value);
-
-function mark(): ScrollMark {
-  const items = [...document.querySelectorAll<HTMLElement>(ANCHORS)];
-  const idx = items.findIndex((el) => el.getBoundingClientRect().bottom > 0);
-  return { y: window.scrollY, idx, top: idx >= 0 ? items[idx]!.getBoundingClientRect().top : 0 };
-}
+/** Порядок вкладок нижней панели: по нему экран соседней вкладки приезжает справа или слева */
+export const TAB_ORDER: Tab[] = ['today', 'plan', 'library', 'history', 'settings'];
+/** Сторона перехода между вкладками: r — вкладка правее прежней, l — левее (motion.css) */
+export const tabSide = signal<'l' | 'r' | ''>('');
 
 /**
- * В Safari нет scroll anchoring: карточки над экраном дорисовываются позже (content-visibility) и
- * сдвигают видимое. Поэтому якорь возвращаем на место при каждом изменении размеров экрана, пока
- * список дорисовывается (до 5 с), и сразу перестаём, если человек сам начал прокручивать.
+ * Вкладка, нажатая в нижней панели, пока её экран ещё не отрисован. Панель подсвечивает её сразу
+ * (в кадре нажатия), а тяжёлый экран рисуется следующим кадром — отклик не ждёт отрисовки списка.
  */
-function restore(m: ScrollMark, key: string): void {
-  const main = document.querySelector('main');
-  let frames = 12;
-  let stopped = false;
-  const fix = () => {
-    if (stopped) return;
-    if (curKey !== key) return stop();
-    const el = m.idx >= 0 ? document.querySelectorAll<HTMLElement>(ANCHORS)[m.idx] : undefined;
-    if (el) {
-      const d = el.getBoundingClientRect().top - m.top;
-      if (Math.abs(d) > 1) window.scrollBy({ top: d, behavior: 'instant' });
-    } else if (m.idx < 0 && Math.abs(window.scrollY - m.y) > 1)
-      window.scrollTo({ top: m.y, behavior: 'instant' });
+export const pendingTab = signal<Tab | null>(null);
+let pendingTimer = 0;
+
+/** Мягкое затухание старого экрана перед сменой вкладки (мс); main[data-leave] в motion.css */
+const LEAVE_MS = 90;
+
+/**
+ * Переход на вкладку из нижней панели: подсветка — в кадре нажатия; затем старый экран за 90 мс
+ * мягко гаснет и сменяется новым — без резкого обрыва картинки.
+ */
+export function goTab(tab: Tab): void {
+  pendingTab.value = tab;
+  cancelAnimationFrame(pendingTimer);
+  const nav = () => {
+    if (pendingTab.value !== tab) return;
+    if (location.hash === '#/' + tab) {
+      pendingTab.value = null;
+      delete document.querySelector('main')?.dataset.leave;
+    } else location.hash = '#/' + tab;
   };
-  const ro = typeof ResizeObserver === 'function' ? new ResizeObserver(fix) : null;
-  const events = ['touchstart', 'wheel', 'keydown'] as const;
-  function stop() {
-    stopped = true;
-    ro?.disconnect();
-    for (const e of events) removeEventListener(e, stop);
-  }
-  for (const e of events) addEventListener(e, stop, { passive: true });
-  if (main && ro) {
-    ro.observe(main);
-    const screen = main.firstElementChild;
-    if (screen) ro.observe(screen);
-  }
-  setTimeout(stop, 5000);
-  // первые кадры — пока экран только отрисовывается
-  const step = () => {
-    fix();
-    if (!stopped && --frames > 0) requestAnimationFrame(step);
-  };
-  requestAnimationFrame(step);
+  // rAF: браузер успевает нарисовать подсветку вкладки до тяжёлой отрисовки экрана
+  pendingTimer = requestAnimationFrame(() => {
+    const main = document.querySelector('main');
+    if (motionOff() || !main) return void setTimeout(nav, 0);
+    main.dataset.leave = '';
+    setTimeout(nav, LEAVE_MS);
+  });
 }
 
 addEventListener('hashchange', () => {
@@ -112,8 +88,15 @@ addEventListener('hashchange', () => {
   marks.set(curKey, mark());
   const dir: NavDir = depth(next) > depth(prev) ? 'push' : depth(next) < depth(prev) ? 'pop' : 'tab';
   navDir.value = prev.tab === next.tab || dir !== 'tab' ? dir : 'tab';
+  const a = TAB_ORDER.indexOf(prev.tab);
+  const b = TAB_ORDER.indexOf(next.tab);
+  tabSide.value = dir === 'tab' && a >= 0 && b >= 0 && a !== b ? (b > a ? 'r' : 'l') : '';
   curKey = routeKey(next);
-  route.value = next;
+  batch(() => {
+    pendingTab.value = null;
+    route.value = next;
+  });
+  delete document.querySelector('main')?.dataset.leave;
   // Новый экран — сверху; «Назад» — на прежнее место (после отрисовки), мгновенно
   window.scrollTo({ top: 0, behavior: 'instant' });
   const m = dir === 'pop' ? marks.get(curKey) : undefined;

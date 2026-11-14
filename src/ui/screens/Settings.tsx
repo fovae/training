@@ -37,6 +37,7 @@ import { ThemePicker } from '../components/ThemePicker';
 import { ProfileForm, draftFrom, validateProfile, type ProfileDraft } from '../components/ProfileForm';
 import { askRestore } from '../components/RestoreDialog';
 import { scrollBehavior } from '../../lib/motion';
+import { Select } from '../components/Select';
 
 export function Settings() {
   const s = settings.value;
@@ -126,23 +127,12 @@ export function Settings() {
         <h2 class="card-t">{t('settings.languageAndLook')}</h2>
         <div class="srow">
           <span>{t('settings.language')}</span>
-          <label class="select">
-            <span class="sr-only">{t('settings.language')}</span>
-            <select
-              aria-label={t('settings.language')}
-              value={locale.value}
-              onChange={(e) => {
-                const code = e.currentTarget.value;
-                void setLocale(code).then(() => updateProfile({ locale: code }));
-              }}
-            >
-              {LOCALES.map((l) => (
-                <option key={l.code} value={l.code} lang={l.code}>
-                  {l.native}
-                </option>
-              ))}
-            </select>
-          </label>
+          <Select
+            label={t('settings.language')}
+            value={locale.value}
+            onChange={(code) => void setLocale(code).then(() => updateProfile({ locale: code }))}
+            options={LOCALES.map((l) => ({ value: l.code, label: l.native, lang: l.code }))}
+          />
         </div>
         <div class="field">
           <span class="field-lb">{t('settings.theme')}</span>
@@ -406,21 +396,16 @@ function ProfileCard() {
       <ProfileForm draft={draft} update={setDraft} errors={errors} />
       <div class="field">
         <span class="field-lb">{t('settings.level')}</span>
-        <label class="select">
-          <span class="sr-only">{t('settings.level')}</span>
-          <select
-            aria-label={t('settings.level')}
-            aria-describedby="level-desc"
-            value={p.level}
-            onChange={(e) => updateProfile({ level: e.currentTarget.value as Level })}
-          >
-            {(['first', 'few', 'intermediate', 'veteran'] as const).map((v) => (
-              <option key={v} value={v}>
-                {t(`level.${v}`)}
-              </option>
-            ))}
-          </select>
-        </label>
+        <Select
+          label={t('settings.level')}
+          describedBy="level-desc"
+          value={p.level}
+          onChange={(v) => updateProfile({ level: v as Level })}
+          options={(['first', 'few', 'intermediate', 'veteran'] as const).map((v) => ({
+            value: v,
+            label: t(`level.${v}`),
+          }))}
+        />
         <small id="level-desc" class="muted">
           {t(`level.desc.${p.level}`)}
         </small>

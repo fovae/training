@@ -50,6 +50,8 @@ export function Sheet({
     const el = ref.current;
     (el?.querySelector<HTMLElement>('[data-autofocus]') ?? el)?.focus();
     const onKey = (e: KeyboardEvent) => {
+      // открытый выпадающий список (Select.tsx) сам обрабатывает клавиши
+      if (e.target instanceof Element && e.target.closest('.select-list')) return;
       if (e.key === 'Escape') {
         e.preventDefault();
         close();

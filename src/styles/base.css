@@ -227,11 +227,12 @@ svg {
 .switch,
 .toast-act {
   transition:
-    transform var(--dur-release) var(--ease-spring),
+    transform var(--dur-release) var(--ease-soft),
     opacity var(--dur-fast) var(--ease-out),
-    background-color var(--dur-fast) var(--ease-out),
-    border-color var(--dur-fast) var(--ease-out),
-    color var(--dur-fast) var(--ease-out);
+    background-color var(--dur-base) var(--ease-fade),
+    border-color var(--dur-base) var(--ease-fade),
+    box-shadow var(--dur-base) var(--ease-fade),
+    color var(--dur-base) var(--ease-fade);
 }
 
 /* «Уменьшение движения» и настройка «Анимации» — src/styles/motion.css */

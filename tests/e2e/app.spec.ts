@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/test';
 import { EXERCISES } from '../../src/data/catalog';
-import { fresh, onboard } from './helpers';
+import { fresh, onboard, choose } from './helpers';
 
 const INCLINE = 'Incline dumbbell press';
 
@@ -39,7 +39,7 @@ test('onboarding: English by default, gentle validation, back steps', async ({ p
   // Значения в настройках
   await page.getByRole('link', { name: 'Settings' }).click();
   await expect(page.getByLabel('Body weight, kg')).toHaveValue('72.5');
-  await expect(page.getByLabel('Level', { exact: true })).toHaveValue('first');
+  await expect(page.getByLabel('Level', { exact: true })).toHaveText("I'm a beginner, this is my first time");
 });
 
 test('layout: tab bar, safe area meta, no horizontal scroll, 44pt targets', async ({ page }) => {
@@ -71,7 +71,7 @@ test('language switch applies to the whole UI at once', async ({ page }) => {
   await fresh(page);
   await onboard(page);
   await page.getByRole('link', { name: 'Settings' }).click();
-  await page.getByLabel('Language').selectOption('ru');
+  await choose(page.getByLabel('Language'), 'ru');
   await expect(page.locator('html')).toHaveAttribute('lang', 'ru');
   await expect(page.getByRole('heading', { name: 'Настройки', level: 1 })).toBeVisible();
   await expect(page.getByRole('link', { name: 'Упражнения' })).toBeVisible();
@@ -97,8 +97,8 @@ test('plan editor: empty days, picker with search and filters, edit, reorder, co
   // имя кнопки — «название + мышцы»: «Leg press Quads…», а не «Leg press calf raise…»
   await expect(sheet.getByRole('button', { name: /^Leg press [A-Z]/ })).toBeVisible();
   await sheet.getByRole('searchbox').fill('');
-  await sheet.getByLabel('Muscle').selectOption('triceps');
-  await sheet.getByLabel('Equipment').selectOption('cable');
+  await choose(sheet.getByLabel('Muscle'), 'triceps');
+  await choose(sheet.getByLabel('Equipment'), 'cable');
   const tricepsCable = EXERCISES.filter(
     (e) =>
       (e.primaryMuscles.includes('triceps') || e.secondaryMuscles.includes('triceps')) &&
@@ -106,8 +106,8 @@ test('plan editor: empty days, picker with search and filters, edit, reorder, co
   ).length;
   await expect(sheet.getByText(`${tricepsCable} exercises`)).toBeVisible();
   await sheet.getByRole('button', { name: /Rope triceps pushdown/ }).click();
-  await sheet.getByLabel('Muscle').selectOption('');
-  await sheet.getByLabel('Equipment').selectOption('');
+  await choose(sheet.getByLabel('Muscle'), '');
+  await choose(sheet.getByLabel('Equipment'), '');
   await sheet.getByRole('searchbox').fill('incline dumbbell press');
   await sheet.getByRole('button', { name: new RegExp(INCLINE) }).click();
   await sheet.getByRole('button', { name: /Done · 2 added/ }).click();
@@ -129,7 +129,7 @@ test('plan editor: empty days, picker with search and filters, edit, reorder, co
   await page.getByLabel(`${INCLINE}: minimum`).blur();
   await page.getByLabel(`${INCLINE}: working weight, kg`).fill('20');
   await page.getByLabel(`${INCLINE}: working weight, kg`).blur();
-  await page.getByLabel(`${INCLINE}: rest`).selectOption('180');
+  await choose(page.getByLabel(`${INCLINE}: rest`), '180');
   await page.getByRole('switch', { name: `${INCLINE}: optional` }).click();
   await expect(items.first()).toContainText('4 × 6–12 · 3:00 · optional');
 
@@ -325,11 +325,11 @@ test('library: search, filters and full card', async ({ page }) => {
   await onboard(page);
   await page.getByRole('link', { name: 'Exercises' }).click();
   await expect(page.getByText(`${EXERCISES.length} exercises`)).toBeVisible();
-  await page.getByLabel('Equipment').selectOption('bodyweight');
+  await choose(page.getByLabel('Equipment'), 'bodyweight');
   await expect(page.locator('.lib-card')).toHaveCount(
     EXERCISES.filter((e) => e.equipment.includes('bodyweight')).length,
   );
-  await page.getByLabel('Equipment').selectOption('');
+  await choose(page.getByLabel('Equipment'), '');
   await page.getByRole('searchbox').fill('plank');
   await page.getByRole('link', { name: /Side plank/ }).click();
   await expect(page.getByRole('heading', { name: 'Side plank' })).toBeVisible();
@@ -358,7 +358,7 @@ test('schedule switch lives in Settings; weekday labels follow the mode', async 
   await switchTo('Switch to weekdays');
   await page.getByRole('link', { name: 'Plan' }).click();
   await expect(page.getByRole('region', { name: 'Schedule: Weekdays' })).toBeVisible();
-  await page.getByLabel('Day of week').selectOption('5'); // суббота
+  await choose(page.getByLabel('Day of week'), '5'); // суббота
   await page.getByRole('link', { name: 'Today' }).click();
   await expect(weekdayMarks()).toHaveCount(4);
   await expect(page.getByRole('tab', { name: 'Day 1, Sat' })).toBeVisible();

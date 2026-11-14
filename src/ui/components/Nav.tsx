@@ -1,5 +1,5 @@
 import { t } from '../../i18n';
-import { route, type Tab } from '../../state/ui';
+import { goTab, pendingTab, route, type Tab } from '../../state/ui';
 import { installPrompt, promptInstall } from '../../features/install';
 import { active } from '../../state/session';
 import { Icon } from './Icon';
@@ -9,7 +9,8 @@ const TABS: Exclude<Tab, 'legal'>[] = ['today', 'plan', 'library', 'history', 's
 
 /** Нижняя таб-панель на телефоне, боковая навигация на широком экране */
 export function Nav() {
-  const cur = route.value.tab;
+  // Нажатая вкладка подсвечивается сразу, ещё до отрисовки её экрана (goTab)
+  const cur = pendingTab.value ?? route.value.tab;
   const idx = TABS.indexOf(cur as (typeof TABS)[number]);
   return (
     <nav class="nav" aria-label={t('nav.label')}>
@@ -26,11 +27,13 @@ export function Nav() {
           class={'nav-item' + (cur === id ? ' on' : '')}
           aria-current={cur === id ? 'page' : undefined}
           onClick={(e) => {
+            // Cmd/Ctrl-клик и средняя кнопка — как у обычной ссылки
+            if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
+            e.preventDefault();
             // повторный тап по активному табу — наверх
-            if (cur === id && !route.value.sub) {
-              e.preventDefault();
+            if (cur === id && route.value.tab === id && !route.value.sub)
               window.scrollTo({ top: 0, behavior: scrollBehavior() });
-            }
+            else goTab(id);
           }}
         >
           <span class="nav-ic">

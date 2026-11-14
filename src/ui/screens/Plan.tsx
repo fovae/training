@@ -3,6 +3,8 @@ import { levelBehavior } from '../../advice/levels';
 import { profile } from '../../state/settings';
 import { findExercise } from '../../data/exercises';
 import { fmtNum, t, tList, weekdayLong, weekdayShort } from '../../i18n';
+import { useProgressive } from '../../lib/motion';
+import { Select } from '../components/Select';
 import { fmtClock, fromUnit, inputNum, parseDecimal, toUnit, unitLabel } from '../../lib/format';
 import {
   MAX_DAYS,
@@ -205,20 +207,13 @@ function DayTools({ day }: { day: Day }) {
   return (
     <div class="day-tools">
       {p.mode === 'weekdays' && (
-        <label class="select">
-          <span>{t('plan.weekday')}</span>
-          <select
-            aria-label={t('plan.weekday')}
-            value={day.weekday ?? ''}
-            onChange={(e) => setWeekday(day.id, Number(e.currentTarget.value) as Weekday)}
-          >
-            {([0, 1, 2, 3, 4, 5, 6] as Weekday[]).map((w) => (
-              <option key={w} value={w}>
-                {weekdayLong(w)}
-              </option>
-            ))}
-          </select>
-        </label>
+        <Select
+          label={t('plan.weekday')}
+          caption={t('plan.weekday')}
+          value={String(day.weekday ?? '')}
+          onChange={(v) => setWeekday(day.id, Number(v) as Weekday)}
+          options={([0, 1, 2, 3, 4, 5, 6] as Weekday[]).map((w) => ({ value: String(w), label: weekdayLong(w) }))}
+        />
       )}
       <div class="tool-row">
         <button type="button" class="btn-ghost sm" onClick={() => void onRename()}>
@@ -442,26 +437,18 @@ function ItemEditor({
             )}
             <div class="srow">
               <span>{t('plan.rest')}</span>
-              <label class="select">
-                <span class="sr-only">{t('plan.restOf', { name })}</span>
-                <select
-                  aria-label={t('plan.restOf', { name })}
-                  value={item.restSec ?? ''}
-                  onChange={(e) => {
-                    const v = e.currentTarget.value;
-                    up({ restSec: v ? Number(v) : undefined });
-                  }}
-                >
-                  <option value="">
-                    {t('plan.restAuto', { time: fmtClock(restFor(ex, { ...item, restSec: undefined })) })}
-                  </option>
-                  {REST_OPTIONS.map((s) => (
-                    <option key={s} value={s}>
-                      {fmtClock(s)}
-                    </option>
-                  ))}
-                </select>
-              </label>
+              <Select
+                label={t('plan.restOf', { name })}
+                value={String(item.restSec ?? '')}
+                onChange={(v) => up({ restSec: v ? Number(v) : undefined })}
+                options={[
+                  {
+                    value: '',
+                    label: t('plan.restAuto', { time: fmtClock(restFor(ex, { ...item, restSec: undefined })) }),
+                  },
+                  ...REST_OPTIONS.map((s) => ({ value: String(s), label: fmtClock(s) })),
+                ]}
+              />
             </div>
             <div class="srow">
               <span>
@@ -507,6 +494,8 @@ function ItemEditor({
 function ExercisePicker({ day, onClose }: { day: Day; onClose: (added: number) => void }) {
   const { f, setF, list } = useExerciseFilter();
   const [added, setAdded] = useState(0);
+  // лист выезжает плавно: сотни строк дорисовываются кадром позже
+  const shown = useProgressive(list.length, false, 16);
   const inDay = new Set(day.items.map((i) => i.exerciseId));
   return (
     <Sheet
@@ -523,7 +512,7 @@ function ExercisePicker({ day, onClose }: { day: Day; onClose: (added: number) =
         {t('library.found', { count: list.length })}
       </p>
       <ul class="list pick-list">
-        {list.map((e) => (
+        {list.slice(0, shown).map((e) => (
           <li key={e.id}>
             <button
               type="button"

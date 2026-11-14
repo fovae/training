@@ -1,67 +1,83 @@
 /*
  * Анимации интерфейса (docs/ARCHITECTURE.md, «Анимации»).
- * Только transform и opacity, 150–350 мс, замедление в конце. Упругость (--ease-spring, перелёт ~5%)
- * — только у мелких элементов: возврат после нажатия, индикатор вкладки, переключатели, всплывашки.
- * Листы и экраны — без перелёта. Бесконечно — только
- * подсветка в инструкции установки и пульс точки идущей тренировки.
+ * Только transform и opacity — их рисует видеокарта, 60 кадров без пересчёта раскладки.
+ * Принципы (3.4): спокойно и мягко, но живо. Всё появляется проявлением с небольшим подъёмом;
+ * экраны приезжают со стороны, куда идёт переход; кнопки сжимаются и возвращаются плавно, БЕЗ
+ * перелёта (упругость заставляла их «подпрыгивать»). Лёгкая упругость (≈2%) — только у ползунка
+ * переключателя. Бесконечно — только подсветка в инструкции установки и пульс идущей тренировки.
  * Выключаются системным «уменьшением движения» и переключателем «Анимации» в настройках
  * (html[data-motion="off"]; "on" — включены вопреки системе). Без анимаций — мгновенно.
  * Стили с :where() — нулевая специфичность: собственная анимация элемента (окна, тосты) главнее.
  */
 :root {
   /* Токены движения — все компоненты берут длительности и кривые только отсюда */
-  --dur-fast: 150ms;
-  --dur-base: 260ms;
-  --dur-slow: 340ms;
-  /* нажатие: сжатие — сразу, возврат — мягко с упругостью */
-  --dur-press: 90ms;
-  --dur-release: 340ms;
+  --dur-fast: 180ms;
+  --dur-base: 280ms;
+  --dur-slow: 400ms;
+  /* нажатие: сжатие — сразу, возврат — длинный и мягкий */
+  --dur-press: 110ms;
+  --dur-release: 420ms;
   /* уход (закрытие листа, плашки) — чуть быстрее появления; = OUT_MS в src/lib/motion.ts */
   --dur-out: 200ms;
-  /* мягкое торможение без рывка в начале (стартовая скорость ~3× средней, а не 4–6×) */
+  /* мягкое торможение без рывка в начале */
   --ease-out: cubic-bezier(0.25, 0.75, 0.3, 1);
   --ease-in-out: cubic-bezier(0.45, 0, 0.25, 1);
   --ease-in: cubic-bezier(0.4, 0, 1, 1);
-  /* лёгкая упругость: перелёт ~5% и успокоение без колебаний */
-  --ease-spring: cubic-bezier(0.34, 1.2, 0.64, 1);
+  /* возврат после нажатия: плавно до места, без перелёта */
+  --ease-soft: cubic-bezier(0.2, 0.7, 0.25, 1);
+  /* едва заметная упругость (≈2%) — только ползунок переключателя */
+  --ease-spring: cubic-bezier(0.3, 1.12, 0.5, 1);
   /* листы и экраны: быстрый старт, долгое мягкое торможение */
-  --ease-glide: cubic-bezier(0.3, 0.7, 0.2, 1);
-  /* проявление (opacity): плавный вход и выход, без «вспышки» в первом кадре */
-  --ease-fade: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-glide: cubic-bezier(0.22, 0.75, 0.15, 1);
+  /* проявление (opacity): плавный вход, без «вспышки» в первом кадре */
+  --ease-fade: cubic-bezier(0.35, 0, 0.2, 1);
   /* проявление длиннее движения: элемент уже на месте и ещё мягко «дорисовывается» */
-  --dur-fade: 420ms;
-  --stagger: 40ms;
+  --dur-fade: 460ms;
+  --stagger: 45ms;
+  /* расстояния: подъём карточек, сдвиг экрана между вкладками и во вложенный экран */
+  --lift: 12px;
+  --shift-tab: 18px;
+  --shift-push: 28px;
 }
 
+/*
+ * Откуда начинается проявление и подъём. Не наследуются: значение каскада у карточки не меняет
+ * анимации вложенных элементов. Имена анимаций у карточки одни и те же и во время входа экрана, и
+ * после: когда main[data-enter] снимается, браузер не перезапускает анимацию (смена имени
+ * перезапустила бы её — всё на экране мигнуло бы).
+ */
+@property --fade-from {
+  syntax: '<number>';
+  inherits: false;
+  initial-value: 0;
+}
+@property --lift-d {
+  syntax: '<length>';
+  inherits: false;
+  initial-value: 12px;
+}
 @keyframes m-fade {
   from {
-    opacity: 0;
+    opacity: var(--fade-from, 0);
   }
 }
 @keyframes m-rise {
   from {
     opacity: 0;
-    transform: translateY(8px);
+    transform: translateY(var(--lift));
   }
 }
 /* сдвиг без прозрачности — в паре с m-fade (у каждой своя кривая и длительность) */
 @keyframes m-lift {
   from {
-    transform: translateY(8px);
+    transform: translateY(var(--lift-d, 12px));
   }
 }
 /* всплывающие окна и уведомления: подъём с лёгким увеличением — ощущение глубины */
 @keyframes m-float {
   from {
     opacity: 0;
-    transform: translateY(14px) scale(0.96);
-  }
-}
-/* экран вкладки: подъём снизу (без масштаба — размеры элементов не меняются даже на первом кадре) */
-@keyframes m-screen {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
+    transform: translateY(16px) scale(0.97);
   }
 }
 @keyframes m-up {
@@ -72,7 +88,7 @@
 @keyframes m-pop {
   from {
     opacity: 0;
-    transform: scale(0.5);
+    transform: scale(0.6);
   }
 }
 @keyframes m-out-down {
@@ -97,6 +113,11 @@
     transform: scaleY(0);
   }
 }
+@keyframes m-grow-x {
+  from {
+    transform: scaleX(0);
+  }
+}
 @keyframes m-ring {
   from {
     opacity: 0.55;
@@ -109,30 +130,62 @@
 }
 
 /*
- * 1. Экраны: новый экран мягко появляется со сдвигом 10 px. Вложенный экран («Назад» есть) приезжает
- * справа, при возврате — слева, между вкладками — снизу. Старый экран сменяется сразу, без пустого
- * кадра: держать два экрана одновременно на iPhone 11 дороже, чем стоит этот эффект.
+ * 1. Экраны. Старый экран за 90 мс мягко гаснет (main[data-leave], src/state/ui.ts → goTab), новый
+ * проявляется со сдвигом: соседняя вкладка — справа или слева (по порядку в нижней панели),
+ * вложенный экран — справа, «Назад» — слева. Два экрана одновременно не держим: на iPhone 11 это
+ * дороже, чем стоит эффект.
  */
+@keyframes m-screen {
+  from {
+    transform: translateY(var(--lift));
+  }
+}
+@keyframes m-in-r {
+  from {
+    transform: translateX(var(--shift-tab));
+  }
+}
+@keyframes m-in-l {
+  from {
+    transform: translateX(calc(-1 * var(--shift-tab)));
+  }
+}
 @keyframes m-in-push {
   from {
-    opacity: 0;
-    transform: translateX(20px);
+    transform: translateX(var(--shift-push));
   }
 }
 @keyframes m-in-pop {
   from {
-    opacity: 0;
-    transform: translateX(-20px);
+    transform: translateX(calc(-1 * var(--shift-push)));
   }
 }
 :where(main > .screen) {
-  animation: m-screen var(--dur-slow) var(--ease-glide) backwards;
+  animation:
+    m-fade var(--dur-slow) var(--ease-fade) backwards,
+    m-screen var(--dur-slow) var(--ease-glide) backwards;
+}
+:where(main[data-side='r'] > .screen) {
+  animation-name: m-fade, m-in-r;
+}
+:where(main[data-side='l'] > .screen) {
+  animation-name: m-fade, m-in-l;
 }
 :where(main[data-nav='push'] > .screen) {
-  animation-name: m-in-push;
+  animation-name: m-fade, m-in-push;
 }
 :where(main[data-nav='pop'] > .screen) {
-  animation-name: m-in-pop;
+  animation-name: m-fade, m-in-pop;
+}
+main > .screen {
+  transition:
+    opacity 90ms var(--ease-in),
+    transform 90ms var(--ease-in);
+}
+main[data-leave] > .screen {
+  opacity: 0.25;
+  transform: translateY(2px);
+  pointer-events: none;
 }
 
 /* Прокрутка: якоря и разделы не прячутся под статус-баром и нижней панелью */
@@ -152,20 +205,25 @@ html {
 
 /*
  * 2. Появление содержимого.
- * Обновление внутри экрана (смена дня, фильтр, новый пункт, шаг онбординга): короткое проявление без
- * задержек и сдвига — результат нажатия виден с первого кадра.
- * Каскад (по очереди, со сдвигом) — только пока экран входит: main[data-enter] держится ~0,7 с после
- * смены экрана (App.tsx). Раньше каскад проигрывался и при каждой смене дня: карточки начинали с нулевой
- * прозрачности и проявлялись до 0,7 с — нажатие казалось запоздавшим.
+ * Обновление внутри экрана (смена дня, фильтр, новый пункт, шаг онбординга): видно с первого кадра
+ * (прозрачность от 0,35, а не от нуля, подъём 4 px) и мягко дорисовывается, без задержек.
+ * Каскад (по очереди, с подъёмом) — только пока экран входит: main[data-enter] держится ~0,8 с после
+ * смены экрана (App.tsx).
  */
-:where(.screen) > :where(:nth-child(-n + 8)),
+:where(.screen) > :where(:nth-child(-n + 10)),
 :where(.list, .lib-grid, .ex-grid, .items, .ig-steps, .theme-grid, .summary-grid)
-  > :where(:nth-child(-n + 8)) {
-  animation: m-fade var(--dur-fast) var(--ease-fade) backwards;
+  > :where(:nth-child(-n + 10)) {
+  --fade-from: 0.35;
+  --lift-d: 4px;
+  animation:
+    m-fade var(--dur-base) var(--ease-fade) backwards,
+    m-lift var(--dur-base) var(--ease-glide) backwards;
 }
-:where(main[data-enter]) :where(.screen) > :where(:nth-child(-n + 8)),
+:where(main[data-enter]) :where(.screen) > :where(:nth-child(-n + 10)),
 :where(main[data-enter]) :where(.list, .lib-grid, .ex-grid, .items, .ig-steps, .theme-grid, .summary-grid)
-  > :where(:nth-child(-n + 8)) {
+  > :where(:nth-child(-n + 10)) {
+  --fade-from: 0;
+  --lift-d: var(--lift);
   animation:
     m-fade var(--dur-fade) var(--ease-fade) backwards,
     m-lift var(--dur-slow) var(--ease-glide) backwards;
@@ -198,15 +256,72 @@ html {
   > :where(:nth-child(8)) {
   animation-delay: calc(7 * var(--stagger));
 }
+:where(main[data-enter]) :where(.screen, .list, .lib-grid, .ex-grid, .items, .ig-steps, .theme-grid, .summary-grid)
+  > :where(:nth-child(9)) {
+  animation-delay: calc(8 * var(--stagger));
+}
+:where(main[data-enter]) :where(.screen, .list, .lib-grid, .ex-grid, .items, .ig-steps, .theme-grid, .summary-grid)
+  > :where(:nth-child(10)) {
+  animation-delay: calc(9 * var(--stagger));
+}
+
+/*
+ * Плашки и мелкие блоки, которые появляются по ходу дела (заметки, ошибки полей, подсказки, пустые
+ * состояния, раскрытые действия): мягкое проявление с небольшим подъёмом, а не «выскакивание».
+ */
+:where(
+    .note,
+    .field-err,
+    .empty,
+    .session-note,
+    .entry-note,
+    .dayhead-note,
+    .dayhead-cta,
+    .tech,
+    .more,
+    .toc,
+    .finish-zone,
+    .ex-actions,
+    .ex-focus,
+    .sheet-f,
+    .modal-body,
+    .ig-scroll-hint,
+    .ig-now,
+    .ig-actions,
+    .tp-auto,
+    .pill,
+    .chip,
+    .badge
+  ) {
+  animation:
+    m-fade var(--dur-base) var(--ease-fade) backwards,
+    m-lift var(--dur-base) var(--ease-glide) backwards;
+}
+/* мелкие значки: проявляются с лёгким увеличением */
+:where(.seg-dot, .nav-live, .sc-icon) {
+  animation: m-pop var(--dur-base) var(--ease-glide) backwards;
+}
+.nav-live {
+  animation:
+    m-pop var(--dur-base) var(--ease-glide) backwards,
+    pulse 1.6s ease-in-out var(--dur-base) infinite;
+}
 
 /* Панель «Назад / Далее» в онбординге стоит на месте при смене шага — каскад её не двигает */
 .ob-actions {
   animation: none;
 }
 
-/* Индикатор активной вкладки перетекает (телефон) */
+/*
+ * Нижняя панель. Отклик в кадре нажатия: значок сжимается под пальцем, подсветка вкладки (мягкая
+ * «капсула» под значком и полоска сверху) переходит на нажатую вкладку сразу, ещё до отрисовки её
+ * экрана (pendingTab в src/state/ui.ts). Без перелёта и подпрыгиваний.
+ */
 .nav {
   isolation: isolate;
+}
+.nav-item {
+  touch-action: manipulation;
 }
 .nav-ind {
   position: absolute;
@@ -216,20 +331,8 @@ html {
   width: calc((100% - var(--safe-l) - var(--safe-r)) / 5);
   height: 3px;
   transform: translateX(calc(var(--i, 0) * 100%));
-  transition: transform var(--dur-slow) var(--ease-spring);
+  transition: transform var(--dur-slow) var(--ease-glide);
   pointer-events: none;
-}
-.nav-item .nav-ic {
-  transition: transform var(--dur-release) var(--ease-spring);
-}
-/* активная вкладка: значок чуть приподнимается */
-.nav-item[aria-current='page'] .nav-ic {
-  transform: translateY(-1px) scale(1.06);
-}
-.nav-item:active .nav-ic {
-  transform: scale(0.86);
-  transition-duration: var(--dur-press);
-  transition-timing-function: var(--ease-out);
 }
 .nav-ind::before {
   content: '';
@@ -240,8 +343,42 @@ html {
   border-radius: 0 0 3px 3px;
   background: var(--nav-on, var(--accent-ink));
 }
+.nav-item .nav-ic {
+  display: grid;
+  place-items: center;
+  transition: transform var(--dur-release) var(--ease-soft);
+}
+/* капсула под значком активной вкладки: проявляется и чуть растягивается в ширину */
+.nav-item .nav-ic::before {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  inset: -3px -16px;
+  border-radius: 99px;
+  background: color-mix(in srgb, var(--nav-on, var(--accent-ink)) 14%, transparent);
+  opacity: 0;
+  transform: scaleX(0.55);
+  transition:
+    opacity var(--dur-base) var(--ease-fade),
+    transform var(--dur-slow) var(--ease-glide);
+  pointer-events: none;
+}
+.nav-item.on .nav-ic::before {
+  opacity: 1;
+  transform: none;
+}
+/* подпись и цвет значка меняются плавно */
+.nav-item {
+  transition: color var(--dur-base) var(--ease-fade);
+}
+.nav-item:active .nav-ic {
+  transform: scale(0.88);
+  transition-duration: var(--dur-press);
+  transition-timing-function: var(--ease-out);
+}
 @media (min-width: 1024px) {
-  .nav-ind {
+  .nav-ind,
+  .nav-item .nav-ic::before {
     display: none;
   }
 }
@@ -254,10 +391,9 @@ html {
 .as-btn,
 .item summary,
 .pic-live,
-.chk,
-.switch {
+.chk {
   transition:
-    transform var(--dur-release) var(--ease-spring),
+    transform var(--dur-release) var(--ease-soft),
     opacity var(--dur-fast) var(--ease-out);
 }
 .btn:active:not(:disabled),
@@ -281,7 +417,7 @@ html {
 .pic-live:active {
   transform: scale(0.97);
   opacity: 1;
-  /* сжатие — мгновенно, отпускание — мягкий возврат с упругостью (transition выше и в base.css) */
+  /* сжатие — сразу, отпускание — длинный мягкий возврат без перелёта (transition выше и в base.css) */
   transition-duration: var(--dur-press);
   transition-timing-function: var(--ease-out);
 }
@@ -333,6 +469,32 @@ details[open] > :not(summary) {
   animation: m-float var(--dur-slow) var(--ease-glide);
 }
 
+/* Выпадающий список: раскрывается от кнопки (проявление + лёгкое увеличение), закрывается быстрее */
+@keyframes m-drop {
+  from {
+    opacity: 0;
+    transform: translateY(-6px) scale(0.97);
+  }
+}
+@keyframes m-drop-up {
+  from {
+    opacity: 0;
+    transform: translateY(6px) scale(0.97);
+  }
+}
+.select-list {
+  animation: m-drop var(--dur-base) var(--ease-glide);
+}
+.select-list.up {
+  animation-name: m-drop-up;
+}
+.select-layer.leaving {
+  pointer-events: none;
+}
+.select-layer.leaving .select-list {
+  animation: m-out-fade var(--dur-fast) var(--ease-in) forwards;
+}
+
 /* Онбординг: полоска прогресса шагов заполняется плавно */
 .ob-progress i {
   overflow: hidden;
@@ -354,7 +516,7 @@ details[open] > :not(summary) {
 .text-in,
 .num-in,
 .note-in,
-.select select {
+.select-btn {
   transition:
     border-color var(--dur-fast) var(--ease-out),
     background-color var(--dur-fast) var(--ease-out);
@@ -374,7 +536,7 @@ details[open] > :not(summary) {
   position: relative;
 }
 .set-done.on > .icon {
-  animation: m-pop var(--dur-slow) var(--ease-spring);
+  animation: m-pop var(--dur-slow) var(--ease-glide);
 }
 .set-done.on::after {
   content: '';
@@ -387,7 +549,7 @@ details[open] > :not(summary) {
   animation: m-ring 420ms var(--ease-out);
 }
 .tp .tp-sw {
-  transition: transform var(--dur-release) var(--ease-spring);
+  transition: transform var(--dur-release) var(--ease-soft);
 }
 .tp.on .tp-sw {
   transform: scale(1.03);

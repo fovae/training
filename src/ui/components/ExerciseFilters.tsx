@@ -1,5 +1,5 @@
-import { useState } from 'preact/hooks';
-import { useMemo } from 'preact/hooks';
+import { signal, type Signal } from '@preact/signals';
+import { useMemo, useState } from 'preact/hooks';
 import {
   allExercises,
   filterExercises,
@@ -11,10 +11,28 @@ import { locale } from '../../i18n';
 import { t } from '../../i18n';
 import type { Exercise } from '../../types';
 import { exName } from '../labels';
+import { Select } from './Select';
 
-/** Поиск + фильтры по мышцам и оборудованию; общий для библиотеки и выбора упражнения */
-export function useExerciseFilter(initial: ExerciseFilter = {}) {
-  const [f, setF] = useState<ExerciseFilter>({ query: '', muscle: '', equipment: '', ...initial });
+const EMPTY: ExerciseFilter = { query: '', muscle: '', equipment: '' };
+
+/**
+ * Фильтр экрана «Упражнения» живёт дольше самого экрана: после просмотра упражнения и «Назад»
+ * выбранные группа мышц, оборудование и поиск остаются (до перезапуска приложения).
+ */
+export const libraryFilter = signal<ExerciseFilter>(EMPTY);
+
+/**
+ * Поиск + фильтры по мышцам и оборудованию; общий для библиотеки и выбора упражнения.
+ * `keep` — где хранить фильтр между открытиями экрана; без него фильтр свой у каждого открытия.
+ */
+export function useExerciseFilter(keep?: Signal<ExerciseFilter>) {
+  const [own, setOwn] = useState<ExerciseFilter>(EMPTY);
+  const f = keep ? keep.value : own;
+  const setF: (v: ExerciseFilter) => void = keep
+    ? (v) => {
+        keep.value = v;
+      }
+    : setOwn;
   const lang = locale.value;
   // ~250 записей: фильтр дешёвый, но не пересчитываем его на каждый рендер без нужды
   const list = useMemo(
@@ -52,36 +70,24 @@ export function ExerciseFilters({
         onInput={(e) => setF({ ...f, query: e.currentTarget.value })}
       />
       <div class="filter-row">
-        <label class="select">
-          <span class="sr-only">{t('library.muscle')}</span>
-          <select
-            value={f.muscle ?? ''}
-            aria-label={t('library.muscle')}
-            onChange={(e) => setF({ ...f, muscle: e.currentTarget.value as ExerciseFilter['muscle'] })}
-          >
-            <option value="">{t('library.allMuscles')}</option>
-            {usedMuscles().map((m) => (
-              <option key={m} value={m}>
-                {t(`muscle.${m}`)}
-              </option>
-            ))}
-          </select>
-        </label>
-        <label class="select">
-          <span class="sr-only">{t('library.equipment')}</span>
-          <select
-            value={f.equipment ?? ''}
-            aria-label={t('library.equipment')}
-            onChange={(e) => setF({ ...f, equipment: e.currentTarget.value as ExerciseFilter['equipment'] })}
-          >
-            <option value="">{t('library.allEquipment')}</option>
-            {usedEquipment().map((q) => (
-              <option key={q} value={q}>
-                {t(`equip.${q}`)}
-              </option>
-            ))}
-          </select>
-        </label>
+        <Select
+          label={t('library.muscle')}
+          value={f.muscle ?? ''}
+          onChange={(v) => setF({ ...f, muscle: v as ExerciseFilter['muscle'] })}
+          options={[
+            { value: '', label: t('library.allMuscles') },
+            ...usedMuscles().map((m) => ({ value: m, label: t(`muscle.${m}`) })),
+          ]}
+        />
+        <Select
+          label={t('library.equipment')}
+          value={f.equipment ?? ''}
+          onChange={(v) => setF({ ...f, equipment: v as ExerciseFilter['equipment'] })}
+          options={[
+            { value: '', label: t('library.allEquipment') },
+            ...usedEquipment().map((q) => ({ value: q, label: t(`equip.${q}`) })),
+          ]}
+        />
       </div>
     </div>
   );

@@ -50,10 +50,10 @@ export interface ClassLimit extends LimitBase {
 export type WeightLimit = RatioLimit | ClassLimit;
 
 /**
- * Пороги для штанги (этап 3А) — после подтверждения владельцем таблицы в docs/WEIGHT_LIMITS.md
- * поменять на true. Это единственная строка, которую нужно изменить.
+ * Пороги для штанги (этап 3А): таблица в docs/WEIGHT_LIMITS.md подтверждена владельцем 2026-11-14 —
+ * предупреждения включены в боевой сборке.
  */
-export const BARBELL_LIMITS_APPROVED = false;
+export const BARBELL_LIMITS_APPROVED = true;
 
 /** Тестовый режим: localStorage['tp-test-flags'] содержит «barbell-limits» (ставят e2e-тесты) */
 export const TEST_FLAGS_KEY = 'tp-test-flags';

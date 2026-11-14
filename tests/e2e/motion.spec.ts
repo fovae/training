@@ -1,5 +1,5 @@
 import { expect, test, type Page } from '@playwright/test';
-import { fresh, kv, onboard } from './helpers';
+import { fresh, kv, onboard, choose } from './helpers';
 
 /** Длительность анимации экрана и переходов кнопок (мс) — по вычисленному стилю */
 const durations = (page: Page) =>
@@ -20,7 +20,7 @@ test('animations follow the system by default and can be turned on / off in Sett
   await onboard(page);
   let d = await durations(page);
   expect(d.screen).toBeGreaterThanOrEqual(150);
-  expect(d.screen).toBeLessThanOrEqual(350);
+  expect(d.screen).toBeLessThanOrEqual(480);
   expect(d.button).toBeGreaterThan(0);
 
   // система: «уменьшение движения» — всё мгновенно, прокрутка без плавности
@@ -85,12 +85,12 @@ test('screen transitions: nested screen comes from the right, back from the left
   await expect(page.locator('main')).toHaveAttribute('data-nav', 'tab');
   await page.locator('.lib-card').first().click();
   await expect(page.locator('main')).toHaveAttribute('data-nav', 'push');
-  expect(await page.locator('main > .screen').evaluate((el) => getComputedStyle(el).animationName)).toBe(
+  expect(await page.locator('main > .screen').evaluate((el) => getComputedStyle(el).animationName)).toContain(
     'm-in-push',
   );
   await page.locator('a.back').click();
   await expect(page.locator('main')).toHaveAttribute('data-nav', 'pop');
-  expect(await page.locator('main > .screen').evaluate((el) => getComputedStyle(el).animationName)).toBe(
+  expect(await page.locator('main > .screen').evaluate((el) => getComputedStyle(el).animationName)).toContain(
     'm-in-pop',
   );
   // ни одного кадра без экрана
@@ -146,7 +146,7 @@ test.fixme('the whole catalog: scroll, search fades the list, "Back" restores th
     return document.documentElement.scrollHeight - (last.getBoundingClientRect().bottom + scrollY);
   });
   expect(tail).toBeLessThan(400);
-  await page.getByLabel('Equipment').selectOption({ index: 1 });
+  await choose(page.getByLabel('Equipment'), { index: 1 });
   await expect(page.getByText(/exercises? found|exercise/).first()).toBeVisible();
 });
 
@@ -192,8 +192,9 @@ test('fast taps on days are not lost: every tap switches the day at once, withou
   // содержимое нового дня: короткое проявление без задержки (не каскад со сдвигом)
   const anim = await page.locator('main .screen > *').last().evaluate((el) => {
     const cs = getComputedStyle(el);
-    return { name: cs.animationName, delay: cs.animationDelay };
+    return { name: cs.animationName, delay: cs.animationDelay, lift: cs.getPropertyValue('--lift-d').trim() };
   });
   expect(anim.delay.split(',').every((d) => parseFloat(d) === 0)).toBe(true);
-  expect(anim.name).not.toContain('m-lift');
+  // не каскад: подъём короткий (4 px), а не 12 px входа экрана
+  if (anim.name !== 'none') expect(anim.lift).toBe('4px');
 });

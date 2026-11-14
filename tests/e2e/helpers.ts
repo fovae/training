@@ -1,4 +1,4 @@
-import { expect, type Page } from '@playwright/test';
+import { expect, type Locator, type Page } from '@playwright/test';
 
 /** Ключ «Продолжить в браузере» (src/features/install.ts) — тесты обходят экран установки так же */
 export const SKIP_KEY = 'tp-install-skip';
@@ -80,4 +80,30 @@ export function kv<T = unknown>(page: Page, key: string): Promise<T | null> {
       }),
     key,
   );
+}
+
+/**
+ * Выбор в своём выпадающем списке (src/ui/components/Select.tsx) — вместо selectOption у <select>:
+ * нажать на поле, затем на пункт; ждёт, пока список закроется.
+ */
+export async function choose(field: Locator, v: string | { index: number }): Promise<void> {
+  const page = field.page();
+  await field.click();
+  const list = page.locator('.select-layer:not(.leaving) .select-list');
+  const opt =
+    typeof v === 'string' ? list.locator(`[role="option"][data-value="${v}"]`) : list.getByRole('option').nth(v.index);
+  await opt.click();
+  await expect(page.locator('.select-layer')).toHaveCount(0);
+}
+
+/** Подписи пунктов выпадающего списка: открыть, прочитать, закрыть по Escape */
+export async function optionTexts(field: Locator): Promise<string[]> {
+  const page = field.page();
+  await field.click();
+  const opts = page.locator('.select-layer:not(.leaving) .select-list [role="option"]');
+  await expect(opts.first()).toBeVisible();
+  const texts = (await opts.allTextContents()).map((x) => x.trim());
+  await page.keyboard.press('Escape');
+  await expect(page.locator('.select-layer')).toHaveCount(0);
+  return texts;
 }

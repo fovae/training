@@ -18,6 +18,8 @@ import { initSW } from './features/update';
 import { initUndo } from './features/backup';
 
 initInstallPrompt();
+// iOS Safari включает :active (отклик нажатия) только при слушателе касаний — пустой пассивный
+document.addEventListener('touchstart', () => {}, { passive: true });
 installAudioUnlock();
 
 render(<App />, document.getElementById('app')!);

@@ -1,16 +1,18 @@
 import { useEffect, useRef } from 'preact/hooks';
 import { findExercise } from '../../data/exercises';
-import { blink } from '../../lib/motion';
+import { blink, useProgressive } from '../../lib/motion';
 import { t } from '../../i18n';
+import { navDir } from '../../state/ui';
 import { Icon } from '../components/Icon';
 import { Pic } from '../components/Pic';
-import { ExerciseFilters, useExerciseFilter } from '../components/ExerciseFilters';
+import { ExerciseFilters, libraryFilter, useExerciseFilter } from '../components/ExerciseFilters';
 import { exName, muscleName } from '../labels';
 
 export function Library() {
-  const { f, setF, list } = useExerciseFilter();
+  const { f, setF, list } = useExerciseFilter(libraryFilter);
   const grid = useRef<HTMLUListElement>(null);
   const first = useRef(true);
+  const shown = useProgressive(list.length, navDir.peek() === 'pop');
   // Поиск и фильтры: список обновляется коротким затуханием (без анимации высоты)
   useEffect(() => {
     if (first.current) first.current = false;
@@ -27,7 +29,7 @@ export function Library() {
         {t('library.found', { count: list.length })}
       </p>
       <ul class="lib-grid" ref={grid}>
-        {list.map((e) => (
+        {list.slice(0, shown).map((e) => (
           <li key={e.id}>
             <a class="lib-card" href={`#/library/${encodeURIComponent(e.id)}`}>
               <Pic pic={e.pictogram} />

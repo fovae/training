@@ -4,7 +4,8 @@ import { TipCard } from '../components/ExerciseCard';
 import { fmtDate, fmtNum, fmtShortDate, fmtTime, t } from '../../i18n';
 import { fmtDuration, fmtWeight, ms, toUnit, unitLabel } from '../../lib/format';
 import { dayColor, findDay, plan } from '../../state/plan';
-import { ask, go, toast } from '../../state/ui';
+import { ask, go, navDir, toast } from '../../state/ui';
+import { useProgressive } from '../../lib/motion';
 import {
   exerciseSeries,
   history,
@@ -108,6 +109,7 @@ function workoutActions(s: Session): RowAction[] {
 
 export function History() {
   const list = history.value;
+  const shown = useProgressive(list.length, navDir.peek() === 'pop', 20);
   const exIds = [
     ...new Set(
       list.flatMap((s) => s.entries.filter((e) => e.sets.some((x) => x.done)).map((e) => e.exerciseId)),
@@ -140,7 +142,7 @@ export function History() {
             <span class="eyebrow">{t('history.records', { count: list.length })}</span>
           </div>
           <ul class="list">
-            {list.map((s) => (
+            {list.slice(0, shown).map((s) => (
               <li key={s.id}>
                 <SwipeRow title={sessionTitle(s)} actions={workoutActions(s)}>
                   <a class="row" href={`#/history/workout/${encodeURIComponent(s.id)}`}>

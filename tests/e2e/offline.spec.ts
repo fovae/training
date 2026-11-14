@@ -1,6 +1,6 @@
 import { readFileSync, writeFileSync } from 'node:fs';
 import { expect, test } from '@playwright/test';
-import { fresh, onboard } from './helpers';
+import { fresh, onboard, choose } from './helpers';
 
 test('works offline after the first visit (incl. language packs and font)', async ({ page, context }) => {
   await fresh(page);
@@ -18,7 +18,7 @@ test('works offline after the first visit (incl. language packs and font)', asyn
   await expect(page.locator('.lib-card .pic svg').first()).toBeVisible();
   // Другой язык тоже из кэша
   await page.getByRole('link', { name: 'Настройки' }).click();
-  await page.getByLabel('Язык').selectOption('en');
+  await choose(page.getByLabel('Язык'), 'en');
   await expect(page.getByRole('heading', { name: 'Settings', level: 1 })).toBeVisible();
   const fontOk = await page.evaluate(async () => {
     await document.fonts.ready;

@@ -2,7 +2,7 @@ import { computed, signal } from '@preact/signals';
 import type { ComponentType } from 'preact';
 import { useEffect, useLayoutEffect, useRef } from 'preact/hooks';
 import { t } from '../i18n';
-import { navDir, route, pickedDayId, planDayId, todayDayId, toast } from '../state/ui';
+import { navDir, route, tabSide, pickedDayId, planDayId, todayDayId, toast } from '../state/ui';
 import { booted, needsOnboarding } from '../state/app';
 import { active } from '../state/session';
 import { settings } from '../state/settings';
@@ -11,6 +11,7 @@ import { offlineReady } from '../features/update';
 import { Nav } from './components/Nav';
 import { Flash, RestTimerBar } from './components/RestTimerBar';
 import { DialogHost, MenuHost, Toasts } from './components/Overlays';
+import { SelectHost } from './components/Select';
 import { shiftDay } from './components/DaySwitcher';
 import { Today } from './screens/Today';
 import { Plan } from './screens/Plan';
@@ -109,7 +110,7 @@ export function App() {
     const m = mainRef.current;
     if (!m) return;
     m.dataset.enter = '';
-    const id = window.setTimeout(() => delete m.dataset.enter, 700);
+    const id = window.setTimeout(() => delete m.dataset.enter, 1000);
     return () => window.clearTimeout(id);
   }, [screenKey, booted.value]);
 
@@ -129,12 +130,13 @@ export function App() {
       </a>
       {!onboarding && <Nav />}
       {/* key — новый экран монтируется заново и плавно появляется; data-nav — направление */}
-      <main ref={mainRef} id="main" tabIndex={-1} data-nav={navDir.value}>
+      <main ref={mainRef} id="main" tabIndex={-1} data-nav={navDir.value} data-side={tabSide.value || undefined}>
         <Screen key={screenKey} />
       </main>
       <RestTimerBar />
       <Toasts />
       <MenuHost />
+      <SelectHost />
       <DialogHost />
       <Flash />
     </div>

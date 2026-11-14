@@ -79,3 +79,25 @@ export function crossfade(apply: () => void): void {
     apply();
   }
 }
+
+/**
+ * Длинный список при входе экрана рисуется частями: сначала `first` пунктов (то, что видно на
+ * экране), остальное — через кадр. Нажатие на вкладку не ждёт отрисовки сотен карточек, а
+ * анимация входа идёт без пропущенных кадров. При «Назад» (eager) — сразу всё: восстановление прокрутки
+ * ищет карточку-якорь по индексу.
+ */
+export function useProgressive(total: number, eager = false, first = 24): number {
+  const [n, setN] = useState(() => (eager ? Infinity : first));
+  useEffect(() => {
+    if (n >= total) return;
+    let t = 0;
+    const raf = requestAnimationFrame(() => {
+      t = window.setTimeout(() => setN(Infinity), 0);
+    });
+    return () => {
+      cancelAnimationFrame(raf);
+      clearTimeout(t);
+    };
+  }, []);
+  return n;
+}

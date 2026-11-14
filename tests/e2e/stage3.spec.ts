@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/test';
 import { EXERCISES } from '../../src/data/catalog';
-import { fresh, kv, onboard } from './helpers';
+import { fresh, kv, onboard, choose, optionTexts } from './helpers';
 
 /** Этап 3А: база упражнений (252 после этапа 4), штанга, шаблоны, документы */
 
@@ -25,8 +25,8 @@ test('library: the whole catalog, search and filters by muscle and equipment sta
 
   // Фильтры: мышца × оборудование
   const t0 = Date.now();
-  await page.getByLabel('Muscle', { exact: true }).selectOption('quads');
-  await page.getByLabel('Equipment').selectOption('barbell');
+  await choose(page.getByLabel('Muscle', { exact: true }), 'quads');
+  await choose(page.getByLabel('Equipment'), 'barbell');
   const want = count(
     (e) =>
       (e.primaryMuscles.includes('quads') || e.secondaryMuscles.includes('quads')) &&
@@ -36,20 +36,20 @@ test('library: the whole catalog, search and filters by muscle and equipment sta
   expect(Date.now() - t0).toBeLessThan(3000);
   for (const name of ['Barbell back squat', 'Front squat']) await expect(page.getByText(name)).toBeVisible();
   // Новые мышцы и оборудование в фильтрах
-  await page.getByLabel('Muscle', { exact: true }).selectOption('adductors');
-  await page.getByLabel('Equipment').selectOption('');
+  await choose(page.getByLabel('Muscle', { exact: true }), 'adductors');
+  await choose(page.getByLabel('Equipment'), '');
   await expect(page.locator('.lib-card')).toHaveCount(
     count((e) => e.primaryMuscles.includes('adductors') || e.secondaryMuscles.includes('adductors')),
   );
-  await page.getByLabel('Muscle', { exact: true }).selectOption('');
-  await page.getByLabel('Equipment').selectOption('jump-rope');
+  await choose(page.getByLabel('Muscle', { exact: true }), '');
+  await choose(page.getByLabel('Equipment'), 'jump-rope');
   await expect(page.locator('.lib-card')).toHaveCount(count((e) => e.equipment.includes('jump-rope')));
   // Ярлыков «дом» и «зал» нет
-  for (const opt of await page.getByLabel('Equipment').locator('option').allTextContents())
+  for (const opt of await optionTexts(page.getByLabel('Equipment')))
     expect(opt).not.toMatch(/home|gym|дом|зал/i);
 
   // Карточка нового упражнения: схема, мышцы, техника, ошибки, безопасность
-  await page.getByLabel('Equipment').selectOption('');
+  await choose(page.getByLabel('Equipment'), '');
   await search.fill('deadlift');
   await page.getByRole('link', { name: /^Deadlift/ }).click();
   await expect(page.getByRole('heading', { name: 'Deadlift', level: 1 })).toBeVisible();
@@ -69,9 +69,9 @@ test('library in Russian: search, no English names, new filters translated', asy
   // мостик, мостик со штангой, мостик на одной ноге
   await expect(page.locator('.lib-card')).toHaveCount(3);
   await page.getByRole('searchbox').fill('');
-  const opts = await page.getByLabel('Оборудование').locator('option').allTextContents();
+  const opts = await optionTexts(page.getByLabel('Оборудование'));
   expect(opts).toContain('Скакалка');
-  const muscles = await page.getByLabel('Мышцы', { exact: true }).locator('option').allTextContents();
+  const muscles = await optionTexts(page.getByLabel('Мышцы', { exact: true }));
   for (const m of ['Приводящие бедра', 'Отводящие бедра', 'Сгибатели бедра']) expect(muscles).toContain(m);
   // Названия на карточках — по-русски (латиница только в аббревиатурах)
   const names = await page.locator('.lib-txt b').allTextContents();
@@ -84,9 +84,9 @@ test('add a new exercise to the plan and log it in a workout', async ({ page }) 
   await onboard(page, { start: 'Empty days', days: 1 });
   await page.getByRole('button', { name: 'Add exercise' }).click();
   const sheet = page.getByRole('dialog', { name: 'Add exercise' });
-  await sheet.getByLabel('Equipment').selectOption('barbell');
+  await choose(sheet.getByLabel('Equipment'), 'barbell');
   await sheet.getByRole('button', { name: new RegExp(BENCH) }).click();
-  await sheet.getByLabel('Equipment').selectOption('');
+  await choose(sheet.getByLabel('Equipment'), '');
   await sheet.getByRole('searchbox').fill('plank');
   // «Plank Deep core…», а не «Plank shoulder tap…» / «Plank up-down…»
   await sheet.getByRole('button', { name: /^Plank [A-Z]/ }).click();
@@ -136,7 +136,7 @@ test('templates: upper/lower 4 days; beginners get simpler exercises and fewer s
   expect(Math.max(...p2!.days.flatMap((d) => d.items.map((i) => i.sets)))).toBeLessThanOrEqual(2);
 });
 
-test('barbell weight warning: off in production, on with the test flag', async ({ page }) => {
+test('barbell weight warning: on in production (approved table)', async ({ page }) => {
   await fresh(page);
   await onboard(page, { start: 'Empty days', days: 1 });
   await page.getByRole('button', { name: 'Add exercise' }).click();
@@ -146,15 +146,9 @@ test('barbell weight warning: off in production, on with the test flag', async (
   await sheet.getByRole('button', { name: /Done · 1 added/ }).click();
   await page.getByRole('link', { name: 'Today' }).click();
   await page.getByRole('button', { name: 'Start workout' }).click();
-  const w = page.getByLabel('Deadlift, set 1: weight, kg');
-  // Боевая сборка: таблица штанги ждёт подтверждения владельца — предупреждения нет
-  await w.fill('900');
-  await w.blur();
-  await expect(page.getByRole('alertdialog')).toHaveCount(0);
-  // Тестовый режим. Пол не указан → меньшая колонка: мужчины 83 кг (405) и женщины 84 кг (291,5) →
-  // 291,5 × 1,15 ≈ 335 кг
-  await page.evaluate(() => localStorage.setItem('tp-test-flags', 'barbell-limits'));
-  const w2 = page.getByLabel('Deadlift, set 2: weight, kg');
+  // Таблица штанги подтверждена — включена без тестового флага.
+  // Пол не указан → меньшая колонка: мужчины 83 кг (405) и женщины 84 кг (291,5) → 291,5 × 1,15 ≈ 335 кг
+  const w2 = page.getByLabel('Deadlift, set 1: weight, kg');
   await w2.fill('300');
   await w2.blur();
   await expect(page.getByRole('alertdialog')).toHaveCount(0);

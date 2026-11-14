@@ -2,7 +2,7 @@ import { writeFileSync } from 'node:fs';
 import { expect, test, type Page } from '@playwright/test';
 import { buildBackup } from '../../src/backup/format';
 import { DEFAULT_SETTINGS } from '../../src/types';
-import { fresh, kv, onboard } from './helpers';
+import { fresh, kv, onboard, choose } from './helpers';
 
 const INCLINE = 'Incline dumbbell press';
 
@@ -30,7 +30,7 @@ test('levels: beginners see technique open and the light-start tip; experienced 
   await expect(card.getByText('start with a light weight')).toBeVisible();
 
   await page.getByRole('link', { name: 'Settings', exact: true }).click();
-  await page.getByLabel('Level', { exact: true }).selectOption('veteran');
+  await choose(page.getByLabel('Level', { exact: true }), 'veteran');
   await page.getByRole('link', { name: 'Today' }).click();
   await expect(card.locator('details.tech')).not.toHaveAttribute('open', '');
   await expect(page.getByText('start with a light weight')).toHaveCount(0);
