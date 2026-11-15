@@ -86,6 +86,7 @@ export function installKeyboard(): void {
   let baseH = window.innerHeight;
   let open = false;
   let revealT = 0;
+  let recheckT = 0;
 
   const update = () => {
     const vv = window.visualViewport;
@@ -110,9 +111,16 @@ export function installKeyboard(): void {
   };
   const later = (ms: number) => {
     clearTimeout(revealT);
+    clearTimeout(recheckT);
     revealT = window.setTimeout(() => {
       update();
       reveal();
+      // повторная проверка после плавной прокрутки: её могла прервать перерисовка или сама
+      // клавиатура (iOS ещё двигает окно) — если поле уже видно, ничего не происходит
+      recheckT = window.setTimeout(() => {
+        update();
+        reveal();
+      }, 450);
     }, ms);
   };
 
