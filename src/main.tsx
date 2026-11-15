@@ -16,11 +16,13 @@ import { installWakeLock } from './features/wakelock';
 import { initInstallPrompt } from './features/install';
 import { initSW } from './features/update';
 import { initUndo } from './features/backup';
+import { installKeyboard } from './lib/keyboard';
 
 initInstallPrompt();
 // iOS Safari включает :active (отклик нажатия) только при слушателе касаний — пустой пассивный
 document.addEventListener('touchstart', () => {}, { passive: true });
 installAudioUnlock();
+installKeyboard();
 
 render(<App />, document.getElementById('app')!);
 void initApp().then(() => {

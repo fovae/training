@@ -24,6 +24,7 @@ import { go } from '../../state/ui';
 import { exName, muscleName, restText, schemeText } from '../labels';
 import { Icon } from './Icon';
 import { leave } from '../../lib/motion';
+import { nextField } from '../../lib/keyboard';
 import { Pic } from './Pic';
 
 interface Props {
@@ -189,7 +190,16 @@ function SetTable({
         <span />
       </div>
       {sets.map((s, i) => (
-        <SetRow key={i} ex={ex} item={item} name={name} idx={idx} setIdx={i} set={s} />
+        <SetRow
+          key={i}
+          ex={ex}
+          item={item}
+          name={name}
+          idx={idx}
+          setIdx={i}
+          set={s}
+          last={i === sets.length - 1}
+        />
       ))}
       <div class="sets-more">
         <button type="button" class="btn-ghost sm" onClick={() => addSet(idx)}>
@@ -212,6 +222,7 @@ function SetRow({
   idx,
   setIdx,
   set,
+  last,
 }: {
   ex: Exercise | undefined;
   item: PlanItem;
@@ -219,6 +230,8 @@ function SetRow({
   idx: number;
   setIdx: number;
   set: SessionSet;
+  /** Последний подход: Enter в повторах закрывает клавиатуру, а не ведёт дальше */
+  last: boolean;
 }) {
   const wRef = useRef<HTMLInputElement>(null);
   const rRef = useRef<HTMLInputElement>(null);
@@ -263,6 +276,17 @@ function SetRow({
     return true;
   };
 
+  // Enter: вес → повторы → вес следующего подхода; на последнем поле — закрыть клавиатуру
+  const onEnter = (e: KeyboardEvent) => {
+    if (e.key !== 'Enter' || e.isComposing) return;
+    e.preventDefault();
+    const cur = e.currentTarget as HTMLInputElement;
+    const fields = [...(cur.closest('.sets')?.querySelectorAll<HTMLInputElement>('.set .num-in') ?? [])];
+    const next = nextField(fields, cur);
+    if (next) next.focus();
+    else cur.blur();
+  };
+
   const onDone = async () => {
     if (!(await commit())) return;
     if (toggleSetDone(idx, setIdx)) startRest(restFor(ex, item), name);
@@ -280,6 +304,7 @@ function SetRow({
           inputMode="decimal"
           enterKeyHint="next"
           autoComplete="off"
+          onKeyDown={onEnter}
           placeholder={unitLabel()}
           defaultValue={inputNum(wVal)}
           aria-label={t('ex.weightOf', { set: label, unit: unitLabel() })}
@@ -293,8 +318,9 @@ function SetRow({
         type="text"
         inputMode="numeric"
         pattern="[0-9]*"
-        enterKeyHint="done"
+        enterKeyHint={last ? 'done' : 'next'}
         autoComplete="off"
+        onKeyDown={onEnter}
         placeholder={`${item.repsMin}–${item.repsMax}`}
         defaultValue={count == null ? '' : String(count)}
         aria-label={t(isTime ? 'ex.secondsOf' : 'ex.repsOf', { set: label })}

@@ -346,3 +346,43 @@ main {
     grid-template-columns: repeat(3, 1fr);
   }
 }
+
+/*
+ * Клавиатура (src/lib/keyboard.ts): --kb-h — высота экранной клавиатуры, --vvh — видимая высота
+ * окна, html[data-kb] — клавиатура открыта. Нижняя панель и таймер отдыха плавно уходят вниз и не
+ * перекрывают поле; листы и окна стоят над клавиатурой и не выше видимой части окна (содержимое
+ * прокручивается внутри, кнопки «Сохранить» / «Готово» остаются на виду). Без анимаций — сразу.
+ */
+:root {
+  --kb-h: 0px;
+  --vvh: 100dvh;
+}
+.nav,
+.rest {
+  transition:
+    opacity var(--dur-fast) var(--ease-out),
+    transform var(--dur-fast) var(--ease-out);
+}
+html[data-kb] .nav,
+html[data-kb] .rest {
+  opacity: 0;
+  transform: translateY(32px);
+  pointer-events: none;
+}
+html[data-kb] .scrim {
+  padding-bottom: calc(var(--kb-h) + var(--space-3));
+}
+html[data-kb] .sheet-scrim {
+  padding-bottom: var(--kb-h);
+}
+html[data-kb] .sheet {
+  max-height: min(88dvh, 820px, calc(var(--vvh) - var(--space-4)));
+}
+html[data-kb] .sheet-f {
+  padding-bottom: var(--space-3);
+}
+html[data-kb] .modal {
+  max-height: calc(var(--vvh) - var(--space-6));
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
