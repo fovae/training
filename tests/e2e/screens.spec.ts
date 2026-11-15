@@ -93,6 +93,8 @@ async function englishWords(page: Page): Promise<string[]> {
   const text = await page.evaluate(() => document.querySelector('main')!.innerText);
   const stripped = text
     .replace(/«[^»]*»/g, ' ')
+    // названия языков в списке выбора — на самих языках (English, Italiano, Polski…)
+    .replace(/\b(Italiano|Polski|Español)\b/g, ' ')
     // ответственное лицо — как в документах, на английском
     .replace('Fovae, a project of Vladyslav N.', ' '); // системные пункты меню — в кавычках, на английском по ТЗ
   return [...new Set(stripped.match(/[A-Za-z]{2,}/g) ?? [])].filter((w) => !ALLOWED.has(w.toLowerCase()));

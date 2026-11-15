@@ -138,7 +138,8 @@ export function Choice<T extends string>({
   label,
 }: {
   value: T | null;
-  options: { v: T; t: string; d?: string | undefined }[];
+  /** lang — язык подписи (названия языков: свой шрифт и перенос) */
+  options: { v: T; t: string; d?: string | undefined; lang?: string }[];
   onChange: (v: T) => void;
   label: string;
 }) {
@@ -155,7 +156,7 @@ export function Choice<T extends string>({
         >
           <span class="choice-dot" aria-hidden="true" />
           <span class="choice-txt">
-            <b>{o.t}</b>
+            <b lang={o.lang}>{o.t}</b>
             {o.d && <span>{o.d}</span>}
           </span>
         </button>

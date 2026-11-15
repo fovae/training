@@ -1,0 +1,2942 @@
+{
+  "ex": {
+    "incline-db-press": {
+      "name": "Press inclinado con mancuernas",
+      "desc": "Press en ángulo que se centra en la parte alta del pecho. Las mancuernas dan un recorrido libre y hacen trabajar ambos brazos por igual.",
+      "cues": [
+        "Pon el banco a 20–30°: más alto, el trabajo pasa a los hombros.",
+        "Escápulas juntas y apoyadas en el banco, pies firmes en el suelo.",
+        "Baja las mancuernas con control hasta la altura del pecho y no las choques arriba."
+      ],
+      "mistakes": [
+        "Banco demasiado inclinado, que lo convierte en un press de hombros.",
+        "Codos abiertos totalmente hacia los lados, hombros hacia delante."
+      ],
+      "safety": "Elige un peso que puedas bajar con seguridad a los muslos tras la serie. Si duele el hombro: acorta el recorrido o baja el peso."
+    },
+    "flat-press": {
+      "name": "Press de pecho en máquina o con mancuernas en banco plano",
+      "desc": "Press compuesto para la parte media del pecho. Elige la versión en la que controles mejor el recorrido: máquina o mancuernas.",
+      "cues": [
+        "Escápulas juntas y fijas durante toda la serie.",
+        "Codos a unos 45–60° del cuerpo, no abiertos del todo.",
+        "Empuja de forma fluida sin despegar la cadera del banco."
+      ],
+      "mistakes": [
+        "Hombros subiendo hacia las orejas arriba.",
+        "Rebotar el peso en el pecho en lugar de bajarlo con control."
+      ],
+      "safety": "En la máquina, ajusta el asiento para que los agarres queden a la altura del centro del pecho. Con mancuernas, no llegues al fallo sin alguien que te ayude."
+    },
+    "high-to-low-cable-fly": {
+      "name": "Cruce de poleas de arriba abajo",
+      "desc": "Ejercicio de aislamiento para la parte baja del pecho. Los agarres bajan y se juntan.",
+      "cues": [
+        "Da un paso adelante, inclínate un poco y mantén una ligera flexión fija en los codos.",
+        "Lleva los agarres en arco hacia abajo y júntalos delante de la parte baja del pecho.",
+        "Vuelve despacio notando el estiramiento del pecho."
+      ],
+      "mistakes": [
+        "Convertirlo en un press doblando y estirando los codos.",
+        "Demasiado peso que tira de los hombros adelante y atrás."
+      ],
+      "safety": "No lleves los brazos demasiado atrás en el estiramiento, sobre todo si tienes los hombros sensibles."
+    },
+    "rope-pushdown": {
+      "name": "Extensión de tríceps en polea con cuerda",
+      "desc": "Aislamiento de tríceps, en especial las cabezas lateral y medial.",
+      "cues": [
+        "Codos pegados a los costados; solo se mueven los antebrazos.",
+        "Abajo, separa los extremos de la cuerda y mantén un segundo.",
+        "Torso quieto, sin balanceo."
+      ],
+      "mistakes": [
+        "Codos que van adelante y atrás y meten los hombros.",
+        "Echar todo el cuerpo sobre el peso."
+      ],
+      "safety": "Si te duele el codo, baja el peso y no estires el brazo de golpe."
+    },
+    "overhead-cable-extension": {
+      "name": "Extensión de tríceps por encima de la cabeza en polea",
+      "desc": "Extender los brazos por encima de la cabeza trabaja el tríceps estirado, con énfasis en la cabeza larga.",
+      "cues": [
+        "De espaldas a la polea, codos hacia delante y quietos.",
+        "No arquees la zona lumbar: activa un poco el abdomen.",
+        "Trabaja en un recorrido cómodo, sin tirón abajo."
+      ],
+      "mistakes": ["Codos que se abren hacia los lados.", "Arquear la zona lumbar para levantar más."],
+      "safety": "Si notas molestia en el hombro, acorta el recorrido o cambia a la extensión con cuerda."
+    },
+    "single-arm-pushdown": {
+      "name": "Extensión de tríceps en polea a una mano",
+      "desc": "Extensión a una mano en polea alta. Ayuda a igualar la fuerza entre brazos y a controlar cada lado.",
+      "cues": ["Brazo quieto, codo junto al costado.", "Estira el brazo por completo y vuelve despacio."],
+      "mistakes": ["El torso gira con el brazo.", "Repeticiones apresuradas sin control."],
+      "safety": "Ejercicio opcional: si el tríceps ya está agotado de los presses, sáltalo."
+    },
+    "lat-pulldown": {
+      "name": "Jalón al pecho",
+      "desc": "Tirón vertical para los dorsales. Un buen sustituto de las dominadas con peso regulable.",
+      "cues": [
+        "Empieza bajando las escápulas y luego lleva los codos hacia abajo.",
+        "Tira de la barra hasta la parte alta del pecho con una ligera inclinación atrás.",
+        "Arriba, estira los brazos del todo pero mantén los hombros activos."
+      ],
+      "mistakes": ["Tirar por detrás de la nuca.", "Balancear el torso para mover el peso."],
+      "safety": "Fija los muslos bajo los rodillos. No dejes que la barra te tire de los brazos hacia arriba."
+    },
+    "seated-cable-row": {
+      "name": "Remo sentado en polea baja",
+      "desc": "Remo sentado hacia el abdomen para la espalda media, romboides y dorsales.",
+      "cues": [
+        "Columna larga, torso casi quieto.",
+        "Tira del agarre hacia la parte baja del abdomen, codos pegados al cuerpo.",
+        "Al final junta las escápulas, sin encoger los hombros."
+      ],
+      "mistakes": [
+        "Balancear el torso adelante y atrás.",
+        "Redondear la espalda al empezar cada repetición."
+      ],
+      "safety": "Rodillas un poco flexionadas. Si notas tensión lumbar, baja el peso y mantén el torso más estable."
+    },
+    "chest-supported-db-row": {
+      "name": "Remo con mancuernas con apoyo en el pecho",
+      "desc": "Remo tumbado boca abajo en un banco inclinado. El apoyo descarga la zona lumbar; trabaja la espalda alta y el deltoides posterior.",
+      "cues": [
+        "Túmbate boca abajo en un banco a 30–45°, brazos colgando.",
+        "Lleva los codos atrás y un poco hacia fuera, sin tirones.",
+        "¿Sin banco? También sirve una máquina de remo con apoyo en el pecho."
+      ],
+      "mistakes": [
+        "El pecho se despega del banco en cada repetición.",
+        "Tirar solo con los brazos, sin mover las escápulas."
+      ],
+      "safety": "Coge y deja las mancuernas con cuidado, sin girarte sobre el banco."
+    },
+    "incline-db-curl": {
+      "name": "Curl con mancuernas en banco inclinado",
+      "desc": "Curl sentado en banco inclinado: brazos por detrás del cuerpo, bíceps estirado, énfasis en la cabeza larga.",
+      "cues": [
+        "Espalda en el banco, hombros por detrás del torso.",
+        "No lleves los codos hacia delante al subir.",
+        "Baja despacio hasta casi estirar los brazos."
+      ],
+      "mistakes": [
+        "Hombros hacia delante para ayudar a subir el peso.",
+        "Dejar caer las mancuernas al bajar."
+      ],
+      "safety": "Empieza ligero: la posición estirada carga más el tendón del bíceps."
+    },
+    "preacher-curl": {
+      "name": "Curl en banco Scott o en máquina",
+      "desc": "Curl con el brazo apoyado en un soporte. Elimina las trampas y se centra en la cabeza corta del bíceps.",
+      "cues": [
+        "Mantén el brazo bien apoyado en el soporte todo el tiempo.",
+        "No estires el codo de golpe abajo."
+      ],
+      "mistakes": ["Despegar el brazo del soporte arriba.", "Bajar demasiado rápido."],
+      "safety": "La posición baja es la más delicada para el codo: baja despacio y nunca dejes caer el peso."
+    },
+    "hammer-curl": {
+      "name": "Curl martillo",
+      "desc": "Curl con agarre neutro. Carga el braquial y el braquiorradial.",
+      "cues": ["Palmas enfrentadas durante todo el movimiento.", "Sin balanceo, hombros abajo."],
+      "mistakes": ["Codos que se van hacia delante.", "Balancear la espalda en las últimas repeticiones."],
+      "safety": "Mantén las muñecas rectas, no las dobles hacia atrás."
+    },
+    "wrist-curl": {
+      "name": "Curl de muñeca sentado",
+      "desc": "Aislamiento de los flexores del antebrazo. Fortalece el agarre.",
+      "cues": [
+        "Antebrazos apoyados en los muslos o en un banco; solo se mueven las manos.",
+        "Peso moderado, recorrido completo y fluido."
+      ],
+      "mistakes": ["Los antebrazos se despegan del apoyo.", "Demasiado peso y recorrido corto."],
+      "safety": "Si notas molestias en muñecas o codos, baja el peso o quita el ejercicio."
+    },
+    "reverse-wrist-curl": {
+      "name": "Curl de muñeca inverso sentado",
+      "desc": "Aislamiento de los extensores del antebrazo. Equilibra el curl de muñeca.",
+      "cues": ["Agarre prono, antebrazos apoyados.", "Despacio, sin tirones."],
+      "mistakes": [
+        "Tirones en lugar de un movimiento fluido.",
+        "Usar el mismo peso que en el curl de muñeca: los extensores son mucho más débiles."
+      ],
+      "safety": "Si notas molestias en muñecas o codos, baja el peso o quita el ejercicio."
+    },
+    "seated-shoulder-press": {
+      "name": "Press de hombros sentado con mancuernas o en máquina",
+      "desc": "Press compuesto por encima de la cabeza para el deltoides anterior y lateral.",
+      "cues": [
+        "Espalda contra el respaldo, sin arquear la zona lumbar.",
+        "No bajes los codos más allá de una profundidad cómoda.",
+        "Empuja hacia arriba y un poco hacia dentro, sin chocar las mancuernas."
+      ],
+      "mistakes": ["Arco lumbar muy marcado.", "Llevar cada serie al fallo."],
+      "safety": "Pon el respaldo casi vertical. Si duele el hombro: acorta el recorrido o baja el peso."
+    },
+    "lateral-raise": {
+      "name": "Elevaciones laterales con mancuernas",
+      "desc": "Aislamiento del deltoides lateral.",
+      "cues": [
+        "Sube más o menos hasta la altura de los hombros.",
+        "Codos un poco flexionados y guiando el movimiento.",
+        "El torso no se mueve."
+      ],
+      "mistakes": [
+        "Balancear el cuerpo para lanzar las mancuernas.",
+        "Encoger los hombros, de modo que trabajan los trapecios."
+      ],
+      "safety": "Un peso ligero con buena técnica es mejor que uno pesado. No subas por encima de los hombros si te resulta incómodo."
+    },
+    "reverse-pec-deck": {
+      "name": "Pec deck inverso (Reverse Pec Deck)",
+      "desc": "Abrir los brazos en una máquina mirando al respaldo. Aislamiento del deltoides posterior.",
+      "cues": [
+        "Abre los brazos con los hombros; no juntes mucho las escápulas.",
+        "Cuello relajado, pecho contra el respaldo."
+      ],
+      "mistakes": [
+        "Juntar las escápulas en lugar de trabajar el deltoides posterior.",
+        "Dar tirones y llevar los brazos demasiado atrás."
+      ],
+      "safety": "Ajusta la altura del asiento para que los agarres queden a la altura de los hombros."
+    },
+    "db-shrug": {
+      "name": "Encogimientos con mancuernas",
+      "desc": "Subir los hombros sujetando mancuernas. Carga la parte alta de los trapecios.",
+      "cues": ["Hombros rectos hacia arriba, sin girarlos.", "Pausa breve arriba, despacio al bajar."],
+      "mistakes": ["Girar los hombros en círculo.", "Doblar los codos."],
+      "safety": "Mantén el cuello neutro; no adelantes la barbilla."
+    },
+    "incline-y-raise": {
+      "name": "Elevaciones en Y en banco inclinado",
+      "desc": "Subir los brazos en forma de Y tumbado boca abajo en un banco. Fortalece la parte baja del trapecio y los estabilizadores escapulares. Puedes alternarlo con el face pull en polea.",
+      "cues": [
+        "Mancuernas muy ligeras o sin peso.",
+        "Sube los brazos en forma de Y, pulgares hacia arriba.",
+        "No tenses el cuello; escápulas abajo."
+      ],
+      "mistakes": ["Demasiado peso, el movimiento se vuelve un tirón.", "Hombros subiendo hacia las orejas."],
+      "safety": "Aquí importa el control, no la fuerza: para si te duele el hombro."
+    },
+    "cable-crunch": {
+      "name": "Crunch en polea de rodillas",
+      "desc": "Crunch de rodillas con cuerda. Carga el abdomen con peso regulable.",
+      "cues": [
+        "Lleva las costillas hacia la pelvis; no tires de la cuerda con los brazos.",
+        "La cadera casi no se mueve; el movimiento sale de la parte alta de la columna."
+      ],
+      "mistakes": ["Inclinarse desde la cadera en lugar de enrollarse.", "Tirar con los brazos."],
+      "safety": "Exhala al hacer el crunch. Si notas tensión lumbar, baja el peso y el recorrido."
+    },
+    "hanging-knee-raise": {
+      "name": "Elevación de rodillas colgado o en paralelas",
+      "desc": "Subir las rodillas al pecho colgado de una barra o apoyado en paralelas. Trabaja el abdomen, sobre todo al final del movimiento.",
+      "cues": [
+        "Arriba, recoge la pelvis en lugar de solo subir las rodillas.",
+        "Baja las piernas despacio, sin balanceo.",
+        "Si es muy difícil, empieza en las paralelas."
+      ],
+      "mistakes": [
+        "Balancear todo el cuerpo.",
+        "Subir las piernas solo con los flexores de cadera, sin recoger la pelvis."
+      ],
+      "safety": "Baja de la barra con cuidado. Si te duelen los hombros colgado, usa las paralelas."
+    },
+    "side-plank": {
+      "name": "Plancha lateral",
+      "desc": "Mantener la posición de lado sobre un antebrazo. Trabaja los oblicuos y la estabilidad lateral del tronco.",
+      "cues": ["Cuerpo en línea recta de la cabeza a los pies.", "Codo bajo el hombro, la cadera no cae."],
+      "mistakes": ["La cadera cae o se va hacia atrás.", "Aguantar la respiración."],
+      "safety": "Para si te duele el hombro o la zona lumbar. Una versión más fácil es con la rodilla de abajo en el suelo."
+    },
+    "pallof-press": {
+      "name": "Press Pallof",
+      "desc": "Empujar el agarre de la polea desde el pecho de pie y de lado a la máquina. Entrena a resistir la rotación del tronco.",
+      "cues": [
+        "De lado a la polea, pies a la anchura de los hombros.",
+        "Empuja el agarre al frente y mantén 1–2 segundos.",
+        "No dejes que el torso gire hacia la polea."
+      ],
+      "mistakes": ["El torso gira con el cable.", "Demasiado peso, se pierde el control."],
+      "safety": "Puedes usar una banda elástica. Hombros abajo y codos suaves."
+    },
+    "dead-bug": {
+      "name": "Bicho muerto (Dead Bug)",
+      "desc": "Tumbado boca arriba, bajas por turnos el brazo y la pierna contrarios. Entrena los estabilizadores profundos del core.",
+      "cues": [
+        "Zona lumbar pegada al suelo todo el tiempo.",
+        "Baja despacio el brazo y la pierna contrarios.",
+        "Exhala al bajarlos."
+      ],
+      "mistakes": ["La zona lumbar se despega del suelo.", "Moverse demasiado rápido."],
+      "safety": "Si la zona lumbar se despega, acorta el recorrido: no bajes tanto la pierna."
+    },
+    "leg-press": {
+      "name": "Prensa de piernas",
+      "desc": "Ejercicio compuesto en máquina para cuádriceps y glúteos, con apoyo para la espalda.",
+      "cues": [
+        "Pies a la anchura de los hombros en el centro de la plataforma.",
+        "Baja la plataforma con control, las rodillas siguen la línea de los pies.",
+        "No bloquees las rodillas arriba."
+      ],
+      "mistakes": [
+        "Bajar tanto que la pelvis se mete y la zona lumbar se despega.",
+        "Rodillas hacia dentro."
+      ],
+      "safety": "Cadera y zona lumbar apoyadas todo el tiempo. Usa los topes de seguridad de la máquina."
+    },
+    "leg-curl": {
+      "name": "Curl femoral en máquina",
+      "desc": "Aislamiento de los isquiotibiales, tumbado o sentado.",
+      "cues": ["Fluido, sin tirones.", "No hace falta el peso máximo; el control abajo importa más."],
+      "mistakes": ["La cadera se despega del asiento.", "Dejar caer el peso al bajar."],
+      "safety": "Coloca el rodillo justo por encima de los talones y el eje de la máquina a la altura de la rodilla."
+    },
+    "calf-raise": {
+      "name": "Elevación de talones",
+      "desc": "Ponerse de puntillas, de pie o en máquina. Trabaja los gemelos.",
+      "cues": ["Recorrido completo y cómodo.", "Pausa arriba, despacio al bajar."],
+      "mistakes": ["Repeticiones con rebote y sin pausa.", "Doblar las rodillas para ayudarse."],
+      "safety": "Sin máquina, agárrate a algo para mantener el equilibrio."
+    },
+    "barbell-bench-press": {
+      "name": "Press de banca con barra",
+      "desc": "Empujar una barra desde el pecho tumbado en un banco plano. Trabaja pecho, deltoides anterior y tríceps.",
+      "cues": [
+        "Ojos bajo la barra, pies planos en el suelo.",
+        "Escápulas atrás y abajo; mantenlas así toda la serie.",
+        "Baja la barra con control a la parte baja del pecho, codos algo pegados.",
+        "Empuja hacia arriba y un poco hacia atrás, hacia los hombros."
+      ],
+      "mistakes": [
+        "Rebotar la barra en el pecho.",
+        "Codos abiertos totalmente hacia los lados.",
+        "La cadera se despega del banco."
+      ],
+      "safety": "Usa un rack con barras de seguridad justo por debajo del punto más bajo, o alguien que te asista. Pon los cierres en la barra. Sáltate la serie si no controlas el movimiento. Saca y vuelve a dejar la barra con los brazos estirados."
+    },
+    "incline-barbell-press": {
+      "name": "Press inclinado con barra",
+      "desc": "Press de banca en banco inclinado. Lleva más trabajo a la parte alta del pecho y al deltoides anterior.",
+      "cues": [
+        "Pon el banco a unos 30°; más alto se convierte en press de hombros.",
+        "Escápulas atrás, pecho arriba.",
+        "Baja la barra a la parte alta del pecho, por debajo de las clavículas.",
+        "Empuja recto hacia arriba, muñecas sobre los codos."
+      ],
+      "mistakes": [
+        "Banco demasiado inclinado.",
+        "La barra se desplaza hacia la cara o el cuello.",
+        "Levantar la cadera para facilitar el press."
+      ],
+      "safety": "Usa un rack con barras de seguridad justo por debajo del punto más bajo, o alguien que te asista. Pon los cierres en la barra. Sáltate la serie si no controlas el movimiento."
+    },
+    "db-fly": {
+      "name": "Aperturas con mancuernas",
+      "desc": "Abrir los brazos con mancuernas tumbado en un banco. Estira y trabaja el pecho.",
+      "cues": [
+        "Mantén una ligera flexión fija en los codos.",
+        "Abre los brazos en un arco amplio hasta notar estiramiento en el pecho.",
+        "Junta las mancuernas como si abrazaras un árbol grande."
+      ],
+      "mistakes": [
+        "Doblar y estirar los codos, convirtiéndolo en un press.",
+        "Bajar más allá de un estiramiento cómodo."
+      ],
+      "safety": "Elige un peso menor que para los presses. Si duele el hombro, menos recorrido o menos peso."
+    },
+    "pec-deck": {
+      "name": "Pec deck (aperturas en máquina)",
+      "desc": "Juntar los brazos delante del pecho en una máquina. Un aislamiento controlado para el pecho.",
+      "cues": [
+        "Ajusta el asiento para que los agarres queden a la altura del pecho.",
+        "Codos suaves y hombros abajo.",
+        "Aprieta un momento cuando se juntan los agarres y vuelve despacio."
+      ],
+      "mistakes": ["Dejar que el peso lleve los brazos demasiado atrás.", "Encoger los hombros."],
+      "safety": "Ajusta el asiento y la posición inicial de los agarres antes de la serie para que el estiramiento sea cómodo."
+    },
+    "chest-dip": {
+      "name": "Fondos en paralelas para pecho",
+      "desc": "Bajar y subir el cuerpo en paralelas con el torso inclinado hacia delante. Trabaja pecho y tríceps.",
+      "cues": [
+        "Inclínate un poco hacia delante, los codos van atrás y algo hacia fuera.",
+        "Baja hasta que los hombros queden algo por debajo de los codos, o hasta donde sea cómodo.",
+        "Sube hasta estirar los brazos sin bloquear de golpe."
+      ],
+      "mistakes": [
+        "Caer rápido al punto más bajo.",
+        "Hombros hacia delante y hacia las orejas.",
+        "Bajar más de lo que permiten los hombros."
+      ],
+      "safety": "Empieza con una máquina de fondos asistidos o una banda si no controlas la parte baja. Para si notas dolor en la parte delantera del hombro."
+    },
+    "push-up": {
+      "name": "Flexiones",
+      "desc": "Empujarte desde el suelo con el cuerpo recto. Trabaja pecho, tríceps y hombros, y entrena el core.",
+      "cues": [
+        "Manos un poco más abiertas que los hombros, bajo el pecho.",
+        "Cuerpo en una línea de la cabeza a los talones, glúteos apretados.",
+        "Baja el pecho cerca del suelo y empuja."
+      ],
+      "mistakes": [
+        "Cadera que se hunde o queda levantada.",
+        "Codos abiertos a 90°.",
+        "Medias repeticiones sin bajar el pecho."
+      ],
+      "safety": "Si las flexiones completas aún cuestan, apoya las manos en un banco o hazlas de rodillas."
+    },
+    "incline-push-up": {
+      "name": "Flexiones inclinadas",
+      "desc": "Flexiones con las manos en un banco o un cajón. Una versión más fácil que enseña la misma posición.",
+      "cues": [
+        "Manos en un banco estable, algo más abiertas que los hombros.",
+        "Cuerpo en una línea recta, glúteos y abdomen firmes.",
+        "Toca el banco con el pecho y empuja."
+      ],
+      "mistakes": ["La cadera se hunde.", "La cabeza llega al banco antes que el pecho."],
+      "safety": "Asegúrate de que el banco o el cajón no puedan deslizarse ni volcar."
+    },
+    "close-grip-push-up": {
+      "name": "Flexiones con agarre cerrado",
+      "desc": "Flexiones con las manos juntas. Da más trabajo al tríceps.",
+      "cues": [
+        "Manos bajo los hombros o un poco más juntas.",
+        "Los codos van atrás pegados al cuerpo, no hacia los lados.",
+        "Cuerpo en una línea, empuja el suelo."
+      ],
+      "mistakes": ["Manos tan juntas que duelen las muñecas.", "La cadera se hunde."],
+      "safety": "Si se quejan las muñecas, abre un poco las manos o usa agarres para flexiones."
+    },
+    "deadlift": {
+      "name": "Peso muerto",
+      "desc": "Levantar una barra del suelo hasta quedar de pie. Trabaja la parte trasera de las piernas, los glúteos y toda la espalda.",
+      "cues": [
+        "Barra sobre el centro del pie, espinillas cerca de la barra.",
+        "Agarre justo por fuera de las piernas, espalda recta, pecho arriba.",
+        "Empuja el suelo y mantén la barra pegada a las piernas hasta arriba.",
+        "Arriba ponte erguido, sin echarte atrás."
+      ],
+      "mistakes": [
+        "Redondear la zona lumbar.",
+        "La barra se aleja de las piernas.",
+        "Arrancar la barra del suelo de un tirón."
+      ],
+      "safety": "Aprende el movimiento primero con poco peso. Pon cierres en la barra y bájala con control, no la sueltes. Sáltate la serie si no puedes mantener la espalda recta."
+    },
+    "romanian-deadlift": {
+      "name": "Peso muerto rumano",
+      "desc": "Bisagra de cadera desde de pie con barra: la cadera va atrás y la barra baja pegada a las piernas. Trabaja isquiotibiales y glúteos.",
+      "cues": [
+        "Empieza de pie, rodillas algo flexionadas y así se quedan.",
+        "Lleva la cadera atrás y desliza la barra por los muslos.",
+        "Baja hasta notar un buen estiramiento detrás de los muslos, espalda recta.",
+        "Vuelve empujando la cadera hacia delante."
+      ],
+      "mistakes": [
+        "Redondear la espalda para bajar más.",
+        "Doblar más las rodillas y convertirlo en sentadilla.",
+        "La barra se aleja de las piernas."
+      ],
+      "safety": "Pon cierres en la barra. Baja solo hasta donde mantengas la espalda recta. Sáltate la serie si no controlas el movimiento."
+    },
+    "barbell-row": {
+      "name": "Remo con barra",
+      "desc": "Tirar de una barra hacia el abdomen con el torso inclinado. Trabaja la espalda alta y los dorsales.",
+      "cues": [
+        "Inclínate desde la cadera, rodillas algo flexionadas, espalda recta.",
+        "Agarre un poco más abierto que los hombros.",
+        "Tira de la barra hacia las costillas bajas, codos atrás.",
+        "Bájala con control sin mover el torso."
+      ],
+      "mistakes": [
+        "Incorporarse más en cada repetición.",
+        "Tirar del peso con todo el cuerpo.",
+        "Redondear la espalda."
+      ],
+      "safety": "Pon cierres en la barra. Empieza ligero: la zona lumbar trabaja mucho para mantener la posición. Sáltate la serie si no puedes mantener la espalda recta."
+    },
+    "one-arm-db-row": {
+      "name": "Remo con mancuerna a una mano",
+      "desc": "Tirar de una mancuerna hacia la cadera con un brazo, con la otra mano y la rodilla en un banco. Trabaja dorsales y espalda alta.",
+      "cues": [
+        "Mano y rodilla en el banco, espalda recta y paralela al suelo.",
+        "Tira de la mancuerna hacia la cadera, codo pegado al cuerpo.",
+        "Bájala del todo con control."
+      ],
+      "mistakes": ["Girar el torso para subir el peso.", "Tirar solo con el brazo, encogiendo el hombro."],
+      "safety": "Brazo de apoyo estirado y espalda recta. Baja el peso si la zona lumbar se redondea."
+    },
+    "t-bar-row": {
+      "name": "Remo en barra T",
+      "desc": "Remo con un extremo de una barra fijada por el otro, o en una máquina de barra T. Trabaja la espalda.",
+      "cues": [
+        "Inclínate desde la cadera, espalda recta, rodillas algo flexionadas.",
+        "Tira del agarre hacia el pecho, codos atrás.",
+        "Baja con control hasta estirar los brazos."
+      ],
+      "mistakes": ["Levantar el torso en cada repetición.", "Redondear la espalda abajo."],
+      "safety": "Fija el extremo de la barra en un landmine o en una esquina para que no se deslice. Pon cierres en los discos."
+    },
+    "pull-up": {
+      "name": "Dominadas en pronación",
+      "desc": "Subir el cuerpo hasta una barra con agarre prono. Trabaja dorsales y espalda alta.",
+      "cues": [
+        "Agarre algo más abierto que los hombros, palmas hacia fuera.",
+        "Empieza colgado con los hombros abajo.",
+        "Sube hasta que la barbilla pase la barra y baja despacio."
+      ],
+      "mistakes": [
+        "Balancearse y dar patadas.",
+        "Medias repeticiones sin estirar los brazos.",
+        "Caer rápido abajo."
+      ],
+      "safety": "Si aún no haces una dominada completa, usa una máquina asistida, una banda o solo bajadas lentas."
+    },
+    "chin-up": {
+      "name": "Dominadas en supinación",
+      "desc": "Dominada con agarre supino. Más trabajo para el bíceps.",
+      "cues": [
+        "Agarre a la anchura de los hombros, palmas hacia ti.",
+        "Lleva el pecho hacia la barra, codos abajo y atrás.",
+        "Baja del todo con control."
+      ],
+      "mistakes": ["Balancearse para subir.", "Estirar el cuello hacia la barra."],
+      "safety": "Si molestan los codos, agarre un poco más abierto o la versión asistida."
+    },
+    "assisted-pull-up": {
+      "name": "Dominadas asistidas",
+      "desc": "Dominada en una máquina con un apoyo para las rodillas que te ayuda a subir. Enseña el movimiento completo.",
+      "cues": [
+        "Arrodíllate en el apoyo y coge los agarres de arriba.",
+        "Primero baja los hombros y luego sube el pecho.",
+        "Baja despacio hasta estirar los brazos."
+      ],
+      "mistakes": ["Rebotar en el apoyo abajo.", "Encoger los hombros."],
+      "safety": "Sube y baja de la máquina con cuidado: ajusta la ayuda antes de ponerte en el apoyo."
+    },
+    "close-grip-pulldown": {
+      "name": "Jalón con agarre estrecho",
+      "desc": "Jalón con un agarre neutro estrecho. Trabaja los dorsales en un recorrido largo.",
+      "cues": [
+        "Muslos bajo los rodillos, torso algo inclinado atrás.",
+        "Tira del agarre a la parte alta del pecho, codos abajo.",
+        "Deja que los brazos se estiren del todo arriba."
+      ],
+      "mistakes": ["Echarse muy atrás y convertirlo en un remo.", "Tirar solo con los brazos."],
+      "safety": "Sujeta el agarre hasta que la pila de peso baje; no dejes que salga disparado."
+    },
+    "straight-arm-pulldown": {
+      "name": "Pullover en polea alta con brazos rectos",
+      "desc": "Bajar una barra de polea en arco con los brazos rectos. Aísla los dorsales.",
+      "cues": [
+        "Colócate un paso detrás de la polea, inclínate un poco.",
+        "Brazos casi rectos, lleva la barra en arco hasta los muslos.",
+        "Vuelve despacio hasta notar estiramiento en los dorsales."
+      ],
+      "mistakes": [
+        "Doblar los codos y convertirlo en una extensión de tríceps.",
+        "Balancear el torso para mover el peso."
+      ],
+      "safety": "Usa un peso moderado: es un ejercicio de control, no de fuerza."
+    },
+    "inverted-row": {
+      "name": "Remo invertido",
+      "desc": "Llevar el pecho a una barra a la altura de la cintura, talones en el suelo. Trabaja la espalda.",
+      "cues": [
+        "Cuerpo en una línea recta de la cabeza a los talones.",
+        "Lleva el pecho a la barra, codos atrás.",
+        "Baja hasta estirar los brazos."
+      ],
+      "mistakes": ["La cadera se hunde.", "Llevar la barbilla a la barra en lugar del pecho."],
+      "safety": "Asegúrate de que la barra esté bien fijada en el rack. Dobla las rodillas para facilitarlo."
+    },
+    "machine-row": {
+      "name": "Remo en máquina",
+      "desc": "Remo sentado en una máquina con apoyo de pecho. Una forma estable de trabajar la espalda.",
+      "cues": [
+        "Pecho contra el apoyo, pies firmes.",
+        "Tira de los agarres hacia atrás juntando las escápulas.",
+        "Vuelve hasta estirar los brazos, sin despegar el pecho."
+      ],
+      "mistakes": ["Separarse del apoyo para mover más peso.", "Encoger los hombros."],
+      "safety": "Ajusta el asiento para que los agarres queden a la altura de la parte baja del pecho."
+    },
+    "db-pullover": {
+      "name": "Pullover con mancuerna",
+      "desc": "Bajar una mancuerna por detrás de la cabeza y volver a llevarla sobre el pecho, tumbado en un banco. Trabaja dorsales y pecho.",
+      "cues": [
+        "Sujeta una mancuerna con las dos manos, brazos casi rectos.",
+        "Bájala en arco por detrás de la cabeza hasta notar estiramiento.",
+        "Vuelve a llevarla sobre el pecho."
+      ],
+      "mistakes": [
+        "Doblar mucho los codos y convertirlo en un ejercicio de tríceps.",
+        "Arquear la zona lumbar abajo."
+      ],
+      "safety": "Sujeta bien la mancuerna por el disco. Empieza ligero: la posición final estira los hombros."
+    },
+    "back-extension": {
+      "name": "Hiperextensiones",
+      "desc": "Subir el torso en un banco de hiperextensiones. Trabaja zona lumbar y glúteos.",
+      "cues": [
+        "Apoyo justo por debajo de los huesos de la cadera, talones bajo los rodillos.",
+        "Baja el torso con la espalda recta.",
+        "Sube hasta que el cuerpo quede en línea, no más."
+      ],
+      "mistakes": ["Hiperextender arriba.", "Balancearse con impulso."],
+      "safety": "Empieza sin peso extra. Para si notas dolor en la zona lumbar."
+    },
+    "dead-hang": {
+      "name": "Colgarse de la barra",
+      "desc": "Colgarse de una barra con los brazos estirados. Entrena el agarre y los hombros.",
+      "cues": [
+        "Coge la barra un poco más abierto que los hombros.",
+        "Cuelga con los brazos estirados y los hombros algo activos.",
+        "Respira con calma y aguanta el tiempo previsto."
+      ],
+      "mistakes": ["Subir y bajar de la barra de un salto.", "Aguantar la respiración."],
+      "safety": "Baja a un cajón o al suelo; no saltes desde altura."
+    },
+    "back-squat": {
+      "name": "Sentadilla trasera con barra",
+      "desc": "Sentadilla con la barra en la parte alta de la espalda. Trabaja cuádriceps y glúteos; todo el cuerpo sostiene la posición.",
+      "cues": [
+        "Barra en la parte alta de la espalda, no en el cuello; agarre firme, codos abajo.",
+        "Pies a la anchura de los hombros, puntas algo hacia fuera.",
+        "Siéntate entre los talones, rodillas en línea con los pies, espalda recta.",
+        "Sube empujando el suelo; pecho y cadera suben a la vez."
+      ],
+      "mistakes": [
+        "Rodillas hacia dentro.",
+        "Talones que se levantan del suelo.",
+        "Redondear la zona lumbar abajo."
+      ],
+      "safety": "Haz la sentadilla en un rack con barras de seguridad justo por debajo de tu punto más bajo, o con alguien que te asista. Pon cierres en la barra. Sáltate la serie si no controlas el movimiento."
+    },
+    "front-squat": {
+      "name": "Sentadilla frontal",
+      "desc": "Sentadilla con la barra apoyada en la parte delantera de los hombros. Mantiene el torso erguido y carga más los cuádriceps.",
+      "cues": [
+        "Barra delante de los hombros, codos altos, yemas de los dedos bajo la barra.",
+        "Torso lo más vertical posible.",
+        "Siéntate recto hacia abajo, rodillas adelante sobre los pies.",
+        "Sube manteniendo los codos altos."
+      ],
+      "mistakes": [
+        "Codos que caen y la barra rueda hacia delante.",
+        "Inclinarse hacia delante y convertirlo en un good morning.",
+        "Apretar demasiado la barra y forzar las muñecas."
+      ],
+      "safety": "Haz la sentadilla en un rack con barras de seguridad justo por debajo de tu punto más bajo, o con alguien que te asista. Pon cierres en la barra. Sáltate la serie si no controlas el movimiento. Si la barra se va hacia delante, déjala caer sobre las barras de seguridad y da un paso atrás."
+    },
+    "goblet-squat": {
+      "name": "Sentadilla goblet",
+      "desc": "Sentadilla sujetando una kettlebell o una mancuerna en el pecho. Una buena forma de aprender a hacer sentadillas.",
+      "cues": [
+        "Sujeta el peso cerca del pecho, codos abajo.",
+        "Siéntate entre los talones, pecho arriba.",
+        "Lleva las rodillas hacia fuera en línea con los pies y sube."
+      ],
+      "mistakes": ["El peso se aleja del pecho.", "Talones que se levantan del suelo."],
+      "safety": "Elige un peso que puedas sujetar con firmeza toda la serie."
+    },
+    "db-sumo-squat": {
+      "name": "Sentadilla sumo con mancuerna",
+      "desc": "Sentadilla con piernas abiertas y una mancuerna colgando entre ellas. Trabaja cuádriceps, glúteos y cara interna del muslo.",
+      "cues": [
+        "Pies más abiertos que los hombros, puntas hacia fuera.",
+        "Sujeta la mancuerna con los brazos estirados, torso erguido.",
+        "Baja con las rodillas en línea con los pies y sube."
+      ],
+      "mistakes": ["Rodillas hacia dentro.", "Inclinarse hacia delante y redondear la espalda."],
+      "safety": "Usa una apertura de piernas cómoda para la cadera."
+    },
+    "bulgarian-split-squat": {
+      "name": "Sentadilla búlgara",
+      "desc": "Sentadilla a una pierna con el pie trasero en un banco. Trabaja cuádriceps y glúteo de la pierna delantera.",
+      "cues": [
+        "Pie trasero en el banco, pie delantero lo bastante adelantado.",
+        "Baja recto hasta que la rodilla trasera quede cerca del suelo.",
+        "Empuja con todo el pie delantero para subir."
+      ],
+      "mistakes": [
+        "Pie delantero demasiado cerca del banco.",
+        "La rodilla delantera se va hacia dentro.",
+        "Empujar con la pierna trasera."
+      ],
+      "safety": "Aprende primero la posición sin peso. Banco estable y espacio libre alrededor."
+    },
+    "db-lunge": {
+      "name": "Zancadas con mancuernas",
+      "desc": "Paso a una zancada y vuelta con mancuernas en las manos. Trabaja piernas y glúteos y entrena el equilibrio.",
+      "cues": [
+        "Paso largo, ambas rodillas se doblan a unos 90°.",
+        "Torso erguido, el peso en todo el pie delantero.",
+        "Vuelve al inicio empujando con la pierna delantera."
+      ],
+      "mistakes": [
+        "La rodilla delantera se va hacia dentro.",
+        "Pasos tan cortos que el talón delantero se levanta."
+      ],
+      "safety": "Hazlas sin peso hasta sentirte estable. Asegúrate de tener espacio alrededor."
+    },
+    "walking-lunge": {
+      "name": "Zancadas caminando",
+      "desc": "Zancadas avanzando paso a paso. Trabaja las piernas y entrena el equilibrio.",
+      "cues": [
+        "Da un paso adelante y baja hasta que la rodilla trasera quede cerca del suelo.",
+        "Sube y lleva la pierna de atrás adelante al siguiente paso.",
+        "Torso erguido y pasos regulares."
+      ],
+      "mistakes": ["Pasos estrechos, como sobre una línea.", "Ir con prisa y perder el equilibrio."],
+      "safety": "Necesitas un camino despejado. Empieza sin peso."
+    },
+    "leg-extension": {
+      "name": "Extensión de piernas en máquina",
+      "desc": "Estirar las rodillas en una máquina. Aislamiento de los cuádriceps.",
+      "cues": [
+        "Alinea la rodilla con el eje de la máquina.",
+        "Estira las piernas de forma fluida, breve pausa arriba.",
+        "Baja despacio sin que el peso golpee."
+      ],
+      "mistakes": ["Lanzar el peso con impulso.", "Despegar la cadera del asiento."],
+      "safety": "Coloca el rodillo justo por encima de los pies. Si molestan las rodillas, menos peso o menos recorrido."
+    },
+    "seated-leg-curl": {
+      "name": "Curl femoral sentado",
+      "desc": "Doblar las rodillas contra resistencia en una máquina sentado. Aislamiento de los isquiotibiales.",
+      "cues": [
+        "Almohadilla del muslo bien ajustada, rodillas alineadas con el eje.",
+        "Lleva los talones abajo y atrás de forma fluida.",
+        "Vuelve despacio hasta tener las piernas casi rectas."
+      ],
+      "mistakes": ["Dar tirones con el peso.", "Deslizarse hacia delante en el asiento."],
+      "safety": "Ajusta el asiento y las almohadillas antes de la serie para que las rodillas queden alineadas con el eje."
+    },
+    "glute-bridge": {
+      "name": "Puente de glúteos",
+      "desc": "Subir la cadera tumbado boca arriba con las rodillas dobladas. Trabaja los glúteos.",
+      "cues": [
+        "Pies planos, talones cerca de la cadera.",
+        "Empuja con los talones y sube la cadera hasta formar una línea de rodillas a hombros.",
+        "Aprieta los glúteos arriba y baja despacio."
+      ],
+      "mistakes": [
+        "Arquear la zona lumbar en lugar de usar los glúteos.",
+        "Empujar con las puntas de los pies."
+      ],
+      "safety": "Túmbate en una esterilla. Si molesta la zona lumbar, sube la cadera un poco menos."
+    },
+    "barbell-hip-thrust": {
+      "name": "Hip thrust con barra",
+      "desc": "Empujar la cadera hacia arriba con una barra encima, espalda alta apoyada en un banco. Un ejercicio potente para los glúteos.",
+      "cues": [
+        "Espalda alta contra el borde del banco, barra sobre el pliegue de la cadera.",
+        "Pies planos, espinillas verticales arriba.",
+        "Sube la cadera hasta que el torso quede horizontal, barbilla recogida.",
+        "Baja con control."
+      ],
+      "mistakes": [
+        "Arquear la zona lumbar arriba.",
+        "Pies demasiado lejos, de modo que trabajan los isquiotibiales.",
+        "El banco se desliza hacia atrás."
+      ],
+      "safety": "Pon una almohadilla en la barra y cierres en los discos. Asegúrate de que el banco sea estable y no se deslice. Sáltate la serie si no controlas el movimiento."
+    },
+    "seated-calf-raise": {
+      "name": "Elevación de talones sentado",
+      "desc": "Subir los talones contra una almohadilla sobre las rodillas, sentado. Trabaja los gemelos.",
+      "cues": [
+        "Parte delantera de los pies en la plataforma, almohadilla sobre las rodillas.",
+        "Sube lo más alto posible, pausa arriba.",
+        "Baja despacio hasta el estiramiento."
+      ],
+      "mistakes": ["Rebotar abajo.", "Repeticiones cortas y rápidas."],
+      "safety": "Quita el seguro solo cuando la almohadilla esté firme sobre las rodillas."
+    },
+    "step-up": {
+      "name": "Subidas al cajón",
+      "desc": "Subir a un banco o a un cajón. Trabaja cuádriceps y glúteos y entrena el equilibrio.",
+      "cues": [
+        "Todo el pie sobre el cajón.",
+        "Sube con la pierna de arriba, sin impulsarte con la de abajo.",
+        "Baja con control."
+      ],
+      "mistakes": [
+        "Cajón demasiado alto, la rodilla queda por encima de la cadera.",
+        "Rebotar con el pie de abajo."
+      ],
+      "safety": "Usa un cajón o banco estable que no se deslice. Empieza sin peso."
+    },
+    "hip-adduction": {
+      "name": "Aductores en máquina",
+      "desc": "Juntar las piernas contra las almohadillas de una máquina. Trabaja la cara interna de los muslos.",
+      "cues": [
+        "Siéntate atrás, con la espalda apoyada en el respaldo.",
+        "Junta las piernas de forma fluida.",
+        "Vuelve despacio a una apertura cómoda."
+      ],
+      "mistakes": ["Abrir más de lo que resulta cómodo.", "Dejar que el peso abra las piernas de golpe."],
+      "safety": "Ajusta la apertura inicial para que el estiramiento siga siendo cómodo."
+    },
+    "hip-abduction": {
+      "name": "Abductores en máquina",
+      "desc": "Separar las piernas contra las almohadillas de una máquina. Trabaja la parte externa de la cadera y los glúteos.",
+      "cues": [
+        "Siéntate atrás, con la espalda apoyada en el respaldo.",
+        "Empuja las rodillas hacia fuera de forma fluida.",
+        "Vuelve despacio, sin dejar que las placas choquen."
+      ],
+      "mistakes": ["Moverse con impulso.", "Balancear el torso adelante y atrás."],
+      "safety": "Elige un peso que puedas mover con fluidez en todo el recorrido."
+    },
+    "hack-squat": {
+      "name": "Sentadilla hack en máquina",
+      "desc": "Sentadilla en una máquina con respaldo inclinado. Trabaja los cuádriceps con la espalda en una posición estable.",
+      "cues": [
+        "Espalda y hombros contra las almohadillas, pies en el centro de la plataforma.",
+        "Baja hasta que los muslos queden más o menos paralelos a la plataforma.",
+        "Empuja la plataforma sin bloquear las rodillas de golpe."
+      ],
+      "mistakes": ["Talones que se levantan.", "Rodillas que se van hacia dentro."],
+      "safety": "Suelta y coloca los seguros con cuidado antes y después de la serie."
+    },
+    "db-romanian-deadlift": {
+      "name": "Peso muerto rumano con mancuernas",
+      "desc": "Bisagra de cadera con mancuernas: la cadera va hacia atrás y las mancuernas bajan pegadas a las piernas. Trabaja los isquiotibiales y los glúteos.",
+      "cues": [
+        "Rodillas ligeramente flexionadas y fijas.",
+        "Lleva la cadera atrás, mancuernas cerca de las piernas.",
+        "Vuelve empujando la cadera hacia delante."
+      ],
+      "mistakes": [
+        "Redondear la espalda.",
+        "Convertirlo en una sentadilla.",
+        "Mancuernas que se alejan hacia delante."
+      ],
+      "safety": "Baja solo hasta donde puedas mantener la espalda recta."
+    },
+    "single-leg-rdl": {
+      "name": "Peso muerto rumano a una pierna",
+      "desc": "Bisagra de cadera sobre una pierna mientras la otra se estira hacia atrás. Trabaja los isquiotibiales y los glúteos y entrena el equilibrio.",
+      "cues": [
+        "Rodilla de apoyo ligeramente flexionada.",
+        "Inclínate hacia delante mientras la pierna libre va atrás, cadera nivelada.",
+        "Vuelve a la posición de pie con control."
+      ],
+      "mistakes": ["La cadera se abre y gira.", "Redondear la espalda."],
+      "safety": "Empieza sin peso y agárrate a algo para mantener el equilibrio si hace falta."
+    },
+    "wall-sit": {
+      "name": "Sentadilla isométrica en la pared",
+      "desc": "Mantener una posición de sentado apoyado en la pared. Trabajo estático para los cuádriceps.",
+      "cues": [
+        "Espalda plana contra la pared.",
+        "Baja hasta que las rodillas estén cerca de 90°, pies debajo de las rodillas.",
+        "Respira con calma y mantén."
+      ],
+      "mistakes": ["Rodillas muy por delante de las puntas de los pies.", "Contener la respiración."],
+      "safety": "Usa calzado con agarre para que los pies no resbalen. Levántate si te duelen las rodillas."
+    },
+    "lateral-band-walk": {
+      "name": "Pasos laterales con banda",
+      "desc": "Pasos laterales en media sentadilla con una banda alrededor de las piernas. Trabaja la parte externa de la cadera y los glúteos.",
+      "cues": [
+        "Banda por encima de las rodillas o en los tobillos.",
+        "Media sentadilla, pies al ancho de la cadera.",
+        "Da pasos laterales manteniendo la banda en tensión."
+      ],
+      "mistakes": ["Juntar los pies y dejar la banda floja.", "Ponerse de pie entre pasos."],
+      "safety": "Revisa que la banda no tenga cortes antes de usarla."
+    },
+    "cable-kickback": {
+      "name": "Patada de glúteo en polea",
+      "desc": "Llevar una pierna hacia atrás con una tobillera en la polea baja. Aislamiento para los glúteos.",
+      "cues": [
+        "Agárrate al marco, con una ligera inclinación hacia delante.",
+        "Empuja la pierna atrás sin arquear la zona lumbar.",
+        "Vuelve despacio."
+      ],
+      "mistakes": ["Balancear la pierna.", "Arquear la zona lumbar para subir más."],
+      "safety": "Ajusta bien la tobillera. Elige un peso que puedas mover sin balanceo."
+    },
+    "overhead-press": {
+      "name": "Press militar con barra de pie",
+      "desc": "Empujar la barra desde los hombros por encima de la cabeza estando de pie. Trabaja los hombros y los tríceps; el core mantiene la postura.",
+      "cues": [
+        "Barra apoyada delante de los hombros, agarre justo por fuera de ellos.",
+        "Glúteos y abdomen firmes, costillas abajo.",
+        "Empuja recto hacia arriba, retirando un poco la cabeza para que pase la barra.",
+        "Termina con la barra sobre el centro del pie y los brazos estirados."
+      ],
+      "mistakes": [
+        "Inclinarse hacia atrás y convertirlo en un press inclinado.",
+        "La barra se aleja de la cara hacia delante.",
+        "Empujar con las piernas."
+      ],
+      "safety": "Saca la barra de un rack a la altura de los hombros y pon los cierres. Usa barras de seguridad o un compañero en las series pesadas. Sáltate la serie si no puedes controlar el movimiento."
+    },
+    "bent-over-lateral-raise": {
+      "name": "Elevaciones laterales inclinado",
+      "desc": "Elevar las mancuernas hacia los lados con el torso inclinado hacia delante. Trabaja el deltoides posterior y la parte alta de la espalda.",
+      "cues": [
+        "Inclínate hacia delante con la espalda recta y las rodillas sueltas.",
+        "Eleva los brazos hacia los lados con los codos un poco flexionados.",
+        "Baja despacio, sin balanceo."
+      ],
+      "mistakes": ["Incorporarse durante la serie.", "Lanzar el peso con el torso."],
+      "safety": "Usa mancuernas ligeras: el deltoides posterior es pequeño. Siéntate en un banco e inclínate si se cansa la zona lumbar."
+    },
+    "front-raise": {
+      "name": "Elevaciones frontales",
+      "desc": "Elevar mancuernas o un agarre de polea por delante hasta la altura de los hombros. Trabaja el deltoides anterior.",
+      "cues": [
+        "Brazos casi estirados, palmas hacia abajo.",
+        "Sube hasta la altura de los hombros, no más.",
+        "Baja despacio."
+      ],
+      "mistakes": ["Echarse atrás para lanzar el peso.", "Encoger los hombros."],
+      "safety": "Basta con poco peso: el deltoides anterior ya trabaja en todos los presses."
+    },
+    "upright-row": {
+      "name": "Remo al mentón",
+      "desc": "Tirar de una barra o mancuernas hacia arriba pegadas al cuerpo hasta el pecho. Trabaja el deltoides lateral y el trapecio.",
+      "cues": [
+        "Agarre al ancho de los hombros o más, no estrecho.",
+        "Guía con los codos y tira hasta la parte baja del pecho.",
+        "Baja despacio."
+      ],
+      "mistakes": [
+        "Agarre estrecho con los codos por encima de los hombros.",
+        "Tirar hasta el mentón.",
+        "Dar tirones al peso."
+      ],
+      "safety": "Empieza ligero: algunos hombros no toleran este ejercicio. Usa un agarre ancho, tira solo hasta la parte baja del pecho y para ante cualquier pinzamiento o dolor en el hombro; las elevaciones laterales trabajan los mismos músculos."
+    },
+    "face-pull": {
+      "name": "Face pull",
+      "desc": "Tirar de una cuerda en polea hacia la cara con los codos altos. Trabaja el deltoides posterior y la parte alta de la espalda.",
+      "cues": [
+        "Polea a la altura del pecho alto o algo más, agarre de cuerda.",
+        "Lleva la cuerda hacia los ojos, codos altos y abiertos.",
+        "Separa los extremos y haz una pausa; vuelve despacio."
+      ],
+      "mistakes": ["Tirar hacia el pecho con los codos bajos.", "Echarse atrás para mover más peso."],
+      "safety": "Mantén un peso ligero y un movimiento fluido."
+    },
+    "arnold-press": {
+      "name": "Press Arnold",
+      "desc": "Press sentado con mancuernas que empieza con las palmas hacia ti y las gira hacia fuera al subir. Trabaja los hombros.",
+      "cues": [
+        "Empieza con las mancuernas delante de los hombros, palmas hacia ti.",
+        "Gira las palmas hacia fuera mientras empujas hacia arriba.",
+        "Deshaz el giro al bajar."
+      ],
+      "mistakes": ["Arquear la zona lumbar y separarla del respaldo.", "Hacer el giro con prisa."],
+      "safety": "Elige menos peso que para un press de hombros normal. Si duele el hombro, acorta el recorrido."
+    },
+    "cable-lateral-raise": {
+      "name": "Elevación lateral en polea",
+      "desc": "Elevar un brazo hacia el lado con la polea baja. Tensión constante para el deltoides lateral.",
+      "cues": [
+        "Ponte de lado a la polea, con el agarre en la mano más alejada.",
+        "Eleva el brazo hasta la altura del hombro con el codo un poco flexionado.",
+        "Baja despacio hasta delante de la cadera."
+      ],
+      "mistakes": [
+        "Inclinarse hacia el lado contrario para lanzar el peso.",
+        "Subir el hombro hacia la oreja."
+      ],
+      "safety": "Empieza ligero: la polea da tensión abajo, donde las mancuernas no la dan."
+    },
+    "band-external-rotation": {
+      "name": "Rotación externa con banda",
+      "desc": "Girar el antebrazo hacia fuera contra una banda con el codo pegado al costado. Un ejercicio suave para la parte posterior del hombro.",
+      "cues": [
+        "Codo pegado al costado, flexionado a 90°.",
+        "Gira el antebrazo hacia fuera sin mover el codo.",
+        "Vuelve despacio."
+      ],
+      "mistakes": ["El codo se separa del cuerpo.", "Girar el torso en lugar de rotar el brazo."],
+      "safety": "Usa una banda ligera. Es un ejercicio suave: sin dolor y sin tirones."
+    },
+    "barbell-curl": {
+      "name": "Curl con barra",
+      "desc": "Flexionar los codos con una barra desde los muslos hasta los hombros, de pie. Trabaja los bíceps.",
+      "cues": [
+        "Agarre al ancho de los hombros, palmas hacia delante.",
+        "Codos pegados a los costados.",
+        "Sube y baja despacio hasta estirar los brazos."
+      ],
+      "mistakes": ["Balancear el torso.", "Codos que se van hacia delante.", "Medias repeticiones abajo."],
+      "safety": "Pon los cierres si usas discos. Baja el peso si necesitas balancearte."
+    },
+    "db-curl": {
+      "name": "Curl con mancuernas",
+      "desc": "Curl de pie con mancuernas, con ambos brazos o alternando. Trabaja los bíceps.",
+      "cues": [
+        "Codos pegados a los costados, palmas hacia delante.",
+        "Sube girando un poco la palma hacia arriba.",
+        "Baja despacio hasta estirar los brazos."
+      ],
+      "mistakes": ["Balancear las mancuernas.", "Adelantar los codos."],
+      "safety": "Elige un peso que puedas subir sin echarte hacia atrás."
+    },
+    "cable-curl": {
+      "name": "Curl en polea",
+      "desc": "Curl con el agarre de la polea baja. Tensión constante para los bíceps.",
+      "cues": [
+        "Ponte cerca de la polea, codos pegados a los costados.",
+        "Lleva el agarre hasta los hombros.",
+        "Baja despacio sin dejar que las placas choquen."
+      ],
+      "mistakes": ["Echarse hacia atrás.", "Codos que se adelantan."],
+      "safety": "Sujeta el agarre hasta que las placas estén abajo."
+    },
+    "concentration-curl": {
+      "name": "Curl concentrado",
+      "desc": "Curl sentado a un brazo con el codo apoyado en la cara interna del muslo. Trabajo estricto para los bíceps.",
+      "cues": [
+        "Siéntate en un banco con el codo contra la cara interna del muslo.",
+        "Sube la mancuerna hacia el hombro.",
+        "Baja despacio hasta abajo del todo."
+      ],
+      "mistakes": ["Separar el codo del muslo.", "Ayudarte con el hombro."],
+      "safety": "Usa un peso moderado: lo importante es el control."
+    },
+    "reverse-curl": {
+      "name": "Curl inverso",
+      "desc": "Curl con barra con las palmas hacia abajo. Trabaja los antebrazos y los bíceps.",
+      "cues": [
+        "Agarre prono, al ancho de los hombros.",
+        "Codos pegados a los costados, sube la barra.",
+        "Baja despacio."
+      ],
+      "mistakes": ["Muñecas que se doblan hacia atrás.", "Balancear el cuerpo."],
+      "safety": "Usa menos peso que para un curl normal."
+    },
+    "skull-crusher": {
+      "name": "Extensión de tríceps tumbado (rompecráneos)",
+      "desc": "Bajar una barra hacia la frente y estirar los brazos, tumbado en un banco. Trabaja los tríceps.",
+      "cues": [
+        "Brazos verticales o un poco inclinados hacia la cabeza.",
+        "Flexiona solo los codos y baja la barra hacia la frente.",
+        "Estira los brazos sin mover los hombros."
+      ],
+      "mistakes": [
+        "Codos que se abren.",
+        "Brazos que se mueven adelante y atrás.",
+        "Dejar caer la barra deprisa."
+      ],
+      "safety": "Baja la barra despacio y nunca dejes que caiga hacia la cara. Empieza ligero; pide ayuda a un compañero cuando subas el peso."
+    },
+    "close-grip-bench-press": {
+      "name": "Press de banca con agarre cerrado",
+      "desc": "Press de banca con las manos más o menos al ancho de los hombros. Pone más trabajo en los tríceps.",
+      "cues": [
+        "Agarre al ancho de los hombros, no más estrecho.",
+        "Codos cerca del cuerpo al bajar.",
+        "Toca la parte baja del pecho y empuja.",
+        "Escápulas atrás, pies en el suelo."
+      ],
+      "mistakes": [
+        "Agarre tan estrecho que duelen las muñecas.",
+        "Codos que se abren.",
+        "Rebotar la barra en el pecho."
+      ],
+      "safety": "Usa un rack con barras de seguridad o un compañero, y pon los cierres. Sáltate la serie si no puedes controlar el movimiento."
+    },
+    "bench-dip": {
+      "name": "Fondos en banco",
+      "desc": "Bajar y subir con las manos apoyadas en un banco detrás de ti. Trabaja los tríceps.",
+      "cues": [
+        "Manos en el borde del banco, dedos hacia delante.",
+        "Baja hasta que los codos estén a unos 90°, espalda cerca del banco.",
+        "Sube hasta estirar los brazos."
+      ],
+      "mistakes": ["Bajar demasiado y forzar los hombros.", "Codos que se abren."],
+      "safety": "Flexiona las rodillas para hacerlo más fácil. Para ante cualquier dolor en la parte delantera del hombro."
+    },
+    "overhead-db-extension": {
+      "name": "Extensión de tríceps por encima de la cabeza",
+      "desc": "Bajar una mancuerna por detrás de la cabeza con las dos manos y estirar los brazos. Trabaja la cabeza larga del tríceps.",
+      "cues": [
+        "Sujeta una mancuerna con las dos manos por encima de la cabeza.",
+        "Bájala por detrás de la cabeza, con los codos hacia arriba.",
+        "Estira los brazos."
+      ],
+      "mistakes": ["Codos que se abren hacia los lados.", "Arquear la zona lumbar."],
+      "safety": "Sujeta bien la mancuerna por el disco. Siéntate en un banco con respaldo si quieres más estabilidad."
+    },
+    "triceps-kickback": {
+      "name": "Patada de tríceps",
+      "desc": "Estirar el brazo hacia atrás con una mancuerna, inclinado y apoyado en un banco. Trabaja el tríceps.",
+      "cues": [
+        "Brazo pegado al cuerpo, paralelo al suelo.",
+        "Estira el brazo hacia atrás; solo se mueve el antebrazo.",
+        "Flexiona de vuelta despacio."
+      ],
+      "mistakes": ["El brazo cae hacia abajo.", "Balancear la mancuerna."],
+      "safety": "Usa una mancuerna ligera y mantén recto el brazo de apoyo."
+    },
+    "plank": {
+      "name": "Plancha",
+      "desc": "Mantener el cuerpo recto apoyado en los antebrazos y las puntas de los pies. Entrena el core para estabilizar el tronco.",
+      "cues": [
+        "Codos bajo los hombros, antebrazos en el suelo.",
+        "Cuerpo en línea de la cabeza a los talones, glúteos apretados.",
+        "Respira con calma y aguanta el tiempo previsto."
+      ],
+      "mistakes": ["Cadera que se hunde hacia el suelo.", "Cadera demasiado alta."],
+      "safety": "Empieza con las rodillas apoyadas si la plancha completa es demasiado difícil. Para si te duele la zona lumbar."
+    },
+    "hanging-leg-raise": {
+      "name": "Elevación de piernas colgado",
+      "desc": "Subir las piernas rectas colgado de una barra. Un ejercicio exigente para el abdomen.",
+      "cues": [
+        "Cuélgate con los hombros activos, no relajados.",
+        "Sube las piernas por delante inclinando la pelvis hacia arriba.",
+        "Baja despacio, sin balancearte."
+      ],
+      "mistakes": [
+        "Balancear todo el cuerpo.",
+        "Subir las piernas solo con los flexores de la cadera, sin mover la pelvis."
+      ],
+      "safety": "Aprende primero la elevación de rodillas colgado. Baja a un cajón, no te dejes caer de la barra."
+    },
+    "crunch": {
+      "name": "Crunch abdominal",
+      "desc": "Despegar los hombros del suelo tumbado boca arriba. Trabaja el abdomen.",
+      "cues": [
+        "Rodillas flexionadas, pies en el suelo.",
+        "Despega las escápulas del suelo; la zona lumbar se queda abajo.",
+        "Baja despacio."
+      ],
+      "mistakes": ["Tirar de la cabeza con las manos.", "Incorporarse del todo con impulso."],
+      "safety": "Mantén el cuello relajado; si hace falta, apoya la cabeza suavemente con las yemas de los dedos."
+    },
+    "reverse-crunch": {
+      "name": "Crunch inverso",
+      "desc": "Llevar la pelvis hacia el pecho tumbado boca arriba. Trabaja la parte baja del abdomen.",
+      "cues": [
+        "Empieza con las rodillas flexionadas a 90° sobre la cadera.",
+        "Despega la pelvis del suelo usando el abdomen.",
+        "Baja despacio a la posición inicial."
+      ],
+      "mistakes": ["Balancear las piernas para subir.", "Dejar caer la pelvis rápido."],
+      "safety": "Túmbate en una esterilla y agárrate al borde de un banco detrás de ti si necesitas apoyo."
+    },
+    "russian-twist": {
+      "name": "Giro ruso",
+      "desc": "Girar el tronco de un lado a otro sentado e inclinado hacia atrás. Trabaja los oblicuos.",
+      "cues": [
+        "Siéntate inclinado hacia atrás, espalda recta, talones en el suelo.",
+        "Gira los hombros y las manos a un lado y luego al otro.",
+        "Muévete despacio; la pelvis no se mueve."
+      ],
+      "mistakes": ["Mover solo los brazos, no el tronco.", "Redondear la espalda."],
+      "safety": "Mantén los talones en el suelo hasta que te sientas cómodo. Usa poco peso o ninguno."
+    },
+    "bird-dog": {
+      "name": "Bird dog (perro de caza)",
+      "desc": "Estirar un brazo hacia delante y la pierna contraria hacia atrás a cuatro patas. Entrena la estabilidad del tronco.",
+      "cues": [
+        "Manos bajo los hombros, rodillas bajo la cadera.",
+        "Estira un brazo y la pierna contraria hasta formar una línea recta.",
+        "Pausa, vuelve y cambia de lado."
+      ],
+      "mistakes": ["La cadera se inclina hacia un lado.", "Arquear la zona lumbar para subir más la pierna."],
+      "safety": "Pon una esterilla bajo las rodillas. Muévete despacio: importa más el equilibrio que la altura."
+    },
+    "bicycle-crunch": {
+      "name": "Crunch bicicleta",
+      "desc": "Llevar alternativamente el codo hacia la rodilla contraria tumbado boca arriba. Trabaja el abdomen y los oblicuos.",
+      "cues": [
+        "Hombros despegados del suelo, manos ligeramente en la cabeza.",
+        "Lleva una rodilla hacia ti y gira el hombro contrario hacia ella; la otra pierna se estira.",
+        "Cambia de lado a un ritmo constante."
+      ],
+      "mistakes": ["Tirar de la cabeza hacia delante con las manos.", "Ir con prisa y mover solo los codos."],
+      "safety": "Mantén la zona lumbar pegada al suelo; si se arquea, sube más la pierna estirada."
+    },
+    "hollow-hold": {
+      "name": "Hollow hold (posición hueca)",
+      "desc": "Mantener los hombros y las piernas despegados del suelo con la zona lumbar pegada abajo. Trabajo estático para el abdomen.",
+      "cues": [
+        "Pega la zona lumbar al suelo.",
+        "Despega un poco los hombros y las piernas del suelo.",
+        "Mantén la posición y respira."
+      ],
+      "mistakes": ["La zona lumbar se despega del suelo.", "Aguantar la respiración."],
+      "safety": "Flexiona las rodillas o sube más las piernas para hacerlo más fácil."
+    },
+    "cable-woodchop": {
+      "name": "Leñador en polea",
+      "desc": "Tirar del agarre de una polea en diagonal cruzando el cuerpo de arriba abajo. Trabaja los oblicuos y entrena el control de la rotación.",
+      "cues": [
+        "Colócate de lado a la polea, pies más abiertos que la cadera.",
+        "Tira del agarre en diagonal hacia abajo cruzando el cuerpo, con los brazos rectos.",
+        "Gira el tronco y el pie de atrás, vuelve despacio."
+      ],
+      "mistakes": ["Tirar solo con los brazos.", "Torcer la zona lumbar sin que se mueva la cadera."],
+      "safety": "Elige un peso que puedas girar de forma fluida, sin tirones."
+    },
+    "kettlebell-swing": {
+      "name": "Swing con kettlebell",
+      "desc": "Balancear una kettlebell hasta la altura del pecho impulsando la cadera hacia delante. Trabaja los glúteos y la parte posterior de las piernas.",
+      "cues": [
+        "Bisagra de cadera, espalda recta, kettlebell entre las piernas.",
+        "Impulsa la cadera hacia delante con fuerza; los brazos solo guían la pesa.",
+        "Deja que suba hasta el pecho y vuelva a caer a la bisagra.",
+        "Arriba ponte recto, glúteos apretados."
+      ],
+      "mistakes": [
+        "Hacer una sentadilla en lugar de una bisagra.",
+        "Subir la pesa con los brazos.",
+        "Redondear la espalda abajo."
+      ],
+      "safety": "Empieza con una kettlebell ligera y aprende antes la bisagra de cadera. Deja espacio libre delante y detrás, y agarra el asa con firmeza."
+    },
+    "kettlebell-push-press": {
+      "name": "Push press con kettlebell",
+      "desc": "Empujar una kettlebell por encima de la cabeza desde el hombro con una breve flexión de rodillas. Trabaja los hombros y el tríceps.",
+      "cues": [
+        "Pesa apoyada en el antebrazo, a la altura del hombro.",
+        "Flexiona un poco las rodillas, luego impúlsate hacia arriba y empuja.",
+        "Baja la pesa al hombro con control."
+      ],
+      "mistakes": [
+        "Sentadilla profunda en lugar de una flexión corta.",
+        "Inclinarse hacia atrás bajo la pesa."
+      ],
+      "safety": "Usa una kettlebell ligera y deja espacio libre por encima. Sáltate la serie si no puedes controlar la pesa."
+    },
+    "burpee": {
+      "name": "Burpee",
+      "desc": "Pasar de estar de pie a posición de flexión y volver con un salto. Trabaja todo el cuerpo.",
+      "cues": [
+        "Agáchate, apoya las manos en el suelo y lleva los pies atrás, andando o saltando, hasta la plancha.",
+        "Vuelve a llevar los pies bajo el cuerpo.",
+        "Ponte de pie y salta suave con los brazos arriba."
+      ],
+      "mistakes": ["Cadera hundida en la plancha.", "Aterrizar fuerte con las piernas rígidas."],
+      "safety": "Lleva los pies atrás y adelante andando en lugar de saltar si necesitas una versión más fácil."
+    },
+    "jump-rope": {
+      "name": "Comba",
+      "desc": "Saltar sobre una cuerda que gira. Entrena los gemelos, la coordinación y la resistencia.",
+      "cues": [
+        "Codos cerca del cuerpo, gira la cuerda con las muñecas.",
+        "Saltos pequeños y ligeros sobre la parte delantera del pie.",
+        "Mantén un ritmo constante."
+      ],
+      "mistakes": ["Saltar demasiado alto.", "Girar la cuerda con todo el brazo."],
+      "safety": "Salta sobre una superficie plana y antideslizante. Ajusta la longitud de la cuerda a tu altura."
+    },
+    "rowing-machine": {
+      "name": "Máquina de remo",
+      "desc": "Paladas en una máquina: primero piernas, luego tronco, luego brazos. Trabaja todo el cuerpo.",
+      "cues": [
+        "Empuja primero con las piernas, luego inclínate un poco atrás y después lleva el agarre a las costillas.",
+        "Vuelve al revés: brazos, tronco, piernas.",
+        "Mantén la espalda recta todo el tiempo."
+      ],
+      "mistakes": [
+        "Tirar con los brazos antes que con las piernas.",
+        "Redondear la espalda al inicio de la palada."
+      ],
+      "safety": "Ajusta las correas de los pies. Empieza a un ritmo suave."
+    },
+    "treadmill-walk": {
+      "name": "Caminata rápida en cinta",
+      "desc": "Caminar a paso rápido en una cinta. Un movimiento constante para las piernas y la resistencia.",
+      "cues": [
+        "Camina erguido, con los brazos balanceándose de forma natural.",
+        "Apoya el talón y rueda por todo el pie.",
+        "Elige un ritmo al que todavía puedas hablar."
+      ],
+      "mistakes": ["Agarrarse a las barandillas todo el tiempo.", "Pasos muy largos."],
+      "safety": "Engancha la llave de seguridad y empieza a velocidad baja."
+    },
+    "stationary-bike": {
+      "name": "Bicicleta estática",
+      "desc": "Pedalear en una bicicleta estática. Un movimiento constante para las piernas y la resistencia.",
+      "cues": [
+        "Altura del sillín: abajo la rodilla queda ligeramente flexionada.",
+        "Pedalea con suavidad, en círculos.",
+        "Mantén los hombros relajados."
+      ],
+      "mistakes": ["Sillín demasiado bajo.", "Balancear la cadera sobre el sillín."],
+      "safety": "Ajusta el sillín y el manillar antes de empezar."
+    },
+    "farmer-carry": {
+      "name": "Paseo del granjero",
+      "desc": "Caminar con mancuernas o kettlebells pesadas en las manos. Entrena el agarre, el core y la postura.",
+      "cues": [
+        "Ponte erguido, hombros abajo y atrás.",
+        "Pasos cortos y regulares.",
+        "Deja las pesas en el suelo con la espalda recta."
+      ],
+      "mistakes": ["Inclinarse hacia un lado.", "Encoger los hombros."],
+      "safety": "Planifica un recorrido despejado. Levanta y baja las pesas como en un peso muerto, no con la espalda redondeada."
+    },
+    "mountain-climber": {
+      "name": "Escalador",
+      "desc": "Llevar alternativamente las rodillas al pecho desde la posición de flexión. Trabaja el core y sube las pulsaciones.",
+      "cues": [
+        "Manos bajo los hombros, cuerpo recto.",
+        "Lleva una rodilla hacia el pecho y luego cambia.",
+        "Mantén la cadera nivelada."
+      ],
+      "mistakes": ["Cadera que sube demasiado.", "Botar con la cadera arriba y abajo."],
+      "safety": "Ve más despacio o da pasos en lugar de saltar si te molestan las muñecas o los hombros."
+    },
+    "jumping-jack": {
+      "name": "Saltos de tijera",
+      "desc": "Saltar abriendo los pies mientras subes los brazos y volver a juntarlos. Un movimiento sencillo de calentamiento.",
+      "cues": [
+        "Aterriza suave sobre la parte delantera del pie.",
+        "Los brazos suben cuando los pies se abren.",
+        "Mantén un ritmo constante."
+      ],
+      "mistakes": ["Aterrizar con las piernas rígidas.", "Subir los brazos solo a medias."],
+      "safety": "Da un paso al lado en lugar de saltar para una versión más suave."
+    },
+    "cat-cow": {
+      "name": "Gato-vaca",
+      "desc": "Redondear y arquear la espalda a cuatro patas. Movilidad de la columna.",
+      "cues": [
+        "Manos bajo los hombros, rodillas bajo la cadera.",
+        "Redondea la espalda hacia arriba, barbilla hacia el pecho.",
+        "Luego arquea suavemente, pecho adelante, mirada al frente."
+      ],
+      "mistakes": ["Mover solo el cuello.", "Hacer el movimiento con prisa."],
+      "safety": "Muévete en un rango cómodo, sin dolor."
+    },
+    "hip-flexor-stretch": {
+      "name": "Estiramiento del flexor de cadera de rodillas",
+      "desc": "Llevar la cadera hacia delante en media rodilla. Estira la parte delantera de la cadera.",
+      "cues": [
+        "En media rodilla, la rodilla de la pierna de atrás sobre una esterilla.",
+        "Mete un poco la pelvis y aprieta el glúteo de la pierna de atrás.",
+        "Lleva la cadera hacia delante hasta notar el estiramiento."
+      ],
+      "mistakes": [
+        "Arquear la zona lumbar en lugar de mover la cadera.",
+        "La rodilla de delante pasa mucho más allá de la punta del pie."
+      ],
+      "safety": "Pon una esterilla o una toalla doblada bajo la rodilla."
+    },
+    "hamstring-stretch": {
+      "name": "Estiramiento de isquiotibiales sentado",
+      "desc": "Inclinarse hacia las puntas de los pies sentado con las piernas rectas. Estira la parte posterior de los muslos.",
+      "cues": [
+        "Siéntate con las piernas rectas, puntas de los pies hacia arriba.",
+        "Inclínate desde la cadera con la espalda larga.",
+        "Para en un estiramiento cómodo y respira."
+      ],
+      "mistakes": ["Redondear la espalda para llegar más lejos.", "Hacer rebotes."],
+      "safety": "Flexiona un poco las rodillas si el estiramiento es demasiado intenso."
+    },
+    "thoracic-rotation": {
+      "name": "Rotación torácica a cuatro patas",
+      "desc": "Girar la parte alta de la espalda a cuatro patas con una mano detrás de la cabeza. Movilidad para la parte alta de la espalda.",
+      "cues": [
+        "A cuatro patas, una mano detrás de la cabeza.",
+        "Lleva el codo hacia abajo, hacia el otro brazo.",
+        "Luego gíralo hacia el techo y síguelo con la mirada."
+      ],
+      "mistakes": ["Mover la cadera en lugar de la parte alta de la espalda.", "Ir con prisa."],
+      "safety": "Muévete despacio y quédate en un rango cómodo."
+    },
+    "band-pull-apart": {
+      "name": "Aperturas con banda",
+      "desc": "Estirar una banda a la altura del pecho con los brazos rectos. Calentamiento para la parte alta de la espalda y la parte posterior de los hombros.",
+      "cues": [
+        "Brazos rectos al frente, a la altura de los hombros.",
+        "Separa la banda hasta que toque el pecho.",
+        "Vuelve despacio."
+      ],
+      "mistakes": ["Encoger los hombros.", "Flexionar mucho los codos."],
+      "safety": "Revisa que la banda no tenga cortes y sujétala bien para que no salte hacia la cara."
+    },
+    "childs-pose": {
+      "name": "Postura del niño",
+      "desc": "Sentarse hacia atrás sobre los talones con los brazos estirados al frente en el suelo. Un estiramiento suave para la espalda y la cadera.",
+      "cues": [
+        "Rodillas en la esterilla, siéntate hacia los talones.",
+        "Estira los brazos al frente, frente hacia el suelo.",
+        "Respira despacio hacia la espalda."
+      ],
+      "mistakes": ["Forzar la cadera hasta los talones.", "Aguantar la respiración."],
+      "safety": "Pon un cojín bajo la cadera o las rodillas si la postura es incómoda."
+    },
+    "doorway-chest-stretch": {
+      "name": "Estiramiento de pecho en el marco de una puerta",
+      "desc": "Inclinarse hacia delante con el antebrazo apoyado en el marco de una puerta. Estira el pecho y la parte delantera del hombro.",
+      "cues": [
+        "Antebrazo en el marco, codo a la altura del hombro.",
+        "Da un paso adelante hasta notar el estiramiento en el pecho.",
+        "Mantén y respira, luego cambia de lado."
+      ],
+      "mistakes": ["Codo más alto que el hombro.", "Forzar hasta sentir dolor."],
+      "safety": "El estiramiento debe sentirse suave. Para si notas hormigueo en el brazo."
+    },
+    "calf-stretch": {
+      "name": "Estiramiento de gemelos en la pared",
+      "desc": "Apoyarse en una pared con una pierna atrás. Estira el gemelo.",
+      "cues": [
+        "Manos en la pared, una pierna atrás.",
+        "Talón de atrás en el suelo, rodilla de atrás recta.",
+        "Inclínate hacia delante hasta notar el estiramiento."
+      ],
+      "mistakes": ["El talón de atrás se levanta.", "Pie de atrás girado hacia fuera."],
+      "safety": "Usa calzado con agarre o quédate descalzo sobre un suelo antideslizante."
+    },
+    "arm-circles": {
+      "name": "Círculos con los brazos",
+      "desc": "Hacer círculos con los brazos rectos hacia delante y hacia atrás. Calentamiento para los hombros.",
+      "cues": [
+        "Brazos a los lados a la altura de los hombros.",
+        "Empieza con círculos pequeños y hazlos más grandes poco a poco.",
+        "Cambia de sentido a mitad."
+      ],
+      "mistakes": ["Encoger los hombros.", "Hacer círculos rápidos desde el principio."],
+      "safety": "Quédate en un rango que resulte cómodo para los hombros."
+    },
+    "figure-four-stretch": {
+      "name": "Estiramiento de glúteo en figura de cuatro",
+      "desc": "Inclinarse hacia delante sentado con un tobillo sobre la rodilla contraria. Estira el glúteo.",
+      "cues": [
+        "Siéntate en un banco, tobillo sobre la rodilla contraria.",
+        "Inclínate hacia delante con la espalda larga.",
+        "Mantén donde notes el estiramiento en el glúteo."
+      ],
+      "mistakes": ["Redondear la espalda.", "Empujar la rodilla hacia abajo con fuerza."],
+      "safety": "Mantén flexionado el pie de la pierna cruzada para proteger la rodilla."
+    },
+    "quad-stretch": {
+      "name": "Estiramiento de cuádriceps de pie",
+      "desc": "Llevar el talón hacia el glúteo de pie sobre una pierna. Estira la parte delantera del muslo.",
+      "cues": [
+        "Apóyate en la pared con una mano.",
+        "Sujeta el tobillo y lleva el talón hacia el glúteo.",
+        "Rodillas juntas, pelvis ligeramente metida."
+      ],
+      "mistakes": ["Arquear la zona lumbar.", "La rodilla se va hacia un lado."],
+      "safety": "Apóyate en algo para mantener el equilibrio. No tires fuerte de la rodilla."
+    },
+    "leg-swing": {
+      "name": "Balanceos de pierna",
+      "desc": "Balancear una pierna recta adelante y atrás sujeto a un apoyo. Calentamiento para la cadera.",
+      "cues": [
+        "Ponte de lado a la pared, apóyate con una mano.",
+        "Balancea la pierna adelante y atrás en un rango cómodo.",
+        "Tronco erguido, aumenta la amplitud poco a poco."
+      ],
+      "mistakes": ["Inclinar el tronco para subir más.", "Patear fuerte desde el principio."],
+      "safety": "Deja espacio libre alrededor de la pierna."
+    },
+    "wide-push-up": {
+      "name": "Flexiones con agarre abierto",
+      "desc": "Flexiones con las manos más separadas de lo normal. Lleva más trabajo al pecho.",
+      "cues": [
+        "Manos a una vez y media el ancho de los hombros.",
+        "Cuerpo en línea de la cabeza a los talones.",
+        "Baja el pecho entre las manos y empuja hacia arriba."
+      ],
+      "mistakes": ["Codos abiertos del todo hacia los lados.", "Cadera hundida."],
+      "safety": "Mantén una anchura cómoda para los hombros. Vuelve al agarre normal si notas pinchazos en los hombros."
+    },
+    "knee-push-up": {
+      "name": "Flexiones de rodillas",
+      "desc": "Flexiones con las rodillas apoyadas en el suelo. Un paso más fácil hacia las flexiones completas.",
+      "cues": [
+        "Rodillas en la esterilla, manos algo más abiertas que los hombros.",
+        "Línea recta de la cabeza a las rodillas.",
+        "Baja el pecho cerca del suelo y empuja."
+      ],
+      "mistakes": ["Cadera flexionada, glúteos hacia arriba.", "Solo baja la cabeza."],
+      "safety": "Pon una esterilla o una toalla bajo las rodillas. Pasa a flexiones completas cuando las series te resulten fáciles."
+    },
+    "decline-push-up": {
+      "name": "Flexiones con pies elevados",
+      "desc": "Flexiones con los pies sobre un banco. Más difíciles que en el suelo y llevan el trabajo hacia la parte alta del pecho y los hombros.",
+      "cues": [
+        "Pies en un banco, manos en el suelo bajo el pecho.",
+        "Glúteos y abdomen apretados, cuerpo recto.",
+        "Baja con control y empuja hasta estirar los brazos."
+      ],
+      "mistakes": ["Cadera que sube en pico.", "Cuello que cae hacia el suelo."],
+      "safety": "Empieza con un escalón bajo. Sube más los pies solo cuando las repeticiones completas salgan limpias."
+    },
+    "diamond-push-up": {
+      "name": "Flexiones diamante",
+      "desc": "Flexiones con las manos juntas bajo el pecho, pulgares e índices formando un diamante. Trabajan mucho el tríceps.",
+      "cues": [
+        "Manos juntas bajo el pecho.",
+        "Los codos van hacia atrás pegados al cuerpo.",
+        "Baja hasta que el pecho se acerque a las manos."
+      ],
+      "mistakes": ["Codos muy abiertos.", "Manos bajo la cara en lugar del pecho."],
+      "safety": "Si te molestan las muñecas o los codos, separa un poco las manos o hazlas de rodillas."
+    },
+    "pause-push-up": {
+      "name": "Flexiones con pausa",
+      "desc": "Flexiones con una pausa de dos segundos justo por encima del suelo. Desarrollan control y fuerza en el punto más difícil.",
+      "cues": [
+        "Baja despacio hasta quedar justo por encima del suelo.",
+        "Mantén dos segundos con el cuerpo recto.",
+        "Empuja hacia arriba sin rebotar."
+      ],
+      "mistakes": ["Apoyar el pecho en el suelo durante la pausa.", "La cadera cae mientras mantienes."],
+      "safety": "Hazlas de rodillas si no puedes mantener la pausa con el cuerpo recto."
+    },
+    "archer-push-up": {
+      "name": "Flexiones de arquero",
+      "desc": "Flexiones muy abiertas en las que bajas hacia una mano mientras el otro brazo queda casi recto. Un paso hacia las flexiones a una mano.",
+      "cues": [
+        "Manos muy separadas, dedos un poco hacia fuera.",
+        "Lleva el pecho hacia una mano al bajar.",
+        "El otro brazo queda largo y ayuda un poco."
+      ],
+      "mistakes": ["Girar la cadera.", "Flexionar los dos brazos por igual, como en una flexión normal."],
+      "safety": "Domina primero las flexiones normales y abiertas. Al principio, usa un recorrido corto."
+    },
+    "clap-push-up": {
+      "name": "Flexiones explosivas",
+      "desc": "Flexiones empujando tan rápido que las manos se despegan del suelo. Entrenan la potencia del pecho y los brazos.",
+      "cues": [
+        "Baja con control.",
+        "Empuja con fuerza para que las manos se despeguen.",
+        "Aterriza con los codos blandos y pasa directamente a la siguiente repetición."
+      ],
+      "mistakes": ["Aterrizar con los brazos bloqueados.", "Cadera que se hunde al aterrizar."],
+      "safety": "Solo para quien domina las flexiones normales. Empieza con un despegue pequeño sobre una superficie blanda."
+    },
+    "incline-db-fly": {
+      "name": "Aperturas con mancuernas en banco inclinado",
+      "desc": "Aperturas en un banco con poca inclinación. Estiran y trabajan la parte alta del pecho.",
+      "cues": [
+        "Banco a 15–30°, mancuernas sobre el pecho.",
+        "Codos ligeramente flexionados y fijos.",
+        "Abre los brazos en arco hasta notar estiramiento y vuelve a subirlos."
+      ],
+      "mistakes": ["Flexionar más los codos y convertirlo en un press.", "Bajar demasiado las mancuernas."],
+      "safety": "Usa mancuernas ligeras. Para el arco donde los hombros sigan cómodos."
+    },
+    "decline-bench-press": {
+      "name": "Press de banca declinado",
+      "desc": "Press con barra en un banco con la cabeza más baja que la cadera. Lleva el trabajo hacia la parte baja del pecho.",
+      "cues": [
+        "Engancha bien las piernas bajo los rodillos.",
+        "Baja la barra a la parte baja del pecho.",
+        "Empuja hacia arriba en un ligero arco sobre los hombros."
+      ],
+      "mistakes": ["Rebotar la barra en el pecho.", "Piernas sueltas que se salen de los rodillos."],
+      "safety": "Hazlo en un rack con barras de seguridad o con un ayudante, y pon cierres en la barra."
+    },
+    "db-floor-press": {
+      "name": "Press con mancuernas en el suelo",
+      "desc": "Press con mancuernas tumbado en el suelo. El suelo limita la profundidad y mantiene los hombros en un rango cómodo.",
+      "cues": [
+        "Túmbate boca arriba, rodillas flexionadas, mancuernas sobre el pecho.",
+        "Baja hasta que los brazos toquen el suelo.",
+        "Pausa breve y empuja hacia arriba."
+      ],
+      "mistakes": ["Golpear el suelo con los codos.", "Codos abiertos a 90°."],
+      "safety": "Coloca las mancuernas en posición desde las rodillas y bájalas a los lados al terminar."
+    },
+    "low-to-high-cable-fly": {
+      "name": "Aperturas en polea de abajo arriba",
+      "desc": "Aperturas con poleas bajas hacia arriba. Trabajan la parte alta del pecho.",
+      "cues": [
+        "Poleas abajo, un paso adelante, ligera inclinación.",
+        "Codos ligeramente flexionados y fijos.",
+        "Sube las manos y júntalas a la altura de la barbilla."
+      ],
+      "mistakes": ["Encoger los hombros.", "Tirar con los brazos en lugar de moverse en arco."],
+      "safety": "Elige un peso que puedas controlar en la vuelta. Al principio, no llegues a un estiramiento profundo."
+    },
+    "machine-chest-press": {
+      "name": "Press de pecho en máquina",
+      "desc": "Press sentado en una máquina de pecho. La trayectoria estable lo hace fácil de aprender y de trabajar cerca del esfuerzo máximo.",
+      "cues": [
+        "Agarres a la altura de la mitad del pecho.",
+        "Espalda y escápulas contra el respaldo.",
+        "Empuja al frente y vuelve despacio sin que las placas choquen."
+      ],
+      "mistakes": ["Asiento demasiado bajo o alto.", "Hombros que se van hacia delante al final."],
+      "safety": "Ajusta el asiento antes de la primera serie. Devuelve los agarres con control."
+    },
+    "incline-machine-press": {
+      "name": "Press inclinado en máquina",
+      "desc": "Press en una máquina con trayectoria hacia arriba. Trabaja la parte alta del pecho con un recorrido estable.",
+      "cues": [
+        "Agarres más o menos a la altura de las clavículas.",
+        "Escápulas atrás contra el respaldo.",
+        "Empuja hacia arriba y adelante, vuelve despacio."
+      ],
+      "mistakes": ["Arquear la zona lumbar y separarla del respaldo.", "Bloquear los codos de golpe."],
+      "safety": "Ajusta el asiento para que los agarres empiecen a la altura de las clavículas."
+    },
+    "db-squeeze-press": {
+      "name": "Press con mancuernas juntas",
+      "desc": "Press con las mancuernas apretadas una contra otra todo el tiempo. Mantiene el pecho trabajando en cada repetición.",
+      "cues": [
+        "Túmbate en un banco, mancuernas juntas sobre el pecho.",
+        "Apriétalas una contra otra.",
+        "Baja al pecho y empuja hacia arriba sin dejar de apretar."
+      ],
+      "mistakes": ["Dejar que las mancuernas se separen.", "Usar mucho peso y dejar de apretar."],
+      "safety": "Aquí funcionan mejor pesos moderados. Mantén las muñecas rectas."
+    },
+    "neutral-grip-pull-up": {
+      "name": "Dominadas con agarre neutro",
+      "desc": "Dominadas en agarres paralelos con las palmas enfrentadas. A menudo es el agarre más cómodo para hombros y codos.",
+      "cues": [
+        "Cuélgate de los agarres paralelos con los brazos rectos.",
+        "Lleva los codos hacia abajo, hacia las costillas.",
+        "Pecho hacia los agarres, baja del todo."
+      ],
+      "mistakes": ["Dar patadas para subir.", "Parar a mitad de la bajada."],
+      "safety": "Si aún no haces repeticiones completas, usa una banda, una máquina o solo la bajada lenta."
+    },
+    "wide-grip-pull-up": {
+      "name": "Dominadas con agarre abierto",
+      "desc": "Dominadas con las manos bastante por fuera de los hombros. Más difíciles que con agarre normal y se centran en los dorsales.",
+      "cues": [
+        "Agarre a una vez y media el ancho de los hombros.",
+        "Empieza colgado del todo, hombros hacia abajo.",
+        "Lleva el pecho hacia la barra y baja despacio."
+      ],
+      "mistakes": ["Agarre tan abierto que acorta el recorrido.", "Dar tirones con las piernas."],
+      "safety": "No abras más de lo que permiten los hombros. Primero, las dominadas normales."
+    },
+    "negative-pull-up": {
+      "name": "Dominadas negativas",
+      "desc": "Salta o sube a la posición alta de la dominada y bájate lo más despacio que puedas. Desarrolla fuerza para las dominadas completas.",
+      "cues": [
+        "Sube hasta que la barbilla quede por encima de la barra.",
+        "Baja despacio, 3–5 segundos.",
+        "Llega a colgar del todo y vuelve a subir."
+      ],
+      "mistakes": ["Caer rápido al final.", "Subir de un salto con mucho impulso."],
+      "safety": "Usa un cajón o banco estable para subir. Haz series cortas: la bajada lenta es exigente."
+    },
+    "scapular-pull-up": {
+      "name": "Dominadas escapulares",
+      "desc": "Desde la posición colgada, baja los hombros sin flexionar los brazos. Enseña la primera fase de cualquier dominada.",
+      "cues": [
+        "Cuélgate con los brazos rectos.",
+        "Lleva los hombros hacia abajo, lejos de las orejas.",
+        "El cuerpo sube un poco; los brazos siguen rectos. Relaja y vuelve."
+      ],
+      "mistakes": ["Flexionar los codos.", "Balancear el cuerpo."],
+      "safety": "Muévete despacio. Si colgarte cuesta a las manos, usa una barra más baja con los pies en el suelo."
+    },
+    "feet-elevated-inverted-row": {
+      "name": "Remo invertido con pies elevados",
+      "desc": "Remo horizontal bajo una barra con los pies en un banco. Más difícil que el remo invertido normal.",
+      "cues": [
+        "Barra a la altura de la cadera, pies en un banco.",
+        "Cuerpo recto de los hombros a los talones.",
+        "Lleva el pecho a la barra y baja hasta estirar los brazos."
+      ],
+      "mistakes": ["Cadera hundida.", "Subir la barbilla en lugar del pecho."],
+      "safety": "Usa una barra fija o una barra bien asegurada en un rack."
+    },
+    "wide-grip-pulldown": {
+      "name": "Jalón al pecho con agarre abierto",
+      "desc": "Jalón con las manos abiertas en una barra larga. Se centra en los dorsales.",
+      "cues": [
+        "Muslos bajo los rodillos, agarre más abierto que los hombros.",
+        "Inclínate un poco atrás, pecho arriba.",
+        "Lleva la barra a la parte alta del pecho y vuelve despacio."
+      ],
+      "mistakes": ["Bajar la barra por detrás de la nuca.", "Echarse muy atrás y convertirlo en un remo."],
+      "safety": "Tira siempre por delante de la cabeza. Deja subir la barra con control."
+    },
+    "reverse-grip-pulldown": {
+      "name": "Jalón con agarre supino",
+      "desc": "Jalón con las palmas hacia ti y las manos más o menos al ancho de los hombros. El bíceps ayuda más.",
+      "cues": [
+        "Palmas hacia ti, agarre al ancho de los hombros.",
+        "Pecho arriba, ligera inclinación atrás.",
+        "Lleva la barra a la parte alta del pecho, codos hacia abajo y atrás."
+      ],
+      "mistakes": ["Hacer un curl con la barra.", "Encorvarse hacia delante abajo."],
+      "safety": "Devuelve la barra despacio para que las placas no choquen."
+    },
+    "single-arm-pulldown": {
+      "name": "Jalón a una mano en polea",
+      "desc": "Jalón con un solo agarre. Deja trabajar cada lado por separado con todo el recorrido.",
+      "cues": [
+        "De rodillas o sentado frente a la polea alta, con un agarre.",
+        "Lleva el codo hacia abajo, al costado.",
+        "Deja que el brazo suba del todo antes de la siguiente repetición."
+      ],
+      "mistakes": ["Girar el tronco para mover el peso.", "Repeticiones cortas y a tirones."],
+      "safety": "Usa un peso moderado para que el tronco no se mueva."
+    },
+    "pendlay-row": {
+      "name": "Remo Pendlay",
+      "desc": "Remo con barra en el que cada repetición empieza desde el suelo, con la espalda recta y casi paralela a él.",
+      "cues": [
+        "Barra en el suelo, tronco casi horizontal, espalda recta.",
+        "Tira rápido de la barra hacia la parte baja del pecho.",
+        "Devuélvela al suelo y recoloca."
+      ],
+      "mistakes": ["Subir el tronco para mover la barra.", "Redondear la zona lumbar."],
+      "safety": "Usa discos que dejen la barra a media espinilla, pon cierres y mantén un peso que te permita la espalda recta."
+    },
+    "db-bent-over-row": {
+      "name": "Remo inclinado con mancuernas",
+      "desc": "Remo con dos mancuernas en bisagra de cadera. Cada brazo se mueve con libertad.",
+      "cues": [
+        "Inclínate desde la cadera, espalda recta, rodillas un poco flexionadas.",
+        "Las mancuernas cuelgan bajo los hombros.",
+        "Llévalas hacia la cadera y baja despacio."
+      ],
+      "mistakes": [
+        "Incorporarse más en cada repetición.",
+        "Encoger los hombros en lugar de llevar los codos atrás."
+      ],
+      "safety": "Si se cansa la zona lumbar, cambia a un remo con apoyo en el pecho."
+    },
+    "kettlebell-row": {
+      "name": "Remo a una mano con kettlebell",
+      "desc": "Remo a una mano con kettlebell, con la mano libre apoyada en un banco.",
+      "cues": [
+        "Mano libre en un banco, espalda recta.",
+        "La kettlebell cuelga bajo el hombro.",
+        "Lleva el codo atrás hacia la cadera y baja del todo."
+      ],
+      "mistakes": ["Abrir el tronco girándolo.", "Sacar el codo hacia fuera."],
+      "safety": "Mantén la espalda recta; elige un peso que puedas bajar despacio."
+    },
+    "single-arm-cable-row": {
+      "name": "Remo a una mano en polea",
+      "desc": "Remo sentado o de pie con un agarre a media altura.",
+      "cues": [
+        "Un agarre, brazo estirado al frente.",
+        "Lleva el codo atrás más allá de las costillas.",
+        "Deja que el hombro se adelante en la vuelta."
+      ],
+      "mistakes": ["Girar todo el cuerpo.", "Encoger el hombro."],
+      "safety": "Usa un peso moderado y mantén la cadera de frente."
+    },
+    "band-row": {
+      "name": "Remo sentado con banda",
+      "desc": "Remo con una banda elástica pasada por los pies. Una versión sencilla para casa del remo en polea.",
+      "cues": [
+        "Siéntate erguido, banda alrededor de los pies, extremos en las manos.",
+        "Lleva los codos atrás y junta las escápulas.",
+        "Vuelve despacio."
+      ],
+      "mistakes": ["Echarse muy atrás.", "Dejar que la banda tire de golpe hacia delante."],
+      "safety": "Revisa la banda antes de usarla por si tiene cortes y mantenla bien sujeta bajo los pies."
+    },
+    "rack-pull": {
+      "name": "Peso muerto desde soportes",
+      "desc": "Peso muerto que empieza desde soportes a la altura de las rodillas. Trabaja la parte final del levantamiento y la parte alta de la espalda.",
+      "cues": [
+        "Barra en los soportes justo por debajo o por encima de las rodillas.",
+        "Espalda recta, barra pegada a las piernas.",
+        "Lleva la cadera adelante hasta quedar erguido y baja a los soportes."
+      ],
+      "mistakes": ["Echarse atrás arriba.", "Redondear la espalda para empezar el tirón."],
+      "safety": "Tira dentro de un rack con los soportes bien fijados y cierres en la barra."
+    },
+    "good-morning": {
+      "name": "Buenos días con barra",
+      "desc": "Con una barra en la parte alta de la espalda, bisagra de cadera hacia delante y vuelta arriba.",
+      "cues": [
+        "Barra en la parte alta de la espalda, rodillas un poco flexionadas.",
+        "Lleva la cadera atrás; la espalda se queda recta.",
+        "Para cuando el tronco esté casi paralelo al suelo o antes, y sube."
+      ],
+      "mistakes": ["Redondear la espalda.", "Flexionar las rodillas y convertirlo en sentadilla."],
+      "safety": "Empieza muy ligero, saca la barra de un rack a la altura de los hombros y usa cierres."
+    },
+    "sumo-deadlift": {
+      "name": "Peso muerto sumo",
+      "desc": "Peso muerto con los pies muy abiertos y las manos por dentro de las rodillas. El tronco queda más erguido.",
+      "cues": [
+        "Pies muy abiertos, puntas hacia fuera, espinillas cerca de la barra.",
+        "Manos por dentro de las rodillas, espalda recta.",
+        "Empuja el suelo hacia los lados y ponte de pie con la barra pegada al cuerpo."
+      ],
+      "mistakes": ["Rodillas que se van hacia dentro.", "La cadera sube primero."],
+      "safety": "Usa cierres y poco peso mientras aprendes; baja la barra con control."
+    },
+    "superman": {
+      "name": "Superman",
+      "desc": "Tumbado boca abajo, despega un poco del suelo los brazos, el pecho y las piernas. Entrena los músculos a lo largo de la espalda.",
+      "cues": [
+        "Túmbate boca abajo, brazos estirados al frente.",
+        "Despega brazos, pecho y piernas unos centímetros.",
+        "Mantén una respiración y baja despacio."
+      ],
+      "mistakes": ["Echar la cabeza atrás.", "Subir de golpe lo más alto posible."],
+      "safety": "Basta con despegar un poco. Para si notas un pinzamiento en la zona lumbar."
+    },
+    "pike-push-up": {
+      "name": "Flexiones en pica",
+      "desc": "Flexiones con la cadera alta, de modo que el cuerpo forma una V invertida. Llevan el trabajo hacia los hombros.",
+      "cues": [
+        "Manos en el suelo, cadera alta, piernas bastante rectas.",
+        "Baja la coronilla hacia el suelo entre las manos.",
+        "Empuja hasta estirar los brazos."
+      ],
+      "mistakes": [
+        "Bajar la cadera y convertirlo en una flexión normal.",
+        "Codos abiertos del todo hacia fuera."
+      ],
+      "safety": "Baja despacio y evita que la cabeza golpee el suelo. Sube los pies a un banco solo cuando esto te resulte fácil."
+    },
+    "standing-db-press": {
+      "name": "Press de hombros con mancuernas de pie",
+      "desc": "Empujar dos mancuernas por encima de la cabeza de pie. El tronco trabaja para mantenerse erguido.",
+      "cues": [
+        "Mancuernas a la altura de los hombros, pies al ancho de la cadera.",
+        "Activa el abdomen y los glúteos.",
+        "Empuja hasta estirar los brazos y baja a los hombros."
+      ],
+      "mistakes": [
+        "Echarse atrás para terminar la repetición.",
+        "Empujar las mancuernas muy por delante de la cara."
+      ],
+      "safety": "Elige un peso que puedas empujar sin arquear la zona lumbar."
+    },
+    "machine-shoulder-press": {
+      "name": "Press de hombros en máquina",
+      "desc": "Press por encima de la cabeza sentado en una máquina. La trayectoria guiada lo hace fácil de aprender.",
+      "cues": [
+        "Agarres más o menos a la altura de los hombros.",
+        "Espalda contra el respaldo.",
+        "Empuja hacia arriba y baja hasta que las manos queden cerca de los hombros."
+      ],
+      "mistakes": [
+        "Asiento tan bajo que los agarres empiezan por debajo de los hombros.",
+        "Arquearse y separarse del respaldo."
+      ],
+      "safety": "Ajusta el asiento antes de la primera serie y devuelve el peso despacio."
+    },
+    "landmine-press": {
+      "name": "Press landmine",
+      "desc": "Empujar un extremo de una barra anclada en una esquina o en un landmine. La trayectoria inclinada cuida los hombros.",
+      "cues": [
+        "Extremo de la barra junto al hombro, pies escalonados.",
+        "Empuja hacia arriba y adelante hasta estirar el brazo.",
+        "Vuelve al hombro con control."
+      ],
+      "mistakes": ["Echarse atrás.", "Dejar caer la barra rápido."],
+      "safety": "Ancla la barra en un landmine o en una esquina firme para que no resbale; empieza ligero."
+    },
+    "push-press": {
+      "name": "Push press",
+      "desc": "Press por encima de la cabeza que empieza con una breve flexión de rodillas y un impulso. Las piernas ayudan a mover más peso.",
+      "cues": [
+        "Barra sobre la parte delantera de los hombros, codos un poco adelante.",
+        "Flexión corta de rodillas, tronco erguido.",
+        "Impúlsate y empuja la barra arriba en un solo movimiento."
+      ],
+      "mistakes": [
+        "Bajar demasiado, como en una sentadilla.",
+        "Empujar antes de que las piernas terminen el impulso."
+      ],
+      "safety": "Saca la barra de un rack a la altura de los hombros, usa cierres y bájala a los hombros con las rodillas flexionadas."
+    },
+    "cable-rear-delt-fly": {
+      "name": "Aperturas posteriores en polea",
+      "desc": "Separar cables cruzados a la altura de los hombros. Trabaja la parte posterior de los hombros.",
+      "cues": [
+        "Poleas a la altura de los hombros, cables cruzados delante.",
+        "Codos ligeramente flexionados.",
+        "Abre los brazos hacia los lados y vuelve despacio."
+      ],
+      "mistakes": ["Tirar flexionando los codos.", "Echarse atrás para mover el peso."],
+      "safety": "Para este músculo pequeño basta con poco peso."
+    },
+    "kettlebell-press": {
+      "name": "Press con kettlebell por encima de la cabeza",
+      "desc": "Press estricto a una mano con la kettlebell apoyada en la parte de atrás del antebrazo.",
+      "cues": [
+        "Kettlebell en posición de rack, junto al hombro.",
+        "Glúteos y abdomen apretados, sin flexionar las rodillas.",
+        "Empuja recto hacia arriba y vuelve a la posición de rack."
+      ],
+      "mistakes": ["Inclinarse hacia un lado.", "Muñeca doblada hacia atrás bajo el peso."],
+      "safety": "Mantén la muñeca recta. Baja la pesa al hombro con control."
+    },
+    "barbell-shrug": {
+      "name": "Encogimientos con barra",
+      "desc": "Subir los hombros en vertical sujetando una barra. Trabaja la parte alta del trapecio.",
+      "cues": [
+        "Barra delante de los muslos, brazos rectos.",
+        "Sube los hombros hacia las orejas.",
+        "Pausa y baja despacio."
+      ],
+      "mistakes": ["Hacer círculos con los hombros.", "Flexionar los codos para ayudarte."],
+      "safety": "Saca la barra de un rack a la altura de la cadera y usa cierres."
+    },
+    "cable-y-raise": {
+      "name": "Elevación en Y en polea",
+      "desc": "Subir cables desde las poleas bajas hacia arriba y hacia fuera formando una Y. Trabaja los hombros y la parte baja del trapecio.",
+      "cues": [
+        "Poleas bajas, cables cruzados, ligera inclinación o de pie.",
+        "Sube los brazos hacia arriba y hacia fuera formando una Y.",
+        "Baja despacio al inicio."
+      ],
+      "mistakes": ["Encoger los hombros hacia las orejas.", "Usar impulso."],
+      "safety": "Usa poco peso y haz el movimiento fluido."
+    },
+    "incline-t-raise": {
+      "name": "Elevación en T en banco inclinado",
+      "desc": "Tumbado boca abajo en un banco inclinado, sube mancuernas ligeras hacia los lados formando una T.",
+      "cues": [
+        "Pecho en un banco inclinado, brazos colgando.",
+        "Pulgares arriba, sube los brazos hacia los lados.",
+        "Junta las escápulas y baja despacio."
+      ],
+      "mistakes": ["Encoger los hombros.", "Balancear mancuernas pesadas."],
+      "safety": "Bastan mancuernas muy ligeras."
+    },
+    "ez-bar-curl": {
+      "name": "Curl con barra Z",
+      "desc": "Curl de bíceps con una barra Z curvada. El agarre en ángulo es más amable con las muñecas que una barra recta.",
+      "cues": [
+        "Agarra las partes en ángulo, brazos rectos.",
+        "Codos fijos a los lados.",
+        "Sube flexionando y baja despacio hasta estirar los brazos."
+      ],
+      "mistakes": ["Balancear el tronco.", "Codos que se van hacia delante."],
+      "safety": "Usa poco peso y cierres en la barra."
+    },
+    "spider-curl": {
+      "name": "Curl araña",
+      "desc": "Curl tumbado boca abajo en un banco inclinado con los brazos colgando en vertical.",
+      "cues": [
+        "Pecho en el banco, brazos colgando en vertical.",
+        "Flexiona sin mover los codos.",
+        "Aprieta arriba y baja del todo."
+      ],
+      "mistakes": ["Codos que se van hacia atrás.", "Medias repeticiones solo arriba."],
+      "safety": "Mancuernas ligeras o moderadas mantienen la técnica estricta."
+    },
+    "barbell-spider-curl": {
+      "name": "Curl araña con barra",
+      "desc": "Curl de bíceps con barra tumbado boca abajo en un banco inclinado: los brazos cuelgan en vertical, así que los hombros no ayudan.",
+      "cues": [
+        "Ajusta el banco inclinado a unos 30–45° y túmbate con el pecho apoyado.",
+        "Deja que los brazos cuelguen rectos y toma la barra con agarre supino, palmas hacia arriba.",
+        "Flexiona los codos y sube la barra hacia los hombros, manteniendo el torso y los hombros quietos.",
+        "Baja la barra despacio hasta la posición inicial."
+      ],
+      "mistakes": [
+        "Los codos se van hacia delante o hacia atrás.",
+        "Despegar el pecho del banco para impulsar la barra.",
+        "Dejar caer la barra en lugar de bajarla."
+      ],
+      "safety": "Empieza ligero: la barra cuelga bajo el banco, así que elige una carga que puedas bajar con control total y deja la barra en el suelo en vez de soltarla."
+    },
+    "cross-body-hammer-curl": {
+      "name": "Curl martillo cruzado",
+      "desc": "Curl martillo llevando la mancuerna por delante del cuerpo hacia el hombro contrario.",
+      "cues": [
+        "Palma hacia dentro, brazo recto al costado.",
+        "Flexiona cruzando el cuerpo hacia el otro hombro.",
+        "Baja despacio por el mismo camino."
+      ],
+      "mistakes": ["Girar el tronco.", "Balancear la mancuerna."],
+      "safety": "Mantente erguido y controla el peso."
+    },
+    "zottman-curl": {
+      "name": "Curl Zottman",
+      "desc": "Sube con las palmas hacia arriba, gíralas hacia abajo arriba del todo y baja despacio.",
+      "cues": [
+        "Palmas arriba, flexiona hasta arriba.",
+        "Gira las palmas hacia abajo.",
+        "Baja despacio con las palmas abajo y gíralas de nuevo al final."
+      ],
+      "mistakes": ["Bajar con prisa.", "Llevar los codos hacia delante."],
+      "safety": "Usa mancuernas ligeras: la bajada con las palmas abajo es la parte difícil."
+    },
+    "band-curl": {
+      "name": "Curl con banda",
+      "desc": "Curl de bíceps con una banda elástica bajo los pies. La resistencia aumenta hacia arriba.",
+      "cues": [
+        "Pisa la banda, extremos en las manos.",
+        "Codos a los lados.",
+        "Sube flexionando y baja despacio."
+      ],
+      "mistakes": ["Codos que se van hacia delante.", "Dejar que la banda tire de golpe hacia abajo."],
+      "safety": "Revisa que la banda no esté dañada y mantenla bien pisada."
+    },
+    "rope-hammer-curl": {
+      "name": "Curl martillo con cuerda en polea",
+      "desc": "Curl martillo con una cuerda en la polea baja.",
+      "cues": [
+        "Cuerda en la polea baja, palmas enfrentadas.",
+        "Codos fijos a los lados.",
+        "Sube flexionando y baja despacio."
+      ],
+      "mistakes": ["Echarse atrás.", "Codos que se van hacia delante."],
+      "safety": "Devuelve el peso despacio para que las placas no choquen."
+    },
+    "bayesian-cable-curl": {
+      "name": "Curl en polea por detrás del cuerpo",
+      "desc": "Curl a una mano de espaldas a la polea baja, con el brazo empezando un poco por detrás del cuerpo. Trabaja el bíceps en estiramiento.",
+      "cues": [
+        "De espaldas a la polea baja, da un paso adelante.",
+        "El brazo empieza un poco por detrás del cuerpo.",
+        "Flexiona hacia delante y arriba, vuelve despacio."
+      ],
+      "mistakes": ["Llevar mucho el codo hacia delante.", "Salir del estiramiento con prisa."],
+      "safety": "Usa poco peso; el estiramiento inicial debe ser cómodo."
+    },
+    "straight-bar-pushdown": {
+      "name": "Extensión de tríceps en polea con barra recta",
+      "desc": "Extensión de tríceps hacia abajo con una barra recta corta en la polea alta.",
+      "cues": [
+        "Agarre prono, codos a los lados.",
+        "Empuja hacia abajo hasta estirar los brazos.",
+        "Deja subir la barra despacio hasta la altura de los codos."
+      ],
+      "mistakes": ["Codos que se abren.", "Echarse sobre la barra para empujar con el cuerpo."],
+      "safety": "Devuelve la barra despacio para que las placas no choquen."
+    },
+    "reverse-grip-pushdown": {
+      "name": "Extensión de tríceps en polea con agarre supino",
+      "desc": "Extensión hacia abajo con las palmas hacia arriba. Se mueve menos peso que con agarre normal, pero trabaja el tríceps desde otro ángulo.",
+      "cues": [
+        "Agarre supino en una barra recta.",
+        "Codos pegados a los lados.",
+        "Empuja hasta estirar los brazos y vuelve despacio."
+      ],
+      "mistakes": ["Muñecas dobladas hacia atrás.", "Usar demasiado peso."],
+      "safety": "Elige un peso menor que en tu extensión habitual."
+    },
+    "db-skull-crusher": {
+      "name": "Extensión de tríceps tumbado con mancuernas",
+      "desc": "Tumbado en un banco, baja dos mancuernas junto a la cabeza flexionando solo los codos.",
+      "cues": [
+        "Mancuernas sobre los hombros, palmas enfrentadas.",
+        "Flexiona los codos para bajarlas junto a la cabeza.",
+        "Estira los brazos de nuevo."
+      ],
+      "mistakes": ["Codos muy abiertos.", "Mover los brazos adelante y atrás."],
+      "safety": "Empieza ligero y mantén el control total cerca de la cabeza."
+    },
+    "triceps-dip": {
+      "name": "Fondos para tríceps",
+      "desc": "Fondos en paralelas con el cuerpo vertical. Llevan el trabajo al tríceps.",
+      "cues": [
+        "Apóyate con los brazos rectos, cuerpo vertical.",
+        "Flexiona los codos hacia atrás pegados al cuerpo.",
+        "Baja hasta que los brazos queden casi horizontales y empuja hacia arriba."
+      ],
+      "mistakes": ["Inclinarse mucho hacia delante.", "Bajar demasiado con los hombros yéndose adelante."],
+      "safety": "Baja solo hasta donde permitan los hombros. Usa una máquina asistida si hace falta."
+    },
+    "band-pushdown": {
+      "name": "Extensión de tríceps con banda",
+      "desc": "Extensión de tríceps hacia abajo con una banda anclada por encima de la cabeza.",
+      "cues": [
+        "Banda anclada arriba, codos a los lados.",
+        "Empuja hacia abajo hasta estirar los brazos.",
+        "Vuelve despacio a la altura de los codos."
+      ],
+      "mistakes": ["Codos que se separan del cuerpo.", "Echarse sobre la banda."],
+      "safety": "Ancla bien la banda y revisa que no esté desgastada."
+    },
+    "cable-triceps-kickback": {
+      "name": "Patada de tríceps en polea",
+      "desc": "Patada de tríceps con polea baja. El cable mantiene la tensión durante toda la repetición.",
+      "cues": [
+        "Inclínate desde la cadera, brazo pegado al cuerpo.",
+        "Estira el brazo hacia atrás.",
+        "Vuelve despacio; el brazo no se mueve."
+      ],
+      "mistakes": ["Balancear el brazo.", "Redondear la espalda."],
+      "safety": "Poco peso; mantén la espalda recta."
+    },
+    "behind-back-wrist-curl": {
+      "name": "Curl de muñeca por detrás de la espalda",
+      "desc": "De pie con una barra detrás de los muslos, súbela usando solo las muñecas.",
+      "cues": [
+        "Barra detrás de los muslos, palmas hacia atrás.",
+        "Deja que la barra ruede hacia los dedos.",
+        "Flexiona las muñecas hacia arriba y baja despacio."
+      ],
+      "mistakes": ["Flexionar los codos.", "Usar un peso demasiado alto para controlarlo."],
+      "safety": "Usa una barra ligera con cierres y sácala de un rack a la altura de la cadera."
+    },
+    "high-plank": {
+      "name": "Plancha alta",
+      "desc": "Mantener la posición alta de la flexión con el cuerpo recto.",
+      "cues": [
+        "Manos bajo los hombros, brazos rectos.",
+        "Cuerpo en línea, glúteos apretados.",
+        "Empuja el suelo y respira con calma."
+      ],
+      "mistakes": ["Cadera hundida.", "Hombros que suben hacia las orejas."],
+      "safety": "Apoya las rodillas si se rompe la línea. Descansa las muñecas entre series si se cansan."
+    },
+    "plank-shoulder-tap": {
+      "name": "Plancha con toque de hombro",
+      "desc": "Desde la plancha alta, toca un hombro con la mano contraria, alternando lados, sin que la cadera se balancee.",
+      "cues": [
+        "Plancha alta, pies algo más abiertos que la cadera.",
+        "Levanta una mano y toca el hombro contrario.",
+        "Apóyala y cambia; la cadera no se mueve."
+      ],
+      "mistakes": ["Cadera que se balancea de lado a lado.", "Hacer los toques con prisa."],
+      "safety": "Abre más los pies o hazlo de rodillas para que la cadera no se mueva."
+    },
+    "plank-up-down": {
+      "name": "Plancha arriba y abajo",
+      "desc": "Pasar de la plancha en antebrazos a la plancha alta con un brazo cada vez y volver a bajar.",
+      "cues": [
+        "Empieza en plancha sobre antebrazos.",
+        "Sube apoyando una mano y luego la otra.",
+        "Vuelve a los antebrazos de uno en uno."
+      ],
+      "mistakes": ["Cadera que se balancea de lado a lado.", "Subir mucho la cadera."],
+      "safety": "Abre los pies para tener equilibrio y muévete a un ritmo constante."
+    },
+    "flutter-kicks": {
+      "name": "Patadas alternas",
+      "desc": "Tumbado boca arriba, haz pequeñas patadas alternas arriba y abajo con las piernas rectas.",
+      "cues": [
+        "Zona lumbar pegada al suelo.",
+        "Piernas rectas, un poco levantadas.",
+        "Patadas pequeñas y rápidas arriba y abajo."
+      ],
+      "mistakes": ["La zona lumbar se arquea y se separa del suelo.", "Patadas grandes con balanceo."],
+      "safety": "Sube más las piernas si la zona lumbar se levanta. Puedes poner las manos bajo la cadera."
+    },
+    "lying-leg-raise": {
+      "name": "Elevación de piernas tumbado",
+      "desc": "Tumbado boca arriba, sube las piernas rectas hasta la vertical y bájalas despacio.",
+      "cues": [
+        "Zona lumbar pegada abajo, manos a los lados o bajo la cadera.",
+        "Sube las piernas hasta la vertical.",
+        "Baja despacio y para antes de que se levante la espalda."
+      ],
+      "mistakes": ["Arquear la zona lumbar abajo.", "Dejar caer las piernas rápido."],
+      "safety": "Flexiona las rodillas para hacerlo más fácil."
+    },
+    "v-up": {
+      "name": "V-up (abdominal en V)",
+      "desc": "Desde tumbado, sube a la vez las piernas y el tronco para que las manos vayan hacia los pies.",
+      "cues": [
+        "Túmbate, brazos por encima de la cabeza.",
+        "Sube juntos brazos, pecho y piernas rectas.",
+        "Baja despacio a la posición inicial."
+      ],
+      "mistakes": ["Lanzar el cuerpo con impulso.", "Dejarse caer de golpe."],
+      "safety": "Flexiona las rodillas (encogimiento) si el V-up completo es demasiado difícil."
+    },
+    "sit-up": {
+      "name": "Abdominales completos",
+      "desc": "Tumbado con las rodillas flexionadas, sube enrollándote hasta tener el tronco vertical y vuelve a bajar.",
+      "cues": [
+        "Rodillas flexionadas, pies en el suelo.",
+        "Sube enrollando la columna vértebra a vértebra.",
+        "Baja despacio al suelo."
+      ],
+      "mistakes": ["Tirar de la cabeza con las manos.", "Dejarse caer rápido."],
+      "safety": "Cruza los brazos sobre el pecho para no tirar del cuello."
+    },
+    "heel-touch": {
+      "name": "Toques de talón",
+      "desc": "Tumbado con las rodillas flexionadas y los hombros un poco levantados, alcanza de lado a lado cada talón.",
+      "cues": [
+        "Rodillas flexionadas, hombros despegados del suelo.",
+        "Lleva una mano al talón del mismo lado.",
+        "Alterna los lados con pequeñas inclinaciones laterales."
+      ],
+      "mistakes": ["Dejar caer los hombros al suelo en cada repetición.", "Tirar del cuello hacia delante."],
+      "safety": "Haz el movimiento pequeño y controlado."
+    },
+    "hollow-rock": {
+      "name": "Balanceo en posición hueca",
+      "desc": "Mantener la posición hueca y balancearse suavemente adelante y atrás.",
+      "cues": [
+        "Colócate en posición hueca, zona lumbar pegada al suelo.",
+        "Balancéate de la parte alta de la espalda a la cadera.",
+        "Mantén la misma forma todo el tiempo."
+      ],
+      "mistakes": ["El cuerpo se dobla por la cadera al balancearse.", "La zona lumbar se levanta."],
+      "safety": "Domina primero el hollow hold."
+    },
+    "bear-plank": {
+      "name": "Plancha del oso",
+      "desc": "Apoyado en manos y puntas de los pies con las rodillas suspendidas justo por encima del suelo. Mantente quieto.",
+      "cues": [
+        "Manos bajo los hombros, rodillas bajo la cadera.",
+        "Despega las rodillas unos centímetros.",
+        "Espalda recta, respira con calma."
+      ],
+      "mistakes": ["Cadera que sube mucho.", "Aguantar la respiración."],
+      "safety": "Apoya las rodillas para descansar en cuanto la espalda empiece a redondearse."
+    },
+    "toes-to-bar": {
+      "name": "Pies a la barra",
+      "desc": "Colgado de una barra, sube los pies hasta tocarla.",
+      "cues": [
+        "Cuélgate con los brazos rectos.",
+        "Empuja la barra hacia abajo y sube las piernas.",
+        "Toca la barra con los pies y baja con control."
+      ],
+      "mistakes": ["Balanceo descontrolado entre repeticiones.", "Flexionar mucho los brazos."],
+      "safety": "Prepárate antes con elevaciones de rodillas y de piernas colgado."
+    },
+    "hanging-oblique-knee-raise": {
+      "name": "Elevación oblicua de rodillas colgado",
+      "desc": "Elevación de rodillas colgado llevando las rodillas hacia un lado y luego hacia el otro.",
+      "cues": [
+        "Cuélgate o apóyate en la estación de fondos.",
+        "Sube las rodillas hacia arriba y hacia un lado.",
+        "Baja y alterna los lados."
+      ],
+      "mistakes": ["Balancearse para subir las rodillas.", "Hundirse en los hombros."],
+      "safety": "Mantén los hombros activos y el movimiento lento."
+    },
+    "decline-sit-up": {
+      "name": "Abdominales en banco declinado",
+      "desc": "Abdominales en un banco declinado con los pies enganchados. Más difíciles que en el suelo.",
+      "cues": [
+        "Pies enganchados, túmbate en el banco.",
+        "Sube enrollándote hacia las rodillas.",
+        "Baja despacio a la posición inicial."
+      ],
+      "mistakes": ["Subir de un tirón con los brazos.", "Dejarse caer rápido."],
+      "safety": "Empieza con poca inclinación y no aguantes la respiración."
+    },
+    "suitcase-carry": {
+      "name": "Paseo con maleta",
+      "desc": "Caminar con peso en una sola mano. El tronco trabaja para mantenerse erguido.",
+      "cues": [
+        "Peso en una mano, ponte erguido.",
+        "Camina con pasos cortos y regulares.",
+        "No te inclines hacia el peso."
+      ],
+      "mistakes": ["Inclinarse hacia un lado.", "Encoger el hombro cargado."],
+      "safety": "Deja el peso en el suelo con la espalda recta, flexionando la cadera y las rodillas."
+    },
+    "copenhagen-plank": {
+      "name": "Plancha Copenhague",
+      "desc": "Plancha lateral con la pierna de arriba apoyada en un banco y la de abajo libre. Trabaja la cara interna del muslo y el lateral del tronco.",
+      "cues": [
+        "Antebrazo en el suelo, pie o rodilla de arriba en un banco.",
+        "Sube la cadera hasta formar una línea recta.",
+        "Mantén y respira con calma."
+      ],
+      "mistakes": ["Cadera hundida.", "Rodar hacia delante."],
+      "safety": "Apóyate con la rodilla en lugar del pie para hacerlo más fácil."
+    },
+    "reverse-plank": {
+      "name": "Plancha invertida",
+      "desc": "Sentado con las manos detrás de la cadera, sube la cadera hasta que el cuerpo forme una línea recta, boca arriba.",
+      "cues": [
+        "Manos detrás de la cadera, dedos hacia los pies.",
+        "Sube la cadera con las piernas rectas.",
+        "Mantén una línea recta de los hombros a los talones."
+      ],
+      "mistakes": ["Cadera hundida.", "Cabeza caída hacia atrás."],
+      "safety": "Flexiona las rodillas (posición de mesa) si la versión con piernas rectas es demasiado difícil."
+    },
+    "l-sit": {
+      "name": "L-sit",
+      "desc": "Apoyo sobre los brazos rectos con las piernas estiradas al frente.",
+      "cues": [
+        "Apóyate en las barras, brazos rectos, hombros abajo.",
+        "Sube las piernas rectas al frente.",
+        "Mantén, con las piernas lo más altas que puedas."
+      ],
+      "mistakes": ["Hundirse en los hombros.", "Flexionar las rodillas sin querer."],
+      "safety": "Empieza con las rodillas flexionadas y mantenimientos cortos."
+    },
+    "machine-crunch": {
+      "name": "Crunch en máquina",
+      "desc": "Crunch en una máquina de abdominales con resistencia regulable.",
+      "cues": [
+        "Ajusta el asiento para que las almohadillas queden cómodas.",
+        "Lleva las costillas hacia la cadera.",
+        "Vuelve despacio sin que las placas choquen."
+      ],
+      "mistakes": ["Tirar con los brazos.", "Usar impulso."],
+      "safety": "Elige un peso con el que notes el abdomen, no los flexores de la cadera."
+    },
+    "air-squat": {
+      "name": "Sentadilla sin peso",
+      "desc": "Sentadilla sin carga añadida. El patrón básico de todas las sentadillas.",
+      "cues": [
+        "Pies más o menos al ancho de los hombros, puntas un poco hacia fuera.",
+        "Siéntate entre los talones, pecho arriba.",
+        "Sube empujando con todo el pie."
+      ],
+      "mistakes": ["Talones que se levantan.", "Rodillas que se van hacia dentro."],
+      "safety": "Baja hasta una profundidad que controles. Agárrate a algo para el equilibrio si hace falta."
+    },
+    "jump-squat": {
+      "name": "Sentadilla con salto",
+      "desc": "Sentadilla seguida de un salto vertical. Entrena la potencia de las piernas.",
+      "cues": [
+        "Baja a una profundidad cómoda.",
+        "Salta hacia arriba de forma explosiva.",
+        "Aterriza suave sobre todo el pie y baja a la siguiente sentadilla."
+      ],
+      "mistakes": ["Aterrizar con las piernas rectas.", "Rodillas que se van hacia dentro al aterrizar."],
+      "safety": "Aterriza sin ruido. Para la serie cuando los aterrizajes empiecen a salir mal."
+    },
+    "reverse-lunge": {
+      "name": "Zancada hacia atrás",
+      "desc": "Dar un paso atrás a una zancada y volver. Suele ser más amable con las rodillas que la zancada hacia delante.",
+      "cues": [
+        "Ponte erguido y lleva una pierna atrás.",
+        "Baja la rodilla de atrás hacia el suelo.",
+        "Empuja con el pie de delante para volver."
+      ],
+      "mistakes": ["La rodilla de delante se va hacia dentro.", "Inclinarse mucho hacia delante."],
+      "safety": "Al principio agárrate a algo para el equilibrio. Añade mancuernas cuando los pasos sean estables."
+    },
+    "lateral-lunge": {
+      "name": "Zancada lateral",
+      "desc": "Dar un paso amplio al lado y sentarse sobre esa cadera mientras la otra pierna queda recta.",
+      "cues": [
+        "Pies muy abiertos, puntas al frente.",
+        "Desplázate a un lado flexionando esa rodilla.",
+        "Empuja para volver al centro."
+      ],
+      "mistakes": [
+        "El talón de la pierna flexionada se levanta.",
+        "La rodilla se va hacia dentro más allá de la punta del pie."
+      ],
+      "safety": "Baja solo hasta donde resulte cómodo para la cara interna del muslo."
+    },
+    "curtsy-lunge": {
+      "name": "Zancada cruzada",
+      "desc": "Llevar una pierna atrás y cruzada por detrás de la otra, como en una reverencia, y volver.",
+      "cues": [
+        "Ponte erguido, manos en el pecho o con mancuernas.",
+        "Da un paso atrás cruzando por detrás de la pierna de delante.",
+        "Baja y empuja para volver de pie."
+      ],
+      "mistakes": ["Girar mucho la cadera.", "La rodilla de delante se va hacia dentro."],
+      "safety": "Al principio da pasos cortos y agárrate a algo si hace falta."
+    },
+    "split-squat": {
+      "name": "Sentadilla búlgara sin elevación (split squat)",
+      "desc": "Una zancada en el sitio: los pies se quedan escalonados mientras bajas y subes.",
+      "cues": [
+        "Postura escalonada larga, talón de atrás levantado.",
+        "Baja en vertical hasta que la rodilla de atrás se acerque al suelo.",
+        "Sube sin mover los pies."
+      ],
+      "mistakes": ["El talón de delante se levanta.", "El tronco cae hacia delante."],
+      "safety": "Empieza sin peso y agárrate a algo para el equilibrio."
+    },
+    "barbell-reverse-lunge": {
+      "name": "Zancada hacia atrás con barra",
+      "desc": "Zancada hacia atrás con una barra en la parte alta de la espalda.",
+      "cues": [
+        "Barra en la parte alta de la espalda, ponte erguido.",
+        "Da un paso atrás y baja la rodilla de atrás.",
+        "Empuja con el pie de delante para volver."
+      ],
+      "mistakes": ["Perder el equilibrio hacia un lado.", "Pasos cortos que llevan la rodilla muy adelante."],
+      "safety": "Saca la barra de un rack, usa cierres y empieza ligero: aquí el límite es el equilibrio."
+    },
+    "step-down": {
+      "name": "Bajada desde escalón",
+      "desc": "De pie sobre un escalón bajo, baja despacio el talón libre al suelo y vuelve a subir.",
+      "cues": [
+        "Ponte sobre el escalón con una pierna.",
+        "Flexiona la rodilla y baja el otro talón al suelo.",
+        "Toca ligeramente y vuelve a subir."
+      ],
+      "mistakes": ["La rodilla se va hacia dentro.", "Dejarse caer rápido al suelo."],
+      "safety": "Usa un escalón bajo y agárrate a una pared o barandilla para el equilibrio."
+    },
+    "single-leg-glute-bridge": {
+      "name": "Puente de glúteos a una pierna",
+      "desc": "Puente de glúteos con un pie en el suelo y la otra pierna levantada.",
+      "cues": [
+        "Boca arriba, un pie en el suelo, la otra rodilla arriba.",
+        "Empuja con el talón y sube la cadera.",
+        "Cadera nivelada arriba, baja despacio."
+      ],
+      "mistakes": ["Una cadera cae.", "Arquear la zona lumbar arriba."],
+      "safety": "Domina primero el puente con las dos piernas."
+    },
+    "db-hip-thrust": {
+      "name": "Hip thrust con mancuerna",
+      "desc": "Hip thrust con la parte alta de la espalda en un banco y una mancuerna sobre la cadera.",
+      "cues": [
+        "Parte alta de la espalda en el banco, mancuerna sobre la cadera.",
+        "Sube la cadera hasta que el cuerpo quede horizontal.",
+        "Pausa y baja despacio."
+      ],
+      "mistakes": ["Arquear la zona lumbar arriba.", "Pies demasiado lejos o demasiado cerca."],
+      "safety": "Sujeta la mancuerna con las dos manos; con una almohadilla debajo es más cómodo."
+    },
+    "kettlebell-deadlift": {
+      "name": "Peso muerto con kettlebell",
+      "desc": "Peso muerto con una kettlebell entre los pies. Una forma sencilla de aprender la bisagra de cadera.",
+      "cues": [
+        "Kettlebell entre los pies.",
+        "Lleva la cadera atrás, espalda recta, agarra el asa.",
+        "Ponte de pie erguido y baja de la misma forma."
+      ],
+      "mistakes": ["Redondear la espalda.", "Agacharse en vertical en lugar de hacer la bisagra."],
+      "safety": "Mantén la pesa cerca del cuerpo. Déjala en el suelo entre repeticiones."
+    },
+    "nordic-curl": {
+      "name": "Curl nórdico",
+      "desc": "De rodillas con los talones sujetos, baja el cuerpo hacia delante lo más despacio posible.",
+      "cues": [
+        "Arrodíllate sobre una almohadilla, talones fijos bajo algo sólido.",
+        "Cuerpo recto de las rodillas a la cabeza.",
+        "Baja despacio, frénate con las manos y empuja para volver."
+      ],
+      "mistakes": ["Doblarse por la cadera.", "Caer rápido al principio."],
+      "safety": "Usa una superficie acolchada y baja solo hasta donde controles. Empieza con muy pocas repeticiones."
+    },
+    "donkey-kick": {
+      "name": "Patada de burro",
+      "desc": "A cuatro patas, empuja una pierna flexionada hacia el techo.",
+      "cues": [
+        "A cuatro patas, espalda recta.",
+        "Con la rodilla flexionada, sube el pie hacia el techo.",
+        "Baja sin apoyar la rodilla."
+      ],
+      "mistakes": ["Arquear la zona lumbar.", "Abrir la cadera girándola."],
+      "safety": "Sube solo hasta donde la espalda siga recta."
+    },
+    "fire-hydrant": {
+      "name": "Apertura lateral a cuatro patas",
+      "desc": "A cuatro patas, sube una pierna flexionada hacia el lado.",
+      "cues": [
+        "A cuatro patas, espalda recta.",
+        "Sube la pierna flexionada hacia el lado.",
+        "Baja despacio."
+      ],
+      "mistakes": ["Inclinar todo el cuerpo hacia el otro lado.", "Hacer las repeticiones con prisa."],
+      "safety": "Haz el movimiento lo bastante pequeño para mantener la cadera de frente."
+    },
+    "clamshell": {
+      "name": "Almeja",
+      "desc": "Tumbado de lado con las rodillas flexionadas, abre la rodilla de arriba mientras los pies siguen juntos.",
+      "cues": [
+        "Túmbate de lado, rodillas flexionadas, pies juntos.",
+        "Abre la rodilla de arriba como una concha.",
+        "Cierra despacio."
+      ],
+      "mistakes": ["Girar la cadera hacia atrás.", "Separar los pies."],
+      "safety": "Añade una banda por encima de las rodillas cuando te resulte fácil."
+    },
+    "single-leg-calf-raise": {
+      "name": "Elevación de gemelos a una pierna",
+      "desc": "Elevación de gemelos de pie sobre un solo pie, mejor en un escalón.",
+      "cues": [
+        "Ponte sobre un pie, con la parte delantera en un escalón.",
+        "Baja el talón por debajo del escalón.",
+        "Sube lo más alto que puedas y haz una pausa."
+      ],
+      "mistakes": ["Rebotar abajo.", "Flexionar la rodilla para ayudarte."],
+      "safety": "Agárrate a una pared o barandilla para el equilibrio."
+    },
+    "tibialis-raise": {
+      "name": "Elevación de tibiales",
+      "desc": "Con la espalda apoyada en una pared, sube las puntas de los pies hacia las espinillas.",
+      "cues": [
+        "Espalda contra la pared, pies un paso por delante.",
+        "Sube las puntas de los pies lo más alto que puedas.",
+        "Baja despacio."
+      ],
+      "mistakes": ["Flexionar las rodillas.", "Hacer las repeticiones con prisa."],
+      "safety": "Acerca los pies a la pared para hacerlo más fácil."
+    },
+    "leg-press-calf-raise": {
+      "name": "Gemelos en prensa",
+      "desc": "Elevación de gemelos empujando la plataforma de la prensa con la parte delantera de los pies.",
+      "cues": [
+        "Parte delantera de los pies en el borde de la plataforma, piernas rectas.",
+        "Baja los talones hacia ti.",
+        "Empuja la plataforma con las puntas."
+      ],
+      "mistakes": ["Flexionar las rodillas.", "Pies que resbalan del borde."],
+      "safety": "Ten los seguros al alcance de la mano y usa un peso moderado."
+    },
+    "cossack-squat": {
+      "name": "Sentadilla cosaca",
+      "desc": "Sentadilla lateral profunda sobre una pierna mientras la otra queda recta con la punta hacia arriba.",
+      "cues": [
+        "Pies muy abiertos.",
+        "Siéntate profundo sobre una pierna, la otra recta con la punta arriba.",
+        "Empuja para subir y cambia de lado."
+      ],
+      "mistakes": ["El talón de la pierna flexionada se levanta.", "Redondear la espalda."],
+      "safety": "Agárrate a un apoyo y baja solo hasta donde resulte cómodo."
+    },
+    "cable-pull-through": {
+      "name": "Pull-through en polea",
+      "desc": "De espaldas a una polea baja, bisagra de cadera y tira de la cuerda entre las piernas llevando la cadera hacia delante.",
+      "cues": [
+        "Cuerda entre las piernas, aléjate de la polea.",
+        "Lleva la cadera atrás, espalda recta.",
+        "Impulsa la cadera adelante hasta quedar erguido."
+      ],
+      "mistakes": ["Tirar con los brazos.", "Hacer una sentadilla en lugar de una bisagra."],
+      "safety": "Aléjate lo bastante para que el peso no se separe de la pila arriba."
+    },
+    "assisted-pistol-squat": {
+      "name": "Sentadilla a una pierna asistida",
+      "desc": "Sentadilla a una pierna hasta un banco, sujetándote a un apoyo para el equilibrio.",
+      "cues": [
+        "De pie sobre una pierna delante de un banco, agárrate a un apoyo.",
+        "Siéntate despacio en el banco con la otra pierna adelante.",
+        "Levántate con la misma pierna."
+      ],
+      "mistakes": ["Dejarse caer en el banco.", "La rodilla se va hacia dentro."],
+      "safety": "Empieza con un banco alto y bájalo con el tiempo."
+    },
+    "high-knees": {
+      "name": "Rodillas arriba",
+      "desc": "Correr en el sitio subiendo las rodillas a la altura de la cadera.",
+      "cues": [
+        "Ponte erguido, ligero sobre la parte delantera de los pies.",
+        "Sube las rodillas a la altura de la cadera.",
+        "Mueve los brazos al ritmo."
+      ],
+      "mistakes": ["Echarse atrás.", "Aterrizar fuerte sobre los talones."],
+      "safety": "Marcha en lugar de correr para hacerlo más silencioso y fácil."
+    },
+    "butt-kicks": {
+      "name": "Talones al glúteo",
+      "desc": "Correr en el sitio llevando los talones hacia los glúteos.",
+      "cues": [
+        "Pasos ligeros y rápidos.",
+        "Lleva los talones hacia atrás y arriba.",
+        "Rodillas hacia abajo, brazos relajados."
+      ],
+      "mistakes": ["Inclinarse hacia delante.", "Rodillas que se van hacia delante."],
+      "safety": "Empieza despacio como calentamiento y acelera poco a poco."
+    },
+    "skater-jump": {
+      "name": "Saltos de patinador",
+      "desc": "Saltar de lado a lado de una pierna a la otra, como un patinador de velocidad.",
+      "cues": [
+        "Sobre una pierna, rodilla un poco flexionada.",
+        "Impúlsate hacia el lado y aterriza en la otra pierna.",
+        "Amortigua suave y salta de vuelta."
+      ],
+      "mistakes": ["Aterrizar con la rodilla recta.", "La rodilla se va hacia dentro al aterrizar."],
+      "safety": "Empieza con pasos pequeños en lugar de saltos."
+    },
+    "squat-thrust": {
+      "name": "Squat thrust",
+      "desc": "De pie, agáchate, apoya las manos, lleva los pies atrás a la plancha saltando o andando, y vuelve. Un burpee sin flexión ni salto.",
+      "cues": [
+        "Agáchate y apoya las manos en el suelo.",
+        "Lleva los pies atrás a la plancha, saltando o andando.",
+        "Recoge los pies y ponte de pie."
+      ],
+      "mistakes": ["Cadera hundida en la plancha.", "Redondear la espalda al levantarte."],
+      "safety": "Hazlo andando en lugar de saltando para que sea más fácil."
+    },
+    "box-jump": {
+      "name": "Salto al cajón",
+      "desc": "Saltar desde el suelo a un cajón firme o una plataforma baja.",
+      "cues": [
+        "Ponte cerca del cajón.",
+        "Balancea los brazos y salta hacia arriba.",
+        "Aterriza suave con los dos pies, ponte erguido y baja andando."
+      ],
+      "mistakes": ["Bajar saltando en lugar de andando.", "Aterrizar con las rodillas hacia dentro."],
+      "safety": "Usa un cajón bajo y estable que no pueda deslizarse. Baja siempre andando."
+    },
+    "shadow-boxing": {
+      "name": "Boxeo de sombra",
+      "desc": "Lanzar golpes suaves al aire moviéndote sobre los pies.",
+      "cues": [
+        "Guardia de boxeo, manos arriba cerca de la cara.",
+        "Lanza directos y ganchos girando desde la cadera.",
+        "Mantente ligero sobre los pies."
+      ],
+      "mistakes": ["Bloquear los codos de golpe al estirar del todo.", "Bajar las manos entre golpes."],
+      "safety": "No estires los brazos de golpe. Al principio, mantén un ritmo cómodo."
+    },
+    "stair-climber": {
+      "name": "Escaladora",
+      "desc": "Subir escalones en una máquina escaladora a un ritmo constante.",
+      "cues": [
+        "Ponte erguido, manos apoyadas suavemente en las barandillas.",
+        "Apoya todo el pie en cada paso.",
+        "Elige un ritmo que puedas mantener el tiempo previsto."
+      ],
+      "mistakes": ["Apoyarse mucho en las barandillas.", "Pasos muy cortos de puntillas."],
+      "safety": "Empieza a velocidad baja y usa el botón de parada si hace falta."
+    },
+    "elliptical": {
+      "name": "Elíptica",
+      "desc": "Moverse en una elíptica con zancadas fluidas y deslizantes.",
+      "cues": [
+        "Pies planos sobre los pedales.",
+        "Empuja y tira de los agarres al ritmo.",
+        "Mantén un ritmo regular y cómodo."
+      ],
+      "mistakes": ["Encorvarse sobre los agarres.", "Ponerse de puntillas."],
+      "safety": "Empieza con poca resistencia y súbela poco a poco."
+    },
+    "treadmill-jog": {
+      "name": "Trote en cinta",
+      "desc": "Correr suave en una cinta a un ritmo en el que puedas hablar.",
+      "cues": [
+        "Engancha la llave de seguridad.",
+        "Corre erguido con los hombros relajados.",
+        "Apoya bajo el cuerpo, pasos cortos y rápidos."
+      ],
+      "mistakes": [
+        "Agarrarse a las barandillas mientras corres.",
+        "Zancadas demasiado largas con taconazos."
+      ],
+      "safety": "Arranca la cinta despacio y ponte sobre los laterales antes de subirte."
+    },
+    "incline-treadmill-walk": {
+      "name": "Caminata en cinta inclinada",
+      "desc": "Caminar en una cinta con inclinación.",
+      "cues": [
+        "Pon una inclinación y una velocidad de paso moderadas.",
+        "Camina erguido sin agarrarte a las barandillas.",
+        "Mantén una respiración regular."
+      ],
+      "mistakes": ["Colgarse de las barandillas.", "Inclinarse mucho hacia delante."],
+      "safety": "Sube la inclinación poco a poco; reduce la velocidad antes de parar."
+    },
+    "ski-erg": {
+      "name": "SkiErg",
+      "desc": "Tirar hacia abajo de los agarres de una máquina de esquí con un ritmo parecido al esquí de fondo.",
+      "cues": [
+        "Agarres por encima de la cabeza, rodillas un poco flexionadas.",
+        "Tira hacia abajo con los brazos y haz bisagra de cadera.",
+        "Vuelve arriba con fluidez."
+      ],
+      "mistakes": ["Tirar solo con los brazos.", "Redondear mucho la espalda."],
+      "safety": "Empieza con una regulación baja y un ritmo suave."
+    },
+    "bear-crawl": {
+      "name": "Caminata del oso",
+      "desc": "Avanzar y retroceder a cuatro patas sobre manos y pies con las rodillas justo por encima del suelo.",
+      "cues": [
+        "Manos bajo los hombros, rodillas suspendidas.",
+        "Mueve a la vez la mano y el pie contrarios.",
+        "Espalda recta y cadera baja."
+      ],
+      "mistakes": ["Cadera que sube mucho.", "Pasos grandes y con prisa."],
+      "safety": "Bastan distancias cortas; descansa las muñecas entre series."
+    },
+    "db-thruster": {
+      "name": "Thruster con mancuernas",
+      "desc": "Sentadilla frontal con mancuernas en los hombros que enlaza directamente con un press por encima de la cabeza.",
+      "cues": [
+        "Mancuernas en los hombros, pies al ancho de los hombros.",
+        "Baja en sentadilla, pecho arriba.",
+        "Impúlsate y empuja las mancuernas arriba en un solo movimiento."
+      ],
+      "mistakes": ["Empujar antes de ponerte de pie.", "Arquear la espalda arriba."],
+      "safety": "Usa mancuernas ligeras; la combinación cansa rápido."
+    },
+    "kettlebell-clean": {
+      "name": "Clean con kettlebell",
+      "desc": "Llevar una kettlebell desde entre las piernas hasta apoyarla en el hombro en un solo movimiento fluido.",
+      "cues": [
+        "Lleva la pesa atrás entre las piernas.",
+        "Impulsa la cadera hacia delante.",
+        "Codo cerca del cuerpo, deja que la pesa ruede al antebrazo."
+      ],
+      "mistakes": ["Dejar que la pesa vuelque y golpee la muñeca.", "Subirla flexionando el brazo."],
+      "safety": "Aprende primero el swing. Mantén la pesa cerca del cuerpo."
+    },
+    "double-under": {
+      "name": "Doble salto de comba",
+      "desc": "Una técnica de comba en la que la cuerda pasa dos veces bajo los pies en un solo salto.",
+      "cues": [
+        "Salta un poco más alto de lo normal.",
+        "Gira la cuerda rápido con las muñecas.",
+        "Aterriza suave sobre la parte delantera del pie."
+      ],
+      "mistakes": ["Llevar los pies hacia atrás.", "Girar la cuerda desde los hombros."],
+      "safety": "Siéntete cómodo primero con el salto normal."
+    },
+    "downward-dog": {
+      "name": "Perro boca abajo",
+      "desc": "Postura de yoga con la cadera alta y el cuerpo formando una V invertida.",
+      "cues": [
+        "Manos y pies en la esterilla, cadera arriba.",
+        "Empuja el suelo, espalda larga.",
+        "Deja que los talones bajen hacia el suelo."
+      ],
+      "mistakes": [
+        "Redondear la espalda para forzar los talones abajo.",
+        "Hombros encogidos hacia las orejas."
+      ],
+      "safety": "Flexiona las rodillas todo lo que necesites para mantener la espalda larga."
+    },
+    "cobra-stretch": {
+      "name": "Cobra",
+      "desc": "Tumbado boca abajo, empuja con las manos para levantar el pecho y abrir la parte delantera del cuerpo.",
+      "cues": [
+        "Túmbate boca abajo, manos bajo los hombros.",
+        "Sube el pecho con suavidad; la cadera se queda abajo.",
+        "Hombros lejos de las orejas, respira con calma."
+      ],
+      "mistakes": ["Subir tanto que la zona lumbar se pinza.", "Echar mucho la cabeza atrás."],
+      "safety": "Mantén los codos flexionados si con los brazos rectos la espalda lo nota demasiado."
+    },
+    "low-lunge": {
+      "name": "Zancada baja",
+      "desc": "Zancada con la rodilla de atrás en el suelo, llevando la cadera hacia delante para estirar la parte delantera de la cadera de atrás.",
+      "cues": [
+        "Rodilla de atrás en una esterilla, pie de delante plano.",
+        "Mete un poco la pelvis y lleva la cadera hacia delante.",
+        "Sube los brazos o deja las manos sobre la rodilla de delante."
+      ],
+      "mistakes": ["Arquear la zona lumbar.", "La rodilla de delante se hunde hacia dentro."],
+      "safety": "Pon una esterilla doblada bajo la rodilla de atrás."
+    },
+    "warrior-ii": {
+      "name": "Guerrero II",
+      "desc": "Postura de yoga de pie: piernas muy abiertas, rodilla de delante flexionada y brazos estirados a los lados.",
+      "cues": [
+        "Pies muy abiertos, pie de delante al frente, pie de atrás un poco hacia dentro.",
+        "Flexiona la rodilla de delante sobre el tobillo.",
+        "Brazos a la altura de los hombros, mira por encima de la mano de delante."
+      ],
+      "mistakes": ["La rodilla de delante se va hacia dentro.", "Inclinar el tronco hacia delante."],
+      "safety": "Acorta la postura si notas inestable el equilibrio o la rodilla."
+    },
+    "tree-pose": {
+      "name": "Postura del árbol",
+      "desc": "Equilibrio de yoga sobre una pierna con el otro pie apoyado en la cara interna de la pantorrilla o del muslo.",
+      "cues": [
+        "Ponte sobre un pie y fija la mirada en un punto.",
+        "Apoya la otra planta en la pantorrilla o el muslo, no en la rodilla.",
+        "Manos en el pecho o arriba, respira con calma."
+      ],
+      "mistakes": [
+        "Apoyar el pie en el lateral de la rodilla.",
+        "La cadera de la pierna de apoyo se sale mucho hacia fuera."
+      ],
+      "safety": "Al principio deja los dedos del pie levantado en el suelo o apóyate en una pared."
+    },
+    "pigeon-stretch": {
+      "name": "Postura de la paloma",
+      "desc": "Desde cuatro patas, lleva una rodilla adelante y apoya la espinilla cruzada en la esterilla, con la otra pierna estirada atrás.",
+      "cues": [
+        "Espinilla de delante cruzada en la esterilla, pierna de atrás larga.",
+        "Mantén la cadera de frente.",
+        "Inclínate sobre la pierna de delante si te resulta cómodo."
+      ],
+      "mistakes": ["La cadera se cae hacia un lado.", "Forzar la rodilla de delante hacia abajo."],
+      "safety": "Pon un cojín bajo la cadera de delante. Haz el estiramiento en figura de cuatro tumbado si la rodilla se queja."
+    },
+    "butterfly-stretch": {
+      "name": "Estiramiento de mariposa",
+      "desc": "Sentado con las plantas de los pies juntas y las rodillas cayendo hacia los lados.",
+      "cues": [
+        "Siéntate erguido, plantas juntas, talones hacia ti.",
+        "Deja que las rodillas se relajen hacia abajo.",
+        "Inclínate un poco hacia delante desde la cadera."
+      ],
+      "mistakes": ["Empujar las rodillas hacia abajo con las manos.", "Redondear mucho la espalda."],
+      "safety": "Siéntate sobre una esterilla doblada si la espalda se redondea."
+    },
+    "standing-forward-fold": {
+      "name": "Flexión hacia delante de pie",
+      "desc": "De pie, inclínate hacia delante desde la cadera y deja colgar la parte superior del cuerpo.",
+      "cues": [
+        "Pies al ancho de la cadera, rodillas blandas.",
+        "Inclínate hacia delante y deja colgar la cabeza y los brazos.",
+        "Respira despacio y relaja el cuello."
+      ],
+      "mistakes": ["Bloquear las rodillas con fuerza.", "Hacer rebotes para llegar más abajo."],
+      "safety": "Flexiona las rodillas lo que necesites y sube enrollándote despacio."
+    },
+    "worlds-greatest-stretch": {
+      "name": "Zancada con rotación",
+      "desc": "Secuencia de calentamiento: zancada larga, codo de dentro hacia el pie de delante y luego rotación con el brazo hacia arriba.",
+      "cues": [
+        "Zancada larga, rodilla de atrás abajo o arriba.",
+        "Lleva el codo de dentro hacia el empeine de delante.",
+        "Gira y estira el mismo brazo hacia el techo."
+      ],
+      "mistakes": ["Pasar con prisa por las posiciones.", "La rodilla de delante cae hacia dentro."],
+      "safety": "Muévete despacio y quédate en un rango cómodo."
+    },
+    "hip-90-90": {
+      "name": "Cambio de cadera 90/90",
+      "desc": "Sentado con las dos rodillas flexionadas a 90°, gira las rodillas de un lado al otro.",
+      "cues": [
+        "Siéntate con las dos piernas a 90°, una delante y otra al lado.",
+        "Siéntate erguido, manos detrás de apoyo.",
+        "Levanta y gira las dos rodillas hacia el otro lado."
+      ],
+      "mistakes": ["Hundir la espalda.", "Forzar las rodillas hacia el suelo."],
+      "safety": "Deja las manos apoyadas y muévete solo en un rango cómodo."
+    },
+    "hip-circles": {
+      "name": "Círculos de cadera",
+      "desc": "De pie sobre una pierna, dibuja círculos lentos y amplios con la otra rodilla.",
+      "cues": [
+        "Apóyate en una pared, ponte sobre una pierna.",
+        "Sube la rodilla y dibuja un círculo amplio hacia fuera.",
+        "Cambia de sentido."
+      ],
+      "mistakes": ["Girar todo el cuerpo.", "Moverse rápido y con poco recorrido."],
+      "safety": "Muévete despacio: es un calentamiento, no un entrenamiento."
+    },
+    "ankle-circles": {
+      "name": "Círculos de tobillo",
+      "desc": "Girar despacio el pie desde el tobillo en los dos sentidos.",
+      "cues": [
+        "Levanta un pie o siéntate con la pierna estirada.",
+        "Dibuja círculos lentos y completos con los dedos.",
+        "Cambia de sentido a mitad."
+      ],
+      "mistakes": ["Mover solo los dedos.", "Ir con prisa."],
+      "safety": "Si estás de pie, apóyate en una pared."
+    },
+    "cross-body-shoulder-stretch": {
+      "name": "Estiramiento de hombro cruzado",
+      "desc": "Llevar un brazo recto por delante del pecho tirando con la otra mano.",
+      "cues": [
+        "Cruza un brazo por delante del pecho.",
+        "Sujétalo por encima del codo con la otra mano.",
+        "Tira suave; el hombro se queda abajo."
+      ],
+      "mistakes": ["Encoger el hombro que estiras.", "Tirar directamente de la articulación del codo."],
+      "safety": "Tira con suavidad: debes notar estiramiento, no un pinchazo."
+    },
+    "overhead-triceps-stretch": {
+      "name": "Estiramiento de tríceps por encima de la cabeza",
+      "desc": "Llevar una mano por la espalda hacia las escápulas y presionar suavemente el codo con la otra mano.",
+      "cues": [
+        "Sube un brazo, flexiónalo, mano hacia la parte alta de la espalda.",
+        "Sujeta el codo con la otra mano.",
+        "Guía el codo hacia atrás con suavidad."
+      ],
+      "mistakes": ["Arquear la zona lumbar.", "Echar la cabeza hacia delante."],
+      "safety": "Presiona con suavidad."
+    },
+    "inchworm": {
+      "name": "Gusano",
+      "desc": "De pie, inclínate hacia delante, avanza con las manos hasta la plancha y vuelve con ellas.",
+      "cues": [
+        "Inclínate hacia delante, manos al suelo.",
+        "Avanza con las manos hasta la plancha alta.",
+        "Vuelve con las manos y ponte de pie."
+      ],
+      "mistakes": ["Cadera hundida en la plancha.", "Bloquear mucho las rodillas al inclinarte."],
+      "safety": "Flexiona las rodillas para llegar al suelo."
+    },
+    "thread-the-needle": {
+      "name": "Enhebrar la aguja",
+      "desc": "A cuatro patas, desliza un brazo por debajo del cuerpo y luego ábrelo hacia el techo.",
+      "cues": [
+        "A cuatro patas, cadera sobre las rodillas.",
+        "Desliza un brazo bajo el pecho, hombro hacia el suelo.",
+        "Gira abriéndote y estira el brazo hacia arriba."
+      ],
+      "mistakes": ["Desplazar la cadera hacia un lado.", "Girar con prisa."],
+      "safety": "Muévete despacio dentro de un rango cómodo."
+    },
+    "open-book": {
+      "name": "Libro abierto",
+      "desc": "Tumbado de lado con las rodillas flexionadas, abre el brazo de arriba hacia el otro lado, como si pasaras una página.",
+      "cues": [
+        "Túmbate de lado, rodillas flexionadas al frente, brazos juntos delante.",
+        "Abre el brazo de arriba hacia el otro lado.",
+        "Sigue la mano con la mirada y vuelve despacio."
+      ],
+      "mistakes": ["Las rodillas se separan.", "Forzar el brazo hasta el suelo."],
+      "safety": "Una almohada bajo la cabeza mantiene cómodo el cuello."
+    },
+    "wall-slide": {
+      "name": "Deslizamientos en la pared",
+      "desc": "De pie con la espalda contra la pared, desliza los brazos arriba y abajo por la pared de una W a una Y.",
+      "cues": [
+        "Espalda, cabeza y antebrazos contra la pared.",
+        "Sube los brazos deslizando hasta donde mantengas el contacto.",
+        "Baja de nuevo a la W."
+      ],
+      "mistakes": ["Arquear la zona lumbar y separarla de la pared.", "Encoger los hombros."],
+      "safety": "Sepárate un poco de la pared si te cuesta mantener el contacto."
+    },
+    "band-pass-through": {
+      "name": "Pasos de hombro con banda",
+      "desc": "Sujetando una banda con agarre abierto, lleva los brazos rectos desde delante por encima de la cabeza hasta detrás y vuelve.",
+      "cues": [
+        "Agarre abierto en una banda ligera.",
+        "Sube los brazos rectos por encima de la cabeza y hacia atrás.",
+        "Vuelve despacio por el mismo camino."
+      ],
+      "mistakes": ["Flexionar los codos.", "Arquear la zona lumbar."],
+      "safety": "Abre más el agarre si los hombros no pasan con comodidad."
+    },
+    "deep-squat-hold": {
+      "name": "Sentadilla profunda mantenida",
+      "desc": "Quedarse relajado en el fondo de una sentadilla.",
+      "cues": [
+        "Pies algo más abiertos que los hombros, puntas hacia fuera.",
+        "Baja tan profundo como sea cómodo, talones abajo.",
+        "Los codos separan suavemente las rodillas."
+      ],
+      "mistakes": ["Talones que se levantan.", "Encorvarse mucho hacia delante."],
+      "safety": "Agárrate al marco de una puerta o pon un disco pequeño bajo los talones si se levantan."
+    },
+    "lying-spinal-twist": {
+      "name": "Torsión de columna tumbado",
+      "desc": "Tumbado boca arriba, deja caer las rodillas flexionadas hacia un lado con los hombros pegados al suelo.",
+      "cues": [
+        "Túmbate boca arriba, rodillas flexionadas, brazos abiertos.",
+        "Baja las dos rodillas hacia un lado.",
+        "Mantén los dos hombros en el suelo y respira."
+      ],
+      "mistakes": ["Los hombros se despegan del suelo.", "Forzar las rodillas hacia abajo."],
+      "safety": "Pon un cojín bajo las rodillas si no llegan al suelo."
+    },
+    "kettlebell-halo": {
+      "name": "Halo con kettlebell",
+      "desc": "Sujetando una kettlebell ligera por los cuernos, hazla girar alrededor de la cabeza.",
+      "cues": [
+        "Pesa boca abajo a la altura del pecho.",
+        "Hazla girar cerca de la cabeza.",
+        "Cambia de sentido tras cada serie o repetición."
+      ],
+      "mistakes": ["Arquear la zona lumbar.", "Mover la cabeza en lugar de la pesa."],
+      "safety": "Usa poco peso y mantén la pesa cerca de la cabeza sin tocarla."
+    },
+    "wrist-mobility": {
+      "name": "Movilidad de muñecas",
+      "desc": "Girar las muñecas y balancearse suavemente sobre las manos a cuatro patas para preparar las muñecas para flexiones y planchas.",
+      "cues": [
+        "Gira las muñecas despacio en los dos sentidos.",
+        "A cuatro patas, balancéate suavemente adelante y atrás.",
+        "Gira los dedos hacia los lados y hacia atrás, y vuelve a balancearte."
+      ],
+      "mistakes": [
+        "Cargar todo el peso en las muñecas desde el principio.",
+        "Movimientos rápidos y bruscos."
+      ],
+      "safety": "Hazlo con suavidad; afloja si notas algo punzante."
+    }
+  }
+}

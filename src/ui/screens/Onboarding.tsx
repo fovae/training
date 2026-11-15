@@ -244,7 +244,7 @@ function LanguageStep() {
         label={t('onb.language.title')}
         value={locale.value}
         onChange={(v) => void setLocale(v)}
-        options={LOCALES.map((l) => ({ v: l.code, t: l.native }))}
+        options={LOCALES.map((l) => ({ v: l.code, t: l.native, lang: l.code }))}
       />
     </section>
   );

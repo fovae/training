@@ -1,14 +1,14 @@
 import { useEffect, useState } from 'preact/hooks';
 import { LEGAL_META, loadLegal, type LegalDoc } from '../../content/legal';
 import { loadLicenses, type LicenseEntry } from '../../content/licenses';
-import { locale, t } from '../../i18n';
+import { locale, localeInfo, t } from '../../i18n';
 import { renderMarkdown } from '../../lib/markdown';
 import { needsOnboarding } from '../../state/app';
 import { Icon } from '../components/Icon';
 import { scrollBehavior } from '../../lib/motion';
 
 export const fmtDocDate = (iso: string): string =>
-  new Intl.DateTimeFormat(locale.value === 'ru' ? 'ru-RU' : 'en-GB', { dateStyle: 'long' }).format(
+  new Intl.DateTimeFormat(localeInfo.value.intl, { dateStyle: 'long' }).format(
     new Date(iso + 'T12:00:00Z'),
   );
 

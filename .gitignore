@@ -8,3 +8,4 @@ playwright-report
 
 # создаётся при сборке (scripts/licenses.mjs)
 src/content/generated
+.i18n-wip/

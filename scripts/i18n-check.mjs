@@ -55,7 +55,7 @@ function loadLocale(code) {
   return all;
 }
 
-const intlOf = { en: 'en-GB', ru: 'ru-RU', uk: 'uk-UA', pl: 'pl-PL', 'zh-Hans': 'zh-Hans' };
+const intlOf = { en: 'en-GB', ru: 'ru-RU', uk: 'uk-UA', pl: 'pl-PL', it: 'it-IT', es: 'es-ES' };
 const codes = readdirSync(LOC).filter((d) => statSync(join(LOC, d)).isDirectory());
 if (!codes.includes('en')) errors.push('нет словаря en — он источник истины');
 const dicts = Object.fromEntries(codes.map((c) => [c, loadLocale(c)]));

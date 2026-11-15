@@ -1,0 +1,2959 @@
+{
+  "ex": {
+    "incline-db-press": {
+      "name": "Distensioni con manubri su panca inclinata",
+      "desc": "Una spinta inclinata che si concentra sulla parte alta del petto. I manubri permettono una traiettoria libera e fanno lavorare le due braccia allo stesso modo.",
+      "cues": [
+        "Imposta la panca a 20–30°: più in alto il lavoro passa alle spalle.",
+        "Scapole addotte e premute sulla panca, piedi ben piantati a terra.",
+        "Abbassa i manubri con controllo all’altezza del petto e non farli sbattere in alto."
+      ],
+      "mistakes": [
+        "Panca troppo inclinata, che la trasforma in una spinta per le spalle.",
+        "Gomiti aperti del tutto ai lati, spalle che ruotano in avanti."
+      ],
+      "safety": "Scegli un carico che puoi riappoggiare con sicurezza sulle cosce dopo la serie. Dolore alla spalla: riduci l’escursione o il carico."
+    },
+    "flat-press": {
+      "name": "Chest press alla macchina o distensioni con manubri su panca piana",
+      "desc": "Spinta multiarticolare per la parte media del petto. Scegli la versione in cui controlli meglio l’escursione: macchina o manubri.",
+      "cues": [
+        "Scapole addotte e ferme per tutta la serie.",
+        "Gomiti a circa 45–60° dal busto, non aperti del tutto.",
+        "Spingi in modo fluido senza staccare il bacino dalla panca."
+      ],
+      "mistakes": [
+        "Spalle che salgono verso le orecchie in alto.",
+        "Far rimbalzare il carico sul petto invece di abbassarlo con controllo."
+      ],
+      "safety": "Alla macchina, regola il sedile in modo che le maniglie siano a metà petto. Con i manubri, non arrivare a cedimento senza assistenza."
+    },
+    "high-to-low-cable-fly": {
+      "name": "Croci ai cavi dall’alto verso il basso",
+      "desc": "Esercizio di isolamento per la parte bassa del petto. Le maniglie scendono e si avvicinano.",
+      "cues": [
+        "Fai un passo avanti, inclinati leggermente, gomiti appena piegati e fissi.",
+        "Porta le maniglie in basso con un arco e uniscile davanti alla parte bassa del petto.",
+        "Torna lentamente sentendo l’allungamento del petto."
+      ],
+      "mistakes": [
+        "Trasformarlo in una spinta piegando e stendendo i gomiti.",
+        "Troppo carico che tira le spalle avanti e indietro."
+      ],
+      "safety": "Non portare le braccia troppo indietro nell’allungamento, soprattutto se hai le spalle sensibili."
+    },
+    "rope-pushdown": {
+      "name": "Pushdown ai cavi con corda",
+      "desc": "Isolamento del tricipite, in particolare dei capi laterale e mediale.",
+      "cues": [
+        "Gomiti incollati ai fianchi; si muovono solo gli avambracci.",
+        "In basso allarga le estremità della corda e tieni un secondo.",
+        "Busto fermo, nessun dondolio."
+      ],
+      "mistakes": [
+        "Gomiti che vanno avanti e indietro coinvolgendo le spalle.",
+        "Appoggiarsi con tutto il corpo sul carico."
+      ],
+      "safety": "Se ti fa male il gomito, riduci il carico e non stendere il braccio di scatto."
+    },
+    "overhead-cable-extension": {
+      "name": "Estensioni sopra la testa ai cavi",
+      "desc": "Estendere le braccia sopra la testa allena il tricipite in allungamento, con focus sul capo lungo.",
+      "cues": [
+        "Dai le spalle al cavo, gomiti in avanti e fermi.",
+        "Non inarcare la zona lombare: contrai leggermente l’addome.",
+        "Lavora in un’escursione comoda, senza strappi in basso."
+      ],
+      "mistakes": ["Gomiti che si aprono ai lati.", "Inarcare la zona lombare per sollevare di più."],
+      "safety": "Se la spalla dà fastidio, riduci l’escursione o passa al pushdown con corda."
+    },
+    "single-arm-pushdown": {
+      "name": "Pushdown ai cavi a un braccio",
+      "desc": "Pushdown a un braccio al cavo alto. Aiuta a bilanciare la forza tra le braccia e a controllare ogni lato.",
+      "cues": ["Braccio fermo, gomito vicino al fianco.", "Stendi del tutto il braccio e torna lentamente."],
+      "mistakes": ["Busto che ruota insieme al braccio.", "Ripetizioni affrettate senza controllo."],
+      "safety": "Esercizio facoltativo: se il tricipite è già esausto dalle spinte, saltalo."
+    },
+    "lat-pulldown": {
+      "name": "Lat machine al petto",
+      "desc": "Tirata verticale per i dorsali. Un buon sostituto delle trazioni con carico regolabile.",
+      "cues": [
+        "Inizia abbassando le scapole, poi porta i gomiti in basso.",
+        "Tira la barra alla parte alta del petto con una leggera inclinazione all’indietro.",
+        "In alto stendi del tutto le braccia ma tieni le spalle attive."
+      ],
+      "mistakes": ["Tirare dietro la nuca.", "Dondolare il busto per muovere il carico."],
+      "safety": "Blocca le cosce sotto i cuscinetti. Non lasciare che la barra ti strattoni le braccia in alto."
+    },
+    "seated-cable-row": {
+      "name": "Pulley basso da seduto",
+      "desc": "Rematore da seduto verso l’addome per la parte centrale della schiena, romboidi e dorsali.",
+      "cues": [
+        "Colonna allungata, busto quasi fermo.",
+        "Tira la maniglia verso il basso addome, gomiti vicini al corpo.",
+        "Alla fine avvicina le scapole, senza alzare le spalle."
+      ],
+      "mistakes": [
+        "Dondolare il busto avanti e indietro.",
+        "Curvare la schiena all’inizio di ogni ripetizione."
+      ],
+      "safety": "Ginocchia leggermente piegate. Se senti tensione lombare, riduci il carico e tieni il busto più stabile."
+    },
+    "chest-supported-db-row": {
+      "name": "Rematore con manubri con appoggio al petto",
+      "desc": "Rematore sdraiato a pancia in giù su panca inclinata. L’appoggio scarica la zona lombare; lavorano la parte alta della schiena e i deltoidi posteriori.",
+      "cues": [
+        "Sdraiati con il petto su una panca a 30–45°, braccia che pendono libere.",
+        "Porta i gomiti indietro e leggermente in fuori, senza strappi.",
+        "Niente panca? Va bene anche una macchina per rematore con appoggio al petto."
+      ],
+      "mistakes": [
+        "Il petto si stacca dalla panca a ogni ripetizione.",
+        "Tirare solo con le braccia, senza muovere le scapole."
+      ],
+      "safety": "Prendi e appoggia i manubri con attenzione, senza torcerti sulla panca."
+    },
+    "incline-db-curl": {
+      "name": "Curl con manubri su panca inclinata",
+      "desc": "Curl da seduto su panca inclinata: braccia dietro al busto, bicipite allungato, focus sul capo lungo.",
+      "cues": [
+        "Schiena sulla panca, spalle dietro al busto.",
+        "Non portare i gomiti in avanti mentre sali.",
+        "Scendi lentamente fino a braccia quasi tese."
+      ],
+      "mistakes": [
+        "Spalle che ruotano in avanti per aiutare a sollevare.",
+        "Lasciar cadere i manubri in discesa."
+      ],
+      "safety": "Inizia leggero: la posizione in allungamento carica di più il tendine del bicipite."
+    },
+    "preacher-curl": {
+      "name": "Curl alla panca Scott o alla macchina",
+      "desc": "Curl con il braccio appoggiato a un cuscinetto. Elimina gli imbrogli e si concentra sul capo breve del bicipite.",
+      "cues": [
+        "Tieni sempre il braccio ben appoggiato al cuscinetto.",
+        "Non stendere il gomito di scatto in basso."
+      ],
+      "mistakes": ["Staccare il braccio dal cuscinetto in alto.", "Scendere troppo in fretta."],
+      "safety": "La posizione bassa è la più delicata per il gomito: scendi lentamente e non lasciar mai cadere il carico."
+    },
+    "hammer-curl": {
+      "name": "Curl a martello",
+      "desc": "Curl con presa neutra. Carica il brachiale e il brachioradiale.",
+      "cues": ["Palmi rivolti l’uno verso l’altro per tutto il movimento.", "Nessun dondolio, spalle basse."],
+      "mistakes": ["Gomiti che vanno in avanti.", "Dondolare la schiena nelle ultime ripetizioni."],
+      "safety": "Tieni i polsi dritti, non piegarli all’indietro."
+    },
+    "wrist-curl": {
+      "name": "Curl per i polsi da seduto",
+      "desc": "Isolamento dei flessori dell’avambraccio. Rafforza la presa.",
+      "cues": [
+        "Avambracci appoggiati sulle cosce o su una panca; si muovono solo le mani.",
+        "Carico moderato, escursione completa e fluida."
+      ],
+      "mistakes": ["Avambracci che si staccano dall’appoggio.", "Troppo carico, con un’escursione corta."],
+      "safety": "Se polsi o gomiti danno fastidio, riduci il carico o elimina l’esercizio."
+    },
+    "reverse-wrist-curl": {
+      "name": "Curl inverso per i polsi da seduto",
+      "desc": "Isolamento degli estensori dell’avambraccio. Bilancia il curl per i polsi.",
+      "cues": ["Presa prona, avambracci appoggiati.", "Lento, senza strappi."],
+      "mistakes": [
+        "Strappi invece di un movimento fluido.",
+        "Usare lo stesso carico del curl per i polsi: gli estensori sono molto più deboli."
+      ],
+      "safety": "Se polsi o gomiti danno fastidio, riduci il carico o elimina l’esercizio."
+    },
+    "seated-shoulder-press": {
+      "name": "Lento avanti da seduto con manubri o alla macchina",
+      "desc": "Spinta multiarticolare sopra la testa per i deltoidi anteriori e laterali.",
+      "cues": [
+        "Schiena contro lo schienale, non inarcare la zona lombare.",
+        "Non abbassare i gomiti oltre una profondità comoda.",
+        "Spingi in alto e leggermente verso l’interno, senza far sbattere i manubri."
+      ],
+      "mistakes": ["Forte arco lombare.", "Portare ogni serie a cedimento."],
+      "safety": "Metti lo schienale quasi verticale. Dolore alla spalla: riduci l’escursione o il carico."
+    },
+    "lateral-raise": {
+      "name": "Alzate laterali con manubri",
+      "desc": "Isolamento dei deltoidi laterali.",
+      "cues": [
+        "Solleva circa fino all’altezza delle spalle.",
+        "Gomiti leggermente piegati che guidano il movimento.",
+        "Il busto resta fermo."
+      ],
+      "mistakes": [
+        "Dondolare il corpo per lanciare i manubri.",
+        "Alzare le spalle, così lavorano i trapezi."
+      ],
+      "safety": "Un carico leggero con una tecnica pulita è meglio di uno pesante. Non salire oltre l’altezza delle spalle se dà fastidio."
+    },
+    "reverse-pec-deck": {
+      "name": "Reverse pec deck",
+      "desc": "Aprire le braccia alla macchina rivolti verso lo schienale. Isolamento dei deltoidi posteriori.",
+      "cues": [
+        "Apri le braccia usando le spalle; non stringere troppo le scapole.",
+        "Collo rilassato, petto contro lo schienale."
+      ],
+      "mistakes": [
+        "Stringere le scapole invece di far lavorare i deltoidi posteriori.",
+        "Dare strappi e portare le braccia troppo indietro."
+      ],
+      "safety": "Regola l’altezza del sedile in modo che le maniglie siano all’altezza delle spalle."
+    },
+    "db-shrug": {
+      "name": "Scrollate con manubri",
+      "desc": "Sollevare le spalle tenendo i manubri. Carica la parte alta dei trapezi.",
+      "cues": ["Spalle dritte in alto, senza ruotarle.", "Breve pausa in alto, lento in discesa."],
+      "mistakes": ["Ruotare le spalle.", "Piegare i gomiti."],
+      "safety": "Collo neutro; non spingere il mento in avanti."
+    },
+    "incline-y-raise": {
+      "name": "Alzate a Y su panca inclinata",
+      "desc": "Sollevare le braccia a forma di Y sdraiati a pancia in giù su una panca. Rafforza i trapezi inferiori e gli stabilizzatori delle scapole. Puoi alternarlo con il face pull ai cavi.",
+      "cues": [
+        "Manubri leggerissimi o nessun carico.",
+        "Solleva le braccia a forma di Y, pollici in alto.",
+        "Non contrarre il collo; scapole basse."
+      ],
+      "mistakes": [
+        "Troppo carico, il movimento diventa uno strappo.",
+        "Spalle che salgono verso le orecchie."
+      ],
+      "safety": "Qui conta il controllo, non la forza: fermati se ti fa male la spalla."
+    },
+    "cable-crunch": {
+      "name": "Crunch ai cavi in ginocchio",
+      "desc": "Crunch in ginocchio con la corda. Carica gli addominali con un peso regolabile.",
+      "cues": [
+        "Avvicina la gabbia toracica al bacino; non tirare la corda con le braccia.",
+        "Bacino quasi fermo; il movimento parte dalla parte alta della colonna."
+      ],
+      "mistakes": ["Piegarsi dalle anche invece di arrotolarsi.", "Tirare con le braccia."],
+      "safety": "Espira durante il crunch. Se senti tensione lombare, riduci carico ed escursione."
+    },
+    "hanging-knee-raise": {
+      "name": "Sollevamento delle ginocchia alla sbarra o alle parallele",
+      "desc": "Portare le ginocchia al petto appesi a una sbarra o in appoggio alle parallele. Lavorano gli addominali, soprattutto alla fine del movimento.",
+      "cues": [
+        "In alto ruota il bacino invece di sollevare solo le ginocchia.",
+        "Abbassa le gambe lentamente, senza dondolare.",
+        "Se è troppo difficile, inizia alle parallele."
+      ],
+      "mistakes": [
+        "Dondolare tutto il corpo.",
+        "Sollevare le gambe solo con i flessori dell’anca, senza ruotare il bacino."
+      ],
+      "safety": "Scendi dalla sbarra con attenzione. Se in sospensione ti fanno male le spalle, usa le parallele."
+    },
+    "side-plank": {
+      "name": "Plank laterale",
+      "desc": "Tenuta statica su un avambraccio, di lato. Allena gli obliqui e la stabilità laterale del busto.",
+      "cues": ["Corpo in linea retta dalla testa ai piedi.", "Gomito sotto la spalla, il bacino non cede."],
+      "mistakes": ["Bacino che scende o va indietro.", "Trattenere il respiro."],
+      "safety": "Fermati se ti fa male la spalla o la zona lombare. Una versione più facile è con il ginocchio di sotto a terra."
+    },
+    "pallof-press": {
+      "name": "Pallof press",
+      "desc": "Spingere una maniglia del cavo lontano dal petto stando di lato alla macchina. Allena a resistere alla rotazione del busto.",
+      "cues": [
+        "Mettiti di lato al cavo, piedi alla larghezza delle spalle.",
+        "Spingi la maniglia dritta in avanti e tieni 1–2 secondi.",
+        "Non lasciare che il busto ruoti verso il cavo."
+      ],
+      "mistakes": ["Busto che ruota con il cavo.", "Troppo carico, perdita di controllo."],
+      "safety": "Puoi usare un elastico. Spalle basse e gomiti morbidi."
+    },
+    "dead-bug": {
+      "name": "Dead bug",
+      "desc": "Sdraiato sulla schiena, abbassi a turno braccio e gamba opposti. Allena gli stabilizzatori profondi del core.",
+      "cues": [
+        "Zona lombare premuta a terra per tutto il tempo.",
+        "Abbassa lentamente braccio e gamba opposti.",
+        "Espira mentre li abbassi."
+      ],
+      "mistakes": ["Zona lombare che si stacca da terra.", "Muoversi troppo in fretta."],
+      "safety": "Se la zona lombare si stacca, riduci l’escursione: non abbassare così tanto la gamba."
+    },
+    "leg-press": {
+      "name": "Leg press",
+      "desc": "Esercizio multiarticolare alla macchina per quadricipiti e glutei, con supporto per la schiena.",
+      "cues": [
+        "Piedi alla larghezza delle spalle al centro della pedana.",
+        "Abbassa la pedana con controllo, ginocchia in linea con le punte.",
+        "Non bloccare le ginocchia in alto."
+      ],
+      "mistakes": [
+        "Scendere così tanto che il bacino si ruota e la zona lombare si stacca.",
+        "Ginocchia che cedono verso l’interno."
+      ],
+      "safety": "Bacino e zona lombare restano sempre sullo schienale. Usa i fermi di sicurezza della macchina."
+    },
+    "leg-curl": {
+      "name": "Leg curl alla macchina",
+      "desc": "Isolamento dei femorali, da sdraiato o da seduto.",
+      "cues": ["Fluido, senza strappi.", "Non serve il carico massimo; conta di più il controllo in basso."],
+      "mistakes": ["Bacino che si stacca dal sedile.", "Lasciar cadere il carico in discesa."],
+      "safety": "Metti il rullo appena sopra i talloni e il perno della macchina all’altezza del ginocchio."
+    },
+    "calf-raise": {
+      "name": "Calf raise",
+      "desc": "Salire sulle punte, in piedi o alla macchina. Allena i polpacci.",
+      "cues": ["Escursione completa e comoda.", "Pausa in alto, lento in discesa."],
+      "mistakes": ["Ripetizioni rimbalzate senza pausa.", "Piegare le ginocchia per aiutarsi."],
+      "safety": "Senza macchina, tieniti a qualcosa per l’equilibrio."
+    },
+    "barbell-bench-press": {
+      "name": "Panca piana con bilanciere",
+      "desc": "Spingere un bilanciere dal petto sdraiati su una panca piana. Lavorano petto, deltoidi anteriori e tricipiti.",
+      "cues": [
+        "Occhi sotto il bilanciere, piedi ben appoggiati a terra.",
+        "Scapole indietro e in basso, tienile così per tutta la serie.",
+        "Abbassa il bilanciere con controllo alla parte bassa del petto, gomiti leggermente chiusi.",
+        "Spingi in alto e leggermente indietro, verso le spalle."
+      ],
+      "mistakes": [
+        "Far rimbalzare il bilanciere sul petto.",
+        "Gomiti aperti del tutto ai lati.",
+        "Bacino che si stacca dalla panca."
+      ],
+      "safety": "Usa un rack con i fermi di sicurezza appena sotto il punto più basso, o qualcuno che ti assista. Metti i fermi sul bilanciere. Salta la serie se non controlli il movimento. Stacca e riaggancia il bilanciere a braccia tese."
+    },
+    "incline-barbell-press": {
+      "name": "Panca inclinata con bilanciere",
+      "desc": "Distensioni su panca inclinata. Spostano più lavoro sulla parte alta del petto e sui deltoidi anteriori.",
+      "cues": [
+        "Imposta la panca a circa 30°; più in alto diventa una spinta per le spalle.",
+        "Scapole indietro, petto in fuori.",
+        "Abbassa il bilanciere alla parte alta del petto, sotto le clavicole.",
+        "Spingi dritto in alto, polsi sopra i gomiti."
+      ],
+      "mistakes": [
+        "Panca troppo inclinata.",
+        "Bilanciere che scivola verso il viso o il collo.",
+        "Sollevare il bacino per facilitare la spinta."
+      ],
+      "safety": "Usa un rack con i fermi di sicurezza appena sotto il punto più basso, o qualcuno che ti assista. Metti i fermi sul bilanciere. Salta la serie se non controlli il movimento."
+    },
+    "db-fly": {
+      "name": "Croci con manubri",
+      "desc": "Aprire le braccia con i manubri sdraiati su una panca. Allunga e allena il petto.",
+      "cues": [
+        "Mantieni una leggera flessione fissa nei gomiti.",
+        "Apri le braccia con un ampio arco finché senti l’allungamento del petto.",
+        "Unisci i manubri come se abbracciassi un grande albero."
+      ],
+      "mistakes": [
+        "Piegare e stendere i gomiti, trasformandolo in una spinta.",
+        "Scendere oltre un allungamento comodo."
+      ],
+      "safety": "Scegli un carico più leggero che per le spinte. Dolore alla spalla significa meno escursione o meno carico."
+    },
+    "pec-deck": {
+      "name": "Pec deck (croci alla macchina)",
+      "desc": "Avvicinare le braccia davanti al petto alla macchina. Un isolamento controllato per il petto.",
+      "cues": [
+        "Regola il sedile in modo che le maniglie siano all’altezza del petto.",
+        "Gomiti morbidi e spalle basse.",
+        "Stringi un attimo quando le maniglie si incontrano, poi torna lentamente."
+      ],
+      "mistakes": ["Lasciare che il carico porti le braccia troppo indietro.", "Alzare le spalle."],
+      "safety": "Regola il sedile e la posizione iniziale delle maniglie prima della serie, così l’allungamento resta comodo."
+    },
+    "chest-dip": {
+      "name": "Dip alle parallele per il petto",
+      "desc": "Scendere e risalire alle parallele con il busto inclinato in avanti. Lavorano petto e tricipiti.",
+      "cues": [
+        "Inclinati leggermente in avanti, i gomiti vanno indietro e un po’ in fuori.",
+        "Scendi finché le spalle sono appena sotto i gomiti, o fin dove è comodo.",
+        "Risali fino a braccia tese senza bloccarle di colpo."
+      ],
+      "mistakes": [
+        "Cadere veloce nel punto più basso.",
+        "Spalle che ruotano in avanti e salgono verso le orecchie.",
+        "Scendere più di quanto permettano le spalle."
+      ],
+      "safety": "Inizia con la macchina per dip assistiti o un elastico se non controlli la parte bassa. Fermati se senti dolore nella parte anteriore della spalla."
+    },
+    "push-up": {
+      "name": "Piegamenti sulle braccia",
+      "desc": "Spingersi su dal pavimento con il corpo dritto. Lavorano petto, tricipiti e spalle, e si allena il core.",
+      "cues": [
+        "Mani un po’ più larghe delle spalle, sotto il petto.",
+        "Corpo in linea dalla testa ai talloni, glutei contratti.",
+        "Porta il petto vicino al pavimento, poi spingi."
+      ],
+      "mistakes": [
+        "Bacino che cede o resta alto.",
+        "Gomiti aperti a 90°.",
+        "Mezze ripetizioni senza abbassare il petto."
+      ],
+      "safety": "Se i piegamenti completi sono ancora troppo duri, appoggia le mani su una panca o falli sulle ginocchia."
+    },
+    "incline-push-up": {
+      "name": "Piegamenti inclinati",
+      "desc": "Piegamenti con le mani su una panca o un box. Una versione più facile che insegna la stessa posizione.",
+      "cues": [
+        "Mani su una panca stabile, poco più larghe delle spalle.",
+        "Corpo in una linea retta, glutei e addome contratti.",
+        "Tocca la panca con il petto, poi spingi."
+      ],
+      "mistakes": ["Bacino che cede.", "La testa arriva alla panca prima del petto."],
+      "safety": "Assicurati che la panca o il box non possano scivolare né ribaltarsi."
+    },
+    "close-grip-push-up": {
+      "name": "Piegamenti a presa stretta",
+      "desc": "Piegamenti con le mani vicine. Più lavoro per il tricipite.",
+      "cues": [
+        "Mani sotto le spalle o un po’ più vicine.",
+        "I gomiti vanno indietro lungo il corpo, non ai lati.",
+        "Corpo in linea, spingi via il pavimento."
+      ],
+      "mistakes": ["Mani così vicine che fanno male i polsi.", "Bacino che cede."],
+      "safety": "Se i polsi protestano, allarga un po’ le mani o usa le maniglie per piegamenti."
+    },
+    "deadlift": {
+      "name": "Stacco da terra",
+      "desc": "Sollevare un bilanciere da terra fino alla posizione eretta. Lavorano la parte posteriore delle gambe, i glutei e tutta la schiena.",
+      "cues": [
+        "Bilanciere sopra il centro del piede, tibie vicine al bilanciere.",
+        "Presa appena fuori dalle gambe, schiena dritta, petto in fuori.",
+        "Spingi via il pavimento e tieni il bilanciere vicino alle gambe fino in alto.",
+        "In alto stai dritto, senza sbilanciarti indietro."
+      ],
+      "mistakes": [
+        "Curvare la zona lombare.",
+        "Bilanciere che si allontana dalle gambe.",
+        "Strappare il bilanciere da terra."
+      ],
+      "safety": "Impara prima il movimento con un carico leggero. Metti i fermi sul bilanciere e abbassalo con controllo, non lasciarlo cadere. Salta la serie se non riesci a tenere la schiena dritta."
+    },
+    "romanian-deadlift": {
+      "name": "Stacco rumeno",
+      "desc": "Piegamento d’anca da in piedi con il bilanciere: il bacino va indietro, il bilanciere scivola lungo le gambe. Lavorano femorali e glutei.",
+      "cues": [
+        "Parti in piedi, ginocchia leggermente piegate che restano così.",
+        "Porta il bacino indietro e fai scivolare il bilanciere lungo le cosce.",
+        "Scendi finché senti un forte allungamento dietro le cosce, schiena dritta.",
+        "Risali spingendo il bacino in avanti."
+      ],
+      "mistakes": [
+        "Curvare la schiena per arrivare più in basso.",
+        "Piegare di più le ginocchia e trasformarlo in uno squat.",
+        "Bilanciere che si allontana dalle gambe."
+      ],
+      "safety": "Metti i fermi sul bilanciere. Scendi solo finché riesci a tenere la schiena dritta. Salta la serie se non controlli il movimento."
+    },
+    "barbell-row": {
+      "name": "Rematore con bilanciere",
+      "desc": "Tirare un bilanciere verso l’addome con il busto piegato. Lavorano la parte alta della schiena e i dorsali.",
+      "cues": [
+        "Piegati dalle anche, ginocchia leggermente piegate, schiena dritta.",
+        "Presa un po’ più larga delle spalle.",
+        "Tira il bilanciere verso le costole basse, gomiti indietro.",
+        "Abbassalo con controllo senza muovere il busto."
+      ],
+      "mistakes": [
+        "Raddrizzarsi sempre di più a ogni ripetizione.",
+        "Strappare il carico con tutto il corpo.",
+        "Curvare la schiena."
+      ],
+      "safety": "Metti i fermi sul bilanciere. Inizia leggero: la zona lombare lavora molto per tenere la posizione. Salta la serie se non riesci a tenere la schiena dritta."
+    },
+    "one-arm-db-row": {
+      "name": "Rematore con manubrio a un braccio",
+      "desc": "Tirare un manubrio verso l’anca con un braccio, con l’altra mano e il ginocchio su una panca. Lavorano dorsali e parte alta della schiena.",
+      "cues": [
+        "Mano e ginocchio sulla panca, schiena dritta e parallela al pavimento.",
+        "Tira il manubrio verso l’anca, gomito vicino al corpo.",
+        "Abbassalo del tutto con controllo."
+      ],
+      "mistakes": [
+        "Ruotare il busto per sollevare il carico.",
+        "Tirare solo con il braccio, alzando la spalla."
+      ],
+      "safety": "Braccio d’appoggio teso e schiena dritta. Riduci il carico se la zona lombare si curva."
+    },
+    "t-bar-row": {
+      "name": "Rematore T-bar",
+      "desc": "Rematore con un’estremità di un bilanciere fissato dall’altra parte, o alla macchina T-bar. Lavora la schiena.",
+      "cues": [
+        "Piegati dalle anche, schiena dritta, ginocchia leggermente piegate.",
+        "Tira la maniglia verso il petto, gomiti indietro.",
+        "Abbassa con controllo fino a braccia tese."
+      ],
+      "mistakes": ["Sollevare il busto a ogni ripetizione.", "Curvare la schiena in basso."],
+      "safety": "Fissa l’estremità del bilanciere in un landmine o in un angolo perché non scivoli. Metti i fermi sui dischi."
+    },
+    "pull-up": {
+      "name": "Trazioni alla sbarra prone",
+      "desc": "Tirarsi su fino a una sbarra con presa prona. Lavorano dorsali e parte alta della schiena.",
+      "cues": [
+        "Presa leggermente più larga delle spalle, palmi in avanti.",
+        "Parti da appeso con le spalle abbassate.",
+        "Tira finché il mento supera la sbarra, poi scendi lentamente."
+      ],
+      "mistakes": [
+        "Dondolare e scalciare con le gambe.",
+        "Mezze ripetizioni senza stendere le braccia.",
+        "Cadere veloce in basso."
+      ],
+      "safety": "Se non riesci ancora a fare una trazione completa, usa la macchina assistita, un elastico o solo la discesa lenta."
+    },
+    "chin-up": {
+      "name": "Trazioni supine",
+      "desc": "Trazione con presa supina. Più lavoro per il bicipite.",
+      "cues": [
+        "Presa alla larghezza delle spalle, palmi verso di te.",
+        "Porta il petto verso la sbarra, gomiti in basso e indietro.",
+        "Scendi del tutto con controllo."
+      ],
+      "mistakes": ["Dondolarsi per salire.", "Allungare il collo verso la sbarra."],
+      "safety": "Se i gomiti danno fastidio, presa leggermente più larga o versione assistita."
+    },
+    "assisted-pull-up": {
+      "name": "Trazioni assistite",
+      "desc": "Trazione alla macchina con un appoggio per le ginocchia che aiuta a salire. Insegna il movimento completo.",
+      "cues": [
+        "Inginocchiati sull’appoggio e afferra le maniglie in alto.",
+        "Prima abbassa le spalle, poi porta su il petto.",
+        "Scendi lentamente fino a braccia tese."
+      ],
+      "mistakes": ["Rimbalzare sull’appoggio in basso.", "Alzare le spalle."],
+      "safety": "Sali e scendi dalla macchina con attenzione: imposta l’assistenza prima di salire sull’appoggio."
+    },
+    "close-grip-pulldown": {
+      "name": "Lat machine a presa stretta",
+      "desc": "Tirata con una maniglia neutra stretta. Allena i dorsali in un’escursione ampia.",
+      "cues": [
+        "Cosce sotto i cuscinetti, busto leggermente inclinato indietro.",
+        "Tira la maniglia alla parte alta del petto, gomiti in basso.",
+        "In alto lascia che le braccia si stendano del tutto."
+      ],
+      "mistakes": ["Inclinarsi molto indietro e trasformarlo in un rematore.", "Tirare solo con le braccia."],
+      "safety": "Tieni la maniglia finché il pacco pesi è tornato giù; non lasciarla volare in alto."
+    },
+    "straight-arm-pulldown": {
+      "name": "Pulldown a braccia tese",
+      "desc": "Spingere in basso una barra al cavo con un arco a braccia tese. Isola i dorsali.",
+      "cues": [
+        "Mettiti un passo indietro dal cavo, inclinati leggermente in avanti.",
+        "Braccia quasi tese, porta la barra con un arco fino alle cosce.",
+        "Torna lentamente finché senti l’allungamento dei dorsali."
+      ],
+      "mistakes": [
+        "Piegare i gomiti e trasformarlo in un pushdown.",
+        "Dondolare il busto per muovere il carico."
+      ],
+      "safety": "Tieni il carico moderato: è un esercizio di controllo, non di forza."
+    },
+    "inverted-row": {
+      "name": "Rematore inverso",
+      "desc": "Tirare il petto verso una barra all’altezza della vita, talloni a terra. Lavora la schiena.",
+      "cues": [
+        "Corpo in una linea retta dalla testa ai talloni.",
+        "Tira il petto alla barra, gomiti indietro.",
+        "Scendi fino a braccia tese."
+      ],
+      "mistakes": ["Bacino che cede.", "Tirare il mento invece del petto verso la barra."],
+      "safety": "Assicurati che la barra sia fissata bene nel rack. Piega le ginocchia per renderlo più facile."
+    },
+    "machine-row": {
+      "name": "Rematore alla macchina",
+      "desc": "Rematore da seduto alla macchina con appoggio per il petto. Un modo stabile per allenare la schiena.",
+      "cues": [
+        "Petto contro l’appoggio, piedi ben piantati.",
+        "Tira le maniglie indietro avvicinando le scapole.",
+        "Torna fino a braccia tese, tieni il petto sull’appoggio."
+      ],
+      "mistakes": ["Staccarsi dall’appoggio per muovere più carico.", "Alzare le spalle."],
+      "safety": "Regola il sedile in modo che le maniglie siano all’altezza della parte bassa del petto."
+    },
+    "db-pullover": {
+      "name": "Pullover con manubrio",
+      "desc": "Abbassare un manubrio dietro la testa e riportarlo sopra il petto, sdraiati su una panca. Lavorano dorsali e petto.",
+      "cues": [
+        "Tieni un manubrio con due mani, braccia quasi tese.",
+        "Abbassalo con un arco dietro la testa finché senti l’allungamento.",
+        "Riportalo sopra il petto."
+      ],
+      "mistakes": [
+        "Piegare molto i gomiti e trasformarlo in un esercizio per i tricipiti.",
+        "Inarcare la zona lombare in basso."
+      ],
+      "safety": "Tieni bene il manubrio dal disco. Inizia leggero: la posizione finale allunga le spalle."
+    },
+    "back-extension": {
+      "name": "Iperestensioni",
+      "desc": "Sollevare il busto su una panca per iperestensioni. Lavorano zona lombare e glutei.",
+      "cues": [
+        "Cuscinetto appena sotto le ossa del bacino, talloni sotto i rulli.",
+        "Abbassa il busto con la schiena dritta.",
+        "Risali finché il corpo è in linea, non oltre."
+      ],
+      "mistakes": ["Inarcarsi troppo in alto.", "Dondolare per slancio."],
+      "safety": "Inizia senza carico extra. Fermati se senti dolore alla zona lombare."
+    },
+    "dead-hang": {
+      "name": "Sospensione alla sbarra",
+      "desc": "Restare appesi a una sbarra a braccia tese. Allena la presa e le spalle.",
+      "cues": [
+        "Afferra la sbarra un po’ più larga delle spalle.",
+        "Resta appeso a braccia tese, spalle leggermente attive.",
+        "Respira con calma e tieni per il tempo previsto."
+      ],
+      "mistakes": ["Saltare su e giù dalla sbarra.", "Trattenere il respiro."],
+      "safety": "Scendi su un box o a terra; non saltare giù dall’alto."
+    },
+    "back-squat": {
+      "name": "Squat con bilanciere dietro",
+      "desc": "Squat con il bilanciere sulla parte alta della schiena. Lavorano quadricipiti e glutei; tutto il corpo mantiene la posizione.",
+      "cues": [
+        "Bilanciere sulla parte alta della schiena, non sul collo; presa salda, gomiti in basso.",
+        "Piedi circa alla larghezza delle spalle, punte leggermente in fuori.",
+        "Siediti tra i talloni, ginocchia in linea con le punte, schiena dritta.",
+        "Risali spingendo via il pavimento, petto e bacino salgono insieme."
+      ],
+      "mistakes": [
+        "Ginocchia che cedono verso l’interno.",
+        "Talloni che si staccano da terra.",
+        "Curvare la zona lombare in basso."
+      ],
+      "safety": "Fai lo squat in un rack con i fermi di sicurezza appena sotto il tuo punto più basso, o con qualcuno che ti assista. Metti i fermi sul bilanciere. Salta la serie se non controlli il movimento."
+    },
+    "front-squat": {
+      "name": "Front squat",
+      "desc": "Squat con il bilanciere appoggiato sulla parte anteriore delle spalle. Tiene il busto eretto e carica di più i quadricipiti.",
+      "cues": [
+        "Bilanciere davanti alle spalle, gomiti alti, punte delle dita sotto il bilanciere.",
+        "Busto il più verticale possibile.",
+        "Siediti dritto verso il basso, ginocchia in avanti sopra le punte.",
+        "Risali tenendo i gomiti alti."
+      ],
+      "mistakes": [
+        "Gomiti che scendono e il bilanciere rotola in avanti.",
+        "Inclinarsi in avanti trasformandolo in un good morning.",
+        "Stringere troppo il bilanciere e sforzare i polsi."
+      ],
+      "safety": "Fai lo squat in un rack con i fermi di sicurezza appena sotto il tuo punto più basso, o con qualcuno che ti assista. Metti i fermi sul bilanciere. Salta la serie se non controlli il movimento. Se il bilanciere scivola in avanti, lascialo cadere sui fermi e fai un passo indietro."
+    },
+    "goblet-squat": {
+      "name": "Goblet squat",
+      "desc": "Squat tenendo un kettlebell o un manubrio al petto. Un buon modo per imparare lo squat.",
+      "cues": [
+        "Tieni il peso vicino al petto, gomiti in basso.",
+        "Siediti tra i talloni, petto in fuori.",
+        "Spingi le ginocchia in fuori in linea con le punte e risali."
+      ],
+      "mistakes": ["Il peso si allontana dal petto.", "Talloni che si staccano da terra."],
+      "safety": "Scegli un carico che riesci a tenere saldamente per tutta la serie."
+    },
+    "db-sumo-squat": {
+      "name": "Squat sumo con manubrio",
+      "desc": "Squat a gambe larghe con un manubrio che pende tra le gambe. Lavorano quadricipiti, glutei e interno coscia.",
+      "cues": [
+        "Piedi più larghi delle spalle, punte in fuori.",
+        "Tieni il manubrio a braccia tese, busto eretto.",
+        "Scendi con le ginocchia in linea con le punte, poi risali."
+      ],
+      "mistakes": ["Ginocchia che cedono verso l’interno.", "Inclinarsi in avanti e curvare la schiena."],
+      "safety": "Usa una larghezza dei piedi comoda per le anche."
+    },
+    "bulgarian-split-squat": {
+      "name": "Split squat bulgaro",
+      "desc": "Squat a una gamba con il piede posteriore su una panca. Lavorano quadricipite e gluteo della gamba anteriore.",
+      "cues": [
+        "Piede posteriore sulla panca, piede anteriore abbastanza avanti.",
+        "Scendi dritto finché il ginocchio posteriore è vicino al pavimento.",
+        "Spingi con tutto il piede anteriore per risalire."
+      ],
+      "mistakes": [
+        "Piede anteriore troppo vicino alla panca.",
+        "Ginocchio anteriore che cede verso l’interno.",
+        "Spingersi con la gamba posteriore."
+      ],
+      "safety": "Impara prima la posizione senza carico. Panca stabile e spazio libero intorno."
+    },
+    "db-lunge": {
+      "name": "Affondi con manubri",
+      "desc": "Passo in affondo e ritorno con i manubri in mano. Lavorano gambe e glutei, si allena l’equilibrio.",
+      "cues": [
+        "Passo lungo, entrambe le ginocchia si piegano a circa 90°.",
+        "Busto eretto, peso su tutto il piede anteriore.",
+        "Torna all’inizio spingendo con la gamba anteriore."
+      ],
+      "mistakes": [
+        "Ginocchio anteriore che cede verso l’interno.",
+        "Passi così corti che il tallone anteriore si stacca."
+      ],
+      "safety": "Falli senza carico finché non ti senti stabile. Assicurati di avere spazio intorno."
+    },
+    "walking-lunge": {
+      "name": "Affondi camminati",
+      "desc": "Affondi avanzando passo dopo passo. Lavorano le gambe, si allena l’equilibrio.",
+      "cues": [
+        "Fai un passo avanti e scendi finché il ginocchio posteriore è vicino al pavimento.",
+        "Risali e porta avanti la gamba posteriore nel passo successivo.",
+        "Busto eretto e passi regolari."
+      ],
+      "mistakes": ["Passi stretti, come su una linea.", "Avere fretta e perdere l’equilibrio."],
+      "safety": "Ti serve un percorso libero. Inizia senza carico."
+    },
+    "leg-extension": {
+      "name": "Leg extension",
+      "desc": "Stendere le ginocchia alla macchina. Isolamento dei quadricipiti.",
+      "cues": [
+        "Allinea il ginocchio con il perno della macchina.",
+        "Stendi le gambe in modo fluido, breve pausa in alto.",
+        "Scendi lentamente senza far sbattere il carico."
+      ],
+      "mistakes": ["Lanciare il carico con lo slancio.", "Staccare il bacino dal sedile."],
+      "safety": "Metti il rullo appena sopra i piedi. Fastidio alle ginocchia significa meno carico o meno escursione."
+    },
+    "seated-leg-curl": {
+      "name": "Leg curl da seduto",
+      "desc": "Piegare le ginocchia contro resistenza a una macchina da seduti. Isolamento dei femorali.",
+      "cues": [
+        "Cuscinetto delle cosce aderente, ginocchia in linea con il perno.",
+        "Porta i talloni in basso e indietro in modo fluido.",
+        "Torna lentamente fino a gambe quasi tese."
+      ],
+      "mistakes": ["Dare strappi al carico.", "Scivolare in avanti sul sedile."],
+      "safety": "Regola sedile e cuscinetti prima della serie perché le ginocchia siano in linea con il perno."
+    },
+    "glute-bridge": {
+      "name": "Ponte glutei",
+      "desc": "Sollevare il bacino sdraiati sulla schiena con le ginocchia piegate. Allena i glutei.",
+      "cues": [
+        "Piedi appoggiati, talloni vicini al bacino.",
+        "Spingi con i talloni e solleva il bacino finché il corpo forma una linea dalle ginocchia alle spalle.",
+        "Contrai i glutei in alto e scendi lentamente."
+      ],
+      "mistakes": ["Inarcare la zona lombare invece di usare i glutei.", "Spingere con le punte."],
+      "safety": "Sdraiati su un tappetino. Se la zona lombare dà fastidio, solleva il bacino un po’ meno."
+    },
+    "barbell-hip-thrust": {
+      "name": "Hip thrust con bilanciere",
+      "desc": "Spingere il bacino in alto con un bilanciere sopra, parte alta della schiena su una panca. Un esercizio potente per i glutei.",
+      "cues": [
+        "Parte alta della schiena contro il bordo della panca, bilanciere sopra la piega dell’anca.",
+        "Piedi appoggiati, tibie verticali in alto.",
+        "Spingi il bacino in alto finché il busto è orizzontale, mento raccolto.",
+        "Scendi con controllo."
+      ],
+      "mistakes": [
+        "Inarcare la zona lombare in alto.",
+        "Piedi troppo lontani, così lavorano i femorali.",
+        "Panca che scivola indietro."
+      ],
+      "safety": "Metti un cuscinetto sul bilanciere e i fermi sui dischi. Assicurati che la panca sia stabile e non scivoli. Salta la serie se non controlli il movimento."
+    },
+    "seated-calf-raise": {
+      "name": "Calf raise da seduto",
+      "desc": "Sollevare i talloni contro un cuscinetto sulle ginocchia, da seduti. Allena i polpacci.",
+      "cues": [
+        "Avampiedi sulla pedana, cuscinetto sulle ginocchia.",
+        "Sali il più in alto possibile, pausa in alto.",
+        "Scendi lentamente fino all’allungamento."
+      ],
+      "mistakes": ["Rimbalzare in basso.", "Ripetizioni corte e veloci."],
+      "safety": "Sblocca la sicura solo quando il cuscinetto poggia saldamente sulle ginocchia."
+    },
+    "step-up": {
+      "name": "Step-up",
+      "desc": "Salire su una panca o un box. Lavorano quadricipiti e glutei, si allena l’equilibrio.",
+      "cues": [
+        "Tutto il piede sul box.",
+        "Sali usando la gamba in alto, senza spingerti con quella in basso.",
+        "Scendi con controllo."
+      ],
+      "mistakes": ["Box troppo alto, il ginocchio supera l’anca.", "Rimbalzare con il piede in basso."],
+      "safety": "Usa un box o una panca stabile che non scivoli. Inizia senza carico."
+    },
+    "hip-adduction": {
+      "name": "Adductor machine",
+      "desc": "Si avvicinano le gambe contro i cuscinetti di una macchina. Lavora l’interno coscia.",
+      "cues": [
+        "Siediti bene indietro, schiena contro lo schienale.",
+        "Chiudi le gambe in modo fluido.",
+        "Torna lentamente a un’apertura comoda."
+      ],
+      "mistakes": ["Aprire più di quanto sia comodo.", "Lasciare che il peso riapra le gambe di scatto."],
+      "safety": "Imposta l’apertura iniziale in modo che l’allungamento resti comodo."
+    },
+    "hip-abduction": {
+      "name": "Abductor machine",
+      "desc": "Si allargano le gambe contro i cuscinetti di una macchina. Lavora l’esterno dell’anca e i glutei.",
+      "cues": [
+        "Siediti bene indietro, schiena contro lo schienale.",
+        "Spingi le ginocchia in fuori in modo fluido.",
+        "Torna lentamente senza far toccare le piastre."
+      ],
+      "mistakes": ["Muoversi con lo slancio.", "Dondolare avanti e indietro con il busto."],
+      "safety": "Scegli un carico che puoi muovere in modo fluido per tutta l’escursione."
+    },
+    "hack-squat": {
+      "name": "Hack squat alla macchina",
+      "desc": "Squat su una macchina con lo schienale inclinato. Lavora i quadricipiti con la schiena in posizione stabile.",
+      "cues": [
+        "Schiena e spalle contro i cuscinetti, piedi al centro della pedana.",
+        "Scendi finché le cosce sono circa parallele alla pedana.",
+        "Spingi via la pedana senza bloccare le ginocchia di colpo."
+      ],
+      "mistakes": ["Talloni che si sollevano.", "Ginocchia che cedono verso l’interno."],
+      "safety": "Sblocca e rimetti le sicure con attenzione prima e dopo la serie."
+    },
+    "db-romanian-deadlift": {
+      "name": "Stacco rumeno con manubri",
+      "desc": "Piegamento d’anca con manubri: le anche vanno indietro, i manubri scorrono lungo le gambe. Lavora femorali e glutei.",
+      "cues": [
+        "Ginocchia leggermente piegate e ferme.",
+        "Spingi le anche indietro, manubri vicino alle gambe.",
+        "Risali spingendo le anche in avanti."
+      ],
+      "mistakes": [
+        "Arrotondare la schiena.",
+        "Trasformarlo in uno squat.",
+        "Manubri che si allontanano in avanti."
+      ],
+      "safety": "Scendi solo finché riesci a tenere la schiena dritta."
+    },
+    "single-leg-rdl": {
+      "name": "Stacco rumeno su una gamba",
+      "desc": "Piegamento d’anca su una gamba mentre l’altra si allunga indietro. Lavora femorali e glutei e allena l’equilibrio.",
+      "cues": [
+        "Ginocchio d’appoggio leggermente piegato.",
+        "Inclinati in avanti mentre la gamba libera va indietro, anche allineate.",
+        "Torna in piedi con controllo."
+      ],
+      "mistakes": ["Il bacino si apre ruotando.", "Arrotondare la schiena."],
+      "safety": "Inizia senza peso e reggiti a qualcosa per l’equilibrio, se serve."
+    },
+    "wall-sit": {
+      "name": "Wall sit (sedia al muro)",
+      "desc": "Mantenere una posizione seduta con la schiena al muro. Lavoro statico per i quadricipiti.",
+      "cues": [
+        "Schiena piatta contro il muro.",
+        "Scendi finché le ginocchia sono vicine a 90°, piedi sotto le ginocchia.",
+        "Respira con calma e mantieni."
+      ],
+      "mistakes": ["Ginocchia molto oltre le punte dei piedi.", "Trattenere il respiro."],
+      "safety": "Usa scarpe con buona aderenza perché i piedi non scivolino. Alzati se ti fanno male le ginocchia."
+    },
+    "lateral-band-walk": {
+      "name": "Camminata laterale con elastico",
+      "desc": "Passi laterali in mezzo squat con un elastico intorno alle gambe. Lavora l’esterno dell’anca e i glutei.",
+      "cues": [
+        "Elastico sopra le ginocchia o intorno alle caviglie.",
+        "Mezzo squat, piedi alla larghezza delle anche.",
+        "Fai passi laterali mantenendo l’elastico in tensione."
+      ],
+      "mistakes": [
+        "Piedi che si avvicinano e l’elastico che si allenta.",
+        "Raddrizzarsi tra un passo e l’altro."
+      ],
+      "safety": "Controlla che l’elastico non sia lesionato prima di usarlo."
+    },
+    "cable-kickback": {
+      "name": "Kickback ai cavi",
+      "desc": "Si spinge una gamba indietro con una cavigliera al cavo basso. Isolamento per i glutei.",
+      "cues": [
+        "Reggiti al telaio, con una leggera inclinazione in avanti.",
+        "Spingi la gamba indietro senza inarcare la zona lombare.",
+        "Torna lentamente."
+      ],
+      "mistakes": ["Far oscillare la gamba.", "Inarcare la zona lombare per salire di più."],
+      "safety": "Fissa bene la cavigliera. Scegli un carico che muovi senza slancio."
+    },
+    "overhead-press": {
+      "name": "Lento avanti in piedi con bilanciere",
+      "desc": "Si spinge il bilanciere dalle spalle sopra la testa stando in piedi. Lavora spalle e tricipiti; il core tiene la posizione.",
+      "cues": [
+        "Bilanciere sulla parte anteriore delle spalle, presa appena fuori dalle spalle.",
+        "Glutei e addome contratti, costole basse.",
+        "Spingi dritto in alto, spostando un po’ indietro la testa per far passare il bilanciere.",
+        "Finisci con il bilanciere sopra il centro del piede e le braccia tese."
+      ],
+      "mistakes": [
+        "Inclinarsi indietro trasformandolo in una distensione inclinata.",
+        "Il bilanciere si allontana in avanti dal viso.",
+        "Spingere con le gambe."
+      ],
+      "safety": "Prendi il bilanciere da un rack all’altezza delle spalle e metti i fermadischi. Usa le sicure o un assistente nelle serie pesanti. Salta la serie se non controlli il movimento."
+    },
+    "bent-over-lateral-raise": {
+      "name": "Alzate laterali a busto flesso",
+      "desc": "Si sollevano i manubri ai lati con il busto inclinato in avanti. Lavora deltoidi posteriori e parte alta della schiena.",
+      "cues": [
+        "Inclinati in avanti con la schiena dritta e le ginocchia morbide.",
+        "Solleva le braccia ai lati con i gomiti leggermente piegati.",
+        "Abbassa lentamente, senza slancio."
+      ],
+      "mistakes": ["Raddrizzarsi durante la serie.", "Lanciare il peso con il busto."],
+      "safety": "Usa manubri leggeri: i deltoidi posteriori sono piccoli. Siediti su una panca e inclinati in avanti se la zona lombare si stanca."
+    },
+    "front-raise": {
+      "name": "Alzate frontali",
+      "desc": "Si sollevano manubri o una maniglia al cavo davanti a sé fino all’altezza delle spalle. Lavora i deltoidi anteriori.",
+      "cues": [
+        "Braccia quasi tese, palmi verso il basso.",
+        "Sali fino all’altezza delle spalle, non oltre.",
+        "Abbassa lentamente."
+      ],
+      "mistakes": ["Inclinarsi indietro per lanciare il peso.", "Alzare le spalle."],
+      "safety": "Basta un peso leggero: i deltoidi anteriori lavorano già in tutte le spinte."
+    },
+    "upright-row": {
+      "name": "Tirate al mento",
+      "desc": "Si tira un bilanciere o i manubri lungo il corpo fino al petto. Lavora deltoidi laterali e trapezi.",
+      "cues": [
+        "Presa alla larghezza delle spalle o più ampia, non stretta.",
+        "Guida con i gomiti e tira fino alla parte bassa del petto.",
+        "Abbassa lentamente."
+      ],
+      "mistakes": [
+        "Presa stretta con i gomiti sopra le spalle.",
+        "Tirare fino al mento.",
+        "Strattonare il peso."
+      ],
+      "safety": "Inizia leggero: alcune spalle non tollerano questo esercizio. Usa una presa larga, tira solo fino alla parte bassa del petto e fermati a qualsiasi pizzicore o dolore alla spalla; le alzate laterali lavorano gli stessi muscoli."
+    },
+    "face-pull": {
+      "name": "Face pull",
+      "desc": "Si tira una corda al cavo verso il viso con i gomiti alti. Lavora deltoidi posteriori e parte alta della schiena.",
+      "cues": [
+        "Cavo all’altezza del petto alto o poco sopra, presa sulla corda.",
+        "Tira la corda verso gli occhi, gomiti alti e larghi.",
+        "Separa le estremità e fai una pausa, poi torna lentamente."
+      ],
+      "mistakes": ["Tirare verso il petto con i gomiti bassi.", "Inclinarsi indietro per muovere più peso."],
+      "safety": "Tieni il carico leggero e il movimento fluido."
+    },
+    "arnold-press": {
+      "name": "Arnold press",
+      "desc": "Spinta seduta con manubri che parte con i palmi verso di te e li ruota in fuori salendo. Lavora le spalle.",
+      "cues": [
+        "Parti con i manubri davanti alle spalle, palmi verso di te.",
+        "Ruota i palmi in fuori mentre spingi in alto.",
+        "Inverti la rotazione scendendo."
+      ],
+      "mistakes": ["Inarcare la zona lombare staccandola dallo schienale.", "Fare la rotazione di fretta."],
+      "safety": "Scegli un carico più leggero rispetto al lento avanti normale. Se la spalla fa male, riduci l’escursione."
+    },
+    "cable-lateral-raise": {
+      "name": "Alzata laterale al cavo",
+      "desc": "Si solleva un braccio di lato con il cavo basso. Tensione costante per i deltoidi laterali.",
+      "cues": [
+        "Mettiti di fianco al cavo, maniglia nella mano più lontana.",
+        "Solleva il braccio fino all’altezza della spalla, gomito leggermente piegato.",
+        "Abbassa lentamente davanti all’anca."
+      ],
+      "mistakes": ["Inclinarsi dal lato opposto per lanciare il peso.", "Alzare la spalla verso l’orecchio."],
+      "safety": "Inizia leggero: il cavo dà tensione in basso, dove i manubri non la danno."
+    },
+    "band-external-rotation": {
+      "name": "Extrarotazione con elastico",
+      "desc": "Si ruota l’avambraccio verso l’esterno contro un elastico con il gomito al fianco. Un esercizio leggero per la parte posteriore della spalla.",
+      "cues": [
+        "Gomito al fianco, piegato a 90°.",
+        "Ruota l’avambraccio in fuori, gomito fermo.",
+        "Torna lentamente."
+      ],
+      "mistakes": ["Il gomito si stacca dal corpo.", "Ruotare il busto invece del braccio."],
+      "safety": "Usa un elastico leggero. È un esercizio delicato: niente dolore, niente strattoni."
+    },
+    "barbell-curl": {
+      "name": "Curl con bilanciere",
+      "desc": "Si porta il bilanciere dalle cosce alle spalle piegando i gomiti, in piedi. Lavora i bicipiti.",
+      "cues": [
+        "Presa alla larghezza delle spalle, palmi in avanti.",
+        "Gomiti fermi ai fianchi.",
+        "Sali e scendi lentamente fino a braccia tese."
+      ],
+      "mistakes": ["Dondolare con il busto.", "Gomiti che vanno in avanti.", "Mezze ripetizioni in basso."],
+      "safety": "Metti i fermadischi se usi i dischi. Riduci il peso se hai bisogno di slancio."
+    },
+    "db-curl": {
+      "name": "Curl con manubri",
+      "desc": "Curl in piedi con manubri, a due braccia o alternato. Lavora i bicipiti.",
+      "cues": [
+        "Gomiti ai fianchi, palmi in avanti.",
+        "Sali ruotando leggermente il palmo verso l’alto.",
+        "Scendi lentamente fino a braccia tese."
+      ],
+      "mistakes": ["Far oscillare i manubri.", "Portare avanti i gomiti."],
+      "safety": "Scegli un peso che sollevi senza inclinarti indietro."
+    },
+    "cable-curl": {
+      "name": "Curl al cavo",
+      "desc": "Curl con la maniglia del cavo basso. Tensione costante per i bicipiti.",
+      "cues": [
+        "Mettiti vicino al cavo, gomiti ai fianchi.",
+        "Porta la maniglia alle spalle.",
+        "Abbassa lentamente senza far toccare le piastre."
+      ],
+      "mistakes": ["Inclinarsi indietro.", "Gomiti che vanno in avanti."],
+      "safety": "Tieni la maniglia finché il pacco pesi non è giù."
+    },
+    "concentration-curl": {
+      "name": "Curl di concentrazione",
+      "desc": "Curl seduto a un braccio con il gomito appoggiato all’interno coscia. Lavoro rigoroso per i bicipiti.",
+      "cues": [
+        "Siediti su una panca, gomito contro l’interno coscia.",
+        "Porta il manubrio verso la spalla.",
+        "Abbassa lentamente fino in fondo."
+      ],
+      "mistakes": ["Staccare il gomito dalla coscia.", "Aiutarsi con la spalla."],
+      "safety": "Usa un carico moderato: conta il controllo."
+    },
+    "reverse-curl": {
+      "name": "Curl inverso",
+      "desc": "Curl con il bilanciere e i palmi verso il basso. Lavora avambracci e bicipiti.",
+      "cues": [
+        "Presa prona, alla larghezza delle spalle.",
+        "Gomiti ai fianchi, sali.",
+        "Abbassa lentamente."
+      ],
+      "mistakes": ["Polsi che si piegano all’indietro.", "Dondolare con il corpo."],
+      "safety": "Usa un carico più leggero rispetto al curl normale."
+    },
+    "skull-crusher": {
+      "name": "French press (skull crusher)",
+      "desc": "Si abbassa il bilanciere verso la fronte e si distendono le braccia, sdraiati su una panca. Lavora i tricipiti.",
+      "cues": [
+        "Braccia verticali o leggermente inclinate verso la testa.",
+        "Piega solo i gomiti e porta il bilanciere verso la fronte.",
+        "Distendi le braccia senza muovere le spalle."
+      ],
+      "mistakes": [
+        "Gomiti che si aprono.",
+        "Braccia che si spostano avanti e indietro.",
+        "Far scendere il bilanciere velocemente."
+      ],
+      "safety": "Abbassa il bilanciere lentamente e non lasciarlo mai cadere verso il viso. Inizia leggero; chiedi un assistente quando aumenti il carico."
+    },
+    "close-grip-bench-press": {
+      "name": "Panca piana presa stretta",
+      "desc": "Distensioni su panca con le mani circa alla larghezza delle spalle. Sposta più lavoro sui tricipiti.",
+      "cues": [
+        "Presa circa alla larghezza delle spalle, non più stretta.",
+        "Gomiti vicini al corpo in discesa.",
+        "Tocca la parte bassa del petto e spingi.",
+        "Scapole indietro, piedi a terra."
+      ],
+      "mistakes": [
+        "Presa così stretta che i polsi fanno male.",
+        "Gomiti che si aprono.",
+        "Far rimbalzare il bilanciere sul petto."
+      ],
+      "safety": "Usa un rack con le sicure o un assistente e metti i fermadischi. Salta la serie se non controlli il movimento."
+    },
+    "bench-dip": {
+      "name": "Dip alla panca",
+      "desc": "Si scende e si risale con le mani su una panca alle spalle. Lavora i tricipiti.",
+      "cues": [
+        "Mani sul bordo della panca, dita in avanti.",
+        "Scendi finché i gomiti sono a circa 90°, schiena vicino alla panca.",
+        "Risali fino a braccia tese."
+      ],
+      "mistakes": ["Scendere troppo e sovraccaricare le spalle.", "Gomiti che si aprono."],
+      "safety": "Piega le ginocchia per renderlo più facile. Fermati a qualsiasi dolore nella parte anteriore della spalla."
+    },
+    "overhead-db-extension": {
+      "name": "Estensioni sopra la testa con manubrio",
+      "desc": "Si abbassa un manubrio dietro la testa con entrambe le mani e si distendono le braccia. Lavora il capo lungo del tricipite.",
+      "cues": [
+        "Tieni un manubrio con entrambe le mani sopra la testa.",
+        "Abbassalo dietro la testa, gomiti rivolti in alto.",
+        "Distendi le braccia."
+      ],
+      "mistakes": ["Gomiti che si aprono verso l’esterno.", "Inarcare la zona lombare."],
+      "safety": "Tieni saldamente il manubrio dal disco. Siediti su una panca con schienale se vuoi più stabilità."
+    },
+    "triceps-kickback": {
+      "name": "Kickback per tricipiti",
+      "desc": "Si distende il braccio all’indietro con un manubrio, busto inclinato e appoggio su una panca. Lavora il tricipite.",
+      "cues": [
+        "Braccio lungo il corpo, parallelo al pavimento.",
+        "Distendi il braccio all’indietro, si muove solo l’avambraccio.",
+        "Piega di nuovo lentamente."
+      ],
+      "mistakes": ["Braccio che scende verso il basso.", "Far oscillare il manubrio."],
+      "safety": "Usa un manubrio leggero e tieni dritto il braccio d’appoggio."
+    },
+    "plank": {
+      "name": "Plank",
+      "desc": "Si mantiene il corpo dritto sugli avambracci e sulle punte dei piedi. Allena il core a stabilizzare il tronco.",
+      "cues": [
+        "Gomiti sotto le spalle, avambracci a terra.",
+        "Corpo in linea dalla testa ai talloni, glutei contratti.",
+        "Respira con calma e tieni per il tempo previsto."
+      ],
+      "mistakes": ["Fianchi che cedono verso il pavimento.", "Fianchi spinti troppo in alto."],
+      "safety": "Inizia sulle ginocchia se il plank completo è troppo difficile. Fermati se ti fa male la zona lombare."
+    },
+    "hanging-leg-raise": {
+      "name": "Sollevamento gambe alla sbarra",
+      "desc": "Si sollevano le gambe tese stando appesi a una sbarra. Un esercizio impegnativo per gli addominali.",
+      "cues": [
+        "Appenditi con le spalle attive, non rilassate.",
+        "Solleva le gambe davanti a te ruotando il bacino verso l’alto.",
+        "Scendi lentamente senza oscillare."
+      ],
+      "mistakes": [
+        "Far oscillare tutto il corpo.",
+        "Sollevare le gambe solo con i flessori dell’anca, il bacino resta fermo."
+      ],
+      "safety": "Impara prima il sollevamento delle ginocchia alla sbarra. Scendi su un rialzo, non lasciarti cadere dalla sbarra."
+    },
+    "crunch": {
+      "name": "Crunch",
+      "desc": "Si sollevano le spalle da terra stando sdraiati sulla schiena. Lavora gli addominali.",
+      "cues": [
+        "Ginocchia piegate, piedi a terra.",
+        "Arrotola le scapole staccandole da terra, la zona lombare resta giù.",
+        "Scendi lentamente."
+      ],
+      "mistakes": ["Tirare la testa con le mani.", "Tirarsi su del tutto con lo slancio."],
+      "safety": "Tieni il collo rilassato; se serve, sostieni appena la testa con la punta delle dita."
+    },
+    "reverse-crunch": {
+      "name": "Crunch inverso",
+      "desc": "Si porta il bacino verso il petto stando sdraiati sulla schiena. Lavora la parte bassa degli addominali.",
+      "cues": [
+        "Parti con le ginocchia piegate a 90° sopra le anche.",
+        "Stacca il bacino da terra usando gli addominali.",
+        "Torna lentamente all’inizio."
+      ],
+      "mistakes": ["Slanciare le gambe per salire.", "Far ricadere il bacino velocemente."],
+      "safety": "Sdraiati su un tappetino e tieniti al bordo di una panca dietro di te se ti serve un appoggio."
+    },
+    "russian-twist": {
+      "name": "Russian twist",
+      "desc": "Si ruota il busto da un lato all’altro stando seduti e inclinati all’indietro. Lavora gli obliqui.",
+      "cues": [
+        "Siediti inclinato all’indietro, schiena dritta, talloni a terra.",
+        "Ruota spalle e mani da un lato, poi dall’altro.",
+        "Muoviti lentamente, il bacino resta fermo."
+      ],
+      "mistakes": ["Muovere solo le braccia, non il busto.", "Incurvare la schiena."],
+      "safety": "Tieni i talloni a terra finché non ti senti a tuo agio. Usa poco peso o nessuno."
+    },
+    "bird-dog": {
+      "name": "Bird dog",
+      "desc": "Si allunga un braccio in avanti e la gamba opposta indietro, in quadrupedia. Allena la stabilità del tronco.",
+      "cues": [
+        "Mani sotto le spalle, ginocchia sotto le anche.",
+        "Allunga un braccio e la gamba opposta fino a formare una linea dritta.",
+        "Fai una pausa, torna e cambia lato."
+      ],
+      "mistakes": [
+        "Fianchi che si inclinano di lato.",
+        "Inarcare la zona lombare per alzare di più la gamba."
+      ],
+      "safety": "Metti un tappetino sotto le ginocchia. Muoviti lentamente: l’equilibrio conta più dell’altezza."
+    },
+    "bicycle-crunch": {
+      "name": "Bicycle crunch",
+      "desc": "Si porta a turno il gomito verso il ginocchio opposto stando sdraiati sulla schiena. Lavora addominali e obliqui.",
+      "cues": [
+        "Spalle staccate da terra, mani appoggiate leggere alla testa.",
+        "Porta un ginocchio verso di te e ruota la spalla opposta verso di esso, l’altra gamba si distende.",
+        "Cambia lato a ritmo costante."
+      ],
+      "mistakes": ["Tirare la testa in avanti con le mani.", "Andare di fretta e muovere solo i gomiti."],
+      "safety": "Tieni la zona lombare a contatto con il pavimento; se si inarca, alza di più la gamba tesa."
+    },
+    "hollow-hold": {
+      "name": "Hollow hold",
+      "desc": "Si tengono spalle e gambe staccate da terra con la zona lombare premuta a terra. Lavoro statico per gli addominali.",
+      "cues": [
+        "Premi la zona lombare contro il pavimento.",
+        "Stacca leggermente spalle e gambe da terra.",
+        "Mantieni la posizione e respira."
+      ],
+      "mistakes": ["Zona lombare che si stacca da terra.", "Trattenere il respiro."],
+      "safety": "Piega le ginocchia o alza di più le gambe per renderlo più facile."
+    },
+    "cable-woodchop": {
+      "name": "Woodchop al cavo",
+      "desc": "Si tira la maniglia di un cavo in diagonale attraverso il corpo, dall’alto verso il basso. Lavora gli obliqui e allena il controllo della rotazione.",
+      "cues": [
+        "Mettiti di fianco al cavo, piedi più larghi delle anche.",
+        "Tira la maniglia in diagonale verso il basso attraverso il corpo, braccia tese.",
+        "Ruota il busto e il piede dietro, torna lentamente."
+      ],
+      "mistakes": ["Tirare solo con le braccia.", "Torcere la zona lombare senza muovere le anche."],
+      "safety": "Scegli un peso che riesci a ruotare in modo fluido, senza strappi."
+    },
+    "kettlebell-swing": {
+      "name": "Swing con kettlebell",
+      "desc": "Si fa oscillare un kettlebell fino all’altezza del petto spingendo le anche in avanti. Lavora i glutei e la parte posteriore delle gambe.",
+      "cues": [
+        "Piegati sulle anche, schiena dritta, kettlebell tra le gambe.",
+        "Spingi le anche in avanti con decisione; le braccia guidano solo il peso.",
+        "Lascialo salire all’altezza del petto e ricadere nella cerniera.",
+        "In alto stai dritto, glutei contratti."
+      ],
+      "mistakes": [
+        "Fare uno squat invece della cerniera d’anca.",
+        "Sollevare il peso con le braccia.",
+        "Incurvare la schiena in basso."
+      ],
+      "safety": "Inizia con un kettlebell leggero e impara prima la cerniera d’anca. Lascia spazio libero davanti e dietro e impugna saldamente la maniglia."
+    },
+    "kettlebell-push-press": {
+      "name": "Push press con kettlebell",
+      "desc": "Si spinge un kettlebell sopra la testa partendo dalla spalla con un breve piegamento delle ginocchia. Lavora spalle e tricipiti.",
+      "cues": [
+        "Kettlebell appoggiato sull’avambraccio, all’altezza della spalla.",
+        "Breve piegamento delle ginocchia, poi spingi verso l’alto e distendi.",
+        "Riporta il peso alla spalla con controllo."
+      ],
+      "mistakes": ["Squat profondo invece di un breve piegamento.", "Inclinarsi all’indietro sotto il peso."],
+      "safety": "Usa un kettlebell leggero e lascia spazio libero sopra la testa. Salta la serie se non riesci a controllare il peso."
+    },
+    "burpee": {
+      "name": "Burpee",
+      "desc": "Si passa dalla posizione in piedi a quella di piegamento e si torna su con un salto. Lavora tutto il corpo.",
+      "cues": [
+        "Accovacciati, appoggia le mani a terra, porta i piedi indietro con un passo o un salto fino al plank.",
+        "Riporta i piedi sotto di te.",
+        "Alzati e fai un piccolo salto con le braccia in alto."
+      ],
+      "mistakes": ["Fianchi che cedono nel plank.", "Atterrare pesante a gambe rigide."],
+      "safety": "Porta i piedi indietro e avanti a passi invece di saltare se ti serve una versione più facile."
+    },
+    "jump-rope": {
+      "name": "Salto della corda",
+      "desc": "Si salta una corda che gira. Allena polpacci, coordinazione e resistenza.",
+      "cues": [
+        "Gomiti vicini al corpo, fai girare la corda con i polsi.",
+        "Salti piccoli e leggeri sull’avampiede.",
+        "Mantieni un ritmo costante."
+      ],
+      "mistakes": ["Saltare troppo in alto.", "Far girare la corda con tutte le braccia."],
+      "safety": "Salta su una superficie piana e antiscivolo. Regola la lunghezza della corda in base alla tua altezza."
+    },
+    "rowing-machine": {
+      "name": "Vogatore",
+      "desc": "Remate su una macchina: prima le gambe, poi il busto, poi le braccia. Lavora tutto il corpo.",
+      "cues": [
+        "Spingi prima con le gambe, poi inclinati un po’ indietro, poi tira la maniglia verso le costole.",
+        "Torna in ordine inverso: braccia, busto, gambe.",
+        "Tieni la schiena dritta per tutto il tempo."
+      ],
+      "mistakes": [
+        "Tirare con le braccia prima delle gambe.",
+        "Incurvare la schiena all’inizio della remata."
+      ],
+      "safety": "Allaccia le cinghie dei piedi. Inizia a un ritmo tranquillo."
+    },
+    "treadmill-walk": {
+      "name": "Camminata veloce sul tapis roulant",
+      "desc": "Si cammina a passo svelto sul tapis roulant. Un movimento costante per le gambe e la resistenza.",
+      "cues": [
+        "Cammina eretto, con le braccia che oscillano in modo naturale.",
+        "Appoggia il tallone e rulla su tutto il piede.",
+        "Scegli un ritmo a cui riesci ancora a parlare."
+      ],
+      "mistakes": ["Tenersi ai corrimano tutto il tempo.", "Passi molto lunghi."],
+      "safety": "Aggancia la chiave di sicurezza e inizia a bassa velocità."
+    },
+    "stationary-bike": {
+      "name": "Cyclette",
+      "desc": "Si pedala su una cyclette. Un movimento costante per le gambe e la resistenza.",
+      "cues": [
+        "Altezza della sella: in basso il ginocchio resta leggermente piegato.",
+        "Pedala in modo fluido, in cerchio.",
+        "Tieni le spalle rilassate."
+      ],
+      "mistakes": ["Sella troppo bassa.", "Dondolare con il bacino sulla sella."],
+      "safety": "Regola sella e manubrio prima di iniziare."
+    },
+    "farmer-carry": {
+      "name": "Farmer’s walk",
+      "desc": "Si cammina con manubri o kettlebell pesanti in mano. Allena presa, core e postura.",
+      "cues": [
+        "Stai dritto, spalle basse e indietro.",
+        "Passi corti e regolari.",
+        "Appoggia i pesi a terra con la schiena dritta."
+      ],
+      "mistakes": ["Inclinarsi da un lato.", "Alzare le spalle."],
+      "safety": "Pianifica un percorso libero. Solleva e appoggia i pesi come in uno stacco, non con la schiena curva."
+    },
+    "mountain-climber": {
+      "name": "Mountain climber",
+      "desc": "Si portano a turno le ginocchia al petto dalla posizione di piegamento. Lavora il core e alza la frequenza cardiaca.",
+      "cues": [
+        "Mani sotto le spalle, corpo dritto.",
+        "Porta un ginocchio verso il petto, poi cambia.",
+        "Tieni le anche allineate."
+      ],
+      "mistakes": ["Anche che salgono troppo.", "Far rimbalzare le anche su e giù."],
+      "safety": "Rallenta o fai passi invece di saltare se polsi o spalle danno fastidio."
+    },
+    "jumping-jack": {
+      "name": "Jumping jack",
+      "desc": "Si saltano i piedi in apertura alzando le braccia, poi si torna a chiuderli. Un semplice movimento di riscaldamento.",
+      "cues": [
+        "Atterra morbido sull’avampiede.",
+        "Le braccia salgono quando i piedi si aprono.",
+        "Mantieni un ritmo costante."
+      ],
+      "mistakes": ["Atterrare a gambe rigide.", "Braccia alzate solo a metà."],
+      "safety": "Fai un passo di lato invece di saltare per una versione più leggera."
+    },
+    "cat-cow": {
+      "name": "Gatto-mucca",
+      "desc": "Si arrotonda e si inarca la schiena in quadrupedia. Mobilità della colonna.",
+      "cues": [
+        "Mani sotto le spalle, ginocchia sotto le anche.",
+        "Arrotonda la schiena verso l’alto, mento verso il petto.",
+        "Poi inarca dolcemente, petto in avanti, sguardo davanti."
+      ],
+      "mistakes": ["Muovere solo il collo.", "Fare il movimento di fretta."],
+      "safety": "Muoviti in un’ampiezza comoda, senza dolore."
+    },
+    "hip-flexor-stretch": {
+      "name": "Allungamento dei flessori dell’anca in ginocchio",
+      "desc": "Si spingono le anche in avanti in mezza ginocchiata. Allunga la parte anteriore dell’anca.",
+      "cues": [
+        "In mezza ginocchiata, ginocchio della gamba dietro su un tappetino.",
+        "Ruota leggermente il bacino e contrai il gluteo della gamba dietro.",
+        "Porta le anche in avanti finché non senti l’allungamento."
+      ],
+      "mistakes": [
+        "Inarcare la zona lombare invece di muovere le anche.",
+        "Ginocchio davanti che supera di molto la punta del piede."
+      ],
+      "safety": "Metti un tappetino o un asciugamano piegato sotto il ginocchio."
+    },
+    "hamstring-stretch": {
+      "name": "Allungamento dei femorali da seduti",
+      "desc": "Ci si piega in avanti verso le punte dei piedi stando seduti a gambe tese. Allunga la parte posteriore delle cosce.",
+      "cues": [
+        "Siediti a gambe tese, punte dei piedi in alto.",
+        "Piegati in avanti dalle anche con la schiena lunga.",
+        "Fermati a un allungamento comodo e respira."
+      ],
+      "mistakes": ["Incurvare la schiena per arrivare più lontano.", "Molleggiare."],
+      "safety": "Piega leggermente le ginocchia se l’allungamento è troppo intenso."
+    },
+    "thoracic-rotation": {
+      "name": "Rotazione toracica in quadrupedia",
+      "desc": "Si ruota la parte alta della schiena in quadrupedia con una mano dietro la testa. Mobilità per la parte alta della schiena.",
+      "cues": [
+        "In quadrupedia, una mano dietro la testa.",
+        "Porta il gomito in basso verso l’altro braccio.",
+        "Poi ruotalo verso il soffitto seguendolo con lo sguardo."
+      ],
+      "mistakes": ["Muovere le anche invece della parte alta della schiena.", "Andare di fretta."],
+      "safety": "Muoviti lentamente e resta in un’ampiezza comoda."
+    },
+    "band-pull-apart": {
+      "name": "Band pull-apart",
+      "desc": "Si tende un elastico all’altezza del petto con le braccia tese. Riscaldamento per la parte alta della schiena e il retro delle spalle.",
+      "cues": [
+        "Braccia tese davanti, all’altezza delle spalle.",
+        "Apri l’elastico finché non tocca il petto.",
+        "Torna lentamente."
+      ],
+      "mistakes": ["Alzare le spalle.", "Piegare molto i gomiti."],
+      "safety": "Controlla che l’elastico non sia rovinato e tienilo saldo, così non scatta verso il viso."
+    },
+    "childs-pose": {
+      "name": "Posizione del bambino",
+      "desc": "Ci si siede indietro sui talloni con le braccia allungate in avanti a terra. Un allungamento dolce per schiena e anche.",
+      "cues": [
+        "Ginocchia sul tappetino, siediti indietro verso i talloni.",
+        "Allunga le braccia in avanti, fronte verso il pavimento.",
+        "Respira lentamente verso la schiena."
+      ],
+      "mistakes": ["Forzare le anche fino ai talloni.", "Trattenere il respiro."],
+      "safety": "Metti un cuscino sotto le anche o le ginocchia se la posizione è scomoda."
+    },
+    "doorway-chest-stretch": {
+      "name": "Allungamento del petto allo stipite",
+      "desc": "Ci si sporge in avanti con l’avambraccio appoggiato allo stipite di una porta. Allunga il petto e la parte anteriore della spalla.",
+      "cues": [
+        "Avambraccio sullo stipite, gomito all’altezza della spalla.",
+        "Fai un passo avanti finché non senti l’allungamento sul petto.",
+        "Mantieni e respira, poi cambia lato."
+      ],
+      "mistakes": ["Gomito più alto della spalla.", "Spingere fino al dolore."],
+      "safety": "L’allungamento deve essere dolce. Fermati se senti formicolio nel braccio."
+    },
+    "calf-stretch": {
+      "name": "Allungamento dei polpacci al muro",
+      "desc": "Ci si appoggia al muro con una gamba indietro. Allunga il polpaccio.",
+      "cues": [
+        "Mani al muro, una gamba indietro.",
+        "Tallone dietro a terra, ginocchio dietro teso.",
+        "Sporgiti in avanti finché non senti l’allungamento."
+      ],
+      "mistakes": ["Tallone dietro che si alza.", "Piede dietro ruotato verso l’esterno."],
+      "safety": "Usa scarpe con buona aderenza o stai scalzo su un pavimento antiscivolo."
+    },
+    "arm-circles": {
+      "name": "Circonduzioni delle braccia",
+      "desc": "Si fanno cerchi con le braccia tese in avanti e indietro. Riscaldamento per le spalle.",
+      "cues": [
+        "Braccia aperte ai lati, all’altezza delle spalle.",
+        "Inizia con cerchi piccoli e allargali gradualmente.",
+        "A metà cambia direzione."
+      ],
+      "mistakes": ["Alzare le spalle.", "Partire subito con cerchi veloci."],
+      "safety": "Resta in un’ampiezza comoda per le spalle."
+    },
+    "figure-four-stretch": {
+      "name": "Allungamento del gluteo a figura 4",
+      "desc": "Ci si piega in avanti da seduti con una caviglia sul ginocchio opposto. Allunga il gluteo.",
+      "cues": [
+        "Siediti su una panca, caviglia sul ginocchio opposto.",
+        "Piegati in avanti con la schiena lunga.",
+        "Mantieni dove senti l’allungamento nel gluteo."
+      ],
+      "mistakes": ["Incurvare la schiena.", "Spingere forte il ginocchio verso il basso."],
+      "safety": "Tieni il piede della gamba incrociata flesso per proteggere il ginocchio."
+    },
+    "quad-stretch": {
+      "name": "Allungamento del quadricipite in piedi",
+      "desc": "Si porta il tallone verso il gluteo stando su una gamba. Allunga la parte anteriore della coscia.",
+      "cues": [
+        "Tieniti al muro con una mano.",
+        "Afferra la caviglia e porta il tallone verso il gluteo.",
+        "Ginocchia vicine, bacino leggermente in retroversione."
+      ],
+      "mistakes": ["Inarcare la zona lombare.", "Ginocchio che scappa di lato."],
+      "safety": "Tieniti a qualcosa per l’equilibrio. Non tirare forte il ginocchio."
+    },
+    "leg-swing": {
+      "name": "Slanci delle gambe",
+      "desc": "Si slancia una gamba tesa avanti e indietro tenendosi a un appoggio. Riscaldamento per le anche.",
+      "cues": [
+        "Mettiti di fianco al muro e tieniti con una mano.",
+        "Slancia la gamba avanti e indietro in un’ampiezza comoda.",
+        "Busto dritto, aumenta gradualmente lo slancio."
+      ],
+      "mistakes": ["Inclinare il busto per slanciare più in alto.", "Calciare forte fin dall’inizio."],
+      "safety": "Lascia spazio libero intorno alla gamba."
+    },
+    "wide-push-up": {
+      "name": "Piegamenti a presa larga",
+      "desc": "Piegamenti con le mani più larghe del solito. Spostano più lavoro sul petto.",
+      "cues": [
+        "Mani a circa una volta e mezza la larghezza delle spalle.",
+        "Corpo in linea dalla testa ai talloni.",
+        "Abbassa il petto tra le mani, poi spingi su."
+      ],
+      "mistakes": ["Gomiti aperti del tutto ai lati.", "Fianchi che cedono."],
+      "safety": "Tieni una larghezza comoda per le spalle. Torna alla presa normale se senti fastidio alle spalle."
+    },
+    "knee-push-up": {
+      "name": "Piegamenti sulle ginocchia",
+      "desc": "Piegamenti con le ginocchia a terra. Un passo più facile verso i piegamenti completi.",
+      "cues": [
+        "Ginocchia sul tappetino, mani un po’ più larghe delle spalle.",
+        "Linea dritta dalla testa alle ginocchia.",
+        "Abbassa il petto vicino al pavimento, poi spingi via."
+      ],
+      "mistakes": ["Anche piegate, sedere in alto.", "Si abbassa solo la testa."],
+      "safety": "Metti un tappetino o un asciugamano sotto le ginocchia. Passa ai piegamenti completi quando le serie diventano facili."
+    },
+    "decline-push-up": {
+      "name": "Piegamenti con piedi rialzati",
+      "desc": "Piegamenti con i piedi su una panca. Più difficili della versione a terra, spostano il lavoro verso la parte alta del petto e le spalle.",
+      "cues": [
+        "Piedi su una panca, mani a terra sotto il petto.",
+        "Glutei e addominali contratti, corpo dritto.",
+        "Scendi con controllo e spingi fino a braccia tese."
+      ],
+      "mistakes": ["Anche che salgono a punta.", "Collo che cade verso il pavimento."],
+      "safety": "Inizia con un rialzo basso. Alza di più i piedi solo quando le ripetizioni complete restano pulite."
+    },
+    "diamond-push-up": {
+      "name": "Piegamenti a diamante",
+      "desc": "Piegamenti con le mani unite sotto il petto, pollici e indici a formare un diamante. Lavorano molto i tricipiti.",
+      "cues": [
+        "Mani unite sotto il petto.",
+        "I gomiti vanno indietro lungo il corpo.",
+        "Scendi finché il petto non si avvicina alle mani."
+      ],
+      "mistakes": ["Gomiti molto aperti.", "Mani sotto il viso invece che sotto il petto."],
+      "safety": "Se polsi o gomiti danno fastidio, allarga un po’ le mani o falli sulle ginocchia."
+    },
+    "pause-push-up": {
+      "name": "Piegamenti con pausa",
+      "desc": "Piegamenti con una pausa di due secondi appena sopra il pavimento. Sviluppano controllo e forza nel punto più difficile.",
+      "cues": [
+        "Scendi lentamente fino a poco sopra il pavimento.",
+        "Tieni due secondi, il corpo resta dritto.",
+        "Spingi su senza rimbalzare."
+      ],
+      "mistakes": ["Appoggiare il petto a terra durante la pausa.", "Fianchi che cedono durante la tenuta."],
+      "safety": "Usa la versione sulle ginocchia se non riesci a tenere la pausa con il corpo dritto."
+    },
+    "archer-push-up": {
+      "name": "Piegamenti dell’arciere",
+      "desc": "Piegamenti molto larghi in cui si scende verso una mano mentre l’altro braccio resta quasi teso. Un passo verso i piegamenti a un braccio.",
+      "cues": [
+        "Mani molto larghe, dita leggermente verso l’esterno.",
+        "Scendendo, sposta il petto verso una mano.",
+        "L’altro braccio resta lungo e aiuta un po’."
+      ],
+      "mistakes": [
+        "Ruotare le anche.",
+        "Piegare entrambe le braccia allo stesso modo, come in un piegamento normale."
+      ],
+      "safety": "Padroneggia prima i piegamenti normali e larghi. All’inizio tieni un’ampiezza ridotta."
+    },
+    "clap-push-up": {
+      "name": "Piegamenti esplosivi",
+      "desc": "Piegamenti spinti così veloci che le mani si staccano da terra. Allenano la potenza di petto e braccia.",
+      "cues": [
+        "Scendi con controllo.",
+        "Spingi forte in modo che le mani si stacchino.",
+        "Atterra con i gomiti morbidi e passa subito alla ripetizione successiva."
+      ],
+      "mistakes": ["Atterrare con le braccia bloccate.", "Fianchi che cedono all’atterraggio."],
+      "safety": "Solo per chi ha piegamenti normali solidi. Inizia con un piccolo stacco su una superficie morbida."
+    },
+    "incline-db-fly": {
+      "name": "Croci con manubri su panca inclinata",
+      "desc": "Croci su una panca poco inclinata. Allungano e lavorano la parte alta del petto.",
+      "cues": [
+        "Panca a 15–30°, manubri sopra il petto.",
+        "Gomiti leggermente piegati e fissi.",
+        "Apri le braccia ad arco fino a sentire l’allungamento, poi riportale su."
+      ],
+      "mistakes": [
+        "Piegare di più i gomiti e trasformarlo in una distensione.",
+        "Scendere troppo con i manubri."
+      ],
+      "safety": "Usa manubri leggeri. Ferma l’arco dove le spalle sono ancora a loro agio."
+    },
+    "decline-bench-press": {
+      "name": "Panca declinata",
+      "desc": "Distensione con bilanciere su una panca con la testa più bassa delle anche. Sposta il lavoro verso la parte bassa del petto.",
+      "cues": [
+        "Aggancia bene le gambe sotto i rulli.",
+        "Abbassa il bilanciere sulla parte bassa del petto.",
+        "Spingi su con un leggero arco sopra le spalle."
+      ],
+      "mistakes": ["Far rimbalzare il bilanciere sul petto.", "Gambe allentate che scivolano dai rulli."],
+      "safety": "Lavora in un rack con le sicure o con un assistente e usa i fermi sul bilanciere."
+    },
+    "db-floor-press": {
+      "name": "Floor press con manubri",
+      "desc": "Distensione con manubri da sdraiati a terra. Il pavimento limita la profondità e tiene le spalle in un’ampiezza comoda.",
+      "cues": [
+        "Sdraiati sulla schiena, ginocchia piegate, manubri sopra il petto.",
+        "Scendi finché le braccia non toccano il pavimento.",
+        "Breve pausa, poi spingi su."
+      ],
+      "mistakes": ["Sbattere i gomiti a terra.", "Gomiti aperti a 90°."],
+      "safety": "Porta i manubri in posizione dalle ginocchia e appoggiali ai lati alla fine."
+    },
+    "low-to-high-cable-fly": {
+      "name": "Croci ai cavi dal basso verso l’alto",
+      "desc": "Croci con i cavi dalle pulegge basse verso l’alto. Lavorano la parte alta del petto.",
+      "cues": [
+        "Pulegge in basso, un passo avanti, leggera inclinazione.",
+        "Gomiti leggermente piegati e fissi.",
+        "Porta le mani in alto e unite all’altezza del mento."
+      ],
+      "mistakes": ["Alzare le spalle.", "Tirare con le braccia invece di muoversi ad arco."],
+      "safety": "Scegli un peso che riesci a controllare al ritorno. All’inizio evita un allungamento profondo."
+    },
+    "machine-chest-press": {
+      "name": "Chest press alla macchina",
+      "desc": "Distensione da seduti a una macchina per il petto. La traiettoria stabile la rende facile da imparare e da allenare vicino al limite.",
+      "cues": [
+        "Maniglie all’altezza di metà petto.",
+        "Schiena e scapole contro lo schienale.",
+        "Spingi in avanti, torna lentamente senza far toccare il pacco pesi."
+      ],
+      "mistakes": ["Sedile troppo basso o troppo alto.", "Spalle che rotolano in avanti alla fine."],
+      "safety": "Regola il sedile prima della prima serie. Riporta le maniglie con controllo."
+    },
+    "incline-machine-press": {
+      "name": "Distensioni inclinate alla macchina",
+      "desc": "Distensione a una macchina con traiettoria verso l’alto. Lavora la parte alta del petto con un percorso stabile.",
+      "cues": [
+        "Maniglie circa all’altezza delle clavicole.",
+        "Scapole indietro contro lo schienale.",
+        "Spingi in alto e in avanti, torna lentamente."
+      ],
+      "mistakes": ["Inarcare la zona lombare staccandola dallo schienale.", "Bloccare i gomiti di colpo."],
+      "safety": "Regola il sedile in modo che le maniglie partano all’altezza delle clavicole."
+    },
+    "db-squeeze-press": {
+      "name": "Squeeze press con manubri",
+      "desc": "Distensione con i manubri premuti l’uno contro l’altro per tutto il tempo. Tiene il petto al lavoro in ogni ripetizione.",
+      "cues": [
+        "Sdraiati su una panca, manubri uniti sopra il petto.",
+        "Premili l’uno contro l’altro.",
+        "Scendi al petto e spingi su continuando a premere."
+      ],
+      "mistakes": ["Lasciare che i manubri si separino.", "Usare pesi pesanti e perdere la pressione."],
+      "safety": "Qui funzionano meglio pesi moderati. Tieni i polsi dritti."
+    },
+    "neutral-grip-pull-up": {
+      "name": "Trazioni a presa neutra",
+      "desc": "Trazioni su maniglie parallele con i palmi rivolti l’uno verso l’altro. Spesso è la presa più comoda per spalle e gomiti.",
+      "cues": [
+        "Appenditi alle maniglie parallele, braccia tese.",
+        "Porta i gomiti in basso verso le costole.",
+        "Petto verso le maniglie, scendi fino in fondo."
+      ],
+      "mistakes": ["Scalciare per salire.", "Fermarsi a metà discesa."],
+      "safety": "Se non riesci ancora a fare ripetizioni complete, usa un elastico, una macchina o solo la discesa lenta."
+    },
+    "wide-grip-pull-up": {
+      "name": "Trazioni a presa larga",
+      "desc": "Trazioni con le mani ben oltre la larghezza delle spalle. Più difficili della presa normale, si concentrano sui dorsali.",
+      "cues": [
+        "Presa a circa una volta e mezza la larghezza delle spalle.",
+        "Parti da appeso del tutto, spalle tirate in basso.",
+        "Porta il petto verso la sbarra, scendi lentamente."
+      ],
+      "mistakes": ["Presa così larga da accorciare l’ampiezza.", "Darsi lo slancio con le gambe."],
+      "safety": "Non allargare più di quanto consentono le spalle. Prima vengono le trazioni normali."
+    },
+    "negative-pull-up": {
+      "name": "Trazioni negative",
+      "desc": "Salta o sali nella posizione alta della trazione e scendi il più lentamente possibile. Costruisce forza per le trazioni complete.",
+      "cues": [
+        "Sali finché il mento non supera la sbarra.",
+        "Scendi lentamente, in 3–5 secondi.",
+        "Arriva ad appeso del tutto, poi risali."
+      ],
+      "mistakes": ["Lasciarsi cadere veloce alla fine.", "Saltare su con un grande slancio."],
+      "safety": "Usa un rialzo o una panca stabile per salire. Tieni le serie brevi: la discesa lenta è impegnativa."
+    },
+    "scapular-pull-up": {
+      "name": "Trazioni scapolari",
+      "desc": "Da appeso, si tirano le spalle in basso senza piegare le braccia. Insegna la prima fase di ogni trazione.",
+      "cues": [
+        "Appenditi a braccia tese.",
+        "Tira le spalle in basso, lontano dalle orecchie.",
+        "Il corpo sale un po’, le braccia restano tese. Rilassa e torna."
+      ],
+      "mistakes": ["Piegare i gomiti.", "Far oscillare il corpo."],
+      "safety": "Muoviti lentamente. Se restare appeso affatica le mani, usa una sbarra più bassa con i piedi a terra."
+    },
+    "feet-elevated-inverted-row": {
+      "name": "Rematore inverso con piedi rialzati",
+      "desc": "Rematore orizzontale sotto una sbarra con i piedi su una panca. Più difficile del rematore inverso normale.",
+      "cues": [
+        "Sbarra all’altezza delle anche, piedi su una panca.",
+        "Corpo dritto dalle spalle ai talloni.",
+        "Porta il petto alla sbarra, scendi a braccia tese."
+      ],
+      "mistakes": ["Fianchi che cedono.", "Portare su il mento invece del petto."],
+      "safety": "Usa una sbarra fissa o un bilanciere ben fissato nel rack."
+    },
+    "wide-grip-pulldown": {
+      "name": "Lat machine a presa larga",
+      "desc": "Tirata verso il basso con le mani larghe su una barra lunga. Si concentra sui dorsali.",
+      "cues": [
+        "Cosce sotto i cuscinetti, presa più larga delle spalle.",
+        "Inclinati un po’ indietro, petto in fuori.",
+        "Tira la barra alla parte alta del petto, torna lentamente."
+      ],
+      "mistakes": [
+        "Tirare la barra dietro la nuca.",
+        "Inclinarsi molto indietro e trasformarlo in un rematore."
+      ],
+      "safety": "Tira sempre davanti alla testa. Lascia risalire la barra con controllo."
+    },
+    "reverse-grip-pulldown": {
+      "name": "Lat machine a presa inversa",
+      "desc": "Tirata verso il basso con i palmi verso di te e le mani circa alla larghezza delle spalle. Il bicipite aiuta di più.",
+      "cues": [
+        "Palmi verso di te, presa alla larghezza delle spalle.",
+        "Petto in fuori, leggera inclinazione indietro.",
+        "Tira alla parte alta del petto, gomiti in basso e indietro."
+      ],
+      "mistakes": ["Fare un curl con la barra.", "Incurvarsi in avanti in basso."],
+      "safety": "Riporta la barra lentamente così il pacco pesi non sbatte."
+    },
+    "single-arm-pulldown": {
+      "name": "Lat machine a un braccio al cavo",
+      "desc": "Tirata verso il basso con una sola maniglia. Ogni lato lavora da solo con l’ampiezza completa.",
+      "cues": [
+        "In ginocchio o seduto di fronte alla puleggia alta, una maniglia.",
+        "Porta il gomito in basso lungo il fianco.",
+        "Lascia risalire del tutto il braccio prima della ripetizione successiva."
+      ],
+      "mistakes": ["Ruotare il busto per spostare il peso.", "Ripetizioni corte e a strappi."],
+      "safety": "Tieni un peso moderato così il tronco resta fermo."
+    },
+    "pendlay-row": {
+      "name": "Rematore Pendlay",
+      "desc": "Rematore con bilanciere in cui ogni ripetizione parte da terra, con la schiena piatta e quasi parallela al pavimento.",
+      "cues": [
+        "Bilanciere a terra, busto quasi orizzontale, schiena piatta.",
+        "Tira il bilanciere veloce verso la parte bassa del petto.",
+        "Riportalo a terra e risistemati."
+      ],
+      "mistakes": ["Sollevare il busto per muovere il bilanciere.", "Incurvare la zona lombare."],
+      "safety": "Usa dischi che portino il bilanciere a metà tibia, metti i fermi e tieni un peso che ti permetta la schiena piatta."
+    },
+    "db-bent-over-row": {
+      "name": "Rematore a busto flesso con manubri",
+      "desc": "Rematore con due manubri in cerniera d’anca. Ogni braccio si muove liberamente.",
+      "cues": [
+        "Piegati sulle anche, schiena piatta, ginocchia morbide.",
+        "I manubri pendono sotto le spalle.",
+        "Tirali verso le anche, scendi lentamente."
+      ],
+      "mistakes": [
+        "Raddrizzarsi sempre di più a ogni ripetizione.",
+        "Alzare le spalle invece di portare indietro i gomiti."
+      ],
+      "safety": "Se la zona lombare si stanca, passa a un rematore con appoggio del petto."
+    },
+    "kettlebell-row": {
+      "name": "Rematore a un braccio con kettlebell",
+      "desc": "Rematore a un braccio con un kettlebell, la mano libera appoggiata su una panca.",
+      "cues": [
+        "Mano libera su una panca, schiena piatta.",
+        "Il kettlebell pende sotto la spalla.",
+        "Porta il gomito indietro verso l’anca, scendi del tutto."
+      ],
+      "mistakes": ["Aprire il busto ruotandolo.", "Portare il gomito largo verso l’esterno."],
+      "safety": "Tieni la schiena piatta; scegli un peso che riesci ad abbassare lentamente."
+    },
+    "single-arm-cable-row": {
+      "name": "Rematore a un braccio al cavo",
+      "desc": "Rematore da seduti o in piedi con una maniglia a media altezza.",
+      "cues": [
+        "Una maniglia, braccio teso in avanti.",
+        "Porta il gomito indietro oltre le costole.",
+        "Al ritorno lascia che la spalla vada in avanti."
+      ],
+      "mistakes": ["Ruotare tutto il corpo.", "Alzare la spalla."],
+      "safety": "Usa un peso moderato e tieni le anche frontali."
+    },
+    "band-row": {
+      "name": "Rematore seduto con elastico",
+      "desc": "Rematore con un elastico passato intorno ai piedi. Una semplice versione casalinga del rematore al cavo.",
+      "cues": [
+        "Siediti dritto, elastico intorno ai piedi, estremità nelle mani.",
+        "Porta i gomiti indietro, stringi le scapole.",
+        "Torna lentamente."
+      ],
+      "mistakes": ["Inclinarsi molto indietro.", "Lasciare che l’elastico scatti in avanti."],
+      "safety": "Controlla che l’elastico non sia rovinato prima dell’uso e tienilo ben fermo sotto i piedi."
+    },
+    "rack-pull": {
+      "name": "Rack pull",
+      "desc": "Stacco che parte da sicure all’altezza delle ginocchia. Lavora la parte finale dello stacco e la parte alta della schiena.",
+      "cues": [
+        "Bilanciere sulle sicure appena sotto o sopra le ginocchia.",
+        "Schiena piatta, bilanciere vicino alle gambe.",
+        "Spingi le anche in avanti fino a stare dritto, scendi sulle sicure."
+      ],
+      "mistakes": ["Inclinarsi indietro in alto.", "Incurvare la schiena per iniziare la tirata."],
+      "safety": "Tira dentro un rack con le sicure ben fissate e i fermi sul bilanciere."
+    },
+    "good-morning": {
+      "name": "Good morning",
+      "desc": "Con un bilanciere sulla parte alta della schiena, ci si piega in avanti sulle anche e si torna su.",
+      "cues": [
+        "Bilanciere sulla parte alta della schiena, ginocchia morbide.",
+        "Spingi le anche indietro, la schiena resta piatta.",
+        "Fermati quando il busto è circa parallelo al pavimento o prima, poi risali."
+      ],
+      "mistakes": ["Incurvare la schiena.", "Piegare le ginocchia trasformandolo in uno squat."],
+      "safety": "Inizia molto leggero, prendi il bilanciere da un rack all’altezza delle spalle e usa i fermi."
+    },
+    "sumo-deadlift": {
+      "name": "Stacco sumo",
+      "desc": "Stacco con i piedi molto larghi e le mani all’interno delle ginocchia. Il busto resta più dritto.",
+      "cues": [
+        "Piedi larghi, punte in fuori, tibie vicine al bilanciere.",
+        "Mani all’interno delle ginocchia, schiena piatta.",
+        "Spingi il pavimento verso l’esterno e alzati con il bilanciere vicino al corpo."
+      ],
+      "mistakes": ["Ginocchia che cedono verso l’interno.", "Anche che salgono per prime."],
+      "safety": "Usa i fermi e un peso leggero mentre impari; abbassa il bilanciere con controllo."
+    },
+    "superman": {
+      "name": "Superman",
+      "desc": "Sdraiati a pancia in giù, si sollevano un po’ da terra braccia, petto e gambe. Allena i muscoli lungo la schiena.",
+      "cues": [
+        "Sdraiati a pancia in giù, braccia allungate in avanti.",
+        "Solleva braccia, petto e gambe di qualche centimetro.",
+        "Tieni per un respiro, scendi lentamente."
+      ],
+      "mistakes": ["Buttare la testa all’indietro.", "Salire di scatto il più in alto possibile."],
+      "safety": "Basta un piccolo sollevamento. Fermati se senti un pizzicore nella zona lombare."
+    },
+    "pike-push-up": {
+      "name": "Piegamenti a V rovesciata (pike)",
+      "desc": "Piegamenti con le anche alte, così il corpo forma una V rovesciata. Spostano il lavoro sulle spalle.",
+      "cues": [
+        "Mani a terra, anche alte, gambe abbastanza tese.",
+        "Abbassa la sommità della testa verso il pavimento tra le mani.",
+        "Spingi su fino a braccia tese."
+      ],
+      "mistakes": [
+        "Abbassare le anche e trasformarlo in un piegamento normale.",
+        "Gomiti aperti del tutto verso l’esterno."
+      ],
+      "safety": "Scendi lentamente ed evita che la testa tocchi terra con forza. Alza i piedi su una panca solo quando questa versione è facile."
+    },
+    "standing-db-press": {
+      "name": "Lento in piedi con manubri",
+      "desc": "Si spingono due manubri sopra la testa stando in piedi. Il tronco lavora per restare dritto.",
+      "cues": [
+        "Manubri all’altezza delle spalle, piedi alla larghezza delle anche.",
+        "Contrai addominali e glutei.",
+        "Spingi su fino a braccia tese, scendi alle spalle."
+      ],
+      "mistakes": [
+        "Inclinarsi indietro per finire la ripetizione.",
+        "Spingere i manubri molto davanti al viso."
+      ],
+      "safety": "Scegli un peso che riesci a spingere senza inarcare la zona lombare."
+    },
+    "machine-shoulder-press": {
+      "name": "Shoulder press alla macchina",
+      "desc": "Distensione sopra la testa da seduti a una macchina. La traiettoria guidata la rende facile da imparare.",
+      "cues": [
+        "Maniglie circa all’altezza delle spalle.",
+        "Schiena contro lo schienale.",
+        "Spingi su, scendi finché le mani non sono vicine alle spalle."
+      ],
+      "mistakes": [
+        "Sedile così basso che le maniglie partono sotto le spalle.",
+        "Inarcarsi staccandosi dallo schienale."
+      ],
+      "safety": "Regola il sedile prima della prima serie e riporta il peso lentamente."
+    },
+    "landmine-press": {
+      "name": "Landmine press",
+      "desc": "Si spinge un’estremità di un bilanciere ancorato in un angolo o in un landmine. La traiettoria inclinata è amica delle spalle.",
+      "cues": [
+        "Estremità del bilanciere alla spalla, piedi sfalsati.",
+        "Spingi in alto e in avanti fino a braccio teso.",
+        "Torna alla spalla con controllo."
+      ],
+      "mistakes": ["Inclinarsi indietro.", "Lasciar cadere il bilanciere velocemente."],
+      "safety": "Ancora il bilanciere in un landmine o in un angolo solido così non scivola; inizia leggero."
+    },
+    "push-press": {
+      "name": "Push press",
+      "desc": "Distensione sopra la testa che parte con un breve piegamento delle ginocchia e una spinta. Le gambe aiutano a muovere più peso.",
+      "cues": [
+        "Bilanciere sulla parte anteriore delle spalle, gomiti leggermente in avanti.",
+        "Breve piegamento delle ginocchia, busto dritto.",
+        "Spingi su e porta il bilanciere sopra la testa in un unico movimento."
+      ],
+      "mistakes": [
+        "Scendere troppo, come in uno squat.",
+        "Spingere con le braccia prima che le gambe finiscano la spinta."
+      ],
+      "safety": "Prendi il bilanciere da un rack all’altezza delle spalle, usa i fermi e riportalo alle spalle con le ginocchia piegate."
+    },
+    "cable-rear-delt-fly": {
+      "name": "Aperture posteriori ai cavi",
+      "desc": "Si aprono cavi incrociati all’altezza delle spalle. Lavora la parte posteriore delle spalle.",
+      "cues": [
+        "Pulegge all’altezza delle spalle, cavi incrociati davanti.",
+        "Gomiti leggermente piegati.",
+        "Apri le braccia ai lati, torna lentamente."
+      ],
+      "mistakes": ["Tirare piegando i gomiti.", "Inclinarsi indietro per muovere il peso."],
+      "safety": "Per questo piccolo muscolo bastano pesi leggeri."
+    },
+    "kettlebell-press": {
+      "name": "Lento con kettlebell",
+      "desc": "Distensione rigorosa a un braccio con il kettlebell appoggiato sul dorso dell’avambraccio.",
+      "cues": [
+        "Kettlebell in posizione rack alla spalla.",
+        "Glutei e addominali contratti, ginocchia ferme.",
+        "Spingi dritto in alto, torna in posizione rack."
+      ],
+      "mistakes": ["Inclinarsi di lato.", "Polso piegato all’indietro sotto il peso."],
+      "safety": "Tieni il polso dritto. Riporta il kettlebell alla spalla con controllo."
+    },
+    "barbell-shrug": {
+      "name": "Scrollate con bilanciere",
+      "desc": "Si alzano le spalle dritte verso l’alto tenendo un bilanciere. Lavora la parte alta del trapezio.",
+      "cues": [
+        "Bilanciere davanti alle cosce, braccia tese.",
+        "Alza le spalle verso le orecchie.",
+        "Pausa, poi scendi lentamente."
+      ],
+      "mistakes": ["Ruotare le spalle in cerchio.", "Piegare i gomiti per aiutarsi."],
+      "safety": "Prendi il bilanciere da un rack all’altezza delle anche e usa i fermi."
+    },
+    "cable-y-raise": {
+      "name": "Alzate a Y ai cavi",
+      "desc": "Si sollevano i cavi dalle pulegge basse verso l’alto e verso l’esterno a formare una Y. Lavora le spalle e la parte bassa del trapezio.",
+      "cues": [
+        "Pulegge basse, cavi incrociati, busto leggermente inclinato o dritto.",
+        "Solleva le braccia in alto e verso l’esterno a formare una Y.",
+        "Scendi lentamente all’inizio."
+      ],
+      "mistakes": ["Alzare le spalle verso le orecchie.", "Usare lo slancio."],
+      "safety": "Tieni il peso leggero e il movimento fluido."
+    },
+    "incline-t-raise": {
+      "name": "Alzate a T su panca inclinata",
+      "desc": "Sdraiati a pancia in giù su una panca inclinata, si sollevano manubri leggeri dritti ai lati a formare una T.",
+      "cues": [
+        "Petto sulla panca inclinata, braccia che pendono.",
+        "Pollici in alto, solleva le braccia ai lati.",
+        "Stringi le scapole, scendi lentamente."
+      ],
+      "mistakes": ["Alzare le spalle.", "Far oscillare manubri pesanti."],
+      "safety": "Bastano manubri molto leggeri."
+    },
+    "ez-bar-curl": {
+      "name": "Curl con bilanciere EZ",
+      "desc": "Curl per bicipiti con un bilanciere EZ sagomato. La presa angolata è più delicata per i polsi di un bilanciere dritto.",
+      "cues": [
+        "Impugna le parti angolate, braccia tese.",
+        "Gomiti fermi ai fianchi.",
+        "Piega fino in alto, scendi lentamente a braccia tese."
+      ],
+      "mistakes": ["Far oscillare il busto.", "Gomiti che scivolano in avanti."],
+      "safety": "Usa un peso leggero e i fermi sul bilanciere."
+    },
+    "spider-curl": {
+      "name": "Spider curl",
+      "desc": "Curl sdraiati a pancia in giù su una panca inclinata con le braccia che pendono dritte verso il basso.",
+      "cues": [
+        "Petto sulla panca, braccia che pendono in verticale.",
+        "Piega senza muovere i gomiti.",
+        "Stringi in alto, scendi del tutto."
+      ],
+      "mistakes": ["Gomiti che oscillano indietro.", "Mezze ripetizioni solo in alto."],
+      "safety": "Manubri leggeri o medi mantengono la tecnica rigorosa."
+    },
+    "barbell-spider-curl": {
+      "name": "Spider curl con bilanciere",
+      "desc": "Curl per bicipiti con bilanciere sdraiati a pancia in giù su panca inclinata: le braccia pendono in verticale, quindi le spalle non aiutano.",
+      "cues": [
+        "Regola la panca inclinata a circa 30–45° e sdraiati con il petto sopra.",
+        "Lascia pendere le braccia dritte e afferra il bilanciere con presa supina, palmi in alto.",
+        "Piegando i gomiti, porta il bilanciere verso le spalle, tenendo busto e spalle fermi.",
+        "Riporta lentamente il bilanciere alla posizione iniziale."
+      ],
+      "mistakes": [
+        "Gomiti che si spostano in avanti o indietro.",
+        "Staccare il petto dalla panca per dare slancio.",
+        "Lasciar cadere il bilanciere invece di abbassarlo."
+      ],
+      "safety": "Inizia leggero: il bilanciere pende sotto la panca, quindi scegli un carico che riesci ad abbassare con pieno controllo e appoggia il bilanciere a terra invece di lasciarlo cadere."
+    },
+    "cross-body-hammer-curl": {
+      "name": "Curl a martello incrociato",
+      "desc": "Curl a martello che porta il manubrio davanti al corpo verso la spalla opposta.",
+      "cues": [
+        "Palmo rivolto verso l’interno, braccio teso lungo il fianco.",
+        "Piega attraverso il corpo verso l’altra spalla.",
+        "Scendi lentamente lungo lo stesso percorso."
+      ],
+      "mistakes": ["Ruotare il busto.", "Far oscillare il manubrio."],
+      "safety": "Stai dritto e tieni il peso sotto controllo."
+    },
+    "zottman-curl": {
+      "name": "Curl Zottman",
+      "desc": "Si sale con i palmi in alto, in cima si girano i palmi verso il basso e si scende lentamente.",
+      "cues": [
+        "Palmi in alto, piega fino in cima.",
+        "Ruota i palmi verso il basso.",
+        "Scendi lentamente con i palmi in basso, in fondo ruotali di nuovo."
+      ],
+      "mistakes": ["Fare in fretta la discesa.", "Portare avanti i gomiti."],
+      "safety": "Usa manubri leggeri: la discesa con i palmi in basso è la parte difficile."
+    },
+    "band-curl": {
+      "name": "Curl con elastico",
+      "desc": "Curl per bicipiti con un elastico sotto i piedi. La resistenza aumenta verso l’alto.",
+      "cues": [
+        "Sali sull’elastico, estremità nelle mani.",
+        "Gomiti ai fianchi.",
+        "Piega fino in alto, scendi lentamente."
+      ],
+      "mistakes": ["Gomiti che vanno in avanti.", "Lasciare che l’elastico scatti verso il basso."],
+      "safety": "Controlla che l’elastico non sia danneggiato e tienilo ben fermo sotto i piedi."
+    },
+    "rope-hammer-curl": {
+      "name": "Curl a martello con corda al cavo",
+      "desc": "Curl a martello con una corda alla puleggia bassa.",
+      "cues": [
+        "Corda alla puleggia bassa, palmi uno verso l’altro.",
+        "Gomiti fermi ai fianchi.",
+        "Piega fino in alto, scendi lentamente."
+      ],
+      "mistakes": ["Inclinarsi indietro.", "Gomiti che scivolano in avanti."],
+      "safety": "Riporta il peso lentamente così il pacco pesi non sbatte."
+    },
+    "bayesian-cable-curl": {
+      "name": "Curl al cavo dietro il corpo",
+      "desc": "Curl a un braccio dando le spalle a una puleggia bassa, con il braccio che parte un po’ dietro il corpo. Lavora il bicipite in allungamento.",
+      "cues": [
+        "Dai le spalle alla puleggia bassa, fai un passo avanti.",
+        "Il braccio parte un po’ dietro il corpo.",
+        "Piega in avanti e in alto, torna lentamente."
+      ],
+      "mistakes": ["Portare molto avanti il gomito.", "Uscire di fretta dall’allungamento."],
+      "safety": "Usa un peso leggero; l’allungamento iniziale deve essere comodo."
+    },
+    "straight-bar-pushdown": {
+      "name": "Pushdown con barra dritta",
+      "desc": "Spinte in basso per tricipiti con una barra dritta corta alla puleggia alta.",
+      "cues": [
+        "Presa prona, gomiti ai fianchi.",
+        "Spingi in basso fino a braccia tese.",
+        "Lascia risalire lentamente la barra all’altezza dei gomiti."
+      ],
+      "mistakes": ["Gomiti che si aprono.", "Sporgersi sulla barra per spingere con il corpo."],
+      "safety": "Riporta la barra lentamente così il pacco pesi non sbatte."
+    },
+    "reverse-grip-pushdown": {
+      "name": "Pushdown a presa inversa",
+      "desc": "Spinte in basso con i palmi rivolti in alto. Si usa meno peso che con la presa normale, ma lavora il tricipite da un’altra angolazione.",
+      "cues": [
+        "Presa supina su una barra dritta.",
+        "Gomiti fermi ai fianchi.",
+        "Spingi fino a braccia tese, torna lentamente."
+      ],
+      "mistakes": ["Polsi piegati all’indietro.", "Usare troppo peso."],
+      "safety": "Scegli un peso più leggero del tuo pushdown abituale."
+    },
+    "db-skull-crusher": {
+      "name": "French press con manubri",
+      "desc": "Sdraiati su una panca, si abbassano due manubri accanto alla testa piegando solo i gomiti.",
+      "cues": [
+        "Manubri sopra le spalle, palmi uno verso l’altro.",
+        "Piega i gomiti per abbassarli accanto alla testa.",
+        "Distendi di nuovo le braccia."
+      ],
+      "mistakes": ["Gomiti molto aperti.", "Muovere le braccia avanti e indietro."],
+      "safety": "Inizia leggero e mantieni il pieno controllo vicino alla testa."
+    },
+    "triceps-dip": {
+      "name": "Dip per tricipiti",
+      "desc": "Dip alle parallele con il corpo dritto. Sposta il lavoro sui tricipiti.",
+      "cues": [
+        "In appoggio a braccia tese, corpo verticale.",
+        "Piega i gomiti indietro lungo il corpo.",
+        "Scendi finché le braccia non sono circa orizzontali, spingi su."
+      ],
+      "mistakes": ["Inclinarsi molto in avanti.", "Scendere troppo con le spalle che rotolano in avanti."],
+      "safety": "Scendi solo quanto consentono le spalle. Se serve, usa una macchina assistita."
+    },
+    "band-pushdown": {
+      "name": "Pushdown con elastico",
+      "desc": "Spinte in basso per tricipiti con un elastico fissato sopra la testa.",
+      "cues": [
+        "Elastico fissato in alto, gomiti ai fianchi.",
+        "Spingi in basso fino a braccia tese.",
+        "Torna lentamente all’altezza dei gomiti."
+      ],
+      "mistakes": ["Gomiti che si staccano dal corpo.", "Sporgersi sull’elastico."],
+      "safety": "Fissa bene l’elastico e controlla che non sia usurato."
+    },
+    "cable-triceps-kickback": {
+      "name": "Kickback per tricipiti al cavo",
+      "desc": "Kickback con un cavo basso. Il cavo mantiene la tensione per tutta la ripetizione.",
+      "cues": [
+        "Piegati in avanti sulle anche, braccio lungo il corpo.",
+        "Distendi il braccio all’indietro.",
+        "Torna lentamente, il braccio resta fermo."
+      ],
+      "mistakes": ["Far oscillare il braccio.", "Incurvare la schiena."],
+      "safety": "Peso leggero; tieni la schiena piatta."
+    },
+    "behind-back-wrist-curl": {
+      "name": "Curl dei polsi dietro la schiena",
+      "desc": "In piedi con un bilanciere dietro le cosce, lo si solleva usando solo i polsi.",
+      "cues": [
+        "Bilanciere dietro le cosce, palmi rivolti indietro.",
+        "Lascia rotolare il bilanciere verso le dita.",
+        "Fletti i polsi verso l’alto, scendi lentamente."
+      ],
+      "mistakes": ["Piegare i gomiti.", "Usare un peso troppo pesante da controllare."],
+      "safety": "Usa un bilanciere leggero con i fermi e prendilo da un rack all’altezza delle anche."
+    },
+    "high-plank": {
+      "name": "Plank alto",
+      "desc": "Si mantiene la posizione alta del piegamento con il corpo dritto.",
+      "cues": [
+        "Mani sotto le spalle, braccia tese.",
+        "Corpo in linea, glutei contratti.",
+        "Spingi via il pavimento e respira con calma."
+      ],
+      "mistakes": ["Fianchi che cedono.", "Spalle che salgono verso le orecchie."],
+      "safety": "Appoggia le ginocchia se la linea si rompe. Fai riposare i polsi tra le serie se si stancano."
+    },
+    "plank-shoulder-tap": {
+      "name": "Plank con tocco della spalla",
+      "desc": "Dal plank alto si tocca una spalla con la mano opposta, alternando i lati, senza far oscillare le anche.",
+      "cues": [
+        "Plank alto, piedi un po’ più larghi delle anche.",
+        "Solleva una mano e tocca la spalla opposta.",
+        "Riappoggiala e cambia, le anche restano ferme."
+      ],
+      "mistakes": ["Anche che ondeggiano da un lato all’altro.", "Fare i tocchi di fretta."],
+      "safety": "Allarga i piedi o fallo sulle ginocchia per tenere ferme le anche."
+    },
+    "plank-up-down": {
+      "name": "Plank su e giù",
+      "desc": "Si passa dal plank sugli avambracci al plank alto un braccio alla volta e si torna giù.",
+      "cues": [
+        "Parti dal plank sugli avambracci.",
+        "Sali su una mano, poi sull’altra.",
+        "Torna sugli avambracci uno alla volta."
+      ],
+      "mistakes": ["Anche che oscillano da un lato all’altro.", "Alzare molto le anche."],
+      "safety": "Tieni i piedi larghi per l’equilibrio e muoviti a ritmo costante."
+    },
+    "flutter-kicks": {
+      "name": "Flutter kick",
+      "desc": "Sdraiati sulla schiena, si fanno piccoli calci alternati su e giù a gambe tese.",
+      "cues": [
+        "Zona lombare premuta a terra.",
+        "Gambe tese, leggermente sollevate.",
+        "Calci piccoli e rapidi su e giù."
+      ],
+      "mistakes": ["Zona lombare che si inarca staccandosi da terra.", "Calci ampi e oscillanti."],
+      "safety": "Alza di più le gambe se la zona lombare si solleva. Puoi mettere le mani sotto le anche."
+    },
+    "lying-leg-raise": {
+      "name": "Sollevamento gambe da sdraiati",
+      "desc": "Sdraiati sulla schiena, si sollevano le gambe tese fino alla verticale e si abbassano lentamente.",
+      "cues": [
+        "Zona lombare premuta a terra, mani ai fianchi o sotto le anche.",
+        "Solleva le gambe fino alla verticale.",
+        "Scendi lentamente, fermati prima che la schiena si sollevi."
+      ],
+      "mistakes": ["Inarcare la zona lombare in basso.", "Far cadere le gambe velocemente."],
+      "safety": "Piega le ginocchia per renderlo più facile."
+    },
+    "v-up": {
+      "name": "V-up",
+      "desc": "Da sdraiati, si sollevano gambe e busto contemporaneamente così le mani vanno verso i piedi.",
+      "cues": [
+        "Sdraiati, braccia sopra la testa.",
+        "Solleva insieme braccia, petto e gambe tese.",
+        "Scendi lentamente alla posizione iniziale."
+      ],
+      "mistakes": ["Lanciare il corpo con lo slancio.", "Ricadere di colpo."],
+      "safety": "Piega le ginocchia (tuck-up) se il V-up completo è troppo difficile."
+    },
+    "sit-up": {
+      "name": "Sit-up",
+      "desc": "Sdraiati con le ginocchia piegate, ci si arrotola fino ad avere il busto dritto e si torna giù.",
+      "cues": [
+        "Ginocchia piegate, piedi a terra.",
+        "Arrotolati su una vertebra alla volta.",
+        "Scendi lentamente a terra."
+      ],
+      "mistakes": ["Tirare la testa con le mani.", "Ricadere giù velocemente."],
+      "safety": "Incrocia le braccia sul petto per non tirare il collo."
+    },
+    "heel-touch": {
+      "name": "Tocco dei talloni",
+      "desc": "Sdraiati con le ginocchia piegate e le spalle leggermente sollevate, si allunga una mano alla volta per toccare il tallone.",
+      "cues": [
+        "Ginocchia piegate, spalle staccate da terra.",
+        "Allunga una mano verso il tallone dello stesso lato.",
+        "Alterna i lati con piccole flessioni laterali."
+      ],
+      "mistakes": ["Lasciar cadere le spalle a terra a ogni ripetizione.", "Tirare il collo in avanti."],
+      "safety": "Tieni il movimento piccolo e controllato."
+    },
+    "hollow-rock": {
+      "name": "Hollow rock",
+      "desc": "Si mantiene la posizione hollow e si dondola dolcemente avanti e indietro.",
+      "cues": [
+        "Mettiti in hollow hold, zona lombare premuta a terra.",
+        "Dondola dalla parte alta della schiena alle anche.",
+        "Mantieni sempre la stessa forma."
+      ],
+      "mistakes": ["Il corpo si piega alle anche mentre dondola.", "Zona lombare che si solleva."],
+      "safety": "Padroneggia prima l’hollow hold."
+    },
+    "bear-plank": {
+      "name": "Bear plank",
+      "desc": "In appoggio su mani e punte dei piedi con le ginocchia sospese appena sopra il pavimento. Resta fermo.",
+      "cues": [
+        "Mani sotto le spalle, ginocchia sotto le anche.",
+        "Solleva le ginocchia di qualche centimetro.",
+        "Schiena piatta, respira con calma."
+      ],
+      "mistakes": ["Anche che salgono troppo.", "Trattenere il respiro."],
+      "safety": "Appoggia le ginocchia per riposare appena la schiena inizia a incurvarsi."
+    },
+    "toes-to-bar": {
+      "name": "Toes to bar",
+      "desc": "Da appesi a una sbarra, si sollevano i piedi fino a toccarla.",
+      "cues": [
+        "Appenditi a braccia tese.",
+        "Spingi la sbarra verso il basso e solleva le gambe.",
+        "Tocca la sbarra con i piedi, scendi con controllo."
+      ],
+      "mistakes": ["Oscillare in modo incontrollato tra le ripetizioni.", "Piegare molto le braccia."],
+      "safety": "Preparati prima con sollevamenti di ginocchia e gambe alla sbarra."
+    },
+    "hanging-oblique-knee-raise": {
+      "name": "Sollevamento obliquo delle ginocchia alla sbarra",
+      "desc": "Sollevamento delle ginocchia da appesi portandole verso un lato, poi verso l’altro.",
+      "cues": [
+        "Appenditi o mettiti in appoggio alla stazione per dip.",
+        "Solleva le ginocchia in alto e verso un lato.",
+        "Scendi e alterna i lati."
+      ],
+      "mistakes": ["Oscillare per portare su le ginocchia.", "Sprofondare nelle spalle."],
+      "safety": "Tieni le spalle attive e il movimento lento."
+    },
+    "decline-sit-up": {
+      "name": "Sit-up su panca declinata",
+      "desc": "Sit-up su una panca declinata con i piedi agganciati. Più difficile della versione a terra.",
+      "cues": [
+        "Piedi agganciati, sdraiati sulla panca.",
+        "Arrotolati verso le ginocchia.",
+        "Scendi lentamente alla posizione iniziale."
+      ],
+      "mistakes": ["Tirarsi su a strappi con le braccia.", "Ricadere giù velocemente."],
+      "safety": "Inizia con una piccola inclinazione e non trattenere il respiro."
+    },
+    "suitcase-carry": {
+      "name": "Suitcase carry",
+      "desc": "Si cammina con un peso in una sola mano. Il tronco lavora per restare dritto.",
+      "cues": [
+        "Peso in una mano, stai dritto.",
+        "Cammina a passi corti e regolari.",
+        "Non inclinarti verso il peso."
+      ],
+      "mistakes": ["Inclinarsi da un lato.", "Alzare la spalla carica."],
+      "safety": "Appoggia il peso a terra con la schiena piatta, piegando anche e ginocchia."
+    },
+    "copenhagen-plank": {
+      "name": "Copenhagen plank",
+      "desc": "Plank laterale con la gamba di sopra appoggiata su una panca e quella di sotto libera. Lavora l’interno coscia e il fianco del tronco.",
+      "cues": [
+        "Avambraccio a terra, piede o ginocchio di sopra su una panca.",
+        "Solleva le anche fino a una linea dritta.",
+        "Mantieni e respira con calma."
+      ],
+      "mistakes": ["Anche che cedono.", "Ruotare in avanti."],
+      "safety": "Appoggia il ginocchio invece del piede per renderlo più facile."
+    },
+    "reverse-plank": {
+      "name": "Plank inverso",
+      "desc": "Da seduti con le mani dietro le anche, si sollevano le anche finché il corpo non forma una linea dritta, a pancia in su.",
+      "cues": [
+        "Mani dietro le anche, dita verso i piedi.",
+        "Solleva le anche, gambe tese.",
+        "Mantieni una linea dritta dalle spalle ai talloni."
+      ],
+      "mistakes": ["Anche che cedono.", "Testa lasciata cadere indietro."],
+      "safety": "Piega le ginocchia (posizione a tavolo) se la versione a gambe tese è troppo difficile."
+    },
+    "l-sit": {
+      "name": "L-sit",
+      "desc": "In appoggio sulle braccia tese con le gambe tese in avanti.",
+      "cues": [
+        "In appoggio sulle parallele, braccia tese, spalle basse.",
+        "Solleva le gambe tese in avanti.",
+        "Mantieni, con le gambe più in alto possibile."
+      ],
+      "mistakes": ["Sprofondare nelle spalle.", "Piegare le ginocchia senza volerlo."],
+      "safety": "Inizia con le ginocchia piegate e tenute brevi."
+    },
+    "machine-crunch": {
+      "name": "Crunch alla macchina",
+      "desc": "Crunch a una macchina per addominali con resistenza regolabile.",
+      "cues": [
+        "Regola il sedile in modo che i cuscinetti siano comodi.",
+        "Avvicina le costole alle anche.",
+        "Torna lentamente senza far toccare il pacco pesi."
+      ],
+      "mistakes": ["Tirare con le braccia.", "Usare lo slancio."],
+      "safety": "Scegli un peso con cui senti gli addominali, non i flessori dell’anca."
+    },
+    "air-squat": {
+      "name": "Squat a corpo libero",
+      "desc": "Squat senza carico aggiuntivo. Lo schema base di tutti gli squat.",
+      "cues": [
+        "Piedi circa alla larghezza delle spalle, punte un po’ in fuori.",
+        "Siediti tra i talloni, petto in fuori.",
+        "Risali spingendo con tutto il piede."
+      ],
+      "mistakes": ["Talloni che si alzano.", "Ginocchia che cedono verso l’interno."],
+      "safety": "Scendi fino a una profondità che controlli. Se serve, tieniti a qualcosa per l’equilibrio."
+    },
+    "jump-squat": {
+      "name": "Squat jump",
+      "desc": "Uno squat seguito da un salto verso l’alto. Allena la potenza delle gambe.",
+      "cues": [
+        "Scendi a una profondità comoda.",
+        "Salta in alto in modo esplosivo.",
+        "Atterra morbido su tutto il piede e scendi nello squat successivo."
+      ],
+      "mistakes": ["Atterrare a gambe tese.", "Ginocchia che cedono verso l’interno all’atterraggio."],
+      "safety": "Atterra in silenzio. Interrompi la serie quando gli atterraggi diventano scomposti."
+    },
+    "reverse-lunge": {
+      "name": "Affondo indietro",
+      "desc": "Si fa un passo indietro in affondo e si torna. Spesso più delicato per le ginocchia dell’affondo in avanti.",
+      "cues": [
+        "Stai dritto, porta una gamba indietro.",
+        "Abbassa il ginocchio dietro verso il pavimento.",
+        "Spingi con il piede davanti per tornare."
+      ],
+      "mistakes": ["Ginocchio davanti che cede verso l’interno.", "Inclinarsi molto in avanti."],
+      "safety": "All’inizio tieniti a un appoggio per l’equilibrio. Aggiungi i manubri quando i passi sono stabili."
+    },
+    "lateral-lunge": {
+      "name": "Affondo laterale",
+      "desc": "Si fa un ampio passo di lato e ci si siede su quell’anca mentre l’altra gamba resta tesa.",
+      "cues": [
+        "Piedi larghi, punte in avanti.",
+        "Spostati su un lato piegando quel ginocchio.",
+        "Spingi per tornare al centro."
+      ],
+      "mistakes": [
+        "Tallone della gamba piegata che si alza.",
+        "Ginocchio che cade verso l’interno oltre la punta del piede."
+      ],
+      "safety": "Scendi solo quanto è comodo per l’interno coscia."
+    },
+    "curtsy-lunge": {
+      "name": "Affondo incrociato",
+      "desc": "Si porta una gamba indietro e incrociata dietro l’altra, come in un inchino, poi si torna.",
+      "cues": [
+        "Stai dritto, mani al petto o con i manubri.",
+        "Fai un passo indietro incrociando dietro la gamba davanti.",
+        "Scendi, poi spingi per tornare in piedi."
+      ],
+      "mistakes": ["Ruotare molto le anche.", "Ginocchio davanti che cede verso l’interno."],
+      "safety": "All’inizio fai passi piccoli e tieniti a un appoggio se serve."
+    },
+    "split-squat": {
+      "name": "Split squat",
+      "desc": "Un affondo sul posto: i piedi restano sfalsati mentre scendi e sali.",
+      "cues": [
+        "Posizione sfalsata lunga, tallone dietro sollevato.",
+        "Scendi in verticale finché il ginocchio dietro non si avvicina al pavimento.",
+        "Risali senza muovere i piedi."
+      ],
+      "mistakes": ["Tallone davanti che si alza.", "Busto che cade in avanti."],
+      "safety": "Inizia senza peso; tieniti a un appoggio per l’equilibrio."
+    },
+    "barbell-reverse-lunge": {
+      "name": "Affondo indietro con bilanciere",
+      "desc": "Affondo indietro con un bilanciere sulla parte alta della schiena.",
+      "cues": [
+        "Bilanciere sulla parte alta della schiena, stai dritto.",
+        "Fai un passo indietro e abbassa il ginocchio dietro.",
+        "Spingi con il piede davanti per tornare."
+      ],
+      "mistakes": ["Perdere l’equilibrio di lato.", "Passi corti che spingono il ginocchio molto avanti."],
+      "safety": "Prendi il bilanciere da un rack, usa i fermi e inizia leggero: qui il limite è l’equilibrio."
+    },
+    "step-down": {
+      "name": "Step-down",
+      "desc": "In piedi su un gradino basso, si abbassa lentamente il tallone libero fino a terra e si torna su.",
+      "cues": [
+        "Sali sul gradino su una gamba.",
+        "Piega il ginocchio, abbassa l’altro tallone a terra.",
+        "Tocca leggermente e torna su."
+      ],
+      "mistakes": ["Ginocchio che cede verso l’interno.", "Lasciarsi cadere velocemente a terra."],
+      "safety": "Usa un gradino basso e tieniti a un muro o a un corrimano per l’equilibrio."
+    },
+    "single-leg-glute-bridge": {
+      "name": "Ponte glutei a una gamba",
+      "desc": "Ponte glutei con un piede a terra e l’altra gamba sollevata.",
+      "cues": [
+        "Sulla schiena, un piede a terra, l’altro ginocchio in alto.",
+        "Spingi con il tallone, solleva le anche.",
+        "Anche allineate in alto, scendi lentamente."
+      ],
+      "mistakes": ["Un’anca che cade.", "Inarcare la zona lombare in alto."],
+      "safety": "Padroneggia prima il ponte a due gambe."
+    },
+    "db-hip-thrust": {
+      "name": "Hip thrust con manubrio",
+      "desc": "Hip thrust con la parte alta della schiena su una panca e un manubrio sulle anche.",
+      "cues": [
+        "Parte alta della schiena sulla panca, manubrio sulle anche.",
+        "Spingi le anche in alto finché il corpo non è orizzontale.",
+        "Pausa, scendi lentamente."
+      ],
+      "mistakes": ["Inarcare la zona lombare in alto.", "Piedi troppo lontani o troppo vicini."],
+      "safety": "Tieni il manubrio con entrambe le mani; con un cuscinetto sotto è più comodo."
+    },
+    "kettlebell-deadlift": {
+      "name": "Stacco con kettlebell",
+      "desc": "Stacco con un kettlebell tra i piedi. Un modo semplice per imparare la cerniera d’anca.",
+      "cues": [
+        "Kettlebell tra i piedi.",
+        "Spingi le anche indietro, schiena piatta, afferra la maniglia.",
+        "Alzati dritto, scendi allo stesso modo."
+      ],
+      "mistakes": ["Incurvare la schiena.", "Accovacciarsi in verticale invece della cerniera."],
+      "safety": "Tieni il kettlebell vicino al corpo. Appoggialo a terra tra una ripetizione e l’altra."
+    },
+    "nordic-curl": {
+      "name": "Nordic curl",
+      "desc": "In ginocchio con i talloni bloccati, si abbassa il corpo in avanti il più lentamente possibile.",
+      "cues": [
+        "Inginocchiati su un cuscinetto, talloni bloccati sotto qualcosa di solido.",
+        "Corpo dritto dalle ginocchia alla testa.",
+        "Scendi lentamente, frena con le mani, spingi per tornare su."
+      ],
+      "mistakes": ["Piegarsi alle anche.", "Cadere velocemente all’inizio."],
+      "safety": "Usa una superficie imbottita e scendi solo quanto riesci a controllare. Inizia con pochissime ripetizioni."
+    },
+    "donkey-kick": {
+      "name": "Donkey kick",
+      "desc": "In quadrupedia, si spinge una gamba piegata verso il soffitto.",
+      "cues": [
+        "In quadrupedia, schiena piatta.",
+        "Con il ginocchio piegato, porta il piede verso il soffitto.",
+        "Scendi senza appoggiare il ginocchio."
+      ],
+      "mistakes": ["Inarcare la zona lombare.", "Aprire le anche ruotandole."],
+      "safety": "Sali solo finché la schiena resta piatta."
+    },
+    "fire-hydrant": {
+      "name": "Fire hydrant",
+      "desc": "In quadrupedia, si solleva una gamba piegata di lato.",
+      "cues": ["In quadrupedia, schiena piatta.", "Solleva la gamba piegata di lato.", "Scendi lentamente."],
+      "mistakes": ["Inclinare tutto il corpo dall’altra parte.", "Fare le ripetizioni di fretta."],
+      "safety": "Tieni il movimento abbastanza piccolo da restare con le anche frontali."
+    },
+    "clamshell": {
+      "name": "Clamshell (conchiglia)",
+      "desc": "Sdraiati su un fianco con le ginocchia piegate, si apre il ginocchio di sopra mentre i piedi restano uniti.",
+      "cues": [
+        "Sdraiati su un fianco, ginocchia piegate, piedi uniti.",
+        "Apri il ginocchio di sopra come una conchiglia.",
+        "Chiudi lentamente."
+      ],
+      "mistakes": ["Ruotare le anche all’indietro.", "Staccare i piedi."],
+      "safety": "Aggiungi un elastico sopra le ginocchia quando diventa facile."
+    },
+    "single-leg-calf-raise": {
+      "name": "Calf raise a una gamba",
+      "desc": "Sollevamento sui polpacci in piedi su un piede solo, meglio su un gradino.",
+      "cues": [
+        "Stai su un piede, avampiede sul gradino.",
+        "Abbassa il tallone sotto il gradino.",
+        "Sali il più in alto possibile, fai una pausa."
+      ],
+      "mistakes": ["Rimbalzare in basso.", "Piegare il ginocchio per aiutarsi."],
+      "safety": "Tieniti a un muro o a un corrimano per l’equilibrio."
+    },
+    "tibialis-raise": {
+      "name": "Sollevamento delle punte per il tibiale",
+      "desc": "Con la schiena appoggiata al muro, si sollevano le punte dei piedi verso le tibie.",
+      "cues": [
+        "Schiena al muro, piedi un passo avanti.",
+        "Solleva le punte il più in alto possibile.",
+        "Scendi lentamente."
+      ],
+      "mistakes": ["Piegare le ginocchia.", "Fare le ripetizioni di fretta."],
+      "safety": "Avvicina i piedi al muro per renderlo più facile."
+    },
+    "leg-press-calf-raise": {
+      "name": "Polpacci alla leg press",
+      "desc": "Sollevamento sui polpacci spingendo la pedana della leg press con l’avampiede.",
+      "cues": [
+        "Avampiedi sul bordo della pedana, gambe tese.",
+        "Abbassa i talloni verso di te.",
+        "Spingi via la pedana con le punte."
+      ],
+      "mistakes": ["Piegare le ginocchia.", "Piedi che scivolano dal bordo."],
+      "safety": "Tieni le sicure a portata di mano e usa un peso moderato."
+    },
+    "cossack-squat": {
+      "name": "Squat cosacco",
+      "desc": "Squat laterale profondo su una gamba mentre l’altra resta tesa con la punta in alto.",
+      "cues": [
+        "Piedi molto larghi.",
+        "Siediti in profondità su una gamba, l’altra tesa con la punta in alto.",
+        "Spingi per risalire e cambia lato."
+      ],
+      "mistakes": ["Tallone della gamba piegata che si alza.", "Incurvare la schiena."],
+      "safety": "Tieniti a un appoggio e scendi solo quanto è comodo."
+    },
+    "cable-pull-through": {
+      "name": "Pull-through al cavo",
+      "desc": "Dando le spalle a una puleggia bassa, ci si piega sulle anche e si tira la corda tra le gambe spingendo le anche in avanti.",
+      "cues": [
+        "Corda tra le gambe, allontanati dalla puleggia.",
+        "Porta le anche indietro, schiena piatta.",
+        "Spingi le anche in avanti fino a stare dritto."
+      ],
+      "mistakes": ["Tirare con le braccia.", "Fare uno squat invece della cerniera d’anca."],
+      "safety": "Allontanati abbastanza perché in alto il peso non si stacchi dal pacco."
+    },
+    "assisted-pistol-squat": {
+      "name": "Squat a una gamba assistito",
+      "desc": "Squat a una gamba fino a una panca, tenendosi a un appoggio per l’equilibrio.",
+      "cues": [
+        "In piedi su una gamba davanti a una panca, tieniti a un appoggio.",
+        "Siediti lentamente sulla panca, l’altra gamba in avanti.",
+        "Rialzati sulla stessa gamba."
+      ],
+      "mistakes": ["Lasciarsi cadere sulla panca.", "Ginocchio che cede verso l’interno."],
+      "safety": "Inizia con una panca alta e abbassala col tempo."
+    },
+    "high-knees": {
+      "name": "Skip alto",
+      "desc": "Si corre sul posto portando le ginocchia all’altezza delle anche.",
+      "cues": [
+        "Stai dritto, leggero sugli avampiedi.",
+        "Porta le ginocchia all’altezza delle anche.",
+        "Muovi le braccia a ritmo."
+      ],
+      "mistakes": ["Inclinarsi indietro.", "Atterrare pesante sui talloni."],
+      "safety": "Marcia invece di correre per renderlo più silenzioso e facile."
+    },
+    "butt-kicks": {
+      "name": "Calciata",
+      "desc": "Si corre sul posto portando i talloni verso i glutei.",
+      "cues": [
+        "Passi leggeri e rapidi.",
+        "Porta i talloni in alto dietro di te.",
+        "Ginocchia rivolte in basso, braccia rilassate."
+      ],
+      "mistakes": ["Inclinarsi in avanti.", "Ginocchia che vanno in avanti."],
+      "safety": "Inizia lentamente come riscaldamento e accelera gradualmente."
+    },
+    "skater-jump": {
+      "name": "Salti del pattinatore",
+      "desc": "Si salta da un lato all’altro da una gamba all’altra, come un pattinatore di velocità.",
+      "cues": [
+        "Su una gamba, ginocchio leggermente piegato.",
+        "Spingi di lato e atterra sull’altra gamba.",
+        "Ammortizza morbido, poi salta indietro."
+      ],
+      "mistakes": ["Atterrare con il ginocchio teso.", "Ginocchio che cede verso l’interno all’atterraggio."],
+      "safety": "Inizia con piccoli passi invece dei salti."
+    },
+    "squat-thrust": {
+      "name": "Squat thrust",
+      "desc": "Da in piedi ci si accovaccia, si appoggiano le mani, si portano i piedi indietro al plank saltando o a passi e si torna. Un burpee senza piegamento e senza salto.",
+      "cues": [
+        "Accovacciati e appoggia le mani a terra.",
+        "Porta i piedi indietro in plank saltando o a passi.",
+        "Riporta i piedi in avanti e alzati."
+      ],
+      "mistakes": ["Fianchi che cedono nel plank.", "Incurvare la schiena quando ti rialzi."],
+      "safety": "Fallo a passi invece di saltare per renderlo più facile."
+    },
+    "box-jump": {
+      "name": "Box jump",
+      "desc": "Si salta da terra su un box robusto o una piattaforma bassa.",
+      "cues": [
+        "Mettiti vicino al box.",
+        "Slancia le braccia e salta su.",
+        "Atterra morbido a piedi uniti, alzati, scendi a passi."
+      ],
+      "mistakes": [
+        "Scendere saltando invece che a passi.",
+        "Atterrare con le ginocchia che cedono verso l’interno."
+      ],
+      "safety": "Usa un box basso e stabile che non possa scivolare. Scendi sempre a passi."
+    },
+    "shadow-boxing": {
+      "name": "Shadow boxing",
+      "desc": "Si tirano pugni leggeri nell’aria muovendosi sulle gambe.",
+      "cues": [
+        "Guardia, mani in alto vicino al viso.",
+        "Tira diretti e ganci ruotando dalle anche.",
+        "Resta leggero sui piedi."
+      ],
+      "mistakes": [
+        "Bloccare i gomiti di colpo in piena estensione.",
+        "Abbassare le mani tra un pugno e l’altro."
+      ],
+      "safety": "Non distendere le braccia di scatto. All’inizio tieni un ritmo comodo."
+    },
+    "stair-climber": {
+      "name": "Stair climber",
+      "desc": "Si salgono gradini su una macchina a scale a ritmo costante.",
+      "cues": [
+        "Stai dritto, mani appoggiate leggere ai corrimano.",
+        "Appoggia tutto il piede a ogni passo.",
+        "Scegli un ritmo che riesci a tenere per il tempo previsto."
+      ],
+      "mistakes": ["Appoggiarsi molto ai corrimano.", "Passi minuscoli sulle punte."],
+      "safety": "Inizia a bassa velocità e usa il pulsante di arresto se serve."
+    },
+    "elliptical": {
+      "name": "Ellittica",
+      "desc": "Ci si muove su un’ellittica con passi fluidi e scorrevoli.",
+      "cues": [
+        "Piedi ben appoggiati sui pedali.",
+        "Spingi e tira le maniglie a ritmo.",
+        "Mantieni un ritmo regolare e comodo."
+      ],
+      "mistakes": ["Ingobbirsi sulle maniglie.", "Salire sulle punte."],
+      "safety": "Inizia con poca resistenza e aumentala gradualmente."
+    },
+    "treadmill-jog": {
+      "name": "Corsa lenta sul tapis roulant",
+      "desc": "Corsa leggera sul tapis roulant a un ritmo a cui si riesce a parlare.",
+      "cues": [
+        "Aggancia la chiave di sicurezza.",
+        "Corri dritto con le spalle rilassate.",
+        "Appoggia sotto il corpo, passi corti e rapidi."
+      ],
+      "mistakes": [
+        "Tenersi ai corrimano mentre corri.",
+        "Falcate troppo lunghe con appoggi pesanti sui talloni."
+      ],
+      "safety": "Avvia il nastro lentamente e stai sui bordi laterali prima di salire."
+    },
+    "incline-treadmill-walk": {
+      "name": "Camminata in salita sul tapis roulant",
+      "desc": "Si cammina sul tapis roulant impostato in pendenza.",
+      "cues": [
+        "Imposta una pendenza e una velocità di camminata moderate.",
+        "Cammina dritto senza tenerti ai corrimano.",
+        "Mantieni un respiro regolare."
+      ],
+      "mistakes": ["Appendersi ai corrimano.", "Inclinarsi molto in avanti."],
+      "safety": "Aumenta la pendenza gradualmente; rallenta prima di fermarti."
+    },
+    "ski-erg": {
+      "name": "SkiErg",
+      "desc": "Si tirano verso il basso le maniglie di una macchina da sci con un ritmo simile allo sci di fondo.",
+      "cues": [
+        "Maniglie sopra la testa, ginocchia leggermente piegate.",
+        "Tira giù con le braccia e piegati sulle anche.",
+        "Torna su in modo fluido."
+      ],
+      "mistakes": ["Tirare solo con le braccia.", "Incurvare molto la schiena."],
+      "safety": "Inizia con una regolazione bassa e un ritmo tranquillo."
+    },
+    "bear-crawl": {
+      "name": "Bear crawl",
+      "desc": "Si gattona avanti e indietro su mani e piedi con le ginocchia appena sollevate dal pavimento.",
+      "cues": [
+        "Mani sotto le spalle, ginocchia sospese.",
+        "Muovi insieme mano e piede opposti.",
+        "Schiena piatta e anche basse."
+      ],
+      "mistakes": ["Anche che salgono troppo.", "Passi grandi e frettolosi."],
+      "safety": "Bastano brevi distanze; fai riposare i polsi tra le serie."
+    },
+    "db-thruster": {
+      "name": "Thruster con manubri",
+      "desc": "Uno squat frontale con i manubri alle spalle che continua direttamente in una distensione sopra la testa.",
+      "cues": [
+        "Manubri alle spalle, piedi alla larghezza delle spalle.",
+        "Scendi in squat, petto in fuori.",
+        "Spingi su e porta i manubri sopra la testa in un unico movimento."
+      ],
+      "mistakes": ["Spingere con le braccia prima di essere in piedi.", "Inarcare la schiena in alto."],
+      "safety": "Usa manubri leggeri; la combinazione stanca in fretta."
+    },
+    "kettlebell-clean": {
+      "name": "Clean con kettlebell",
+      "desc": "Si porta un kettlebell da tra le gambe fino alla spalla in un unico movimento fluido.",
+      "cues": [
+        "Porta il kettlebell indietro tra le gambe.",
+        "Spingi le anche in avanti.",
+        "Tieni il gomito vicino e lascia che il kettlebell si appoggi sull’avambraccio."
+      ],
+      "mistakes": [
+        "Lasciare che il kettlebell si ribalti e colpisca il polso.",
+        "Sollevarlo piegando il braccio."
+      ],
+      "safety": "Impara prima lo swing. Tieni il kettlebell vicino al corpo."
+    },
+    "double-under": {
+      "name": "Doppio salto con la corda",
+      "desc": "Una tecnica del salto della corda in cui la corda passa due volte sotto i piedi in un solo salto.",
+      "cues": [
+        "Salta un po’ più in alto del solito.",
+        "Fai girare la corda veloce con i polsi.",
+        "Atterra morbido sugli avampiedi."
+      ],
+      "mistakes": ["Calciare i piedi indietro.", "Far girare la corda con le spalle."],
+      "safety": "Prima prendi confidenza con il salto normale."
+    },
+    "downward-dog": {
+      "name": "Cane a testa in giù",
+      "desc": "Posizione yoga con le anche alte e il corpo a V rovesciata.",
+      "cues": [
+        "Mani e piedi sul tappetino, anche sollevate.",
+        "Spingi via il pavimento, schiena lunga.",
+        "Lascia scendere i talloni verso terra."
+      ],
+      "mistakes": [
+        "Incurvare la schiena per forzare i talloni a terra.",
+        "Spalle strette verso le orecchie."
+      ],
+      "safety": "Piega le ginocchia quanto serve per tenere la schiena lunga."
+    },
+    "cobra-stretch": {
+      "name": "Cobra",
+      "desc": "Sdraiati a pancia in giù, si spinge con le mani per sollevare il petto e aprire la parte anteriore del corpo.",
+      "cues": [
+        "Sdraiati a pancia in giù, mani sotto le spalle.",
+        "Solleva dolcemente il petto, le anche restano giù.",
+        "Spalle lontane dalle orecchie, respira con calma."
+      ],
+      "mistakes": [
+        "Salire così in alto da sentire un pizzicore nella zona lombare.",
+        "Portare la testa molto indietro."
+      ],
+      "safety": "Tieni i gomiti piegati se a braccia tese la schiena ne risente troppo."
+    },
+    "low-lunge": {
+      "name": "Affondo basso",
+      "desc": "Affondo con il ginocchio dietro a terra, spingendo le anche in avanti per allungare la parte anteriore dell’anca dietro.",
+      "cues": [
+        "Ginocchio dietro su un tappetino, piede davanti ben appoggiato.",
+        "Ruota leggermente il bacino, porta le anche in avanti.",
+        "Alza le braccia o tieni le mani sul ginocchio davanti."
+      ],
+      "mistakes": ["Inarcare la zona lombare.", "Ginocchio davanti che cede verso l’interno."],
+      "safety": "Metti un tappetino piegato sotto il ginocchio dietro."
+    },
+    "warrior-ii": {
+      "name": "Guerriero II",
+      "desc": "Posizione yoga in piedi: gambe larghe, ginocchio davanti piegato e braccia distese ai lati.",
+      "cues": [
+        "Gambe larghe, piede davanti in avanti, piede dietro leggermente ruotato all’interno.",
+        "Piega il ginocchio davanti sopra la caviglia.",
+        "Braccia all’altezza delle spalle, sguardo oltre la mano davanti."
+      ],
+      "mistakes": ["Ginocchio davanti che cede verso l’interno.", "Inclinare il busto in avanti."],
+      "safety": "Accorcia la posizione se l’equilibrio o il ginocchio non ti convincono."
+    },
+    "tree-pose": {
+      "name": "Posizione dell’albero",
+      "desc": "Equilibrio yoga su una gamba con l’altro piede appoggiato all’interno del polpaccio o della coscia.",
+      "cues": [
+        "Stai su un piede, sguardo fisso su un punto.",
+        "Appoggia l’altra pianta sul polpaccio o sulla coscia, non sul ginocchio.",
+        "Mani al petto o sopra la testa, respira con calma."
+      ],
+      "mistakes": [
+        "Premere il piede sul lato del ginocchio.",
+        "Anca della gamba d’appoggio spinta molto in fuori."
+      ],
+      "safety": "All’inizio tieni le dita del piede sollevato a terra o tieniti a un muro."
+    },
+    "pigeon-stretch": {
+      "name": "Posizione del piccione",
+      "desc": "Dalla quadrupedia si porta un ginocchio in avanti e si appoggia la tibia di traverso sul tappetino, l’altra gamba distesa dietro.",
+      "cues": [
+        "Tibia davanti di traverso sul tappetino, gamba dietro lunga.",
+        "Tieni le anche rivolte in avanti.",
+        "Piegati sulla gamba davanti se è comodo."
+      ],
+      "mistakes": ["Anche che si inclinano su un lato.", "Forzare il ginocchio davanti verso il basso."],
+      "safety": "Metti un cuscino sotto l’anca davanti. Se il ginocchio protesta, fai l’allungamento a figura 4 da sdraiato."
+    },
+    "butterfly-stretch": {
+      "name": "Allungamento a farfalla",
+      "desc": "Da seduti con le piante dei piedi unite e le ginocchia che cadono ai lati.",
+      "cues": [
+        "Siediti dritto, piante unite, talloni verso di te.",
+        "Lascia rilassare le ginocchia verso il basso.",
+        "Piegati leggermente in avanti dalle anche."
+      ],
+      "mistakes": ["Premere le ginocchia in basso con le mani.", "Incurvare molto la schiena."],
+      "safety": "Siediti su un tappetino piegato se la schiena si incurva."
+    },
+    "standing-forward-fold": {
+      "name": "Piegamento in avanti in piedi",
+      "desc": "Da in piedi ci si piega in avanti dalle anche lasciando pendere la parte alta del corpo.",
+      "cues": [
+        "Piedi alla larghezza delle anche, ginocchia morbide.",
+        "Piegati in avanti, lascia pendere testa e braccia.",
+        "Respira lentamente, rilassa il collo."
+      ],
+      "mistakes": ["Bloccare forte le ginocchia.", "Molleggiare per arrivare più in basso."],
+      "safety": "Piega le ginocchia quanto serve e risali srotolandoti lentamente."
+    },
+    "worlds-greatest-stretch": {
+      "name": "Affondo con rotazione",
+      "desc": "Una sequenza di riscaldamento: affondo lungo, gomito interno verso il piede davanti, poi rotazione con il braccio verso l’alto.",
+      "cues": [
+        "Affondo lungo, ginocchio dietro a terra o sollevato.",
+        "Porta il gomito interno verso il collo del piede davanti.",
+        "Ruota e allunga lo stesso braccio verso il soffitto."
+      ],
+      "mistakes": ["Passare di fretta tra le posizioni.", "Ginocchio davanti che cade verso l’interno."],
+      "safety": "Muoviti lentamente e resta in un’ampiezza comoda."
+    },
+    "hip-90-90": {
+      "name": "Cambio anche 90/90",
+      "desc": "Da seduti con entrambe le ginocchia piegate a 90°, si ruotano le ginocchia da un lato all’altro.",
+      "cues": [
+        "Siediti con entrambe le gambe a 90°, una davanti e una di lato.",
+        "Stai dritto, mani dietro come appoggio.",
+        "Solleva e ruota entrambe le ginocchia dall’altro lato."
+      ],
+      "mistakes": ["Lasciar crollare la schiena.", "Forzare le ginocchia a terra."],
+      "safety": "Tieni le mani a terra come appoggio e muoviti solo in un’ampiezza comoda."
+    },
+    "hip-circles": {
+      "name": "Circonduzioni dell’anca",
+      "desc": "In piedi su una gamba, si disegnano cerchi lenti e ampi con l’altro ginocchio.",
+      "cues": [
+        "Tieniti a un muro, stai su una gamba.",
+        "Solleva il ginocchio e disegna un ampio cerchio verso l’esterno.",
+        "Inverti la direzione."
+      ],
+      "mistakes": ["Ruotare tutto il corpo.", "Muoversi veloce e con cerchi piccoli."],
+      "safety": "Muoviti lentamente: è un riscaldamento, non un allenamento."
+    },
+    "ankle-circles": {
+      "name": "Circonduzioni della caviglia",
+      "desc": "Si ruota lentamente il piede alla caviglia in entrambe le direzioni.",
+      "cues": [
+        "Solleva un piede o siediti con la gamba distesa.",
+        "Disegna cerchi lenti e completi con le dita.",
+        "A metà cambia direzione."
+      ],
+      "mistakes": ["Muovere solo le dita.", "Andare di fretta."],
+      "safety": "Se sei in piedi, tieniti a un muro."
+    },
+    "cross-body-shoulder-stretch": {
+      "name": "Allungamento della spalla incrociato",
+      "desc": "Si porta un braccio teso davanti al petto tirandolo con l’altra mano.",
+      "cues": [
+        "Porta un braccio davanti al petto.",
+        "Tienilo sopra il gomito con l’altra mano.",
+        "Tira dolcemente, la spalla resta bassa."
+      ],
+      "mistakes": [
+        "Alzare la spalla che stai allungando.",
+        "Tirare direttamente sull’articolazione del gomito."
+      ],
+      "safety": "Tira leggermente: devi sentire un allungamento, non un pizzicore."
+    },
+    "overhead-triceps-stretch": {
+      "name": "Allungamento del tricipite sopra la testa",
+      "desc": "Si porta una mano giù lungo la schiena tra le scapole e si preme dolcemente il gomito con l’altra mano.",
+      "cues": [
+        "Alza un braccio, piegalo, mano verso la parte alta della schiena.",
+        "Tieni il gomito con l’altra mano.",
+        "Guida dolcemente il gomito indietro."
+      ],
+      "mistakes": ["Inarcare la zona lombare.", "Spingere la testa in avanti."],
+      "safety": "Tieni la pressione leggera."
+    },
+    "inchworm": {
+      "name": "Inchworm (bruco)",
+      "desc": "Da in piedi ci si piega in avanti, si camminano le mani fino al plank e si torna indietro.",
+      "cues": [
+        "Piegati in avanti, mani a terra.",
+        "Cammina con le mani fino al plank alto.",
+        "Riporta indietro le mani e alzati."
+      ],
+      "mistakes": ["Fianchi che cedono nel plank.", "Bloccare forte le ginocchia nel piegamento."],
+      "safety": "Piega le ginocchia per arrivare a terra."
+    },
+    "thread-the-needle": {
+      "name": "Infila l’ago",
+      "desc": "In quadrupedia si fa scivolare un braccio sotto il corpo, poi lo si apre verso il soffitto.",
+      "cues": [
+        "In quadrupedia, anche sopra le ginocchia.",
+        "Fai scivolare un braccio sotto il petto, spalla verso il pavimento.",
+        "Ruota aprendo e allunga il braccio verso l’alto."
+      ],
+      "mistakes": ["Spostare le anche di lato.", "Fare la rotazione di fretta."],
+      "safety": "Muoviti lentamente in un’ampiezza comoda."
+    },
+    "open-book": {
+      "name": "Libro aperto",
+      "desc": "Sdraiati su un fianco con le ginocchia piegate, si apre il braccio di sopra verso l’altro lato come se si girasse una pagina.",
+      "cues": [
+        "Sdraiati su un fianco, ginocchia piegate in avanti, braccia unite davanti.",
+        "Apri il braccio di sopra verso l’altro lato.",
+        "Segui la mano con lo sguardo, torna lentamente."
+      ],
+      "mistakes": ["Ginocchia che si separano.", "Forzare il braccio fino a terra."],
+      "safety": "Un cuscino sotto la testa tiene comodo il collo."
+    },
+    "wall-slide": {
+      "name": "Scivolamenti al muro",
+      "desc": "In piedi con la schiena al muro, si fanno scivolare le braccia su e giù lungo il muro passando da una W a una Y.",
+      "cues": [
+        "Schiena, testa e avambracci contro il muro.",
+        "Fai scivolare le braccia in alto finché mantieni il contatto.",
+        "Torna giù alla W."
+      ],
+      "mistakes": ["Inarcare la zona lombare staccandola dal muro.", "Alzare le spalle."],
+      "safety": "Allontanati un po’ dal muro se è difficile mantenere il contatto."
+    },
+    "band-pass-through": {
+      "name": "Pass-through con elastico",
+      "desc": "Tenendo un elastico con presa larga, si portano le braccia tese da davanti sopra la testa fino a dietro e ritorno.",
+      "cues": [
+        "Presa larga su un elastico leggero.",
+        "Porta le braccia tese sopra la testa e indietro.",
+        "Torna lentamente allo stesso modo."
+      ],
+      "mistakes": ["Piegare i gomiti.", "Inarcare la zona lombare."],
+      "safety": "Allarga la presa se le spalle non passano comodamente."
+    },
+    "deep-squat-hold": {
+      "name": "Tenuta in squat profondo",
+      "desc": "Si resta rilassati in fondo a uno squat.",
+      "cues": [
+        "Piedi un po’ più larghi delle spalle, punte in fuori.",
+        "Scendi quanto è comodo, talloni a terra.",
+        "I gomiti spingono dolcemente le ginocchia verso l’esterno."
+      ],
+      "mistakes": ["Talloni che si alzano.", "Incurvarsi molto in avanti."],
+      "safety": "Tieniti a uno stipite o metti un piccolo disco sotto i talloni se si alzano."
+    },
+    "lying-spinal-twist": {
+      "name": "Torsione della colonna da sdraiati",
+      "desc": "Sdraiati sulla schiena, si lasciano cadere le ginocchia piegate da un lato mentre le spalle restano a terra.",
+      "cues": [
+        "Sdraiati sulla schiena, ginocchia piegate, braccia aperte.",
+        "Abbassa entrambe le ginocchia da un lato.",
+        "Tieni entrambe le spalle a terra, respira."
+      ],
+      "mistakes": ["Spalle che si staccano da terra.", "Forzare le ginocchia verso il basso."],
+      "safety": "Metti un cuscino sotto le ginocchia se non arrivano a terra."
+    },
+    "kettlebell-halo": {
+      "name": "Halo con kettlebell",
+      "desc": "Tenendo un kettlebell leggero per le corna, lo si fa girare intorno alla testa.",
+      "cues": [
+        "Kettlebell capovolto all’altezza del petto.",
+        "Fallo girare vicino alla testa.",
+        "Cambia direzione dopo ogni serie o ripetizione."
+      ],
+      "mistakes": ["Inarcare la zona lombare.", "Muovere la testa invece del kettlebell."],
+      "safety": "Usa un peso leggero e tieni il kettlebell vicino alla testa senza toccarla."
+    },
+    "wrist-mobility": {
+      "name": "Mobilità dei polsi",
+      "desc": "Si ruotano i polsi e si dondola dolcemente sulle mani in quadrupedia per preparare i polsi a piegamenti e plank.",
+      "cues": [
+        "Ruota lentamente i polsi in entrambe le direzioni.",
+        "In quadrupedia, dondola dolcemente avanti e indietro.",
+        "Gira le dita ai lati e indietro, dondola di nuovo."
+      ],
+      "mistakes": ["Caricare subito tutto il peso sui polsi.", "Movimenti veloci e a scatti."],
+      "safety": "Fallo con delicatezza; allenta se senti qualcosa di acuto."
+    }
+  }
+}

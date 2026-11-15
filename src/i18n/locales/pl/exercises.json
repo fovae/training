@@ -1,0 +1,2889 @@
+{
+  "ex": {
+    "incline-db-press": {
+      "name": "Wyciskanie hantli na ławce skośnej",
+      "desc": "Wyciskanie pod kątem z akcentem na górną część klatki. Hantle dają swobodny tor ruchu i zmuszają obie ręce do równej pracy.",
+      "cues": [
+        "Ustaw ławkę na 20–30°: wyżej praca przechodzi na barki.",
+        "Łopatki ściągnięte i dociśnięte do ławki, stopy pewnie na podłodze.",
+        "Opuszczaj hantle pod kontrolą do wysokości klatki i nie stukaj nimi u góry."
+      ],
+      "mistakes": [
+        "Zbyt stromy kąt ławki, przez co ćwiczenie zmienia się w wyciskanie na barki.",
+        "Łokcie rozstawione prosto na boki, barki uciekają do przodu."
+      ],
+      "safety": "Wybierz ciężar, który bezpiecznie opuścisz na uda po serii. Ból barku: skróć zakres lub zmniejsz ciężar."
+    },
+    "flat-press": {
+      "name": "Wyciskanie na maszynie lub hantli na ławce płaskiej",
+      "desc": "Wielostawowe wyciskanie na środkową część klatki. Wybierz wersję, w której lepiej kontrolujesz zakres: maszynę lub hantle.",
+      "cues": [
+        "Łopatki ściągnięte i nieruchome przez całą serię.",
+        "Łokcie pod kątem około 45–60° do tułowia, nie prosto na boki.",
+        "Wyciskaj płynnie, nie odrywając bioder od ławki."
+      ],
+      "mistakes": [
+        "Barki podjeżdżają do uszu u góry.",
+        "Odbijanie ciężaru od klatki zamiast kontrolowanego opuszczania."
+      ],
+      "safety": "Na maszynie ustaw siedzisko tak, by uchwyty były na wysokości środka klatki. Z hantlami nie dochodź do upadku bez asekuracji."
+    },
+    "high-to-low-cable-fly": {
+      "name": "Rozpiętki na wyciągu z góry w dół",
+      "desc": "Ćwiczenie izolowane na dolną część klatki. Uchwyty wędrują w dół i do siebie.",
+      "cues": [
+        "Krok do przodu, lekkie pochylenie, małe i stałe ugięcie w łokciach.",
+        "Prowadź uchwyty łukiem w dół i złącz je przed dolną częścią klatki.",
+        "Wracaj powoli i czuj rozciąganie w klatce."
+      ],
+      "mistakes": [
+        "Zamienianie ruchu w wyciskanie przez zginanie i prostowanie łokci.",
+        "Za duży ciężar szarpie barkami w przód i w tył."
+      ],
+      "safety": "Nie odprowadzaj rąk za daleko do tyłu w rozciągnięciu, zwłaszcza przy wrażliwych barkach."
+    },
+    "rope-pushdown": {
+      "name": "Prostowanie ramion na wyciągu z liną",
+      "desc": "Izolacja tricepsa, szczególnie głowy bocznej i przyśrodkowej.",
+      "cues": [
+        "Łokcie przyklejone do boków, ruszają się tylko przedramiona.",
+        "Na dole rozsuń końce liny i zatrzymaj się na sekundę.",
+        "Tułów nieruchomy, bez bujania."
+      ],
+      "mistakes": ["Łokcie wędrują w przód i w tył, angażując barki.", "Napieranie całym ciałem na ciężar."],
+      "safety": "Jeśli boli łokieć, zmniejsz ciężar i nie prostuj ręki gwałtownie."
+    },
+    "overhead-cable-extension": {
+      "name": "Prostowanie ramion zza głowy na wyciągu",
+      "desc": "Prostowanie ramion nad głową pracuje tricepsem w pozycji rozciągniętej, z akcentem na głowę długą.",
+      "cues": [
+        "Stań tyłem do wyciągu, łokcie skierowane do przodu i nieruchome.",
+        "Nie wyginaj lędźwi: lekko napnij brzuch.",
+        "Pracuj w komfortowym zakresie, bez szarpnięcia na dole."
+      ],
+      "mistakes": ["Łokcie uciekają na boki.", "Wyginanie lędźwi, żeby podnieść więcej."],
+      "safety": "Jeśli bark czuje dyskomfort, skróć zakres albo przejdź na prostowanie z liną."
+    },
+    "single-arm-pushdown": {
+      "name": "Prostowanie ramienia na wyciągu jednorącz",
+      "desc": "Prostowanie jedną ręką na górnym wyciągu. Pomaga wyrównać siłę rąk i kontrolować każdą stronę.",
+      "cues": ["Ramię nieruchome, łokieć przy boku.", "Prostuj rękę do końca i wracaj powoli."],
+      "mistakes": ["Tułów skręca się razem z ręką.", "Pośpieszne powtórzenia bez kontroli."],
+      "safety": "Ćwiczenie opcjonalne: jeśli triceps jest już zmęczony po wyciskaniach, pomiń je."
+    },
+    "lat-pulldown": {
+      "name": "Ściąganie drążka wyciągu do klatki",
+      "desc": "Pionowe ciągnięcie na mięśnie najszersze. Dobry zamiennik podciągania z regulowanym ciężarem.",
+      "cues": [
+        "Zacznij od ściągnięcia łopatek w dół, potem prowadź łokcie w dół.",
+        "Ciągnij drążek do górnej części klatki z lekkim odchyleniem.",
+        "U góry wyprostuj ręce w pełni, ale nie rozluźniaj barków."
+      ],
+      "mistakes": ["Ciągnięcie za głowę.", "Bujanie tułowiem, żeby ruszyć ciężar."],
+      "safety": "Zablokuj uda pod wałkami. Nie pozwól, by drążek szarpał rękami w górę."
+    },
+    "seated-cable-row": {
+      "name": "Wiosłowanie na wyciągu dolnym siedząc",
+      "desc": "Wiosłowanie siedząc do brzucha na środek pleców, równoległoboczne i najszersze.",
+      "cues": [
+        "Długi kręgosłup, tułów prawie nieruchomy.",
+        "Ciągnij uchwyt do dolnej części brzucha, łokcie blisko ciała.",
+        "Na końcu ściągnij łopatki, bez unoszenia barków."
+      ],
+      "mistakes": [
+        "Bujanie tułowiem w przód i w tył.",
+        "Zaokrąglanie pleców na początku każdego powtórzenia."
+      ],
+      "safety": "Kolana lekko ugięte. Jeśli lędźwie się napinają, zmniejsz ciężar i trzymaj tułów stabilniej."
+    },
+    "chest-supported-db-row": {
+      "name": "Wiosłowanie hantlami z podparciem klatki",
+      "desc": "Wiosłowanie leżąc przodem na ławce skośnej. Podparcie odciąża lędźwie; pracuje górna część pleców i tylne aktony barków.",
+      "cues": [
+        "Połóż się klatką na ławce ustawionej na 30–45°, ręce swobodnie zwisają.",
+        "Prowadź łokcie do tyłu i lekko na boki, bez szarpania.",
+        "Nie masz ławki? Sprawdzi się maszyna do wiosłowania z podparciem klatki."
+      ],
+      "mistakes": [
+        "Klatka odrywa się od ławki w każdym powtórzeniu.",
+        "Ciągnięcie samymi rękami, bez ruchu łopatek."
+      ],
+      "safety": "Podnoś i odkładaj hantle ostrożnie, bez skręcania się na ławce."
+    },
+    "incline-db-curl": {
+      "name": "Uginanie ramion z hantlami na ławce skośnej",
+      "desc": "Uginanie siedząc na ławce skośnej: ramiona za tułowiem, biceps rozciągnięty, akcent na głowę długą.",
+      "cues": [
+        "Plecy na ławce, ramiona za linią tułowia.",
+        "Nie wysuwaj łokci do przodu podczas unoszenia.",
+        "Opuszczaj powoli prawie do prostych rąk."
+      ],
+      "mistakes": ["Barki uciekają do przodu, pomagając podnieść ciężar.", "Rzucanie hantli w dół."],
+      "safety": "Zacznij od lekkiego ciężaru: w rozciągnięciu ścięgno bicepsa jest bardziej obciążone."
+    },
+    "preacher-curl": {
+      "name": "Uginanie na modlitewniku lub maszynie",
+      "desc": "Uginanie z ramieniem opartym na podpórce. Eliminuje oszukiwanie i akcentuje głowę krótką bicepsa.",
+      "cues": ["Ramię przez cały czas mocno leży na podpórce.", "Nie prostuj łokcia gwałtownie na dole."],
+      "mistakes": ["Odrywanie ramienia od podpórki u góry.", "Zbyt szybkie opuszczanie."],
+      "safety": "Dolna pozycja jest najbardziej narażona dla łokcia: opuszczaj powoli i nigdy nie puszczaj ciężaru."
+    },
+    "hammer-curl": {
+      "name": "Uginanie młotkowe",
+      "desc": "Uginanie chwytem neutralnym. Obciąża mięsień ramienny i ramienno-promieniowy.",
+      "cues": ["Dłonie zwrócone do siebie przez cały ruch.", "Bez bujania, barki opuszczone."],
+      "mistakes": ["Łokcie wędrują do przodu.", "Bujanie plecami w ostatnich powtórzeniach."],
+      "safety": "Nadgarstki proste, nie odginaj ich do tyłu."
+    },
+    "wrist-curl": {
+      "name": "Uginanie nadgarstków siedząc",
+      "desc": "Izolacja zginaczy przedramienia. Wzmacnia chwyt.",
+      "cues": [
+        "Przedramiona na udach lub ławce, ruszają się tylko dłonie.",
+        "Umiarkowany ciężar, pełny i płynny zakres."
+      ],
+      "mistakes": ["Przedramiona odrywają się od podparcia.", "Za duży ciężar i krótki zakres."],
+      "safety": "Jeśli nadgarstki lub łokcie czują dyskomfort, zmniejsz ciężar albo zrezygnuj z ćwiczenia."
+    },
+    "reverse-wrist-curl": {
+      "name": "Prostowanie nadgarstków siedząc",
+      "desc": "Izolacja prostowników przedramienia. Równoważy uginanie nadgarstków.",
+      "cues": ["Nachwyt, przedramiona na podparciu.", "Powoli, bez szarpania."],
+      "mistakes": [
+        "Szarpanie zamiast płynnego ruchu.",
+        "Ten sam ciężar co przy uginaniu: prostowniki są dużo słabsze."
+      ],
+      "safety": "Jeśli nadgarstki lub łokcie czują dyskomfort, zmniejsz ciężar albo zrezygnuj z ćwiczenia."
+    },
+    "seated-shoulder-press": {
+      "name": "Wyciskanie hantli siedząc lub na maszynie",
+      "desc": "Wielostawowe wyciskanie nad głowę na przednie i boczne aktony barków.",
+      "cues": [
+        "Plecy przy oparciu, nie wyginaj lędźwi.",
+        "Nie opuszczaj łokci poniżej komfortowej głębokości.",
+        "Wyciskaj w górę i lekko do środka, bez stukania hantlami."
+      ],
+      "mistakes": ["Mocne wygięcie lędźwi.", "Każda seria do upadku."],
+      "safety": "Ustaw oparcie prawie pionowo. Ból barku: skróć zakres lub zmniejsz ciężar."
+    },
+    "lateral-raise": {
+      "name": "Unoszenie hantli bokiem",
+      "desc": "Izolacja bocznych aktonów barków.",
+      "cues": [
+        "Unoś mniej więcej do wysokości barków.",
+        "Łokcie lekko ugięte i prowadzą ruch.",
+        "Tułów nieruchomy."
+      ],
+      "mistakes": [
+        "Bujanie ciałem, żeby wyrzucić hantle.",
+        "Unoszenie barków, przez co pracują czworoboczne."
+      ],
+      "safety": "Lekki ciężar z czystą techniką jest lepszy niż ciężki. Nie unoś powyżej barków, jeśli czujesz dyskomfort."
+    },
+    "reverse-pec-deck": {
+      "name": "Odwrotne rozpiętki na maszynie (Reverse Pec Deck)",
+      "desc": "Rozkładanie ramion na maszynie przodem do oparcia. Izolacja tylnych aktonów barków.",
+      "cues": [
+        "Rozkładaj ramiona pracą barków, nie ściągaj mocno łopatek.",
+        "Szyja rozluźniona, klatka przy oparciu."
+      ],
+      "mistakes": [
+        "Ściąganie łopatek zamiast pracy tylnych aktonów.",
+        "Szarpanie i zbyt dalekie odprowadzanie do tyłu."
+      ],
+      "safety": "Ustaw wysokość siedziska tak, by uchwyty były na wysokości barków."
+    },
+    "db-shrug": {
+      "name": "Szrugsy z hantlami",
+      "desc": "Unoszenie barków z hantlami w rękach. Obciąża górną część czworobocznych.",
+      "cues": ["Barki prosto w górę, bez krążenia.", "Krótka pauza u góry, powoli w dół."],
+      "mistakes": ["Krążenie barkami.", "Zginanie łokci."],
+      "safety": "Szyja neutralna, nie wysuwaj brody do przodu."
+    },
+    "incline-y-raise": {
+      "name": "Unoszenie w literę Y na ławce skośnej",
+      "desc": "Unoszenie rąk w kształt litery Y leżąc przodem na ławce. Wzmacnia dolną część czworobocznych i stabilizatory łopatek. Możesz to przeplatać z face pull na wyciągu.",
+      "cues": [
+        "Bardzo lekkie hantle albo bez ciężaru.",
+        "Unoś ręce w kształt Y, kciuki w górę.",
+        "Nie napinaj szyi, łopatki opuszczone."
+      ],
+      "mistakes": ["Za duży ciężar, ruch zmienia się w szarpnięcie.", "Barki podjeżdżają do uszu."],
+      "safety": "Tu chodzi o kontrolę, nie o siłę: przerwij, jeśli boli bark."
+    },
+    "cable-crunch": {
+      "name": "Spięcia brzucha na wyciągu klęcząc",
+      "desc": "Spięcia na kolanach z liną. Obciąża brzuch regulowanym ciężarem.",
+      "cues": [
+        "Zwijaj klatkę żeber w stronę miednicy, nie ciągnij liny rękami.",
+        "Biodra prawie nieruchome, ruch idzie z górnego odcinka kręgosłupa."
+      ],
+      "mistakes": ["Pochylanie się w biodrach zamiast zwijania.", "Ciągnięcie rękami."],
+      "safety": "Wydychaj podczas spięcia. Jeśli lędźwie się napinają, zmniejsz ciężar i zakres."
+    },
+    "hanging-knee-raise": {
+      "name": "Unoszenie kolan w zwisie lub na poręczach",
+      "desc": "Unoszenie kolan do klatki w zwisie na drążku lub w podporze na poręczach. Pracuje brzuch, zwłaszcza pod koniec ruchu.",
+      "cues": [
+        "U góry podwijaj miednicę, a nie tylko unoś kolana.",
+        "Opuszczaj nogi powoli, bez bujania.",
+        "Jeśli to za trudne, zacznij na poręczach."
+      ],
+      "mistakes": [
+        "Bujanie całym ciałem.",
+        "Unoszenie nóg samymi zginaczami bioder, bez podwinięcia miednicy."
+      ],
+      "safety": "Schodź z drążka ostrożnie. Jeśli w zwisie bolą barki, użyj poręczy."
+    },
+    "side-plank": {
+      "name": "Deska bokiem",
+      "desc": "Statyczne utrzymanie na jednym przedramieniu bokiem. Pracują mięśnie skośne i boczna stabilność tułowia.",
+      "cues": ["Ciało w linii prostej od głowy do stóp.", "Łokieć pod barkiem, biodra nie opadają."],
+      "mistakes": ["Biodra opadają lub uciekają do tyłu.", "Wstrzymywanie oddechu."],
+      "safety": "Przerwij, jeśli boli bark lub lędźwie. Łatwiejsza wersja: z dolnym kolanem na podłodze."
+    },
+    "pallof-press": {
+      "name": "Pallof press",
+      "desc": "Wypychanie uchwytu wyciągu od klatki stojąc bokiem do maszyny. Uczy przeciwstawiania się rotacji tułowia.",
+      "cues": [
+        "Stań bokiem do wyciągu, stopy na szerokość barków.",
+        "Wypchnij uchwyt prosto przed siebie i przytrzymaj 1–2 sekundy.",
+        "Nie pozwól, by tułów obracał się w stronę wyciągu."
+      ],
+      "mistakes": ["Tułów obraca się za linką.", "Za duży ciężar, utrata kontroli."],
+      "safety": "Możesz użyć gumy oporowej. Barki opuszczone, łokcie miękkie."
+    },
+    "dead-bug": {
+      "name": "Martwy robak (Dead Bug)",
+      "desc": "Leżąc na plecach, na zmianę opuszczasz przeciwną rękę i nogę. Trenuje głębokie mięśnie stabilizujące tułów.",
+      "cues": [
+        "Lędźwie przez cały czas dociśnięte do podłogi.",
+        "Powoli opuszczaj przeciwną rękę i nogę.",
+        "Wydychaj, opuszczając je."
+      ],
+      "mistakes": ["Lędźwie odrywają się od podłogi.", "Zbyt szybki ruch."],
+      "safety": "Jeśli lędźwie się odrywają, skróć zakres: nie opuszczaj nogi tak nisko."
+    },
+    "leg-press": {
+      "name": "Wypychanie nóg na suwnicy",
+      "desc": "Wielostawowe ćwiczenie na maszynie dla czworogłowych i pośladków, z podparciem pleców.",
+      "cues": [
+        "Stopy na szerokość barków na środku platformy.",
+        "Opuszczaj platformę pod kontrolą, kolana podążają za palcami.",
+        "Nie blokuj kolan u góry."
+      ],
+      "mistakes": [
+        "Schodzenie tak nisko, że miednica się podwija, a lędźwie odrywają.",
+        "Kolana uciekają do środka."
+      ],
+      "safety": "Biodra i lędźwie przez cały czas przy oparciu. Korzystaj z zabezpieczeń maszyny."
+    },
+    "leg-curl": {
+      "name": "Uginanie nóg na maszynie",
+      "desc": "Izolacja dwugłowych ud, leżąc lub siedząc.",
+      "cues": [
+        "Płynnie, bez szarpania.",
+        "Nie potrzebujesz maksymalnego ciężaru; ważniejsza jest kontrola na dole."
+      ],
+      "mistakes": ["Biodra odrywają się od siedziska.", "Rzucanie ciężaru w dół."],
+      "safety": "Ustaw wałek tuż nad piętami, a oś maszyny na wysokości kolana."
+    },
+    "calf-raise": {
+      "name": "Wspięcia na palce",
+      "desc": "Wspinanie się na palce stojąc lub na maszynie. Pracują łydki.",
+      "cues": ["Pełny, komfortowy zakres ruchu.", "Pauza u góry, powoli w dół."],
+      "mistakes": ["Sprężynowanie bez pauzy.", "Pomaganie sobie zginaniem kolan."],
+      "safety": "Bez maszyny trzymaj się czegoś dla równowagi."
+    },
+    "barbell-bench-press": {
+      "name": "Wyciskanie sztangi leżąc",
+      "desc": "Wyciskanie sztangi od klatki leżąc na ławce płaskiej. Pracują klatka, przednie aktony barków i triceps.",
+      "cues": [
+        "Oczy pod sztangą, stopy płasko na podłodze.",
+        "Łopatki ściągnięte i opuszczone, trzymaj je tak całą serię.",
+        "Opuszczaj sztangę pod kontrolą do dolnej części klatki, łokcie lekko przy ciele.",
+        "Wyciskaj w górę i lekko do tyłu, w stronę barków."
+      ],
+      "mistakes": [
+        "Odbijanie sztangi od klatki.",
+        "Łokcie rozstawione prosto na boki.",
+        "Biodra odrywają się od ławki."
+      ],
+      "safety": "Korzystaj ze stojaka z zabezpieczeniami ustawionymi tuż pod najniższym punktem albo z asekuracji. Zakładaj zaciski na sztangę. Pomiń serię, jeśli nie kontrolujesz ruchu. Zdejmuj i odkładaj sztangę na prostych rękach."
+    },
+    "incline-barbell-press": {
+      "name": "Wyciskanie sztangi na ławce skośnej",
+      "desc": "Wyciskanie leżąc na ławce skośnej. Więcej pracy dla górnej części klatki i przednich aktonów barków.",
+      "cues": [
+        "Ustaw ławkę na około 30°; wyżej to już wyciskanie na barki.",
+        "Łopatki ściągnięte, klatka wypchnięta.",
+        "Opuszczaj sztangę do górnej części klatki, poniżej obojczyków.",
+        "Wyciskaj prosto w górę, nadgarstki nad łokciami."
+      ],
+      "mistakes": [
+        "Zbyt stromy kąt ławki.",
+        "Sztanga wędruje w stronę twarzy lub szyi.",
+        "Unoszenie bioder dla ułatwienia."
+      ],
+      "safety": "Korzystaj ze stojaka z zabezpieczeniami ustawionymi tuż pod najniższym punktem albo z asekuracji. Zakładaj zaciski na sztangę. Pomiń serię, jeśli nie kontrolujesz ruchu."
+    },
+    "db-fly": {
+      "name": "Rozpiętki z hantlami leżąc",
+      "desc": "Szerokie rozkładanie ramion z hantlami leżąc na ławce. Rozciąga i pracuje klatką.",
+      "cues": [
+        "Utrzymuj lekkie, stałe ugięcie w łokciach.",
+        "Rozkładaj ramiona szerokim łukiem, aż poczujesz rozciąganie klatki.",
+        "Złącz hantle, jakbyś obejmował duże drzewo."
+      ],
+      "mistakes": [
+        "Zginanie i prostowanie łokci, zamienianie ruchu w wyciskanie.",
+        "Schodzenie głębiej niż komfortowe rozciągnięcie."
+      ],
+      "safety": "Wybierz lżejszy ciężar niż do wyciskań. Ból barku oznacza krótszy zakres lub mniejszy ciężar."
+    },
+    "pec-deck": {
+      "name": "Rozpiętki na maszynie (motylek)",
+      "desc": "Łączenie ramion przed klatką na maszynie. Kontrolowana izolacja klatki.",
+      "cues": [
+        "Ustaw siedzisko tak, by uchwyty były na wysokości klatki.",
+        "Łokcie miękkie, barki opuszczone.",
+        "Przytrzymaj chwilę, gdy uchwyty się zejdą, i wracaj powoli."
+      ],
+      "mistakes": ["Pozwalanie, by ciężar ciągnął ramiona za daleko do tyłu.", "Unoszenie barków."],
+      "safety": "Przed serią ustaw siedzisko i początkową pozycję uchwytów, by rozciągnięcie było komfortowe."
+    },
+    "chest-dip": {
+      "name": "Pompki na poręczach",
+      "desc": "Opuszczanie się i wypychanie na poręczach z tułowiem pochylonym do przodu. Pracują klatka i triceps.",
+      "cues": [
+        "Pochyl się lekko do przodu, łokcie idą do tyłu i trochę na boki.",
+        "Opuszczaj się, aż barki będą tuż pod łokciami, albo tak nisko, jak jest komfortowo.",
+        "Wypychaj się do prostych rąk bez gwałtownego blokowania."
+      ],
+      "mistakes": [
+        "Szybkie opadanie do dołu.",
+        "Barki uciekają do przodu i w górę do uszu.",
+        "Schodzenie głębiej, niż pozwalają barki."
+      ],
+      "safety": "Zacznij od maszyny wspomagającej lub gumy, jeśli nie kontrolujesz dolnej pozycji. Przerwij, jeśli czujesz ból z przodu barku."
+    },
+    "push-up": {
+      "name": "Pompki",
+      "desc": "Wypychanie się od podłogi z prostym ciałem. Pracują klatka, triceps i barki, ćwiczysz też core.",
+      "cues": [
+        "Dłonie trochę szerzej niż barki, pod klatką.",
+        "Ciało w jednej linii od głowy do pięt, pośladki napięte.",
+        "Opuść klatkę blisko podłogi i odepchnij się."
+      ],
+      "mistakes": [
+        "Biodra opadają lub sterczą w górę.",
+        "Łokcie rozstawione pod kątem 90°.",
+        "Połówki powtórzeń bez opuszczania klatki."
+      ],
+      "safety": "Jeśli pełne pompki są na razie za trudne, oprzyj ręce na ławce albo rób je z kolan."
+    },
+    "incline-push-up": {
+      "name": "Pompki z rękami na ławce",
+      "desc": "Pompki z dłońmi na ławce lub skrzyni. Łatwiejsza wersja, która uczy tej samej pozycji.",
+      "cues": [
+        "Dłonie na stabilnej ławce, trochę szerzej niż barki.",
+        "Ciało w jednej prostej linii, pośladki i brzuch napięte.",
+        "Dotknij ławki klatką i odepchnij się."
+      ],
+      "mistakes": ["Biodra opadają.", "Głowa zbliża się do ławki przed klatką."],
+      "safety": "Upewnij się, że ławka lub skrzynia się nie przesunie ani nie przewróci."
+    },
+    "close-grip-push-up": {
+      "name": "Pompki w wąskim rozstawie",
+      "desc": "Pompki z dłońmi blisko siebie. Więcej pracy dla tricepsa.",
+      "cues": [
+        "Dłonie pod barkami lub trochę bliżej.",
+        "Łokcie idą do tyłu wzdłuż ciała, nie na boki.",
+        "Ciało w jednej linii, odpychaj podłogę."
+      ],
+      "mistakes": ["Dłonie tak blisko, że bolą nadgarstki.", "Biodra opadają."],
+      "safety": "Jeśli nadgarstki protestują, rozstaw dłonie trochę szerzej albo użyj uchwytów do pompek."
+    },
+    "deadlift": {
+      "name": "Martwy ciąg",
+      "desc": "Podnoszenie sztangi z podłogi do pozycji stojącej. Pracują tył nóg, pośladki i całe plecy.",
+      "cues": [
+        "Sztanga nad środkiem stopy, piszczele blisko sztangi.",
+        "Chwyt tuż poza nogami, plecy proste, klatka wypchnięta.",
+        "Odpychaj podłogę i prowadź sztangę blisko nóg aż do góry.",
+        "U góry wyprostuj się, nie odchylaj się do tyłu."
+      ],
+      "mistakes": [
+        "Zaokrąglanie odcinka lędźwiowego.",
+        "Sztanga oddala się od nóg.",
+        "Szarpanie sztangi z podłogi."
+      ],
+      "safety": "Najpierw naucz się ruchu z lekkim ciężarem. Zakładaj zaciski na sztangę i opuszczaj ją pod kontrolą, nie rzucaj. Pomiń serię, jeśli nie utrzymasz prostych pleców."
+    },
+    "romanian-deadlift": {
+      "name": "Rumuński martwy ciąg",
+      "desc": "Skłon w biodrach ze sztangą z pozycji stojącej: biodra idą do tyłu, sztanga sunie wzdłuż nóg. Pracują dwugłowe ud i pośladki.",
+      "cues": [
+        "Zacznij stojąc, kolana lekko ugięte i takie zostają.",
+        "Wypchnij biodra do tyłu i prowadź sztangę wzdłuż ud.",
+        "Schodź, aż poczujesz mocne rozciąganie tyłu ud, plecy proste.",
+        "Wracaj, pchając biodra do przodu."
+      ],
+      "mistakes": [
+        "Zaokrąglanie pleców, żeby sięgnąć niżej.",
+        "Mocniejsze zginanie kolan i zamienianie ruchu w przysiad.",
+        "Sztanga oddala się od nóg."
+      ],
+      "safety": "Zakładaj zaciski na sztangę. Schodź tylko tak nisko, jak utrzymasz proste plecy. Pomiń serię, jeśli nie kontrolujesz ruchu."
+    },
+    "barbell-row": {
+      "name": "Wiosłowanie sztangą w opadzie",
+      "desc": "Przyciąganie sztangi do brzucha w pochyleniu. Pracują górna część pleców i najszersze.",
+      "cues": [
+        "Skłon w biodrach, kolana lekko ugięte, plecy proste.",
+        "Chwyt trochę szerzej niż barki.",
+        "Ciągnij sztangę do dolnych żeber, łokcie do tyłu.",
+        "Opuszczaj pod kontrolą, nie ruszając tułowiem."
+      ],
+      "mistakes": [
+        "Prostowanie się coraz bardziej z każdym powtórzeniem.",
+        "Szarpanie ciężaru całym ciałem.",
+        "Zaokrąglanie pleców."
+      ],
+      "safety": "Zakładaj zaciski na sztangę. Zacznij lekko: lędźwie mocno pracują, utrzymując pozycję. Pomiń serię, jeśli nie utrzymasz prostych pleców."
+    },
+    "one-arm-db-row": {
+      "name": "Wiosłowanie hantlem jednorącz",
+      "desc": "Przyciąganie hantla do biodra jedną ręką, druga ręka i kolano na ławce. Pracują najszersze i górna część pleców.",
+      "cues": [
+        "Dłoń i kolano na ławce, plecy proste i równoległe do podłogi.",
+        "Ciągnij hantel w stronę biodra, łokieć blisko ciała.",
+        "Opuszczaj go do końca pod kontrolą."
+      ],
+      "mistakes": ["Skręcanie tułowia, żeby podnieść ciężar.", "Ciągnięcie samą ręką z unoszeniem barku."],
+      "safety": "Ręka podporowa prosta, plecy proste. Zmniejsz ciężar, jeśli lędźwie się zaokrąglają."
+    },
+    "t-bar-row": {
+      "name": "Wiosłowanie T-sztangą",
+      "desc": "Wiosłowanie jednym końcem sztangi zamocowanej z drugiej strony lub na maszynie T-bar. Pracują plecy.",
+      "cues": [
+        "Skłon w biodrach, plecy proste, kolana lekko ugięte.",
+        "Ciągnij uchwyt w stronę klatki, łokcie do tyłu.",
+        "Opuszczaj pod kontrolą do prostych rąk."
+      ],
+      "mistakes": ["Unoszenie tułowia w każdym powtórzeniu.", "Zaokrąglanie pleców na dole."],
+      "safety": "Zamocuj koniec sztangi w uchwycie typu landmine lub w rogu, by się nie przesuwał. Zakładaj zaciski na talerze."
+    },
+    "pull-up": {
+      "name": "Podciąganie nachwytem",
+      "desc": "Podciąganie się do drążka nachwytem. Pracują najszersze i górna część pleców.",
+      "cues": [
+        "Chwyt trochę szerzej niż barki, dłonie od siebie.",
+        "Zacznij ze zwisu z opuszczonymi barkami.",
+        "Ciągnij, aż broda będzie nad drążkiem, potem opuszczaj się powoli."
+      ],
+      "mistakes": [
+        "Bujanie i wierzganie nogami.",
+        "Połówki powtórzeń bez prostowania rąk.",
+        "Szybkie opadanie w dół."
+      ],
+      "safety": "Jeśli pełne podciągnięcie jeszcze nie wychodzi, użyj maszyny wspomagającej, gumy albo samego powolnego opuszczania."
+    },
+    "chin-up": {
+      "name": "Podciąganie podchwytem",
+      "desc": "Podciąganie podchwytem. Więcej pracy dla bicepsa.",
+      "cues": [
+        "Chwyt na szerokość barków, dłonie do siebie.",
+        "Ciągnij klatkę do drążka, łokcie w dół i do tyłu.",
+        "Opuszczaj się do końca pod kontrolą."
+      ],
+      "mistakes": ["Bujanie się, żeby się wciągnąć.", "Wyciąganie szyi do drążka."],
+      "safety": "Dyskomfort w łokciach oznacza nieco szerszy chwyt lub wersję wspomaganą."
+    },
+    "assisted-pull-up": {
+      "name": "Podciąganie na maszynie wspomagającej",
+      "desc": "Podciąganie na maszynie z podpórką pod kolana, która pomaga w ruchu. Uczy pełnego ruchu.",
+      "cues": [
+        "Uklęknij na podpórce, chwyć uchwyty nad głową.",
+        "Najpierw ściągnij barki, potem podciągnij klatkę.",
+        "Opuszczaj się powoli do prostych rąk."
+      ],
+      "mistakes": ["Odbijanie się od podpórki na dole.", "Unoszenie barków."],
+      "safety": "Wchodź i schodź ostrożnie: ustaw poziom wspomagania, zanim staniesz na podpórce."
+    },
+    "close-grip-pulldown": {
+      "name": "Ściąganie drążka wąskim chwytem",
+      "desc": "Ściąganie z wąskim uchwytem neutralnym. Najszersze pracują w długim zakresie.",
+      "cues": [
+        "Uda pod wałkami, tułów lekko odchylony.",
+        "Ciągnij uchwyt do górnej części klatki, łokcie w dół.",
+        "U góry pozwól rękom w pełni się wyprostować."
+      ],
+      "mistakes": ["Mocne odchylanie się i zamienianie ruchu w wiosłowanie.", "Ciągnięcie samymi rękami."],
+      "safety": "Trzymaj uchwyt, aż stos ciężarów opadnie, nie puszczaj go w górę."
+    },
+    "straight-arm-pulldown": {
+      "name": "Ściąganie drążka prostymi rękami",
+      "desc": "Ściąganie drążka wyciągu łukiem w dół prostymi rękami. Izoluje najszersze.",
+      "cues": [
+        "Stań krok od wyciągu, lekko się pochyl.",
+        "Ręce prawie proste, ciągnij drążek łukiem do ud.",
+        "Wracaj powoli, aż poczujesz rozciąganie najszerszych."
+      ],
+      "mistakes": [
+        "Zginanie łokci i zamienianie ruchu w prostowanie na triceps.",
+        "Bujanie tułowiem, żeby ruszyć ciężar."
+      ],
+      "safety": "Trzymaj umiarkowany ciężar: to ćwiczenie na kontrolę, nie na siłę."
+    },
+    "inverted-row": {
+      "name": "Wiosłowanie australijskie",
+      "desc": "Przyciąganie klatki do drążka na wysokości pasa, pięty na podłodze. Pracują plecy.",
+      "cues": [
+        "Ciało w jednej prostej linii od głowy do pięt.",
+        "Ciągnij klatkę do drążka, łokcie do tyłu.",
+        "Opuszczaj się do prostych rąk."
+      ],
+      "mistakes": ["Biodra opadają.", "Przyciąganie do drążka brody zamiast klatki."],
+      "safety": "Upewnij się, że drążek jest pewnie zamocowany w stojaku. Ugnij kolana, by ułatwić."
+    },
+    "machine-row": {
+      "name": "Wiosłowanie na maszynie z podparciem klatki",
+      "desc": "Wiosłowanie siedząc na maszynie z podparciem klatki. Stabilny sposób na pracę pleców.",
+      "cues": [
+        "Klatka przy podparciu, stopy pewnie na podłodze.",
+        "Ciągnij uchwyty do tyłu, ściągając łopatki.",
+        "Wracaj do prostych rąk, klatka przy podparciu."
+      ],
+      "mistakes": ["Odchylanie się od podparcia, żeby ruszyć więcej.", "Unoszenie barków."],
+      "safety": "Ustaw siedzisko tak, by uchwyty były na wysokości dolnej części klatki."
+    },
+    "db-pullover": {
+      "name": "Pullover z hantlem",
+      "desc": "Opuszczanie hantla za głowę i powrót nad klatkę leżąc na ławce. Pracują najszersze i klatka.",
+      "cues": [
+        "Trzymaj jeden hantel oburącz, ręce prawie proste.",
+        "Opuszczaj go łukiem za głowę, aż poczujesz rozciąganie.",
+        "Przenieś go z powrotem nad klatkę."
+      ],
+      "mistakes": [
+        "Mocne zginanie łokci i zamienianie ruchu w ćwiczenie na triceps.",
+        "Wyginanie lędźwi na dole."
+      ],
+      "safety": "Trzymaj hantel pewnie za talerz. Zacznij lekko: końcowa pozycja rozciąga barki."
+    },
+    "back-extension": {
+      "name": "Wyprosty tułowia na ławce rzymskiej",
+      "desc": "Unoszenie tułowia na ławce rzymskiej. Pracują lędźwie i pośladki.",
+      "cues": [
+        "Podparcie tuż pod kośćmi biodrowymi, pięty pod wałkami.",
+        "Opuszczaj tułów z prostymi plecami.",
+        "Unoś się do linii prostej ciała, nie wyżej."
+      ],
+      "mistakes": ["Przeprost u góry.", "Bujanie z rozpędu."],
+      "safety": "Zacznij bez dodatkowego ciężaru. Przerwij, jeśli czujesz ból w lędźwiach."
+    },
+    "dead-hang": {
+      "name": "Zwis na drążku",
+      "desc": "Zwis na drążku na prostych rękach. Trenuje chwyt i barki.",
+      "cues": [
+        "Chwyć drążek trochę szerzej niż barki.",
+        "Wiś na prostych rękach, barki lekko aktywne.",
+        "Oddychaj spokojnie i trzymaj zaplanowany czas."
+      ],
+      "mistakes": ["Wskakiwanie na drążek i zeskakiwanie z niego.", "Wstrzymywanie oddechu."],
+      "safety": "Zejdź na skrzynię lub podłogę; nie zeskakuj z wysokości."
+    },
+    "back-squat": {
+      "name": "Przysiad ze sztangą na plecach",
+      "desc": "Przysiad ze sztangą na górnej części pleców. Pracują czworogłowe i pośladki, całe ciało utrzymuje pozycję.",
+      "cues": [
+        "Sztanga na górnej części pleców, nie na szyi; mocny chwyt, łokcie w dół.",
+        "Stopy mniej więcej na szerokość barków, palce lekko na zewnątrz.",
+        "Siadaj między piętami, kolana podążają za palcami, plecy proste.",
+        "Wstawaj, odpychając podłogę, klatka i biodra unoszą się razem."
+      ],
+      "mistakes": [
+        "Kolana uciekają do środka.",
+        "Pięty odrywają się od podłogi.",
+        "Zaokrąglanie lędźwi na dole."
+      ],
+      "safety": "Przysiadaj w stojaku z zabezpieczeniami ustawionymi tuż pod najniższym punktem albo z asekuracją. Zakładaj zaciski na sztangę. Pomiń serię, jeśli nie kontrolujesz ruchu."
+    },
+    "front-squat": {
+      "name": "Przysiad przedni",
+      "desc": "Przysiad ze sztangą na przodzie barków. Tułów jest bardziej pionowy, więcej pracy dla czworogłowych.",
+      "cues": [
+        "Sztanga na przodzie barków, łokcie wysoko, opuszki palców pod sztangą.",
+        "Tułów jak najbardziej pionowy.",
+        "Siadaj prosto w dół, kolana do przodu nad palcami.",
+        "Wstawaj, trzymając łokcie wysoko."
+      ],
+      "mistakes": [
+        "Łokcie opadają i sztanga toczy się do przodu.",
+        "Pochylanie się, przez co ruch zamienia się w skłon.",
+        "Zbyt mocne ściskanie sztangi i przeciążanie nadgarstków."
+      ],
+      "safety": "Przysiadaj w stojaku z zabezpieczeniami ustawionymi tuż pod najniższym punktem albo z asekuracją. Zakładaj zaciski na sztangę. Pomiń serię, jeśli nie kontrolujesz ruchu. Jeśli sztanga zsuwa się do przodu, pozwól jej spaść na zabezpieczenia i cofnij się."
+    },
+    "goblet-squat": {
+      "name": "Przysiad goblet",
+      "desc": "Przysiad z kettlebellem lub hantlem przy klatce. Dobry sposób na naukę przysiadu.",
+      "cues": [
+        "Trzymaj ciężar blisko klatki, łokcie w dół.",
+        "Siadaj między piętami, klatka wypchnięta.",
+        "Wypychaj kolana na zewnątrz w linii palców i wstań."
+      ],
+      "mistakes": ["Ciężar oddala się od klatki.", "Pięty odrywają się od podłogi."],
+      "safety": "Wybierz ciężar, który pewnie utrzymasz przez całą serię."
+    },
+    "db-sumo-squat": {
+      "name": "Przysiad sumo z hantlem",
+      "desc": "Przysiad w szerokim rozstawie z jednym hantlem między nogami. Pracują czworogłowe, pośladki i wewnętrzna strona ud.",
+      "cues": [
+        "Stopy szerzej niż barki, palce na zewnątrz.",
+        "Trzymaj hantel na prostych rękach, tułów pionowo.",
+        "Schodź z kolanami za palcami i wstań."
+      ],
+      "mistakes": ["Kolana uciekają do środka.", "Pochylanie się i zaokrąglanie pleców."],
+      "safety": "Wybierz rozstaw, który jest komfortowy dla bioder."
+    },
+    "bulgarian-split-squat": {
+      "name": "Przysiad bułgarski",
+      "desc": "Przysiad na jednej nodze z tylną stopą na ławce. Pracują czworogłowy i pośladek przedniej nogi.",
+      "cues": [
+        "Tylna stopa na ławce, przednia wystarczająco daleko z przodu.",
+        "Schodź pionowo, aż tylne kolano zbliży się do podłogi.",
+        "Wstawaj, pchając całą przednią stopą."
+      ],
+      "mistakes": [
+        "Przednia stopa za blisko ławki.",
+        "Przednie kolano ucieka do środka.",
+        "Odpychanie się tylną nogą."
+      ],
+      "safety": "Najpierw naucz się pozycji bez ciężaru. Ławka stabilna, wokół wolne miejsce."
+    },
+    "db-lunge": {
+      "name": "Wykroki z hantlami",
+      "desc": "Krok do wykroku i z powrotem z hantlami w rękach. Pracują nogi i pośladki, ćwiczysz równowagę.",
+      "cues": [
+        "Długi krok, oba kolana zginają się do około 90°.",
+        "Tułów pionowo, ciężar na całej przedniej stopie.",
+        "Wracaj do startu przednią nogą."
+      ],
+      "mistakes": ["Przednie kolano ucieka do środka.", "Kroki tak krótkie, że przednia pięta się odrywa."],
+      "safety": "Rób bez ciężaru, dopóki nie poczujesz się pewnie. Upewnij się, że wokół jest miejsce."
+    },
+    "walking-lunge": {
+      "name": "Wykroki w marszu",
+      "desc": "Wykroki z przemieszczaniem się do przodu krok po kroku. Pracują nogi, ćwiczysz równowagę.",
+      "cues": [
+        "Krok do przodu i zejście, aż tylne kolano zbliży się do podłogi.",
+        "Wstań i przenieś tylną nogę do przodu w kolejny krok.",
+        "Tułów pionowo, kroki równe."
+      ],
+      "mistakes": ["Wąskie kroki, jak po linii.", "Pośpiech i utrata równowagi."],
+      "safety": "Potrzebujesz wolnej drogi. Zacznij bez ciężaru."
+    },
+    "leg-extension": {
+      "name": "Prostowanie nóg na maszynie",
+      "desc": "Prostowanie kolan na maszynie. Izolacja czworogłowych.",
+      "cues": [
+        "Ustaw kolano w osi maszyny.",
+        "Prostuj nogi płynnie, krótka pauza u góry.",
+        "Opuszczaj powoli, bez stukania ciężarem."
+      ],
+      "mistakes": ["Wyrzucanie ciężaru z rozpędu.", "Odrywanie bioder od siedziska."],
+      "safety": "Ustaw wałek tuż nad stopami. Dyskomfort w kolanach oznacza mniejszy ciężar lub krótszy zakres."
+    },
+    "seated-leg-curl": {
+      "name": "Uginanie nóg siedząc",
+      "desc": "Zginanie kolan przeciwko oporowi na maszynie siedząc. Izolacja dwugłowych ud.",
+      "cues": [
+        "Wałek na udach dociśnięty, kolana w linii z osią.",
+        "Płynnie ciągnij pięty w dół i do tyłu.",
+        "Wracaj powoli, aż nogi będą prawie proste."
+      ],
+      "mistakes": ["Szarpanie ciężarem.", "Zsuwanie się do przodu na siedzisku."],
+      "safety": "Ustaw siedzisko i wałki przed serią, by kolana były w linii z osią."
+    },
+    "glute-bridge": {
+      "name": "Mostek biodrowy",
+      "desc": "Unoszenie bioder leżąc na plecach z ugiętymi kolanami. Pracują pośladki.",
+      "cues": [
+        "Stopy płasko, pięty blisko bioder.",
+        "Pchaj piętami i unoś biodra, aż ciało utworzy linię od kolan do barków.",
+        "Napnij pośladki u góry i opuszczaj powoli."
+      ],
+      "mistakes": ["Wyginanie lędźwi zamiast pracy pośladków.", "Pchanie palcami."],
+      "safety": "Połóż się na macie. Jeśli lędźwie czują dyskomfort, unoś biodra trochę niżej."
+    },
+    "barbell-hip-thrust": {
+      "name": "Hip thrust ze sztangą",
+      "desc": "Wypychanie bioder w górę ze sztangą na nich, górna część pleców na ławce. Mocne ćwiczenie na pośladki.",
+      "cues": [
+        "Górna część pleców o krawędź ławki, sztanga nad zgięciem bioder.",
+        "Stopy płasko, piszczele pionowo u góry.",
+        "Wypchnij biodra, aż tułów będzie poziomo, broda przyciągnięta.",
+        "Opuszczaj pod kontrolą."
+      ],
+      "mistakes": [
+        "Wyginanie lędźwi u góry.",
+        "Stopy za daleko, przez co przejmują dwugłowe ud.",
+        "Ławka odjeżdża do tyłu."
+      ],
+      "safety": "Załóż nakładkę na sztangę i zaciski na talerze. Upewnij się, że ławka jest stabilna i się nie przesunie. Pomiń serię, jeśli nie kontrolujesz ruchu."
+    },
+    "seated-calf-raise": {
+      "name": "Wspięcia na palce siedząc",
+      "desc": "Unoszenie pięt przeciwko podpórce na kolanach, siedząc. Pracują łydki.",
+      "cues": [
+        "Przednia część stóp na platformie, podpórka na kolanach.",
+        "Wspinaj się jak najwyżej, pauza u góry.",
+        "Opuszczaj powoli do rozciągnięcia."
+      ],
+      "mistakes": ["Sprężynowanie na dole.", "Krótkie, szybkie powtórzenia."],
+      "safety": "Zwalniaj blokadę dopiero, gdy podpórka pewnie leży na kolanach."
+    },
+    "step-up": {
+      "name": "Wejścia na skrzynię",
+      "desc": "Wchodzenie na ławkę lub skrzynię. Pracują czworogłowe i pośladki, ćwiczysz równowagę.",
+      "cues": [
+        "Cała stopa na skrzyni.",
+        "Wstawaj siłą górnej nogi, bez odpychania się dolną.",
+        "Schodź pod kontrolą."
+      ],
+      "mistakes": ["Za wysoka skrzynia, kolano wyżej niż biodro.", "Odbijanie się dolną stopą."],
+      "safety": "Używaj stabilnej skrzyni lub ławki, która się nie przesunie. Zacznij bez ciężaru."
+    },
+    "hip-adduction": {
+      "name": "Przywodzenie nóg na maszynie",
+      "desc": "Ściskanie nóg do siebie o poduszki maszyny. Pracuje wewnętrzna strona ud.",
+      "cues": [
+        "Usiądź głęboko, plecy oparte o oparcie.",
+        "Złącz nogi płynnym ruchem.",
+        "Wracaj powoli do wygodnego rozwarcia."
+      ],
+      "mistakes": [
+        "Rozwieranie nóg szerzej, niż jest wygodnie.",
+        "Pozwalanie, by ciężar gwałtownie rozwierał nogi."
+      ],
+      "safety": "Ustaw początkowe rozwarcie tak, by rozciąganie było wygodne."
+    },
+    "hip-abduction": {
+      "name": "Odwodzenie nóg na maszynie",
+      "desc": "Rozpychanie nóg na boki o poduszki maszyny. Pracuje zewnętrzna strona bioder i pośladki.",
+      "cues": [
+        "Usiądź głęboko, plecy oparte o oparcie.",
+        "Wypychaj kolana na zewnątrz płynnym ruchem.",
+        "Wracaj powoli, nie pozwól stukać płytom."
+      ],
+      "mistakes": ["Ruch z rozpędu.", "Bujanie się tułowiem w przód i w tył."],
+      "safety": "Wybierz ciężar, który przesuniesz płynnie w całym zakresie."
+    },
+    "hack-squat": {
+      "name": "Hack przysiad na maszynie",
+      "desc": "Przysiad na maszynie z ukośnym oparciem. Pracują czworogłowe uda przy stabilnej pozycji pleców.",
+      "cues": [
+        "Plecy i barki przy poduszkach, stopy na środku platformy.",
+        "Zejdź, aż uda będą mniej więcej równoległe do platformy.",
+        "Wypchnij platformę bez gwałtownego blokowania kolan."
+      ],
+      "mistakes": ["Odrywanie pięt.", "Kolana uciekające do środka."],
+      "safety": "Ostrożnie zwalniaj i zakładaj zabezpieczenia przed serią i po niej."
+    },
+    "db-romanian-deadlift": {
+      "name": "Rumuński martwy ciąg z hantlami",
+      "desc": "Zawias biodrowy z hantlami: biodra idą do tyłu, hantle suną wzdłuż nóg. Pracują mięśnie dwugłowe uda i pośladki.",
+      "cues": [
+        "Kolana lekko ugięte i nieruchome.",
+        "Cofaj biodra, hantle blisko nóg.",
+        "Wracaj, wypychając biodra do przodu."
+      ],
+      "mistakes": ["Zaokrąglanie pleców.", "Zamienianie ruchu w przysiad.", "Hantle odjeżdżające do przodu."],
+      "safety": "Schodź tylko tak nisko, jak utrzymasz proste plecy."
+    },
+    "single-leg-rdl": {
+      "name": "Rumuński martwy ciąg na jednej nodze",
+      "desc": "Zawias biodrowy na jednej nodze, druga noga sięga do tyłu. Pracują dwugłowe uda i pośladki, a do tego równowaga.",
+      "cues": [
+        "Kolano nogi podporowej lekko ugięte.",
+        "Pochyl się, gdy wolna noga idzie do tyłu, biodra w jednej linii.",
+        "Wróć do stania pod kontrolą."
+      ],
+      "mistakes": ["Biodra otwierające się na bok.", "Zaokrąglanie pleców."],
+      "safety": "Zacznij bez obciążenia i w razie potrzeby przytrzymaj się czegoś."
+    },
+    "wall-sit": {
+      "name": "Krzesełko przy ścianie",
+      "desc": "Utrzymywanie pozycji siedzącej przy ścianie. Statyczna praca dla czworogłowych ud.",
+      "cues": [
+        "Plecy płasko przy ścianie.",
+        "Zsuń się, aż kolana będą blisko 90°, stopy pod kolanami.",
+        "Oddychaj spokojnie i wytrzymaj."
+      ],
+      "mistakes": ["Kolana daleko przed palcami stóp.", "Wstrzymywanie oddechu."],
+      "safety": "Załóż buty z przyczepną podeszwą, by stopy się nie ślizgały. Wstań, jeśli bolą kolana."
+    },
+    "lateral-band-walk": {
+      "name": "Chodzenie bokiem z taśmą",
+      "desc": "Kroki w bok w półprzysiadzie z taśmą wokół nóg. Pracuje zewnętrzna strona bioder i pośladki.",
+      "cues": [
+        "Taśma nad kolanami lub wokół kostek.",
+        "Półprzysiad, stopy na szerokość bioder.",
+        "Rób kroki w bok, utrzymując napięcie taśmy."
+      ],
+      "mistakes": ["Zsuwanie stóp i luzowanie taśmy.", "Prostowanie się między krokami."],
+      "safety": "Przed użyciem sprawdź, czy taśma nie jest naderwana."
+    },
+    "cable-kickback": {
+      "name": "Wykopy nogą na wyciągu",
+      "desc": "Wykop jednej nogi do tyłu z mankietem na kostce przy dolnym wyciągu. Izolacja pośladków.",
+      "cues": [
+        "Trzymaj się ramy, lekko pochylony do przodu.",
+        "Wypychaj nogę do tyłu bez wyginania odcinka lędźwiowego.",
+        "Wracaj powoli."
+      ],
+      "mistakes": ["Machanie nogą.", "Wyginanie lędźwi, żeby podnieść nogę wyżej."],
+      "safety": "Mocno zapnij mankiet na kostce. Wybierz ciężar, który przesuniesz bez machania."
+    },
+    "overhead-press": {
+      "name": "Wyciskanie sztangi nad głowę stojąc",
+      "desc": "Wyciskanie sztangi z barków nad głowę w staniu. Pracują barki i tricepsy, a mięśnie tułowia trzymają pozycję.",
+      "cues": [
+        "Sztanga na przodzie barków, chwyt tuż poza barkami.",
+        "Pośladki i brzuch napięte, żebra w dół.",
+        "Wyciskaj prosto w górę, lekko cofając głowę, by przepuścić sztangę.",
+        "Zakończ ze sztangą nad środkiem stopy i prostymi rękami."
+      ],
+      "mistakes": [
+        "Odchylanie się do tyłu, przez co ruch zmienia się w wyciskanie skośne.",
+        "Sztanga uciekająca do przodu od twarzy.",
+        "Pomaganie sobie nogami."
+      ],
+      "safety": "Zdejmuj sztangę ze stojaka na wysokości barków i zakładaj zaciski. Przy ciężkich seriach używaj zabezpieczeń lub asekuracji. Odpuść serię, jeśli nie kontrolujesz ruchu."
+    },
+    "bent-over-lateral-raise": {
+      "name": "Unoszenie hantli bokiem w opadzie",
+      "desc": "Unoszenie hantli na boki w pochyleniu do przodu. Pracują tylne aktony barków i górna część pleców.",
+      "cues": [
+        "Pochyl się z prostymi plecami, kolana luźne.",
+        "Unoś ręce na boki z lekko ugiętymi łokciami.",
+        "Opuszczaj powoli, bez bujania."
+      ],
+      "mistakes": ["Prostowanie się w trakcie serii.", "Zarzucanie ciężaru tułowiem."],
+      "safety": "Używaj lekkich hantli: tylne aktony są małe. Usiądź na ławce i pochyl się, jeśli męczy się odcinek lędźwiowy."
+    },
+    "front-raise": {
+      "name": "Unoszenie ramion w przód",
+      "desc": "Unoszenie hantli lub uchwytu wyciągu przed sobą do wysokości barków. Pracują przednie aktony barków.",
+      "cues": [
+        "Ręce prawie proste, dłonie w dół.",
+        "Unoś do wysokości barków, nie wyżej.",
+        "Opuszczaj powoli."
+      ],
+      "mistakes": ["Odchylanie się, by zarzucić ciężar.", "Unoszenie barków do uszu."],
+      "safety": "Wystarczy lekki ciężar: przednie aktony pracują już we wszystkich wyciskaniach."
+    },
+    "upright-row": {
+      "name": "Podciąganie sztangi wzdłuż tułowia",
+      "desc": "Przyciąganie sztangi lub hantli wzdłuż ciała do wysokości klatki. Pracują boczne aktony barków i czworoboczne.",
+      "cues": [
+        "Chwyt na szerokość barków lub szerszy, nie wąski.",
+        "Prowadź łokciami, ciągnij do dolnej części klatki.",
+        "Opuszczaj powoli."
+      ],
+      "mistakes": ["Wąski chwyt z łokciami ponad barkami.", "Ciągnięcie aż do brody.", "Szarpanie ciężarem."],
+      "safety": "Zacznij lekko: niektóre barki nie tolerują tego ćwiczenia. Używaj szerokiego chwytu, ciągnij tylko do dolnej części klatki i przerwij przy każdym kłuciu lub bólu w barku; unoszenie bokiem angażuje te same mięśnie."
+    },
+    "face-pull": {
+      "name": "Face pull",
+      "desc": "Przyciąganie liny wyciągu do twarzy z wysoko uniesionymi łokciami. Pracują tylne aktony barków i górna część pleców.",
+      "cues": [
+        "Wyciąg na wysokości górnej części klatki lub nieco wyżej, chwyt za linę.",
+        "Ciągnij linę w stronę oczu, łokcie wysoko i szeroko.",
+        "Rozciągnij końce na boki i zatrzymaj się, potem wracaj powoli."
+      ],
+      "mistakes": [
+        "Ciągnięcie do klatki z nisko opuszczonymi łokciami.",
+        "Odchylanie się, żeby przesunąć większy ciężar."
+      ],
+      "safety": "Trzymaj lekki ciężar i płynny ruch."
+    },
+    "arnold-press": {
+      "name": "Wyciskanie Arnolda",
+      "desc": "Wyciskanie hantli siedząc, zaczynane z dłońmi zwróconymi do siebie i obracane na zewnątrz w górę. Pracują barki.",
+      "cues": [
+        "Zacznij z hantlami przed barkami, dłonie zwrócone do ciebie.",
+        "Obracaj dłonie na zewnątrz, wyciskając w górę.",
+        "Przy opuszczaniu odwróć ruch."
+      ],
+      "mistakes": ["Wyginanie lędźwi i odrywanie ich od oparcia.", "Pośpieszny obrót."],
+      "safety": "Weź mniejszy ciężar niż do zwykłego wyciskania nad głowę. Ból barku oznacza krótszy zakres."
+    },
+    "cable-lateral-raise": {
+      "name": "Unoszenie ramienia bokiem na wyciągu",
+      "desc": "Unoszenie jednej ręki w bok przy dolnym wyciągu. Stałe napięcie dla bocznych aktonów barków.",
+      "cues": [
+        "Stań bokiem do wyciągu, uchwyt w dalszej ręce.",
+        "Unoś rękę do wysokości barku, łokieć lekko ugięty.",
+        "Opuszczaj powoli przed biodro."
+      ],
+      "mistakes": ["Odchylanie się, by zarzucić ciężar.", "Unoszenie barku do ucha."],
+      "safety": "Zacznij lekko: wyciąg daje napięcie na dole, gdzie hantle go nie dają."
+    },
+    "band-external-rotation": {
+      "name": "Rotacja zewnętrzna z taśmą",
+      "desc": "Obracanie przedramienia na zewnątrz przeciw taśmie z łokciem przy boku. Lekkie ćwiczenie dla tylnej części barku.",
+      "cues": [
+        "Łokieć przy boku, zgięty pod kątem 90°.",
+        "Obracaj przedramię na zewnątrz, łokieć w miejscu.",
+        "Wracaj powoli."
+      ],
+      "mistakes": ["Łokieć odsuwający się od ciała.", "Skręcanie tułowia zamiast obrotu ręki."],
+      "safety": "Używaj lekkiej taśmy. To delikatne ćwiczenie: bez bólu i bez szarpnięć."
+    },
+    "barbell-curl": {
+      "name": "Uginanie ramion ze sztangą",
+      "desc": "Uginanie rąk ze sztangą od ud do barków w staniu. Pracują bicepsy.",
+      "cues": [
+        "Chwyt na szerokość barków, dłonie do przodu.",
+        "Łokcie przy bokach.",
+        "Uginaj w górę, opuszczaj powoli do prostych rąk."
+      ],
+      "mistakes": ["Bujanie tułowiem.", "Łokcie uciekające do przodu.", "Połowiczne powtórzenia na dole."],
+      "safety": "Załóż zaciski, jeśli używasz talerzy. Zmniejsz ciężar, jeśli musisz się bujać."
+    },
+    "db-curl": {
+      "name": "Uginanie ramion z hantlami",
+      "desc": "Uginanie rąk z hantlami w staniu, obiema naraz lub naprzemiennie. Pracują bicepsy.",
+      "cues": [
+        "Łokcie przy bokach, dłonie do przodu.",
+        "Uginaj w górę, lekko obracając dłoń ku górze.",
+        "Opuszczaj powoli do prostych rąk."
+      ],
+      "mistakes": ["Machanie hantlami.", "Wysuwanie łokci do przodu."],
+      "safety": "Wybierz ciężar, który podniesiesz bez odchylania się."
+    },
+    "cable-curl": {
+      "name": "Uginanie ramion na wyciągu",
+      "desc": "Uginanie rąk z uchwytem dolnego wyciągu. Stałe napięcie dla bicepsów.",
+      "cues": [
+        "Stań blisko wyciągu, łokcie przy bokach.",
+        "Przyciągnij uchwyt do barków.",
+        "Opuszczaj powoli, nie pozwól stosowi płyt stuknąć."
+      ],
+      "mistakes": ["Odchylanie się do tyłu.", "Łokcie wysuwające się do przodu."],
+      "safety": "Trzymaj uchwyt, aż stos płyt opadnie na dół."
+    },
+    "concentration-curl": {
+      "name": "Uginanie ramienia w podporze o udo",
+      "desc": "Uginanie jednej ręki siedząc, z łokciem opartym o wewnętrzną stronę uda. Ścisła praca bicepsa.",
+      "cues": [
+        "Usiądź na ławce, łokieć przy wewnętrznej stronie uda.",
+        "Uginaj hantlę w stronę barku.",
+        "Opuszczaj powoli do samego dołu."
+      ],
+      "mistakes": ["Odrywanie łokcia od uda.", "Pomaganie sobie barkiem."],
+      "safety": "Używaj umiarkowanego ciężaru: liczy się kontrola."
+    },
+    "reverse-curl": {
+      "name": "Uginanie ramion nachwytem",
+      "desc": "Uginanie rąk ze sztangą z dłońmi skierowanymi w dół. Pracują przedramiona i bicepsy.",
+      "cues": ["Nachwyt na szerokość barków.", "Łokcie przy bokach, uginaj w górę.", "Opuszczaj powoli."],
+      "mistakes": ["Nadgarstki zginające się do tyłu.", "Bujanie ciałem."],
+      "safety": "Używaj mniejszego ciężaru niż przy zwykłym uginaniu."
+    },
+    "skull-crusher": {
+      "name": "Francuskie wyciskanie leżąc (skull crusher)",
+      "desc": "Opuszczanie sztangi do czoła i prostowanie rąk w leżeniu na ławce. Pracują tricepsy.",
+      "cues": [
+        "Ramiona pionowo lub lekko pochylone w stronę głowy.",
+        "Zginaj tylko łokcie, opuszczając sztangę do czoła.",
+        "Prostuj ręce bez ruchu barków."
+      ],
+      "mistakes": [
+        "Łokcie rozchodzące się na boki.",
+        "Ramiona jeżdżące w przód i w tył.",
+        "Szybkie opadanie sztangi."
+      ],
+      "safety": "Opuszczaj sztangę powoli i nigdy nie pozwól jej opaść w stronę twarzy. Zacznij lekko; przy większych ciężarach poproś o asekurację."
+    },
+    "close-grip-bench-press": {
+      "name": "Wyciskanie na ławce wąskim chwytem",
+      "desc": "Wyciskanie leżąc z dłońmi mniej więcej na szerokość barków. Przenosi więcej pracy na tricepsy.",
+      "cues": [
+        "Chwyt na szerokość barków, nie węższy.",
+        "Łokcie blisko ciała przy opuszczaniu.",
+        "Dotknij dolnej części klatki i wyciśnij.",
+        "Łopatki ściągnięte, stopy na podłodze."
+      ],
+      "mistakes": [
+        "Chwyt tak wąski, że bolą nadgarstki.",
+        "Łokcie rozchodzące się na boki.",
+        "Odbijanie sztangi od klatki."
+      ],
+      "safety": "Używaj stojaka z zabezpieczeniami lub asekuracji i zakładaj zaciski. Odpuść serię, jeśli nie kontrolujesz ruchu."
+    },
+    "bench-dip": {
+      "name": "Pompki w podporze tyłem na ławce",
+      "desc": "Opuszczanie się i wypychanie z dłońmi na ławce za sobą. Pracują tricepsy.",
+      "cues": [
+        "Dłonie na krawędzi ławki, palce do przodu.",
+        "Opuść się, aż łokcie będą zgięte pod kątem około 90°, plecy blisko ławki.",
+        "Wypchnij się do prostych rąk."
+      ],
+      "mistakes": ["Zbyt głębokie zejście i przeciążanie barków.", "Łokcie rozchodzące się na boki."],
+      "safety": "Ugnij kolana, aby było łatwiej. Przerwij przy każdym bólu z przodu barku."
+    },
+    "overhead-db-extension": {
+      "name": "Wyprost ramion z hantlem nad głową",
+      "desc": "Opuszczanie jednego hantla za głowę oburącz i prostowanie rąk. Pracuje długa głowa tricepsa.",
+      "cues": [
+        "Trzymaj jeden hantel oburącz nad głową.",
+        "Opuść go za głowę, łokcie skierowane w górę.",
+        "Wyprostuj ręce."
+      ],
+      "mistakes": ["Łokcie rozchodzą się na boki.", "Wyginanie odcinka lędźwiowego."],
+      "safety": "Trzymaj hantel pewnie za talerz. Usiądź na ławce z oparciem, jeśli chcesz większej stabilności."
+    },
+    "triceps-kickback": {
+      "name": "Prostowanie ramienia w tył z hantlem",
+      "desc": "Prostowanie ręki z hantlem do tyłu w opadzie, z podporem o ławkę. Pracuje triceps.",
+      "cues": [
+        "Ramię wzdłuż tułowia, równolegle do podłogi.",
+        "Wyprostuj rękę do tyłu, porusza się tylko przedramię.",
+        "Uginaj z powrotem powoli."
+      ],
+      "mistakes": ["Ramię opada w dół.", "Machanie hantlem."],
+      "safety": "Użyj lekkiego hantla i trzymaj rękę podporową prosto."
+    },
+    "plank": {
+      "name": "Deska (plank)",
+      "desc": "Utrzymywanie prostego ciała w podporze na przedramionach i palcach stóp. Uczy mięśnie core stabilizować tułów.",
+      "cues": [
+        "Łokcie pod barkami, przedramiona na podłodze.",
+        "Ciało w jednej linii od głowy do pięt, pośladki napięte.",
+        "Oddychaj spokojnie i wytrzymaj zaplanowany czas."
+      ],
+      "mistakes": ["Biodra opadają do podłogi.", "Biodra wypchnięte wysoko w górę."],
+      "safety": "Zacznij na kolanach, jeśli pełna deska jest za trudna. Przerwij, jeśli boli odcinek lędźwiowy."
+    },
+    "hanging-leg-raise": {
+      "name": "Unoszenie nóg w zwisie",
+      "desc": "Unoszenie prostych nóg w zwisie na drążku. Trudne ćwiczenie na brzuch.",
+      "cues": [
+        "Zawiśnij z aktywnymi, nie rozluźnionymi barkami.",
+        "Unieś nogi przed siebie, podwijając miednicę w górę.",
+        "Opuszczaj powoli, bez bujania."
+      ],
+      "mistakes": [
+        "Bujanie całym ciałem.",
+        "Unoszenie nóg samymi zginaczami biodra, miednica stoi w miejscu."
+      ],
+      "safety": "Najpierw opanuj unoszenie kolan w zwisie. Schodź na skrzynię, nie zeskakuj z drążka."
+    },
+    "crunch": {
+      "name": "Brzuszki",
+      "desc": "Unoszenie barków od podłogi w leżeniu na plecach. Pracują mięśnie brzucha.",
+      "cues": [
+        "Kolana ugięte, stopy na podłodze.",
+        "Zwiń łopatki od podłogi, odcinek lędźwiowy zostaje na dole.",
+        "Opuszczaj powoli."
+      ],
+      "mistakes": ["Ciągnięcie głowy rękami.", "Siadanie do końca z rozpędu."],
+      "safety": "Trzymaj szyję rozluźnioną; w razie potrzeby lekko podtrzymaj głowę opuszkami palców."
+    },
+    "reverse-crunch": {
+      "name": "Odwrotne brzuszki",
+      "desc": "Podwijanie miednicy w stronę klatki w leżeniu na plecach. Pracuje dolna część brzucha.",
+      "cues": [
+        "Zacznij z kolanami ugiętymi pod kątem 90° nad biodrami.",
+        "Oderwij miednicę od podłogi siłą brzucha.",
+        "Wracaj powoli do pozycji wyjściowej."
+      ],
+      "mistakes": ["Zamachiwanie nogami, żeby się podnieść.", "Szybkie opuszczanie miednicy."],
+      "safety": "Połóż się na macie i trzymaj się krawędzi ławki za sobą, jeśli potrzebujesz oparcia."
+    },
+    "russian-twist": {
+      "name": "Rosyjski skręt",
+      "desc": "Skręty tułowia na boki w siadzie z odchyleniem do tyłu. Pracują mięśnie skośne.",
+      "cues": [
+        "Usiądź z odchyleniem do tyłu, plecy proste, pięty na podłodze.",
+        "Obróć barki i dłonie w jedną stronę, potem w drugą.",
+        "Ruszaj się powoli, miednica stoi w miejscu."
+      ],
+      "mistakes": ["Ruszanie samymi rękami, bez tułowia.", "Zaokrąglanie pleców."],
+      "safety": "Trzymaj pięty na podłodze, dopóki nie poczujesz się pewnie. Używaj małego ciężaru albo żadnego."
+    },
+    "bird-dog": {
+      "name": "Bird dog (pies myśliwski)",
+      "desc": "Wyciąganie jednej ręki do przodu i przeciwnej nogi do tyłu w klęku podpartym. Uczy stabilności tułowia.",
+      "cues": [
+        "Dłonie pod barkami, kolana pod biodrami.",
+        "Wyciągnij rękę i przeciwną nogę do prostej linii.",
+        "Zatrzymaj się, wróć i zmień stronę."
+      ],
+      "mistakes": ["Biodra przechylają się na bok.", "Wyginanie odcinka lędźwiowego, by unieść nogę wyżej."],
+      "safety": "Podłóż matę pod kolana. Ruszaj się powoli – równowaga jest ważniejsza niż wysokość."
+    },
+    "bicycle-crunch": {
+      "name": "Rowerek",
+      "desc": "Przyciąganie na zmianę łokcia do przeciwnego kolana w leżeniu na plecach. Pracują mięśnie brzucha i skośne.",
+      "cues": [
+        "Barki nad podłogą, dłonie lekko przy głowie.",
+        "Przyciągnij jedno kolano i obróć do niego przeciwny bark, druga noga się prostuje.",
+        "Zmieniaj strony w równym tempie."
+      ],
+      "mistakes": ["Ciągnięcie głowy rękami do przodu.", "Pośpiech i ruszanie samymi łokciami."],
+      "safety": "Trzymaj odcinek lędźwiowy przy podłodze; jeśli się wygina, unieś prostą nogę wyżej."
+    },
+    "hollow-hold": {
+      "name": "Hollow hold (łódka)",
+      "desc": "Utrzymywanie barków i nóg nad podłogą z lędźwiami dociśniętymi do podłoża. Statyczna praca brzucha.",
+      "cues": [
+        "Dociśnij odcinek lędźwiowy do podłogi.",
+        "Unieś lekko barki i nogi nad podłogę.",
+        "Utrzymaj pozycję i oddychaj."
+      ],
+      "mistakes": ["Lędźwie odrywają się od podłogi.", "Wstrzymywanie oddechu."],
+      "safety": "Ugnij kolana albo unieś nogi wyżej, żeby było łatwiej."
+    },
+    "cable-woodchop": {
+      "name": "Drwal na wyciągu",
+      "desc": "Ciągnięcie uchwytu wyciągu po skosie przez ciało z góry na dół. Pracują mięśnie skośne, uczy kontroli rotacji.",
+      "cues": [
+        "Stań bokiem do wyciągu, stopy szerzej niż biodra.",
+        "Pociągnij uchwyt po skosie w dół przez ciało prostymi rękami.",
+        "Obróć tułów i tylną stopę, wracaj powoli."
+      ],
+      "mistakes": ["Ciągnięcie samymi rękami.", "Skręcanie odcinka lędźwiowego bez ruchu bioder."],
+      "safety": "Wybierz ciężar, który obrócisz płynnie, bez szarpnięć."
+    },
+    "kettlebell-swing": {
+      "name": "Swing kettlebell",
+      "desc": "Wymachy kettlebell do wysokości klatki przez dynamiczny wyprost bioder. Pracują pośladki i tył nóg.",
+      "cues": [
+        "Zegnij się w biodrach, plecy proste, kettlebell między nogami.",
+        "Mocno wypchnij biodra do przodu; ręce tylko prowadzą odważnik.",
+        "Pozwól mu wznieść się do klatki i opaść z powrotem do skłonu.",
+        "Na górze stań prosto, pośladki napięte."
+      ],
+      "mistakes": [
+        "Przysiad zamiast zgięcia w biodrach.",
+        "Podnoszenie odważnika rękami.",
+        "Zaokrąglanie pleców na dole."
+      ],
+      "safety": "Zacznij od lekkiego kettlebella i najpierw opanuj zgięcie w biodrach. Zostaw wolne miejsce z przodu i z tyłu, trzymaj uchwyt pewnie."
+    },
+    "kettlebell-push-press": {
+      "name": "Push press z kettlebell",
+      "desc": "Wypychanie kettlebell nad głowę od barku z krótkim ugięciem kolan. Pracują barki i triceps.",
+      "cues": [
+        "Odważnik oparty na przedramieniu przy barku.",
+        "Krótko ugnij kolana, potem wybij się w górę i wypchnij.",
+        "Opuść odważnik do barku pod kontrolą."
+      ],
+      "mistakes": ["Głęboki przysiad zamiast krótkiego ugięcia.", "Odchylanie się do tyłu pod odważnikiem."],
+      "safety": "Użyj lekkiego kettlebella i zadbaj o wolne miejsce nad głową. Pomiń serię, jeśli nie panujesz nad odważnikiem."
+    },
+    "burpee": {
+      "name": "Burpee",
+      "desc": "Przejście ze stania do podporu jak do pompki i z powrotem z wyskokiem. Pracuje całe ciało.",
+      "cues": [
+        "Zrób przysiad, oprzyj dłonie o podłogę, przejdź krokiem lub skokiem do deski.",
+        "Wróć stopami pod siebie.",
+        "Wstań i lekko podskocz z rękami nad głową."
+      ],
+      "mistakes": ["Biodra opadają w desce.", "Twarde lądowanie na sztywnych nogach."],
+      "safety": "Przechodź krokami w tył i w przód zamiast skakać, jeśli potrzebujesz łatwiejszej wersji."
+    },
+    "jump-rope": {
+      "name": "Skakanka",
+      "desc": "Skakanie przez obracającą się skakankę. Ćwiczy łydki, koordynację i wytrzymałość.",
+      "cues": [
+        "Łokcie blisko tułowia, kręć skakanką nadgarstkami.",
+        "Małe, lekkie podskoki na przodostopiu.",
+        "Utrzymuj równy rytm."
+      ],
+      "mistakes": ["Skakanie za wysoko.", "Kręcenie skakanką całymi rękami."],
+      "safety": "Skacz na równej, antypoślizgowej powierzchni. Dopasuj długość skakanki do swojego wzrostu."
+    },
+    "rowing-machine": {
+      "name": "Ergometr wioślarski",
+      "desc": "Pociągnięcia na maszynie: najpierw nogi, potem tułów, potem ręce. Pracuje całe ciało.",
+      "cues": [
+        "Najpierw odepchnij się nogami, potem lekko odchyl się do tyłu, potem przyciągnij uchwyt do żeber.",
+        "Wracaj w odwrotnej kolejności: ręce, tułów, nogi.",
+        "Przez cały czas trzymaj plecy proste."
+      ],
+      "mistakes": ["Ciągnięcie rękami przed nogami.", "Zaokrąglanie pleców na początku pociągnięcia."],
+      "safety": "Zapnij paski na stopach. Zacznij w spokojnym tempie."
+    },
+    "treadmill-walk": {
+      "name": "Szybki marsz na bieżni",
+      "desc": "Marsz w szybkim tempie na bieżni. Równomierny ruch dla nóg i wytrzymałości.",
+      "cues": [
+        "Idź wyprostowany, ręce pracują naturalnie.",
+        "Stawiaj stopę na pięcie i przetaczaj ją do palców.",
+        "Wybierz tempo, w którym nadal możesz mówić."
+      ],
+      "mistakes": ["Trzymanie się poręczy przez cały czas.", "Bardzo długie kroki."],
+      "safety": "Przypnij klucz bezpieczeństwa i zacznij od niskiej prędkości."
+    },
+    "stationary-bike": {
+      "name": "Rower stacjonarny",
+      "desc": "Pedałowanie na rowerku stacjonarnym. Równomierny ruch dla nóg i wytrzymałości.",
+      "cues": [
+        "Wysokość siodełka: na dole kolano jest lekko ugięte.",
+        "Pedałuj płynnie, po okręgu.",
+        "Trzymaj barki rozluźnione."
+      ],
+      "mistakes": ["Siodełko za nisko.", "Kołysanie biodrami na siodełku."],
+      "safety": "Ustaw siodełko i kierownicę przed startem."
+    },
+    "farmer-carry": {
+      "name": "Spacer farmera",
+      "desc": "Chodzenie z ciężkimi hantlami lub kettlebellami w dłoniach. Ćwiczy chwyt, core i postawę.",
+      "cues": [
+        "Stań prosto, barki w dół i do tyłu.",
+        "Krótkie, równe kroki.",
+        "Odkładaj ciężary z prostymi plecami."
+      ],
+      "mistakes": ["Przechylanie się na bok.", "Unoszenie barków."],
+      "safety": "Zaplanuj wolną trasę. Podnoś i odkładaj ciężary jak w martwym ciągu, nie na okrągłych plecach."
+    },
+    "mountain-climber": {
+      "name": "Wspinaczka (mountain climber)",
+      "desc": "Przyciąganie na zmianę kolan do klatki w podporze jak do pompki. Pracuje core i podnosi tętno.",
+      "cues": [
+        "Dłonie pod barkami, ciało proste.",
+        "Przyciągnij jedno kolano do klatki, potem zmień.",
+        "Trzymaj biodra na jednej wysokości."
+      ],
+      "mistakes": ["Biodra idą wysoko.", "Podbijanie bioder w górę i w dół."],
+      "safety": "Zwolnij albo rób kroki zamiast skoków, jeśli nadgarstki lub barki protestują."
+    },
+    "jumping-jack": {
+      "name": "Pajacyki",
+      "desc": "Wyskok z rozstawieniem stóp i uniesieniem rąk, potem powrót do złączenia. Proste ćwiczenie na rozgrzewkę.",
+      "cues": [
+        "Ląduj miękko na przodostopiu.",
+        "Ręce idą w górę, gdy stopy się rozchodzą.",
+        "Utrzymuj równy rytm."
+      ],
+      "mistakes": ["Lądowanie na sztywnych nogach.", "Ręce uniesione tylko do połowy."],
+      "safety": "Rób krok w bok zamiast skakać, jeśli chcesz łagodniejszej wersji."
+    },
+    "cat-cow": {
+      "name": "Koci grzbiet",
+      "desc": "Zaokrąglanie i wyginanie pleców w klęku podpartym. Mobilność kręgosłupa.",
+      "cues": [
+        "Dłonie pod barkami, kolana pod biodrami.",
+        "Zaokrąglij plecy w górę, broda do klatki.",
+        "Potem łagodnie wygnij plecy, klatka do przodu, wzrok przed siebie."
+      ],
+      "mistakes": ["Ruszanie samą szyją.", "Pośpiech w ruchu."],
+      "safety": "Ruszaj się w wygodnym zakresie, bez bólu."
+    },
+    "hip-flexor-stretch": {
+      "name": "Rozciąganie zginaczy biodra w klęku",
+      "desc": "Przesuwanie bioder do przodu w półklęku. Rozciąga przód biodra.",
+      "cues": [
+        "Półklęk, kolano tylnej nogi na macie.",
+        "Lekko podwiń miednicę i napnij pośladek tylnej nogi.",
+        "Przesuwaj biodra do przodu, aż poczujesz rozciąganie."
+      ],
+      "mistakes": [
+        "Wyginanie odcinka lędźwiowego zamiast ruchu bioder.",
+        "Przednie kolano wychodzi daleko za palce."
+      ],
+      "safety": "Podłóż matę lub złożony ręcznik pod kolano."
+    },
+    "hamstring-stretch": {
+      "name": "Rozciąganie tylnej części ud w siadzie",
+      "desc": "Skłon w przód do palców stóp w siadzie z prostymi nogami. Rozciąga tył ud.",
+      "cues": [
+        "Usiądź z prostymi nogami, palce stóp w górę.",
+        "Pochyl się do przodu z bioder, z długimi plecami.",
+        "Zatrzymaj się przy wygodnym rozciąganiu i oddychaj."
+      ],
+      "mistakes": ["Zaokrąglanie pleców, żeby sięgnąć dalej.", "Sprężynowanie."],
+      "safety": "Lekko ugnij kolana, jeśli rozciąganie jest zbyt mocne."
+    },
+    "thoracic-rotation": {
+      "name": "Rotacja piersiowa w klęku podpartym",
+      "desc": "Skręt górnej części pleców w klęku podpartym z jedną dłonią za głową. Mobilność górnej części pleców.",
+      "cues": [
+        "Klęk podparty, jedna dłoń za głową.",
+        "Skieruj łokieć w dół w stronę drugiej ręki.",
+        "Potem obróć go w górę do sufitu, wodząc za nim wzrokiem."
+      ],
+      "mistakes": ["Ruszanie biodrami zamiast górną częścią pleców.", "Pośpiech."],
+      "safety": "Ruszaj się powoli i zostań w wygodnym zakresie."
+    },
+    "band-pull-apart": {
+      "name": "Rozciąganie gumy przed sobą",
+      "desc": "Rozciąganie gumy na wysokości klatki prostymi rękami. Rozgrzewka górnej części pleców i tyłu barków.",
+      "cues": [
+        "Ręce proste przed sobą na wysokości barków.",
+        "Rozciągnij gumę, aż dotknie klatki.",
+        "Wracaj powoli."
+      ],
+      "mistakes": ["Unoszenie barków.", "Mocne zginanie łokci."],
+      "safety": "Sprawdź, czy guma nie jest naderwana, i trzymaj ją pewnie, by nie strzeliła w twarz."
+    },
+    "childs-pose": {
+      "name": "Pozycja dziecka",
+      "desc": "Siad na piętach z rękami wyciągniętymi przed siebie na podłodze. Łagodne rozciąganie pleców i bioder.",
+      "cues": [
+        "Kolana na macie, usiądź w stronę pięt.",
+        "Wyciągnij ręce do przodu, czoło w stronę podłogi.",
+        "Oddychaj powoli w plecy."
+      ],
+      "mistakes": ["Dociskanie bioder do pięt na siłę.", "Wstrzymywanie oddechu."],
+      "safety": "Podłóż poduszkę pod biodra lub kolana, jeśli pozycja jest niewygodna."
+    },
+    "doorway-chest-stretch": {
+      "name": "Rozciąganie klatki we framudze drzwi",
+      "desc": "Pochylenie do przodu z przedramieniem opartym o framugę. Rozciąga klatkę i przód barku.",
+      "cues": [
+        "Przedramię na framudze, łokieć na wysokości barku.",
+        "Zrób krok do przodu, aż poczujesz rozciąganie w klatce.",
+        "Wytrzymaj i oddychaj, potem zmień stronę."
+      ],
+      "mistakes": ["Łokieć wyżej niż bark.", "Wchodzenie w ból."],
+      "safety": "Rozciąganie ma być łagodne. Przerwij przy mrowieniu w ręce."
+    },
+    "calf-stretch": {
+      "name": "Rozciąganie łydki przy ścianie",
+      "desc": "Oparcie o ścianę z jedną nogą z tyłu. Rozciąga łydkę.",
+      "cues": [
+        "Dłonie na ścianie, jedna noga z tyłu.",
+        "Tylna pięta na podłodze, tylne kolano proste.",
+        "Pochyl się do przodu, aż poczujesz rozciąganie."
+      ],
+      "mistakes": ["Tylna pięta się unosi.", "Tylna stopa skręcona na zewnątrz."],
+      "safety": "Załóż buty z przyczepną podeszwą albo stań boso na antypoślizgowej podłodze."
+    },
+    "arm-circles": {
+      "name": "Krążenia ramion",
+      "desc": "Krążenie prostymi rękami do przodu i do tyłu. Rozgrzewka barków.",
+      "cues": [
+        "Ręce w bok na wysokości barków.",
+        "Zacznij od małych kół, stopniowo je powiększaj.",
+        "W połowie zmień kierunek."
+      ],
+      "mistakes": ["Unoszenie barków.", "Szybkie wymachy od samego początku."],
+      "safety": "Zostań w zakresie wygodnym dla barków."
+    },
+    "figure-four-stretch": {
+      "name": "Rozciąganie pośladka w pozycji „czwórki”",
+      "desc": "Skłon w przód w siadzie z kostką na kolanie drugiej nogi. Rozciąga pośladek.",
+      "cues": [
+        "Usiądź na ławce, kostka na przeciwnym kolanie.",
+        "Pochyl się do przodu z długimi plecami.",
+        "Wytrzymaj tam, gdzie czujesz rozciąganie pośladka."
+      ],
+      "mistakes": ["Zaokrąglanie pleców.", "Mocne dociskanie kolana w dół."],
+      "safety": "Trzymaj stopę założonej nogi zgiętą, żeby chronić kolano."
+    },
+    "quad-stretch": {
+      "name": "Rozciąganie czworogłowego na stojąco",
+      "desc": "Przyciąganie pięty do pośladka w staniu na jednej nodze. Rozciąga przód uda.",
+      "cues": [
+        "Przytrzymaj się ściany jedną ręką.",
+        "Chwyć kostkę i przyciągnij piętę do pośladka.",
+        "Kolana razem, miednica lekko podwinięta."
+      ],
+      "mistakes": ["Wyginanie odcinka lędźwiowego.", "Kolano ucieka w bok."],
+      "safety": "Trzymaj się czegoś dla równowagi. Nie ciągnij mocno za kolano."
+    },
+    "leg-swing": {
+      "name": "Wymachy nóg",
+      "desc": "Wymachy prostą nogą w przód i w tył z przytrzymaniem się podpory. Rozgrzewka bioder.",
+      "cues": [
+        "Stań bokiem do ściany i przytrzymaj się jedną ręką.",
+        "Wymachuj nogą w przód i w tył w wygodnym zakresie.",
+        "Tułów prosto, stopniowo zwiększaj zamach."
+      ],
+      "mistakes": ["Pochylanie tułowia, by machnąć wyżej.", "Mocne wykopy od samego początku."],
+      "safety": "Zadbaj o wolne miejsce wokół nogi."
+    },
+    "wide-push-up": {
+      "name": "Pompki szerokie",
+      "desc": "Pompki z dłońmi szerzej niż zwykle. Przenoszą więcej pracy na klatkę.",
+      "cues": [
+        "Dłonie na około półtorej szerokości barków.",
+        "Ciało w jednej linii od głowy do pięt.",
+        "Opuść klatkę między dłonie, potem wypchnij się w górę."
+      ],
+      "mistakes": ["Łokcie rozłożone całkiem na boki.", "Biodra opadają."],
+      "safety": "Trzymaj szerokość wygodną dla barków. Wróć do zwykłego rozstawu, jeśli coś kłuje w barkach."
+    },
+    "knee-push-up": {
+      "name": "Pompki na kolanach",
+      "desc": "Pompki z kolanami na podłodze. Łatwiejszy krok w stronę pełnych pompek.",
+      "cues": [
+        "Kolana na macie, dłonie trochę szerzej niż barki.",
+        "Prosta linia od głowy do kolan.",
+        "Opuść klatkę blisko podłogi, potem się odepchnij."
+      ],
+      "mistakes": ["Biodra zgięte, pupa w górze.", "W dół idzie tylko głowa."],
+      "safety": "Podłóż matę lub ręcznik pod kolana. Przejdź do pełnych pompek, gdy serie będą łatwe."
+    },
+    "decline-push-up": {
+      "name": "Pompki z nogami na podwyższeniu",
+      "desc": "Pompki ze stopami na ławce. Trudniejsze niż na podłodze, przesuwają pracę na górną część klatki i barki.",
+      "cues": [
+        "Stopy na ławce, dłonie na podłodze pod klatką.",
+        "Pośladki i brzuch napięte, ciało proste.",
+        "Opuszczaj się pod kontrolą, wypchnij do prostych rąk."
+      ],
+      "mistakes": ["Biodra wypchnięte w górę.", "Głowa opada do podłogi."],
+      "safety": "Zacznij od niskiego stopnia. Unoś stopy wyżej dopiero, gdy pełne powtórzenia są czyste."
+    },
+    "diamond-push-up": {
+      "name": "Pompki diamentowe",
+      "desc": "Pompki z dłońmi złączonymi pod klatką, kciuki i palce wskazujące tworzą romb. Mocno angażują triceps.",
+      "cues": [
+        "Dłonie razem pod klatką.",
+        "Łokcie idą do tyłu wzdłuż tułowia.",
+        "Opuszczaj się, aż klatka zbliży się do dłoni."
+      ],
+      "mistakes": ["Łokcie szeroko na boki.", "Dłonie pod twarzą zamiast pod klatką."],
+      "safety": "Jeśli nadgarstki lub łokcie protestują, rozstaw dłonie trochę szerzej albo rób je z kolan."
+    },
+    "pause-push-up": {
+      "name": "Pompki z pauzą",
+      "desc": "Pompki z dwusekundową pauzą tuż nad podłogą. Budują kontrolę i siłę w najtrudniejszej pozycji.",
+      "cues": [
+        "Opuść się powoli tuż nad podłogę.",
+        "Wytrzymaj dwie sekundy, ciało zostaje proste.",
+        "Wypchnij się w górę bez odbicia."
+      ],
+      "mistakes": ["Kładzenie klatki na podłodze w trakcie pauzy.", "Biodra opadają podczas zatrzymania."],
+      "safety": "Rób wersję na kolanach, jeśli nie utrzymasz pauzy z prostym ciałem."
+    },
+    "archer-push-up": {
+      "name": "Pompki łucznika",
+      "desc": "Bardzo szerokie pompki, w których schodzisz w stronę jednej dłoni, a druga ręka zostaje prawie prosta. Krok w stronę pompek na jednej ręce.",
+      "cues": [
+        "Dłonie bardzo szeroko, palce lekko na zewnątrz.",
+        "Opuszczając się, przesuń klatkę w stronę jednej dłoni.",
+        "Druga ręka zostaje długa i trochę pomaga."
+      ],
+      "mistakes": ["Skręcanie bioder.", "Zginanie obu rąk po równo jak w zwykłej pompce."],
+      "safety": "Najpierw opanuj zwykłe i szerokie pompki. Na początku trzymaj mały zakres."
+    },
+    "clap-push-up": {
+      "name": "Pompki eksplozywne",
+      "desc": "Pompki wypychane tak szybko, że dłonie odrywają się od podłogi. Ćwiczą moc klatki i rąk.",
+      "cues": [
+        "Opuszczaj się pod kontrolą.",
+        "Wypchnij się mocno, by dłonie oderwały się od podłogi.",
+        "Ląduj na miękkich łokciach i od razu przechodź do kolejnego powtórzenia."
+      ],
+      "mistakes": ["Lądowanie na zablokowanych rękach.", "Biodra opadają przy lądowaniu."],
+      "safety": "Tylko dla osób z pewnymi zwykłymi pompkami. Zacznij od małego oderwania na miękkiej powierzchni."
+    },
+    "incline-db-fly": {
+      "name": "Rozpiętki z hantlami na ławce skośnej",
+      "desc": "Rozpiętki na ławce z niewielkim skosem. Rozciągają i angażują górną część klatki.",
+      "cues": [
+        "Ławka pod kątem 15–30°, hantle nad klatką.",
+        "Łokcie lekko ugięte i zablokowane w tej pozycji.",
+        "Rozłóż ręce łukiem do rozciągnięcia i sprowadź je z powrotem w górę."
+      ],
+      "mistakes": ["Mocniejsze zginanie łokci i zamiana w wyciskanie.", "Opuszczanie hantli za nisko."],
+      "safety": "Używaj lekkich hantli. Zatrzymaj łuk tam, gdzie barki czują się jeszcze wygodnie."
+    },
+    "decline-bench-press": {
+      "name": "Wyciskanie na ławce ujemnej",
+      "desc": "Wyciskanie sztangi na ławce z głową niżej niż biodra. Przesuwa pracę na dolną część klatki.",
+      "cues": [
+        "Pewnie zaczep nogi pod wałkami.",
+        "Opuść sztangę na dolną część klatki.",
+        "Wyciśnij w górę lekkim łukiem nad barki."
+      ],
+      "mistakes": ["Odbijanie sztangi od klatki.", "Luźne nogi zsuwają się z wałków."],
+      "safety": "Wyciskaj w klatce z ogranicznikami albo z asekuracją i zakładaj zaciski na gryf."
+    },
+    "db-floor-press": {
+      "name": "Wyciskanie hantli leżąc na podłodze",
+      "desc": "Wyciskanie hantli w leżeniu na podłodze. Podłoga ogranicza głębokość, dzięki czemu barki zostają w wygodnym zakresie.",
+      "cues": [
+        "Połóż się na plecach, kolana ugięte, hantle nad klatką.",
+        "Opuszczaj, aż ramiona dotkną podłogi.",
+        "Krótka pauza, potem wyciśnij w górę."
+      ],
+      "mistakes": ["Uderzanie łokciami o podłogę.", "Łokcie rozłożone pod kątem 90°."],
+      "safety": "Ustaw hantle w pozycji z kolan, a po serii odłóż je na boki."
+    },
+    "low-to-high-cable-fly": {
+      "name": "Rozpiętki na wyciągu z dołu do góry",
+      "desc": "Rozpiętki z dolnych wyciągów w górę. Angażują górną część klatki.",
+      "cues": [
+        "Wyciągi nisko, krok do przodu, lekkie pochylenie.",
+        "Łokcie lekko ugięte i zablokowane.",
+        "Prowadź dłonie w górę i złącz je na wysokości brody."
+      ],
+      "mistakes": ["Unoszenie barków.", "Ciągnięcie rękami zamiast ruchu po łuku."],
+      "safety": "Wybierz ciężar, nad którym panujesz w drodze powrotnej. Na początku nie schodź w głębokie rozciągnięcie."
+    },
+    "machine-chest-press": {
+      "name": "Wyciskanie na maszynie do klatki",
+      "desc": "Wyciskanie w siadzie na maszynie do klatki. Stały tor ruchu ułatwia naukę i pracę blisko upadku.",
+      "cues": [
+        "Uchwyty na wysokości środka klatki.",
+        "Plecy i łopatki przy oparciu.",
+        "Wypchnij do przodu, wracaj powoli, nie stukając płytami."
+      ],
+      "mistakes": ["Siedzisko za nisko albo za wysoko.", "Barki uciekają do przodu na końcu ruchu."],
+      "safety": "Ustaw siedzisko przed pierwszą serią. Odprowadzaj uchwyty pod kontrolą."
+    },
+    "incline-machine-press": {
+      "name": "Wyciskanie skośne na maszynie",
+      "desc": "Wyciskanie na maszynie z torem ruchu w górę. Angażuje górną część klatki przy stabilnym torze.",
+      "cues": [
+        "Uchwyty mniej więcej na wysokości obojczyków.",
+        "Łopatki ściągnięte, oparte o oparcie.",
+        "Wypchnij w górę i do przodu, wracaj powoli."
+      ],
+      "mistakes": ["Odrywanie wygiętego odcinka lędźwiowego od oparcia.", "Gwałtowne blokowanie łokci."],
+      "safety": "Ustaw siedzisko tak, by uchwyty startowały na wysokości obojczyków."
+    },
+    "db-squeeze-press": {
+      "name": "Wyciskanie hantli ściśniętych razem",
+      "desc": "Wyciskanie z hantlami dociśniętymi do siebie przez cały czas. Utrzymuje pracę klatki w każdym powtórzeniu.",
+      "cues": [
+        "Połóż się na ławce, hantle razem nad klatką.",
+        "Dociśnij je do siebie.",
+        "Opuść do klatki i wyciśnij w górę, nie przestając ściskać."
+      ],
+      "mistakes": ["Pozwalanie, by hantle się rozjechały.", "Zbyt duży ciężar i utrata docisku."],
+      "safety": "Najlepiej sprawdzają się tu umiarkowane ciężary. Trzymaj nadgarstki prosto."
+    },
+    "neutral-grip-pull-up": {
+      "name": "Podciąganie chwytem neutralnym",
+      "desc": "Podciąganie na równoległych uchwytach z dłońmi zwróconymi do siebie. Często najwygodniejszy chwyt dla barków i łokci.",
+      "cues": [
+        "Zawiśnij na równoległych uchwytach, ręce proste.",
+        "Ściągaj łokcie w dół w stronę żeber.",
+        "Klatka do uchwytów, opuszczaj się do końca."
+      ],
+      "mistakes": ["Wymachy nogami, by się podciągnąć.", "Zatrzymywanie się w połowie drogi w dół."],
+      "safety": "Jeśli nie robisz jeszcze pełnych powtórzeń, użyj gumy, maszyny albo samego powolnego opuszczania."
+    },
+    "wide-grip-pull-up": {
+      "name": "Podciąganie szerokim chwytem",
+      "desc": "Podciąganie z dłońmi wyraźnie szerzej niż barki. Trudniejsze niż zwykły chwyt, skupia się na mięśniach najszerszych.",
+      "cues": [
+        "Chwyt na około półtorej szerokości barków.",
+        "Zacznij z pełnego zwisu, barki ściągnięte w dół.",
+        "Przyciągnij klatkę do drążka, opuszczaj się powoli."
+      ],
+      "mistakes": ["Chwyt tak szeroki, że skraca zakres ruchu.", "Szarpanie nogami."],
+      "safety": "Nie rozstawiaj dłoni szerzej, niż pozwalają barki. Najpierw zwykłe podciąganie."
+    },
+    "negative-pull-up": {
+      "name": "Podciąganie negatywne",
+      "desc": "Wskocz lub wejdź do górnej pozycji podciągnięcia i opuszczaj się jak najwolniej. Buduje siłę do pełnych podciągnięć.",
+      "cues": [
+        "Wejdź tak, by broda była nad drążkiem.",
+        "Opuszczaj się powoli, 3–5 sekund.",
+        "Dojdź do pełnego zwisu, potem wejdź znowu."
+      ],
+      "mistakes": ["Szybkie opadanie na końcu.", "Wskakiwanie z dużym zamachem."],
+      "safety": "Wchodź na stabilną skrzynię lub ławkę. Rób krótkie serie – powolne opuszczanie jest wymagające."
+    },
+    "scapular-pull-up": {
+      "name": "Podciąganie łopatkowe",
+      "desc": "W zwisie ściąganie barków w dół bez zginania rąk. Uczy pierwszej fazy każdego podciągnięcia.",
+      "cues": [
+        "Zawiśnij na prostych rękach.",
+        "Ściągnij barki w dół, z dala od uszu.",
+        "Ciało lekko się unosi, ręce zostają proste. Rozluźnij i wróć."
+      ],
+      "mistakes": ["Zginanie łokci.", "Bujanie ciałem."],
+      "safety": "Ruszaj się powoli. Jeśli zwis męczy dłonie, użyj niższego drążka ze stopami na podłodze."
+    },
+    "feet-elevated-inverted-row": {
+      "name": "Wiosłowanie australijskie z nogami na podwyższeniu",
+      "desc": "Poziome wiosłowanie pod drążkiem ze stopami na ławce. Trudniejsze niż zwykłe wiosłowanie australijskie.",
+      "cues": [
+        "Drążek na wysokości bioder, stopy na ławce.",
+        "Ciało proste od barków do pięt.",
+        "Przyciągnij klatkę do drążka, opuść się do prostych rąk."
+      ],
+      "mistakes": ["Biodra opadają.", "Przyciąganie brody zamiast klatki."],
+      "safety": "Użyj stałego drążka albo sztangi pewnie osadzonej w klatce."
+    },
+    "wide-grip-pulldown": {
+      "name": "Ściąganie drążka szerokim chwytem",
+      "desc": "Ściąganie z dłońmi szeroko na długim drążku. Skupia się na mięśniach najszerszych.",
+      "cues": [
+        "Uda pod wałkami, chwyt szerszy niż barki.",
+        "Lekko odchyl się do tyłu, klatka w górę.",
+        "Ściągnij drążek do górnej części klatki, wracaj powoli."
+      ],
+      "mistakes": ["Ściąganie drążka za kark.", "Mocne odchylanie się i zamiana w wiosłowanie."],
+      "safety": "Zawsze ściągaj przed głową. Pozwól drążkowi wracać pod kontrolą."
+    },
+    "reverse-grip-pulldown": {
+      "name": "Ściąganie drążka podchwytem",
+      "desc": "Ściąganie z dłońmi zwróconymi do siebie, mniej więcej na szerokość barków. Biceps pomaga bardziej.",
+      "cues": [
+        "Dłonie do siebie, chwyt na szerokość barków.",
+        "Klatka w górę, lekkie odchylenie do tyłu.",
+        "Ściągnij do górnej części klatki, łokcie w dół i do tyłu."
+      ],
+      "mistakes": ["Uginanie drążka rękami jak przy bicepsie.", "Garbienie się do przodu na dole."],
+      "safety": "Oddawaj drążek powoli, żeby płyty nie uderzyły o siebie."
+    },
+    "single-arm-pulldown": {
+      "name": "Ściąganie linki jednorącz",
+      "desc": "Ściąganie z jednym uchwytem. Każda strona pracuje osobno w pełnym zakresie.",
+      "cues": [
+        "Klęknij lub usiądź przodem do górnego wyciągu, jeden uchwyt.",
+        "Ściągnij łokieć w dół do boku.",
+        "Przed kolejnym powtórzeniem pozwól ręce w pełni się unieść."
+      ],
+      "mistakes": ["Skręcanie tułowia, by ruszyć ciężar.", "Krótkie, szarpane powtórzenia."],
+      "safety": "Trzymaj umiarkowany ciężar, żeby tułów się nie ruszał."
+    },
+    "pendlay-row": {
+      "name": "Wiosłowanie Pendlaya",
+      "desc": "Wiosłowanie sztangą, w którym każde powtórzenie zaczyna się z podłogi, z plecami prostymi i niemal równoległymi do niej.",
+      "cues": [
+        "Sztanga na podłodze, tułów prawie poziomo, plecy proste.",
+        "Szybko przyciągnij sztangę do dolnej części klatki.",
+        "Odłóż ją na podłogę i ustaw się ponownie."
+      ],
+      "mistakes": ["Unoszenie tułowia, by ruszyć sztangę.", "Zaokrąglanie odcinka lędźwiowego."],
+      "safety": "Użyj talerzy, przy których gryf startuje na wysokości połowy goleni, załóż zaciski i dobierz ciężar pozwalający na proste plecy."
+    },
+    "db-bent-over-row": {
+      "name": "Wiosłowanie hantlami w opadzie",
+      "desc": "Wiosłowanie dwoma hantlami w skłonie z bioder. Każda ręka porusza się swobodnie.",
+      "cues": [
+        "Pochyl się z bioder, plecy proste, kolana lekko ugięte.",
+        "Hantle zwisają pod barkami.",
+        "Przyciągnij je do bioder, opuszczaj powoli."
+      ],
+      "mistakes": [
+        "Prostowanie się coraz bardziej z każdym powtórzeniem.",
+        "Unoszenie barków zamiast prowadzenia łokci do tyłu."
+      ],
+      "safety": "Jeśli męczy się odcinek lędźwiowy, przejdź na wiosłowanie z podparciem klatki."
+    },
+    "kettlebell-row": {
+      "name": "Wiosłowanie kettlebell jednorącz",
+      "desc": "Wiosłowanie jedną ręką z kettlebellem, wolna dłoń oparta o ławkę.",
+      "cues": [
+        "Wolna dłoń na ławce, plecy proste.",
+        "Kettlebell zwisa pod barkiem.",
+        "Przyciągnij łokieć do biodra, opuść do końca."
+      ],
+      "mistakes": ["Otwieranie tułowia skrętem.", "Wyprowadzanie łokcia szeroko na bok."],
+      "safety": "Trzymaj plecy proste; wybierz ciężar, który opuścisz powoli."
+    },
+    "single-arm-cable-row": {
+      "name": "Wiosłowanie na wyciągu jednorącz",
+      "desc": "Wiosłowanie w siadzie lub na stojąco z jednym uchwytem na średniej wysokości.",
+      "cues": [
+        "Jeden uchwyt, ręka wyprostowana przed siebie.",
+        "Przeciągnij łokieć do tyłu za linię żeber.",
+        "Przy powrocie pozwól barkowi wysunąć się do przodu."
+      ],
+      "mistakes": ["Obracanie całym ciałem.", "Unoszenie barku."],
+      "safety": "Używaj umiarkowanego ciężaru i trzymaj biodra przodem."
+    },
+    "band-row": {
+      "name": "Wiosłowanie gumą w siadzie",
+      "desc": "Wiosłowanie z gumą zaczepioną o stopy. Prosta domowa wersja wiosłowania na wyciągu.",
+      "cues": [
+        "Usiądź prosto, guma wokół stóp, końce w dłoniach.",
+        "Pociągnij łokcie do tyłu, ściągnij łopatki.",
+        "Wracaj powoli."
+      ],
+      "mistakes": ["Mocne odchylanie się do tyłu.", "Pozwalanie, by guma szarpnęła do przodu."],
+      "safety": "Przed użyciem sprawdź, czy guma nie jest nadcięta, i trzymaj ją pewnie pod stopami."
+    },
+    "rack-pull": {
+      "name": "Martwy ciąg z podwyższenia (rack pull)",
+      "desc": "Martwy ciąg zaczynany z ograniczników na wysokości kolan. Pracuje górna faza ruchu i górna część pleców.",
+      "cues": [
+        "Sztanga na ogranicznikach tuż poniżej lub powyżej kolan.",
+        "Plecy proste, sztanga blisko nóg.",
+        "Wypchnij biodra do przodu do pełnego wyprostu, opuść na ograniczniki."
+      ],
+      "mistakes": ["Odchylanie się do tyłu na górze.", "Zaokrąglanie pleców na starcie."],
+      "safety": "Ciągnij w klatce z pewnie ustawionymi ogranicznikami i zaciskami na gryfie."
+    },
+    "good-morning": {
+      "name": "Skłony ze sztangą (good morning)",
+      "desc": "Ze sztangą na górnej części pleców skłon w biodrach do przodu i powrót do stania.",
+      "cues": [
+        "Sztanga na górnej części pleców, kolana lekko ugięte.",
+        "Cofnij biodra, plecy zostają proste.",
+        "Zatrzymaj się, gdy tułów jest mniej więcej równoległy do podłogi lub wcześniej, potem wstań."
+      ],
+      "mistakes": ["Zaokrąglanie pleców.", "Zginanie kolan i zamiana w przysiad."],
+      "safety": "Zacznij bardzo lekko, zdejmij sztangę ze stojaków na wysokości barków i załóż zaciski."
+    },
+    "sumo-deadlift": {
+      "name": "Martwy ciąg sumo",
+      "desc": "Martwy ciąg w szerokim rozkroku z dłońmi wewnątrz kolan. Tułów pozostaje bardziej wyprostowany.",
+      "cues": [
+        "Szeroki rozkrok, palce na zewnątrz, piszczele blisko sztangi.",
+        "Dłonie wewnątrz kolan, plecy proste.",
+        "Rozpychaj podłogę na boki i wstań ze sztangą blisko ciała."
+      ],
+      "mistakes": ["Kolana uciekają do środka.", "Biodra wystrzeliwują w górę jako pierwsze."],
+      "safety": "Podczas nauki używaj zacisków i lekkiego ciężaru; opuszczaj sztangę pod kontrolą."
+    },
+    "superman": {
+      "name": "Superman",
+      "desc": "W leżeniu na brzuchu unoszenie rąk, klatki i nóg lekko nad podłogę. Ćwiczy mięśnie wzdłuż pleców.",
+      "cues": [
+        "Połóż się na brzuchu, ręce wyciągnięte do przodu.",
+        "Unieś ręce, klatkę i nogi o kilka centymetrów.",
+        "Wytrzymaj jeden oddech, opuść powoli."
+      ],
+      "mistakes": ["Odrzucanie głowy do tyłu.", "Wyrywanie się jak najwyżej."],
+      "safety": "Wystarczy niewielkie uniesienie. Przerwij, jeśli czujesz ucisk w odcinku lędźwiowym."
+    },
+    "pike-push-up": {
+      "name": "Pompki w pozycji pike",
+      "desc": "Pompki z wysoko uniesionymi biodrami, tak że ciało tworzy odwrócone V. Przenoszą pracę na barki.",
+      "cues": [
+        "Dłonie na podłodze, biodra wysoko, nogi dość proste.",
+        "Opuść czubek głowy w stronę podłogi między dłońmi.",
+        "Wypchnij się z powrotem do prostych rąk."
+      ],
+      "mistakes": ["Opuszczanie bioder i zamiana w zwykłą pompkę.", "Łokcie rozłożone całkiem na boki."],
+      "safety": "Opuszczaj się powoli i nie uderzaj głową o podłogę. Stopy na ławkę dopiero wtedy, gdy ta wersja jest łatwa."
+    },
+    "standing-db-press": {
+      "name": "Wyciskanie hantli nad głowę stojąc",
+      "desc": "Wyciskanie dwóch hantli nad głowę na stojąco. Tułów pracuje, by zostać wyprostowanym.",
+      "cues": [
+        "Hantle na wysokości barków, stopy na szerokość bioder.",
+        "Napnij brzuch i pośladki.",
+        "Wyciśnij w górę do prostych rąk, opuść do barków."
+      ],
+      "mistakes": [
+        "Odchylanie się do tyłu, by skończyć powtórzenie.",
+        "Wyciskanie hantli daleko przed twarzą."
+      ],
+      "safety": "Wybierz ciężar, który wyciśniesz bez wyginania odcinka lędźwiowego."
+    },
+    "machine-shoulder-press": {
+      "name": "Wyciskanie nad głowę na maszynie",
+      "desc": "Wyciskanie nad głowę w siadzie na maszynie. Prowadzony tor ruchu ułatwia naukę.",
+      "cues": [
+        "Uchwyty mniej więcej na wysokości barków.",
+        "Plecy przy oparciu.",
+        "Wyciśnij w górę, opuszczaj, aż dłonie będą blisko barków."
+      ],
+      "mistakes": [
+        "Siedzisko tak nisko, że uchwyty startują poniżej barków.",
+        "Wyginanie się i odrywanie od oparcia."
+      ],
+      "safety": "Ustaw siedzisko przed pierwszą serią i oddawaj ciężar powoli."
+    },
+    "landmine-press": {
+      "name": "Wyciskanie landmine",
+      "desc": "Wyciskanie końca sztangi zakotwiczonej w narożniku lub w landmine. Skośny tor jest przyjazny dla barków.",
+      "cues": [
+        "Koniec sztangi przy barku, stopy w wykroku.",
+        "Wyciśnij w górę i do przodu do prostej ręki.",
+        "Wróć do barku pod kontrolą."
+      ],
+      "mistakes": ["Odchylanie się do tyłu.", "Szybkie opuszczanie sztangi."],
+      "safety": "Zakotwicz sztangę w landmine lub w solidnym narożniku, żeby się nie przesuwała; zacznij lekko."
+    },
+    "push-press": {
+      "name": "Wyciskanie z podrzutem (push press)",
+      "desc": "Wyciskanie nad głowę zaczynane krótkim ugięciem kolan i wybiciem. Nogi pomagają ruszyć większy ciężar.",
+      "cues": [
+        "Sztanga na przedniej części barków, łokcie lekko z przodu.",
+        "Krótkie ugięcie kolan, tułów prosto.",
+        "Wybij się w górę i wyciśnij sztangę nad głowę jednym ruchem."
+      ],
+      "mistakes": ["Zbyt głębokie ugięcie jak w przysiadzie.", "Wyciskanie, zanim nogi skończą wybicie."],
+      "safety": "Zdejmij sztangę ze stojaków na wysokości barków, załóż zaciski i opuszczaj ją na barki z ugiętymi kolanami."
+    },
+    "cable-rear-delt-fly": {
+      "name": "Odwrotne rozpiętki na wyciągu",
+      "desc": "Rozciąganie skrzyżowanych linek na wysokości barków. Pracuje tył barków.",
+      "cues": [
+        "Wyciągi na wysokości barków, linki skrzyżowane z przodu.",
+        "Łokcie lekko ugięte.",
+        "Rozłóż ręce na boki, wracaj powoli."
+      ],
+      "mistakes": ["Ciągnięcie ze zginaniem łokci.", "Odchylanie się, by ruszyć ciężar."],
+      "safety": "Na ten mały mięsień wystarczą lekkie ciężary."
+    },
+    "kettlebell-press": {
+      "name": "Wyciskanie kettlebell nad głowę",
+      "desc": "Ścisłe wyciskanie jednorącz z kettlebellem opartym o tył przedramienia.",
+      "cues": [
+        "Kettlebell w pozycji rack przy barku.",
+        "Pośladki i brzuch napięte, bez ugięcia kolan.",
+        "Wyciśnij prosto w górę, wróć do pozycji rack."
+      ],
+      "mistakes": ["Przechylanie się na bok.", "Nadgarstek wygięty do tyłu pod ciężarem."],
+      "safety": "Trzymaj nadgarstek prosto. Opuszczaj odważnik do barku pod kontrolą."
+    },
+    "barbell-shrug": {
+      "name": "Szrugsy ze sztangą",
+      "desc": "Unoszenie barków prosto w górę ze sztangą w dłoniach. Pracuje górna część czworobocznego.",
+      "cues": [
+        "Sztanga przed udami, ręce proste.",
+        "Unieś barki w stronę uszu.",
+        "Zatrzymaj się, potem opuść powoli."
+      ],
+      "mistakes": ["Krążenie barkami.", "Pomaganie sobie zginaniem łokci."],
+      "safety": "Zdejmij sztangę ze stojaków na wysokości bioder i załóż zaciski."
+    },
+    "cable-y-raise": {
+      "name": "Unoszenie w literę Y na wyciągu",
+      "desc": "Unoszenie linek z dolnych wyciągów w górę i na zewnątrz w kształt litery Y. Pracują barki i dolna część czworobocznego.",
+      "cues": [
+        "Dolne wyciągi, linki skrzyżowane, lekki skłon albo pozycja wyprostowana.",
+        "Unieś ręce w górę i na zewnątrz w literę Y.",
+        "Opuść powoli do startu."
+      ],
+      "mistakes": ["Unoszenie barków do uszu.", "Używanie zamachu."],
+      "safety": "Trzymaj lekki ciężar i płynny ruch."
+    },
+    "incline-t-raise": {
+      "name": "Unoszenie w literę T na ławce skośnej",
+      "desc": "W leżeniu przodem na ławce skośnej unoszenie lekkich hantli prosto w bok w literę T.",
+      "cues": [
+        "Klatka na ławce skośnej, ręce zwisają.",
+        "Kciuki w górę, unieś ręce w bok.",
+        "Ściągnij łopatki, opuść powoli."
+      ],
+      "mistakes": ["Unoszenie barków.", "Machanie ciężkimi hantlami."],
+      "safety": "Wystarczą bardzo lekkie hantle."
+    },
+    "ez-bar-curl": {
+      "name": "Uginanie ramion ze sztangą łamaną",
+      "desc": "Uginanie na biceps z łamanym gryfem EZ. Skośny chwyt jest łagodniejszy dla nadgarstków niż prosty gryf.",
+      "cues": [
+        "Chwyć wygięte części gryfu, ręce proste.",
+        "Łokcie nieruchomo przy bokach.",
+        "Ugnij w górę, opuść powoli do prostych rąk."
+      ],
+      "mistakes": ["Bujanie tułowiem.", "Łokcie wysuwają się do przodu."],
+      "safety": "Używaj lekkiego ciężaru i zacisków na gryfie."
+    },
+    "spider-curl": {
+      "name": "Spider curl",
+      "desc": "Uginanie w leżeniu przodem na ławce skośnej z rękami zwisającymi pionowo w dół.",
+      "cues": [
+        "Klatka na ławce, ręce zwisają pionowo.",
+        "Uginaj bez ruszania łokciami.",
+        "Napnij na górze, opuść do końca."
+      ],
+      "mistakes": ["Łokcie odjeżdżają do tyłu.", "Połówki powtórzeń tylko w górnej części."],
+      "safety": "Lekkie lub średnie hantle pomagają utrzymać ścisłą technikę."
+    },
+    "barbell-spider-curl": {
+      "name": "Uginanie ramion ze sztangą w leżeniu przodem na ławce skośnej",
+      "desc": "Uginanie na biceps ze sztangą w leżeniu klatką na ławce skośnej: ręce zwisają pionowo, więc barki nie pomagają.",
+      "cues": [
+        "Ustaw ławkę skośną pod kątem około 30–45° i połóż się na niej klatką.",
+        "Pozwól rękom swobodnie zwisać i chwyć sztangę podchwytem, dłońmi do góry.",
+        "Uginając łokcie, unieś gryf do barków, utrzymując tułów i barki nieruchomo.",
+        "Powoli opuść sztangę do pozycji wyjściowej."
+      ],
+      "mistakes": [
+        "Łokcie uciekają do przodu lub do tyłu.",
+        "Klatka odrywa się od ławki, sztanga idzie zrywem.",
+        "Sztanga opada zamiast być opuszczana płynnie."
+      ],
+      "safety": "Zacznij od lekkiego obciążenia: sztanga wisi pod ławką, więc wybierz ciężar, który opuszczasz w pełni kontrolowanie, i odkładaj gryf na podłogę, zamiast go upuszczać."
+    },
+    "cross-body-hammer-curl": {
+      "name": "Uginanie młotkowe w poprzek ciała",
+      "desc": "Uginanie młotkowe prowadzące hantel przed ciałem w stronę przeciwnego barku.",
+      "cues": [
+        "Dłoń zwrócona do środka, ręka prosta przy boku.",
+        "Uginaj w poprzek ciała w stronę drugiego barku.",
+        "Opuszczaj powoli tą samą drogą."
+      ],
+      "mistakes": ["Skręcanie tułowia.", "Machanie hantlem."],
+      "safety": "Stój prosto i panuj nad ciężarem."
+    },
+    "zottman-curl": {
+      "name": "Uginanie Zottmana",
+      "desc": "Uginanie w górę z dłońmi do góry, na górze obrót dłoni w dół i powolne opuszczanie.",
+      "cues": [
+        "Dłonie do góry, ugnij do końca.",
+        "Obróć dłonie w dół.",
+        "Opuszczaj powoli dłońmi w dół, na dole obróć je z powrotem."
+      ],
+      "mistakes": ["Pośpiech w fazie opuszczania.", "Wysuwanie łokci do przodu."],
+      "safety": "Używaj lekkich hantli – opuszczanie nachwytem to najtrudniejsza część."
+    },
+    "band-curl": {
+      "name": "Uginanie ramion z gumą",
+      "desc": "Uginanie na biceps z gumą pod stopami. Opór rośnie w górnej części ruchu.",
+      "cues": ["Stań na gumie, końce w dłoniach.", "Łokcie przy bokach.", "Ugnij w górę, opuść powoli."],
+      "mistakes": ["Łokcie wysuwają się do przodu.", "Pozwalanie, by guma szarpnęła w dół."],
+      "safety": "Sprawdź, czy guma nie jest uszkodzona, i trzymaj ją pewnie pod stopami."
+    },
+    "rope-hammer-curl": {
+      "name": "Uginanie młotkowe z liną na wyciągu",
+      "desc": "Uginanie młotkowe z liną na dolnym wyciągu.",
+      "cues": [
+        "Lina na dolnym wyciągu, dłonie zwrócone do siebie.",
+        "Łokcie nieruchomo przy bokach.",
+        "Ugnij w górę, opuść powoli."
+      ],
+      "mistakes": ["Odchylanie się do tyłu.", "Łokcie wysuwają się do przodu."],
+      "safety": "Oddawaj ciężar powoli, żeby płyty nie uderzyły."
+    },
+    "bayesian-cable-curl": {
+      "name": "Uginanie na wyciągu z ręką za ciałem",
+      "desc": "Uginanie jednorącz tyłem do dolnego wyciągu, ręka zaczyna lekko za ciałem. Pracuje biceps w rozciągnięciu.",
+      "cues": [
+        "Stań tyłem do dolnego wyciągu, zrób krok do przodu.",
+        "Ręka startuje lekko za ciałem.",
+        "Uginaj do przodu i w górę, wracaj powoli."
+      ],
+      "mistakes": ["Mocne wysuwanie łokcia do przodu.", "Pośpieszne wychodzenie z rozciągnięcia."],
+      "safety": "Używaj lekkiego ciężaru; rozciągnięcie na starcie ma być wygodne."
+    },
+    "straight-bar-pushdown": {
+      "name": "Prostowanie ramion na wyciągu z prostym drążkiem",
+      "desc": "Prostowanie na triceps z krótkim prostym drążkiem na górnym wyciągu.",
+      "cues": [
+        "Nachwyt, łokcie przy bokach.",
+        "Pchnij w dół do prostych rąk.",
+        "Pozwól drążkowi powoli wrócić do wysokości łokci."
+      ],
+      "mistakes": ["Łokcie rozchodzą się na boki.", "Nachylanie się nad drążkiem i pchanie ciałem."],
+      "safety": "Oddawaj drążek powoli, żeby płyty nie uderzyły."
+    },
+    "reverse-grip-pushdown": {
+      "name": "Prostowanie ramion na wyciągu podchwytem",
+      "desc": "Prostowanie w dół z dłońmi skierowanymi w górę. Lżejsze niż zwykły chwyt, ale angażuje triceps pod innym kątem.",
+      "cues": [
+        "Podchwyt na prostym drążku.",
+        "Łokcie przyklejone do boków.",
+        "Pchnij w dół do prostych rąk, wracaj powoli."
+      ],
+      "mistakes": ["Nadgarstki wyginają się do tyłu.", "Zbyt duży ciężar."],
+      "safety": "Wybierz lżejszy ciężar niż przy zwykłym prostowaniu."
+    },
+    "db-skull-crusher": {
+      "name": "Wyciskanie francuskie hantli leżąc",
+      "desc": "W leżeniu na ławce opuszczanie dwóch hantli obok głowy przez zginanie samych łokci.",
+      "cues": [
+        "Hantle nad barkami, dłonie zwrócone do siebie.",
+        "Zegnij łokcie, opuszczając hantle obok głowy.",
+        "Wyprostuj ręce z powrotem."
+      ],
+      "mistakes": ["Łokcie szeroko rozchodzą się na boki.", "Ruszanie ramionami w przód i w tył."],
+      "safety": "Zacznij lekko i zachowaj pełną kontrolę w pobliżu głowy."
+    },
+    "triceps-dip": {
+      "name": "Pompki na poręczach na triceps",
+      "desc": "Pompki na poręczach z ciałem w pionie. Przenoszą pracę na triceps.",
+      "cues": [
+        "Podpór na prostych rękach, ciało pionowo.",
+        "Zginaj łokcie do tyłu wzdłuż tułowia.",
+        "Opuść się, aż ramiona będą mniej więcej poziomo, wypchnij w górę."
+      ],
+      "mistakes": ["Mocne pochylanie do przodu.", "Zbyt głębokie zejście z barkami uciekającymi do przodu."],
+      "safety": "Schodź tylko tak nisko, jak pozwalają barki. W razie potrzeby użyj maszyny ze wspomaganiem."
+    },
+    "band-pushdown": {
+      "name": "Prostowanie ramion z gumą",
+      "desc": "Prostowanie na triceps z gumą zaczepioną nad głową.",
+      "cues": [
+        "Guma zaczepiona wysoko, łokcie przy bokach.",
+        "Pchnij w dół do prostych rąk.",
+        "Wracaj powoli do wysokości łokci."
+      ],
+      "mistakes": ["Łokcie odsuwają się od ciała.", "Nachylanie się nad gumą."],
+      "safety": "Zaczep gumę pewnie i sprawdź, czy nie jest zużyta."
+    },
+    "cable-triceps-kickback": {
+      "name": "Prostowanie ramienia w tył na wyciągu",
+      "desc": "Prostowanie ramienia w tył z dolnym wyciągiem. Linka utrzymuje napięcie przez całe powtórzenie.",
+      "cues": [
+        "Pochyl się z bioder, ramię wzdłuż tułowia.",
+        "Wyprostuj rękę do tyłu.",
+        "Wracaj powoli, ramię zostaje nieruchome."
+      ],
+      "mistakes": ["Machanie ramieniem.", "Zaokrąglanie pleców."],
+      "safety": "Lekki ciężar; trzymaj plecy proste."
+    },
+    "behind-back-wrist-curl": {
+      "name": "Uginanie nadgarstków za plecami",
+      "desc": "Na stojąco ze sztangą za udami unoszenie jej samymi nadgarstkami.",
+      "cues": [
+        "Sztanga za udami, dłonie zwrócone do tyłu.",
+        "Pozwól sztandze stoczyć się w stronę palców.",
+        "Zegnij nadgarstki w górę, opuszczaj powoli."
+      ],
+      "mistakes": ["Zginanie łokci.", "Ciężar zbyt duży, by nad nim panować."],
+      "safety": "Używaj lekkiej sztangi z zaciskami i zdejmuj ją ze stojaków na wysokości bioder."
+    },
+    "high-plank": {
+      "name": "Deska na prostych rękach",
+      "desc": "Utrzymywanie górnej pozycji pompki z prostym ciałem.",
+      "cues": [
+        "Dłonie pod barkami, ręce proste.",
+        "Ciało w jednej linii, pośladki napięte.",
+        "Odpychaj podłogę i oddychaj spokojnie."
+      ],
+      "mistakes": ["Biodra opadają.", "Barki podjeżdżają do uszu."],
+      "safety": "Opuść kolana, jeśli linia się łamie. Daj odpocząć nadgarstkom między seriami, jeśli się męczą."
+    },
+    "plank-shoulder-tap": {
+      "name": "Deska z dotykaniem barków",
+      "desc": "Z deski na prostych rękach dotykanie barku przeciwną dłonią na zmianę, bez kołysania biodrami.",
+      "cues": [
+        "Deska na prostych rękach, stopy trochę szerzej niż biodra.",
+        "Unieś jedną dłoń i dotknij przeciwnego barku.",
+        "Odłóż ją i zmień, biodra stoją w miejscu."
+      ],
+      "mistakes": ["Biodra kołyszą się na boki.", "Pośpiech przy dotknięciach."],
+      "safety": "Rozstaw stopy szerzej albo rób to z kolan, żeby biodra stały w miejscu."
+    },
+    "plank-up-down": {
+      "name": "Deska góra-dół",
+      "desc": "Przechodzenie z deski na przedramionach do deski na prostych rękach po jednej ręce i z powrotem.",
+      "cues": [
+        "Zacznij w desce na przedramionach.",
+        "Wejdź na jedną dłoń, potem na drugą.",
+        "Wracaj na przedramiona po kolei."
+      ],
+      "mistakes": ["Biodra kołyszą się na boki.", "Wysokie unoszenie bioder."],
+      "safety": "Trzymaj stopy szeroko dla równowagi i ruszaj się równym tempem."
+    },
+    "flutter-kicks": {
+      "name": "Nożyce pionowe",
+      "desc": "W leżeniu na plecach małe naprzemienne ruchy prostymi nogami w górę i w dół.",
+      "cues": [
+        "Odcinek lędźwiowy dociśnięty do podłogi.",
+        "Nogi proste, lekko uniesione.",
+        "Małe, szybkie ruchy w górę i w dół."
+      ],
+      "mistakes": ["Lędźwie wyginają się i odrywają od podłogi.", "Duże, zamaszyste wymachy."],
+      "safety": "Unieś nogi wyżej, jeśli lędźwie się odrywają. Dłonie możesz wsunąć pod biodra."
+    },
+    "lying-leg-raise": {
+      "name": "Unoszenie nóg w leżeniu",
+      "desc": "W leżeniu na plecach unoszenie prostych nóg do pionu i powolne opuszczanie.",
+      "cues": [
+        "Lędźwie dociśnięte, dłonie przy bokach lub pod biodrami.",
+        "Unieś nogi do pionu.",
+        "Opuszczaj powoli, zatrzymaj się, zanim plecy się oderwą."
+      ],
+      "mistakes": ["Wyginanie odcinka lędźwiowego na dole.", "Szybkie opuszczanie nóg."],
+      "safety": "Ugnij kolana, żeby było łatwiej."
+    },
+    "v-up": {
+      "name": "Scyzoryki",
+      "desc": "Z leżenia jednoczesne unoszenie nóg i tułowia tak, by dłonie sięgały stóp.",
+      "cues": [
+        "Połóż się płasko, ręce za głową na podłodze.",
+        "Unieś razem ręce, klatkę i proste nogi.",
+        "Opuść się powoli do startu."
+      ],
+      "mistakes": ["Wyrzucanie ciała z zamachu.", "Opadanie z hukiem."],
+      "safety": "Ugnij kolana, jeśli pełne scyzoryki są za trudne."
+    },
+    "sit-up": {
+      "name": "Pełne brzuszki (siady z leżenia)",
+      "desc": "W leżeniu z ugiętymi kolanami zwijanie się do siadu z wyprostowanym tułowiem i powrót.",
+      "cues": [
+        "Kolana ugięte, stopy na podłodze.",
+        "Zwijaj się kręg po kręgu.",
+        "Opuszczaj się powoli na podłogę."
+      ],
+      "mistakes": ["Ciągnięcie głowy rękami.", "Szybkie opadanie."],
+      "safety": "Skrzyżuj ręce na klatce, żeby nie ciągnąć szyi."
+    },
+    "heel-touch": {
+      "name": "Dotykanie pięt",
+      "desc": "W leżeniu z ugiętymi kolanami i lekko uniesionymi barkami sięganie na boki do każdej pięty.",
+      "cues": [
+        "Kolana ugięte, barki nad podłogą.",
+        "Sięgnij dłonią do pięty po tej samej stronie.",
+        "Zmieniaj strony małymi skłonami w bok."
+      ],
+      "mistakes": ["Opuszczanie barków na podłogę przy każdym powtórzeniu.", "Ciągnięcie szyi do przodu."],
+      "safety": "Utrzymuj ruch mały i kontrolowany."
+    },
+    "hollow-rock": {
+      "name": "Kołyska w pozycji łódki",
+      "desc": "Utrzymywanie pozycji łódki i łagodne kołysanie w przód i w tył.",
+      "cues": [
+        "Przyjmij pozycję łódki, lędźwie dociśnięte do podłogi.",
+        "Kołysz się od górnej części pleców do bioder.",
+        "Przez cały czas trzymaj ten sam kształt."
+      ],
+      "mistakes": ["Ciało zgina się w biodrach podczas kołysania.", "Lędźwie się odrywają."],
+      "safety": "Najpierw opanuj hollow hold."
+    },
+    "bear-plank": {
+      "name": "Deska niedźwiedzia",
+      "desc": "Podpór na dłoniach i palcach stóp z kolanami tuż nad podłogą. Trzymaj bez ruchu.",
+      "cues": [
+        "Dłonie pod barkami, kolana pod biodrami.",
+        "Unieś kolana o kilka centymetrów.",
+        "Plecy proste, oddychaj spokojnie."
+      ],
+      "mistakes": ["Biodra idą wysoko.", "Wstrzymywanie oddechu."],
+      "safety": "Odłóż kolana, by odpocząć, gdy tylko plecy zaczną się zaokrąglać."
+    },
+    "toes-to-bar": {
+      "name": "Stopy do drążka",
+      "desc": "W zwisie na drążku unoszenie stóp aż do jego dotknięcia.",
+      "cues": [
+        "Zawiśnij na prostych rękach.",
+        "Dociśnij drążek w dół i unieś nogi.",
+        "Dotknij drążka stopami, opuszczaj pod kontrolą."
+      ],
+      "mistakes": ["Niekontrolowane bujanie między powtórzeniami.", "Mocne zginanie rąk."],
+      "safety": "Najpierw zbuduj siłę unoszeniem kolan i nóg w zwisie."
+    },
+    "hanging-oblique-knee-raise": {
+      "name": "Skośne unoszenie kolan w zwisie",
+      "desc": "Unoszenie kolan w zwisie raz w jedną, raz w drugą stronę.",
+      "cues": [
+        "Zawiśnij albo zrób podpór na poręczach.",
+        "Unieś kolana w górę i w bok.",
+        "Opuść i zmień stronę."
+      ],
+      "mistakes": ["Bujanie się, by unieść kolana.", "Zapadanie się w barkach."],
+      "safety": "Trzymaj barki aktywne, a ruch powolny."
+    },
+    "decline-sit-up": {
+      "name": "Brzuszki na ławce skośnej",
+      "desc": "Brzuszki na ławce ze skosem w dół i zaczepionymi stopami. Trudniejsze niż na podłodze.",
+      "cues": [
+        "Stopy zaczepione, połóż się na ławce.",
+        "Zwijaj się w stronę kolan.",
+        "Opuszczaj się powoli do pozycji wyjściowej."
+      ],
+      "mistakes": ["Szarpanie się w górę rękami.", "Szybkie opadanie."],
+      "safety": "Zacznij od małego skosu i nie wstrzymuj oddechu."
+    },
+    "suitcase-carry": {
+      "name": "Spacer z walizką",
+      "desc": "Chodzenie z ciężarem tylko w jednej dłoni. Tułów pracuje, by zostać wyprostowanym.",
+      "cues": [
+        "Ciężar w jednej dłoni, stań prosto.",
+        "Idź krótkimi, równymi krokami.",
+        "Nie przechylaj się w stronę ciężaru."
+      ],
+      "mistakes": ["Przechylanie się na bok.", "Unoszenie obciążonego barku."],
+      "safety": "Odkładaj ciężar z prostymi plecami, zginając biodra i kolana."
+    },
+    "copenhagen-plank": {
+      "name": "Deska kopenhaska",
+      "desc": "Deska bokiem z górną nogą opartą o ławkę i wolną dolną. Pracuje wewnętrzna strona uda i bok tułowia.",
+      "cues": [
+        "Przedramię na podłodze, górna stopa lub kolano na ławce.",
+        "Unieś biodra do prostej linii.",
+        "Wytrzymaj i oddychaj spokojnie."
+      ],
+      "mistakes": ["Biodra opadają.", "Przetaczanie się do przodu."],
+      "safety": "Opieraj się kolanem zamiast stopą, żeby było łatwiej."
+    },
+    "reverse-plank": {
+      "name": "Deska tyłem",
+      "desc": "W siadzie z dłońmi za biodrami unoszenie bioder, aż ciało utworzy prostą linię przodem do góry.",
+      "cues": [
+        "Dłonie za biodrami, palce w stronę stóp.",
+        "Unieś biodra, nogi proste.",
+        "Trzymaj prostą linię od barków do pięt."
+      ],
+      "mistakes": ["Biodra opadają.", "Głowa opadnięta do tyłu."],
+      "safety": "Ugnij kolana (pozycja stołu), jeśli wersja z prostymi nogami jest za trudna."
+    },
+    "l-sit": {
+      "name": "L-sit",
+      "desc": "Podpór na prostych rękach z nogami wyprostowanymi przed sobą.",
+      "cues": [
+        "Podpór na poręczach, ręce proste, barki w dół.",
+        "Unieś proste nogi przed siebie.",
+        "Wytrzymaj, trzymając nogi jak najwyżej."
+      ],
+      "mistakes": ["Zapadanie się w barkach.", "Mimowolne zginanie kolan."],
+      "safety": "Zacznij od ugiętych kolan i krótkich utrzymań."
+    },
+    "machine-crunch": {
+      "name": "Spięcia brzucha na maszynie",
+      "desc": "Spięcia na maszynie do brzucha z regulowanym oporem.",
+      "cues": [
+        "Ustaw siedzisko tak, by poduszki leżały wygodnie.",
+        "Przyciągaj żebra do bioder.",
+        "Wracaj powoli, nie stukając płytami."
+      ],
+      "mistakes": ["Ciągnięcie rękami.", "Używanie zamachu."],
+      "safety": "Wybierz ciężar, przy którym czujesz brzuch, a nie zginacze bioder."
+    },
+    "air-squat": {
+      "name": "Przysiad bez obciążenia",
+      "desc": "Przysiad bez dodatkowego ciężaru. Podstawowy wzorzec wszystkich przysiadów.",
+      "cues": [
+        "Stopy mniej więcej na szerokość barków, palce lekko na zewnątrz.",
+        "Usiądź między piętami, klatka w górę.",
+        "Wstań, odpychając się całą stopą."
+      ],
+      "mistakes": ["Pięty się odrywają.", "Kolana uciekają do środka."],
+      "safety": "Schodź na głębokość, nad którą panujesz. W razie potrzeby trzymaj się czegoś dla równowagi."
+    },
+    "jump-squat": {
+      "name": "Przysiad z wyskokiem",
+      "desc": "Przysiad zakończony wyskokiem w górę. Ćwiczy moc nóg.",
+      "cues": [
+        "Zejdź na wygodną głębokość.",
+        "Wyskocz dynamicznie w górę.",
+        "Wyląduj miękko na całej stopie i przejdź w kolejny przysiad."
+      ],
+      "mistakes": ["Lądowanie na prostych nogach.", "Kolana uciekają do środka przy lądowaniu."],
+      "safety": "Ląduj cicho. Przerwij serię, gdy lądowania stają się niedbałe."
+    },
+    "reverse-lunge": {
+      "name": "Wykrok w tył",
+      "desc": "Krok w tył do wykroku i powrót. Często łagodniejszy dla kolan niż wykrok w przód.",
+      "cues": [
+        "Stań prosto, cofnij jedną nogę.",
+        "Opuść tylne kolano w stronę podłogi.",
+        "Odepchnij się przednią stopą, by wrócić."
+      ],
+      "mistakes": ["Przednie kolano ucieka do środka.", "Mocne pochylanie się do przodu."],
+      "safety": "Na początku trzymaj się podpory dla równowagi. Dodaj hantle, gdy kroki będą stabilne."
+    },
+    "lateral-lunge": {
+      "name": "Wykrok w bok",
+      "desc": "Szeroki krok w bok i siad na to biodro, podczas gdy druga noga zostaje prosta.",
+      "cues": [
+        "Szeroki rozkrok, palce do przodu.",
+        "Przenieś ciężar w jedną stronę, zginając to kolano.",
+        "Odepchnij się z powrotem do środka."
+      ],
+      "mistakes": ["Pięta ugiętej nogi się odrywa.", "Kolano zapada się do środka za linię palców."],
+      "safety": "Schodź tylko tak nisko, jak jest wygodnie dla wewnętrznej strony uda."
+    },
+    "curtsy-lunge": {
+      "name": "Wykrok skrzyżny (dyg)",
+      "desc": "Krok jedną nogą w tył i na skos za drugą, jak przy dygnięciu, potem powrót.",
+      "cues": [
+        "Stań prosto, dłonie przy klatce albo z hantlami.",
+        "Zrób krok w tył na skos za przednią nogę.",
+        "Opuść się, potem odepchnij do stania."
+      ],
+      "mistakes": ["Mocne skręcanie bioder.", "Przednie kolano ucieka do środka."],
+      "safety": "Na początku rób małe kroki i w razie potrzeby trzymaj się podpory."
+    },
+    "split-squat": {
+      "name": "Przysiad w wykroku",
+      "desc": "Wykrok w miejscu: stopy zostają w rozkroku, a ty się opuszczasz i wstajesz.",
+      "cues": [
+        "Długi rozkrok, tylna pięta uniesiona.",
+        "Opuść się pionowo, aż tylne kolano zbliży się do podłogi.",
+        "Wstań bez przestawiania stóp."
+      ],
+      "mistakes": ["Przednia pięta się odrywa.", "Tułów opada do przodu."],
+      "safety": "Zacznij bez obciążenia; trzymaj się podpory dla równowagi."
+    },
+    "barbell-reverse-lunge": {
+      "name": "Wykrok w tył ze sztangą",
+      "desc": "Wykrok w tył ze sztangą na górnej części pleców.",
+      "cues": [
+        "Sztanga na górnej części pleców, stań prosto.",
+        "Zrób krok w tył i opuść tylne kolano.",
+        "Odepchnij się przednią stopą, by wrócić."
+      ],
+      "mistakes": ["Utrata równowagi na bok.", "Krótkie kroki wypychające kolano daleko do przodu."],
+      "safety": "Zdejmij sztangę ze stojaków, załóż zaciski i zacznij lekko – tu ograniczeniem jest równowaga."
+    },
+    "step-down": {
+      "name": "Zejście ze stopnia",
+      "desc": "Stojąc na niskim stopniu, powoli opuszczaj wolną piętę do podłogi i wracaj do góry.",
+      "cues": [
+        "Stań na stopniu na jednej nodze.",
+        "Ugnij kolano, opuść drugą piętę do podłogi.",
+        "Lekko dotknij i wstań z powrotem."
+      ],
+      "mistakes": ["Kolano ucieka do środka.", "Szybkie opadanie na podłogę."],
+      "safety": "Użyj niskiego stopnia i trzymaj się ściany lub poręczy dla równowagi."
+    },
+    "single-leg-glute-bridge": {
+      "name": "Most biodrowy na jednej nodze",
+      "desc": "Most biodrowy z jedną stopą na podłodze i drugą nogą uniesioną.",
+      "cues": [
+        "Na plecach, jedna stopa na podłodze, drugie kolano w górze.",
+        "Dociśnij piętę, unieś biodra.",
+        "Biodra równo na górze, opuszczaj powoli."
+      ],
+      "mistakes": ["Jedno biodro opada.", "Wyginanie odcinka lędźwiowego na górze."],
+      "safety": "Najpierw opanuj most na dwóch nogach."
+    },
+    "db-hip-thrust": {
+      "name": "Hip thrust z hantlem",
+      "desc": "Hip thrust z górną częścią pleców na ławce i hantlem na biodrach.",
+      "cues": [
+        "Górna część pleców na ławce, hantel na biodrach.",
+        "Wypchnij biodra w górę, aż ciało będzie poziomo.",
+        "Zatrzymaj się, opuszczaj powoli."
+      ],
+      "mistakes": ["Wyginanie odcinka lędźwiowego na górze.", "Stopy za daleko albo za blisko."],
+      "safety": "Trzymaj hantel oburącz; z podkładką pod nim jest wygodniej."
+    },
+    "kettlebell-deadlift": {
+      "name": "Martwy ciąg z kettlebell",
+      "desc": "Martwy ciąg z jednym kettlebellem między stopami. Prosty sposób na naukę zgięcia w biodrach.",
+      "cues": [
+        "Kettlebell między stopami.",
+        "Cofnij biodra, plecy proste, chwyć uchwyt.",
+        "Wstań prosto, opuść tą samą drogą."
+      ],
+      "mistakes": ["Zaokrąglanie pleców.", "Przysiad w pionie zamiast zgięcia w biodrach."],
+      "safety": "Trzymaj odważnik blisko ciała. Odkładaj go na podłogę między powtórzeniami."
+    },
+    "nordic-curl": {
+      "name": "Nordic curl",
+      "desc": "W klęku z przytrzymanymi piętami opuszczanie ciała do przodu jak najwolniej.",
+      "cues": [
+        "Uklęknij na podkładce, pięty zablokowane pod czymś stabilnym.",
+        "Ciało proste od kolan do głowy.",
+        "Opuszczaj się powoli, złap się dłońmi, odepchnij z powrotem."
+      ],
+      "mistakes": ["Zginanie się w biodrach.", "Szybkie opadanie na początku."],
+      "safety": "Używaj miękkiego podłoża i opuszczaj się tylko tak nisko, jak kontrolujesz. Zacznij od bardzo niewielu powtórzeń."
+    },
+    "donkey-kick": {
+      "name": "Wykopy w tył w klęku",
+      "desc": "W klęku podpartym wypychanie ugiętej nogi w stronę sufitu.",
+      "cues": [
+        "Klęk podparty, plecy proste.",
+        "Z ugiętym kolanem unieś stopę w stronę sufitu.",
+        "Opuść, nie dotykając kolanem podłogi."
+      ],
+      "mistakes": ["Wyginanie odcinka lędźwiowego.", "Otwieranie bioder skrętem."],
+      "safety": "Unoś tylko tak wysoko, jak plecy pozostają proste."
+    },
+    "fire-hydrant": {
+      "name": "Odwodzenie nogi w klęku podpartym",
+      "desc": "W klęku podpartym unoszenie ugiętej nogi w bok.",
+      "cues": ["Klęk podparty, plecy proste.", "Unieś ugiętą nogę w bok.", "Opuszczaj powoli."],
+      "mistakes": ["Przechylanie całego ciała w drugą stronę.", "Pośpiech w powtórzeniach."],
+      "safety": "Utrzymuj ruch na tyle mały, by biodra pozostały równo."
+    },
+    "clamshell": {
+      "name": "Muszelka",
+      "desc": "W leżeniu bokiem z ugiętymi kolanami otwieranie górnego kolana, stopy zostają razem.",
+      "cues": [
+        "Połóż się bokiem, kolana ugięte, stopy razem.",
+        "Otwórz górne kolano jak muszlę.",
+        "Zamykaj powoli."
+      ],
+      "mistakes": ["Odchylanie bioder do tyłu.", "Rozsuwanie stóp."],
+      "safety": "Dodaj gumę nad kolanami, gdy zrobi się łatwo."
+    },
+    "single-leg-calf-raise": {
+      "name": "Wspięcia na palce na jednej nodze",
+      "desc": "Wspięcia na łydki stojąc na jednej stopie, najlepiej na stopniu.",
+      "cues": [
+        "Stań na jednej stopie, przodostopie na stopniu.",
+        "Opuść piętę poniżej stopnia.",
+        "Wspnij się jak najwyżej, zatrzymaj się."
+      ],
+      "mistakes": ["Odbijanie się na dole.", "Pomaganie sobie zginaniem kolana."],
+      "safety": "Trzymaj się ściany lub poręczy dla równowagi."
+    },
+    "tibialis-raise": {
+      "name": "Unoszenie palców stóp przy ścianie",
+      "desc": "Opierając plecy o ścianę, unoszenie palców stóp w stronę goleni.",
+      "cues": [
+        "Plecy przy ścianie, stopy krok do przodu.",
+        "Unieś palce stóp jak najwyżej.",
+        "Opuszczaj powoli."
+      ],
+      "mistakes": ["Zginanie kolan.", "Pośpiech w powtórzeniach."],
+      "safety": "Przysuń stopy bliżej ściany, żeby było łatwiej."
+    },
+    "leg-press-calf-raise": {
+      "name": "Wspięcia na łydki na suwnicy",
+      "desc": "Wspięcia na łydki z wypychaniem platformy suwnicy przodostopiem.",
+      "cues": [
+        "Przodostopia na krawędzi platformy, nogi proste.",
+        "Opuść pięty w swoją stronę.",
+        "Wypchnij platformę palcami."
+      ],
+      "mistakes": ["Zginanie kolan.", "Stopy zsuwają się z krawędzi."],
+      "safety": "Trzymaj blokady w zasięgu ręki i używaj umiarkowanego ciężaru."
+    },
+    "cossack-squat": {
+      "name": "Przysiad kozacki",
+      "desc": "Głęboki przysiad w bok na jedną nogę, druga zostaje prosta z palcami w górę.",
+      "cues": [
+        "Bardzo szeroki rozkrok.",
+        "Usiądź głęboko nad jedną nogą, druga prosta, palce w górę.",
+        "Wypchnij się w górę i zmień stronę."
+      ],
+      "mistakes": ["Pięta ugiętej nogi się odrywa.", "Zaokrąglanie pleców."],
+      "safety": "Trzymaj się podpory i schodź tylko tak nisko, jak jest wygodnie."
+    },
+    "cable-pull-through": {
+      "name": "Przeciąganie liny między nogami na wyciągu",
+      "desc": "Tyłem do dolnego wyciągu skłon w biodrach i przeciąganie liny między nogami przez wypchnięcie bioder do przodu.",
+      "cues": [
+        "Lina między nogami, odejdź od wyciągu.",
+        "Cofnij biodra, plecy proste.",
+        "Wypchnij biodra do przodu do pełnego wyprostu."
+      ],
+      "mistakes": ["Ciągnięcie rękami.", "Przysiad zamiast zgięcia w biodrach."],
+      "safety": "Odejdź na tyle daleko, by na górze ciężar nie odrywał się od stosu."
+    },
+    "assisted-pistol-squat": {
+      "name": "Przysiad na jednej nodze z asekuracją",
+      "desc": "Przysiad na jednej nodze do ławki z przytrzymaniem podpory dla równowagi.",
+      "cues": [
+        "Stań na jednej nodze przed ławką, trzymaj się podpory.",
+        "Usiądź powoli na ławce, druga noga z przodu.",
+        "Wstań na tej samej nodze."
+      ],
+      "mistakes": ["Opadanie na ławkę.", "Kolano ucieka do środka."],
+      "safety": "Zacznij od wysokiej ławki i z czasem ją obniżaj."
+    },
+    "high-knees": {
+      "name": "Skip A (wysokie kolana)",
+      "desc": "Bieg w miejscu z unoszeniem kolan do wysokości bioder.",
+      "cues": [
+        "Stań prosto, lekko na przodostopiu.",
+        "Unoś kolana do wysokości bioder.",
+        "Pracuj rękami w rytmie."
+      ],
+      "mistakes": ["Odchylanie się do tyłu.", "Ciężkie lądowanie na piętach."],
+      "safety": "Maszeruj zamiast biegać, żeby było ciszej i łatwiej."
+    },
+    "butt-kicks": {
+      "name": "Skip C (pięty do pośladków)",
+      "desc": "Bieg w miejscu z podciąganiem pięt do pośladków.",
+      "cues": [
+        "Lekkie, szybkie kroki.",
+        "Podciągaj pięty w górę za sobą.",
+        "Kolana skierowane w dół, ręce rozluźnione."
+      ],
+      "mistakes": ["Pochylanie się do przodu.", "Kolana wysuwają się do przodu."],
+      "safety": "Zacznij wolno jako rozgrzewkę i stopniowo przyspieszaj."
+    },
+    "skater-jump": {
+      "name": "Skoki łyżwiarza",
+      "desc": "Skoki z boku na bok z jednej nogi na drugą, jak łyżwiarz szybki.",
+      "cues": [
+        "Stań na jednej nodze, lekko ugiętej.",
+        "Odepchnij się w bok i wyląduj na drugiej nodze.",
+        "Zamortyzuj miękko, potem skocz z powrotem."
+      ],
+      "mistakes": ["Lądowanie na prostym kolanie.", "Kolano ucieka do środka przy lądowaniu."],
+      "safety": "Zacznij od małych kroków zamiast skoków."
+    },
+    "squat-thrust": {
+      "name": "Przysiad z wyrzutem nóg",
+      "desc": "Ze stania przysiad, dłonie na podłodze, wyrzut lub krok nogami do deski i powrót. Burpee bez pompki i wyskoku.",
+      "cues": [
+        "Zrób przysiad i oprzyj dłonie o podłogę.",
+        "Wyrzuć nogi lub przejdź krokami do deski.",
+        "Przyciągnij stopy z powrotem i wstań."
+      ],
+      "mistakes": ["Biodra opadają w desce.", "Zaokrąglanie pleców przy wstawaniu."],
+      "safety": "Przechodź krokami zamiast skakać, żeby było łatwiej."
+    },
+    "box-jump": {
+      "name": "Wskoki na skrzynię",
+      "desc": "Wskok z podłogi na solidną skrzynię lub niski podest.",
+      "cues": [
+        "Stań blisko skrzyni.",
+        "Zamachnij się rękami i wyskocz w górę.",
+        "Wyląduj miękko na obu stopach, wyprostuj się, zejdź krokiem."
+      ],
+      "mistakes": ["Zeskakiwanie zamiast schodzenia.", "Lądowanie z kolanami uciekającymi do środka."],
+      "safety": "Używaj niskiej, stabilnej skrzyni, która nie może się przesunąć. Zawsze schodź krokiem."
+    },
+    "shadow-boxing": {
+      "name": "Walka z cieniem",
+      "desc": "Lekkie ciosy w powietrze w ruchu na nogach.",
+      "cues": [
+        "Pozycja bokserska, dłonie wysoko przy twarzy.",
+        "Zadawaj proste i sierpowe, obracając się z bioder.",
+        "Bądź lekki na nogach."
+      ],
+      "mistakes": ["Gwałtowne blokowanie łokci w pełnym wyproście.", "Opuszczanie rąk między ciosami."],
+      "safety": "Nie prostuj rąk gwałtownie. Na początku trzymaj wygodne tempo."
+    },
+    "stair-climber": {
+      "name": "Stepper schodowy",
+      "desc": "Wchodzenie po schodach na maszynie w równym tempie.",
+      "cues": [
+        "Stań prosto, dłonie lekko na poręczach.",
+        "Stawiaj całą stopę.",
+        "Wybierz tempo, które utrzymasz przez zaplanowany czas."
+      ],
+      "mistakes": ["Mocne opieranie się na poręczach.", "Malutkie kroki na palcach."],
+      "safety": "Zacznij od niskiej prędkości i w razie potrzeby użyj przycisku stop."
+    },
+    "elliptical": {
+      "name": "Orbitrek",
+      "desc": "Ruch na orbitreku płynnymi, sunącymi krokami.",
+      "cues": [
+        "Stopy płasko na pedałach.",
+        "Pchaj i ciągnij uchwyty w rytmie.",
+        "Utrzymuj równe, wygodne tempo."
+      ],
+      "mistakes": ["Garbienie się nad uchwytami.", "Wspinanie się na palce."],
+      "safety": "Zacznij od niskiego oporu i zwiększaj go stopniowo."
+    },
+    "treadmill-jog": {
+      "name": "Trucht na bieżni",
+      "desc": "Spokojny bieg na bieżni w tempie, w którym da się rozmawiać.",
+      "cues": [
+        "Przypnij klucz bezpieczeństwa.",
+        "Biegnij wyprostowany z rozluźnionymi barkami.",
+        "Stawiaj stopy pod ciałem, krótkie szybkie kroki."
+      ],
+      "mistakes": [
+        "Trzymanie się poręczy podczas biegu.",
+        "Za długie kroki z ciężkim lądowaniem na piętach."
+      ],
+      "safety": "Uruchamiaj pas powoli i stój na bocznych listwach, zanim na niego wejdziesz."
+    },
+    "incline-treadmill-walk": {
+      "name": "Marsz pod górę na bieżni",
+      "desc": "Marsz na bieżni ustawionej pod kątem.",
+      "cues": [
+        "Ustaw umiarkowane nachylenie i prędkość marszu.",
+        "Idź wyprostowany, nie trzymając się poręczy.",
+        "Utrzymuj równy rytm oddechu."
+      ],
+      "mistakes": ["Wieszanie się na poręczach.", "Mocne pochylanie się do przodu."],
+      "safety": "Zwiększaj nachylenie stopniowo; zwolnij przed zatrzymaniem."
+    },
+    "ski-erg": {
+      "name": "Ergometr narciarski",
+      "desc": "Ściąganie uchwytów maszyny narciarskiej w dół w rytmie podobnym do narciarstwa biegowego.",
+      "cues": [
+        "Uchwyty nad głową, kolana lekko ugięte.",
+        "Ściągnij rękami w dół i zegnij się w biodrach.",
+        "Wracaj płynnie do góry."
+      ],
+      "mistakes": ["Ciągnięcie samymi rękami.", "Mocne zaokrąglanie pleców."],
+      "safety": "Zacznij od niskiego ustawienia oporu i spokojnego tempa."
+    },
+    "bear-crawl": {
+      "name": "Chód niedźwiedzia",
+      "desc": "Czworakowanie do przodu i do tyłu na dłoniach i stopach z kolanami tuż nad podłogą.",
+      "cues": [
+        "Dłonie pod barkami, kolana w powietrzu.",
+        "Przestawiaj razem przeciwną dłoń i stopę.",
+        "Plecy proste, biodra nisko."
+      ],
+      "mistakes": ["Biodra idą wysoko.", "Duże, pośpieszne kroki."],
+      "safety": "Wystarczą krótkie odcinki; daj odpocząć nadgarstkom między seriami."
+    },
+    "db-thruster": {
+      "name": "Thruster z hantlami",
+      "desc": "Przysiad przedni z hantlami przy barkach płynnie przechodzący w wyciskanie nad głowę.",
+      "cues": [
+        "Hantle przy barkach, stopy na szerokość barków.",
+        "Zejdź do przysiadu, klatka w górę.",
+        "Wybij się w górę i wyciśnij hantle nad głowę jednym ruchem."
+      ],
+      "mistakes": ["Wyciskanie przed wstaniem.", "Wyginanie pleców na górze."],
+      "safety": "Używaj lekkich hantli; to połączenie szybko męczy."
+    },
+    "kettlebell-clean": {
+      "name": "Zarzut kettlebell",
+      "desc": "Przeniesienie kettlebella spomiędzy nóg do barku jednym płynnym ruchem.",
+      "cues": [
+        "Wyrzuć odważnik do tyłu między nogi.",
+        "Wypchnij biodra do przodu.",
+        "Łokieć blisko ciała, pozwól odważnikowi przetoczyć się na przedramię."
+      ],
+      "mistakes": [
+        "Pozwalanie, by odważnik się przewrócił i uderzył w nadgarstek.",
+        "Podnoszenie go uginaniem ręki."
+      ],
+      "safety": "Najpierw opanuj swing. Trzymaj odważnik blisko ciała."
+    },
+    "double-under": {
+      "name": "Podwójne przeskoki na skakance",
+      "desc": "Technika skakanki, w której skakanka przechodzi pod stopami dwa razy w jednym skoku.",
+      "cues": [
+        "Skacz trochę wyżej niż zwykle.",
+        "Kręć szybko z nadgarstków.",
+        "Ląduj miękko na przodostopiu."
+      ],
+      "mistakes": ["Podkurczanie stóp do tyłu.", "Kręcenie z barków."],
+      "safety": "Najpierw dobrze opanuj zwykłe skakanie."
+    },
+    "downward-dog": {
+      "name": "Pies z głową w dół",
+      "desc": "Pozycja jogi z wysoko uniesionymi biodrami i ciałem w kształcie odwróconego V.",
+      "cues": [
+        "Dłonie i stopy na macie, biodra uniesione.",
+        "Odpychaj podłogę, plecy długie.",
+        "Pozwól piętom opadać w stronę podłogi."
+      ],
+      "mistakes": ["Zaokrąglanie pleców, by docisnąć pięty.", "Barki podciągnięte do uszu."],
+      "safety": "Ugnij kolana tak bardzo, jak trzeba, by plecy zostały długie."
+    },
+    "cobra-stretch": {
+      "name": "Kobra",
+      "desc": "W leżeniu na brzuchu wypychanie się dłońmi, by unieść klatkę i otworzyć przód ciała.",
+      "cues": [
+        "Połóż się na brzuchu, dłonie pod barkami.",
+        "Łagodnie unieś klatkę, biodra zostają na dole.",
+        "Barki z dala od uszu, oddychaj spokojnie."
+      ],
+      "mistakes": ["Unoszenie się tak wysoko, że uciska w lędźwiach.", "Mocne odchylanie głowy do tyłu."],
+      "safety": "Trzymaj łokcie ugięte, jeśli proste ręce to za dużo dla pleców."
+    },
+    "low-lunge": {
+      "name": "Niski wykrok",
+      "desc": "Wykrok z tylnym kolanem na podłodze i biodrami przesuniętymi do przodu, by rozciągnąć przód tylnego biodra.",
+      "cues": [
+        "Tylne kolano na macie, przednia stopa płasko.",
+        "Lekko podwiń miednicę, przesuń biodra do przodu.",
+        "Unieś ręce albo trzymaj dłonie na przednim kolanie."
+      ],
+      "mistakes": ["Wyginanie odcinka lędźwiowego.", "Przednie kolano zapada się do środka."],
+      "safety": "Podłóż złożoną matę pod tylne kolano."
+    },
+    "warrior-ii": {
+      "name": "Wojownik II",
+      "desc": "Stojąca pozycja jogi: szeroki rozkrok, przednie kolano ugięte, ręce wyciągnięte na boki.",
+      "cues": [
+        "Szeroki rozkrok, przednia stopa do przodu, tylna lekko do środka.",
+        "Ugnij przednie kolano nad kostką.",
+        "Ręce na wysokości barków, patrz nad przednią dłonią."
+      ],
+      "mistakes": ["Przednie kolano ucieka do środka.", "Pochylanie tułowia do przodu."],
+      "safety": "Skróć rozkrok, jeśli równowaga lub kolano nie są pewne."
+    },
+    "tree-pose": {
+      "name": "Pozycja drzewa",
+      "desc": "Równowaga z jogi na jednej nodze z drugą stopą opartą o wewnętrzną stronę łydki lub uda.",
+      "cues": [
+        "Stań na jednej stopie, wzrok w jednym punkcie.",
+        "Oprzyj drugą stopę o łydkę lub udo, nie o kolano.",
+        "Dłonie przy klatce lub nad głową, oddychaj spokojnie."
+      ],
+      "mistakes": ["Wciskanie stopy w bok kolana.", "Biodro nogi podporowej mocno wypchnięte w bok."],
+      "safety": "Na początku trzymaj palce uniesionej stopy na podłodze albo przytrzymaj się ściany."
+    },
+    "pigeon-stretch": {
+      "name": "Pozycja gołębia",
+      "desc": "Z klęku podpartego przenieś jedno kolano do przodu i połóż goleń w poprzek maty, druga noga prosto do tyłu.",
+      "cues": [
+        "Przednia goleń w poprzek maty, tylna noga długa.",
+        "Trzymaj biodra przodem.",
+        "Pochyl się nad przednią nogą, jeśli jest wygodnie."
+      ],
+      "mistakes": ["Biodra przechylają się na jeden bok.", "Dociskanie przedniego kolana na siłę."],
+      "safety": "Podłóż poduszkę pod przednie biodro. Jeśli kolano protestuje, rób rozciąganie w pozycji „czwórki” na plecach."
+    },
+    "butterfly-stretch": {
+      "name": "Motylek",
+      "desc": "Siad ze złączonymi podeszwami stóp i kolanami opadającymi na boki.",
+      "cues": [
+        "Usiądź prosto, podeszwy razem, pięty do siebie.",
+        "Pozwól kolanom swobodnie opaść.",
+        "Pochyl się lekko do przodu z bioder."
+      ],
+      "mistakes": ["Dociskanie kolan rękami.", "Mocne zaokrąglanie pleców."],
+      "safety": "Usiądź na złożonej macie, jeśli plecy się zaokrąglają."
+    },
+    "standing-forward-fold": {
+      "name": "Skłon w przód na stojąco",
+      "desc": "Ze stania skłon w przód z bioder i swobodne zwisanie górnej części ciała.",
+      "cues": [
+        "Stopy na szerokość bioder, kolana miękkie.",
+        "Pochyl się do przodu, pozwól głowie i rękom zwisać.",
+        "Oddychaj powoli, rozluźnij szyję."
+      ],
+      "mistakes": ["Mocne blokowanie kolan.", "Sprężynowanie, by sięgnąć niżej."],
+      "safety": "Ugnij kolana, ile trzeba, i rolując się, wstawaj powoli."
+    },
+    "worlds-greatest-stretch": {
+      "name": "Wykrok z rotacją",
+      "desc": "Sekwencja rozgrzewkowa: długi wykrok, wewnętrzny łokieć do przedniej stopy, potem rotacja z ręką sięgającą w górę.",
+      "cues": [
+        "Długi wykrok, tylne kolano na podłodze lub w górze.",
+        "Zbliż wewnętrzny łokieć do podbicia przedniej stopy.",
+        "Obróć się i wyciągnij tę samą rękę do sufitu."
+      ],
+      "mistakes": ["Pośpiech przy przechodzeniu przez pozycje.", "Przednie kolano opada do środka."],
+      "safety": "Ruszaj się powoli i zostań w wygodnym zakresie."
+    },
+    "hip-90-90": {
+      "name": "Przełożenia bioder 90/90",
+      "desc": "W siadzie z obojgiem kolan ugiętych pod kątem 90° obracanie kolan z jednej strony na drugą.",
+      "cues": [
+        "Usiądź z nogami ugiętymi pod kątem 90°, jedna z przodu, druga z boku.",
+        "Siedź prosto, dłonie z tyłu jako podpora.",
+        "Unieś i obróć oba kolana na drugą stronę."
+      ],
+      "mistakes": ["Zapadanie się w plecach.", "Dociskanie kolan do podłogi na siłę."],
+      "safety": "Trzymaj dłonie na podłodze dla podparcia i ruszaj się tylko w wygodnym zakresie."
+    },
+    "hip-circles": {
+      "name": "Krążenia bioder",
+      "desc": "Stojąc na jednej nodze, kreślenie drugim kolanem powolnych, dużych kół.",
+      "cues": [
+        "Przytrzymaj się ściany, stań na jednej nodze.",
+        "Unieś kolano i zakreśl duże koło na zewnątrz.",
+        "Zmień kierunek."
+      ],
+      "mistakes": ["Skręcanie całego ciała.", "Szybkie, małe ruchy."],
+      "safety": "Ruszaj się powoli – to rozgrzewka, nie trening."
+    },
+    "ankle-circles": {
+      "name": "Krążenia stóp",
+      "desc": "Powolne krążenie stopą w stawie skokowym w obu kierunkach.",
+      "cues": [
+        "Unieś jedną stopę albo usiądź z wyprostowaną nogą.",
+        "Kreśl palcami powolne, pełne koła.",
+        "W połowie zmień kierunek."
+      ],
+      "mistakes": ["Ruszanie samymi palcami.", "Pośpiech."],
+      "safety": "Na stojąco przytrzymaj się ściany."
+    },
+    "cross-body-shoulder-stretch": {
+      "name": "Rozciąganie barku w poprzek klatki",
+      "desc": "Przyciąganie prostej ręki w poprzek klatki drugą dłonią.",
+      "cues": [
+        "Przełóż jedną rękę w poprzek klatki.",
+        "Przytrzymaj ją nad łokciem drugą dłonią.",
+        "Ciągnij łagodnie, bark zostaje nisko."
+      ],
+      "mistakes": ["Unoszenie rozciąganego barku.", "Ciągnięcie za sam staw łokciowy."],
+      "safety": "Ciągnij lekko – masz czuć rozciąganie, nie kłucie."
+    },
+    "overhead-triceps-stretch": {
+      "name": "Rozciąganie tricepsa nad głową",
+      "desc": "Sięganie dłonią w dół pleców między łopatki i łagodne dociskanie łokcia drugą ręką.",
+      "cues": [
+        "Unieś rękę, zegnij ją, dłoń w stronę górnej części pleców.",
+        "Chwyć łokieć drugą dłonią.",
+        "Łagodnie prowadź łokieć do tyłu."
+      ],
+      "mistakes": ["Wyginanie odcinka lędźwiowego.", "Wypychanie głowy do przodu."],
+      "safety": "Dociskaj lekko."
+    },
+    "inchworm": {
+      "name": "Gąsienica",
+      "desc": "Ze stania skłon w przód, przejście dłońmi do deski i powrót.",
+      "cues": [
+        "Pochyl się, dłonie na podłogę.",
+        "Przejdź dłońmi do deski na prostych rękach.",
+        "Wróć dłońmi i wstań."
+      ],
+      "mistakes": ["Biodra opadają w desce.", "Mocne blokowanie kolan w skłonie."],
+      "safety": "Ugnij kolana, by sięgnąć podłogi."
+    },
+    "thread-the-needle": {
+      "name": "Nawlekanie igły",
+      "desc": "W klęku podpartym wsuwanie jednej ręki pod tułów, a potem otwieranie jej w stronę sufitu.",
+      "cues": [
+        "Klęk podparty, biodra nad kolanami.",
+        "Wsuń rękę pod klatkę, bark w stronę podłogi.",
+        "Obróć się, otwierając, i wyciągnij rękę w górę."
+      ],
+      "mistakes": ["Przesuwanie bioder na bok.", "Pośpiech w rotacji."],
+      "safety": "Ruszaj się powoli w wygodnym zakresie."
+    },
+    "open-book": {
+      "name": "Otwieranie książki",
+      "desc": "W leżeniu bokiem z ugiętymi kolanami otwieranie górnej ręki na drugą stronę, jak przy przewracaniu kartki.",
+      "cues": [
+        "Połóż się bokiem, kolana ugięte do przodu, ręce razem przed sobą.",
+        "Przełóż górną rękę na drugą stronę.",
+        "Wodź wzrokiem za dłonią, wracaj powoli."
+      ],
+      "mistakes": ["Kolana się rozchodzą.", "Dociskanie ręki do podłogi na siłę."],
+      "safety": "Poduszka pod głową zapewni wygodę szyi."
+    },
+    "wall-slide": {
+      "name": "Ślizgi przy ścianie",
+      "desc": "Stojąc plecami do ściany, przesuwanie rąk w górę i w dół po ścianie od kształtu W do Y.",
+      "cues": [
+        "Plecy, głowa i przedramiona przy ścianie.",
+        "Przesuń ręce w górę tak daleko, jak utrzymasz kontakt.",
+        "Wróć do W."
+      ],
+      "mistakes": ["Odrywanie wygiętego odcinka lędźwiowego od ściany.", "Unoszenie barków."],
+      "safety": "Odsuń się trochę od ściany, jeśli trudno utrzymać kontakt."
+    },
+    "band-pass-through": {
+      "name": "Przekładanie gumy nad głową",
+      "desc": "Trzymając gumę szeroko, przenoszenie prostych rąk sprzed ciała nad głowę, za siebie i z powrotem.",
+      "cues": [
+        "Szeroki chwyt lekkiej gumy.",
+        "Unieś proste ręce nad głowę i do tyłu.",
+        "Wróć powoli tą samą drogą."
+      ],
+      "mistakes": ["Zginanie łokci.", "Wyginanie odcinka lędźwiowego."],
+      "safety": "Poszerz chwyt, jeśli barki nie przechodzą wygodnie."
+    },
+    "deep-squat-hold": {
+      "name": "Utrzymanie głębokiego przysiadu",
+      "desc": "Swobodne siedzenie w dole przysiadu.",
+      "cues": [
+        "Stopy trochę szerzej niż barki, palce na zewnątrz.",
+        "Zejdź tak głęboko, jak jest wygodnie, pięty na dole.",
+        "Łokcie łagodnie rozpychają kolana."
+      ],
+      "mistakes": ["Pięty się odrywają.", "Mocne garbienie się do przodu."],
+      "safety": "Trzymaj się framugi albo podłóż mały talerz pod pięty, jeśli się odrywają."
+    },
+    "lying-spinal-twist": {
+      "name": "Skręt kręgosłupa w leżeniu",
+      "desc": "W leżeniu na plecach opuszczanie ugiętych kolan na jedną stronę, barki zostają na podłodze.",
+      "cues": [
+        "Połóż się na plecach, kolana ugięte, ręce w bok.",
+        "Opuść oba kolana na jedną stronę.",
+        "Trzymaj oba barki na podłodze, oddychaj."
+      ],
+      "mistakes": ["Barki odrywają się od podłogi.", "Dociskanie kolan na siłę."],
+      "safety": "Podłóż poduszkę pod kolana, jeśli nie sięgają podłogi."
+    },
+    "kettlebell-halo": {
+      "name": "Halo z kettlebell",
+      "desc": "Trzymając lekki kettlebell za rogi, prowadzenie go dookoła głowy.",
+      "cues": [
+        "Odważnik do góry dnem przy klatce.",
+        "Prowadź go blisko wokół głowy.",
+        "Zmieniaj kierunek po każdej serii lub powtórzeniu."
+      ],
+      "mistakes": ["Wyginanie odcinka lędźwiowego.", "Ruszanie głową zamiast odważnikiem."],
+      "safety": "Używaj lekkiego ciężaru i trzymaj odważnik blisko głowy, nie dotykając jej."
+    },
+    "wrist-mobility": {
+      "name": "Mobilizacja nadgarstków",
+      "desc": "Krążenia nadgarstkami i łagodne kołysanie nad dłońmi w klęku podpartym, by przygotować nadgarstki do pompek i desek.",
+      "cues": [
+        "Krąż powoli nadgarstkami w obie strony.",
+        "W klęku podpartym łagodnie kołysz się w przód i w tył.",
+        "Obróć palce na boki i do tyłu, znów się pokołysz."
+      ],
+      "mistakes": ["Przenoszenie od razu pełnego ciężaru na nadgarstki.", "Szybkie, szarpane ruchy."],
+      "safety": "Rób to łagodnie; odpuść, jeśli coś zakłuje."
+    }
+  }
+}

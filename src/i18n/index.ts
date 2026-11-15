@@ -15,9 +15,14 @@ export interface LocaleInfo {
 }
 
 /** Языки, для которых есть словари. Остальные из концепта добавляются папкой + строкой здесь. */
+/** Порядок в списке выбора — как задал владелец: English (по умолчанию), Spanish, Italian, Russian, Polish, Ukrainian */
 export const LOCALES: LocaleInfo[] = [
   { code: 'en', native: 'English', intl: 'en-GB' },
+  { code: 'es', native: 'Español', intl: 'es-ES' },
+  { code: 'it', native: 'Italiano', intl: 'it-IT' },
   { code: 'ru', native: 'Русский', intl: 'ru-RU' },
+  { code: 'pl', native: 'Polski', intl: 'pl-PL' },
+  { code: 'uk', native: 'Українська', intl: 'uk-UA' },
 ];
 
 export const DEFAULT_LOCALE = 'en';
