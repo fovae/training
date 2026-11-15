@@ -269,7 +269,25 @@
     "setUndo": "{set}: снять отметку",
     "addNote": "Заметка",
     "notePlaceholder": "Заметка к упражнению",
-    "noteFor": "Заметка: {name}"
+    "noteFor": "Заметка: {name}",
+    "loadLabel": "Гантели",
+    "load": {
+      "one": "Один вес",
+      "x2": "× 2",
+      "lr": "Л и П"
+    },
+    "countLabel": "Счёт",
+    "countTotal": "Всего",
+    "left": "Л",
+    "right": "П",
+    "weightLeftOf": "{set}: левая гантель, {unit}",
+    "weightRightOf": "{set}: правая гантель, {unit}",
+    "totalOf": "{set}: повторы всего, обе стороны",
+    "totalHint": "{total} всего = {n} {per}",
+    "totalHintOdd": "{total} всего = {l} слева + {r} справа",
+    "oddTitle": "Всего {total} повторов",
+    "oddBody": "Нечётный счёт не делится поровну. Какая сторона сделала на один больше?",
+    "oddSplit": "Слева {l}, справа {r}"
   },
   "advice": {
     "progression": "Если хочешь, можно добавить немного веса: в прошлый раз во всех подходах был верх диапазона.",

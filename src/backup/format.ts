@@ -15,11 +15,12 @@ import { DEFAULT_SETTINGS, THEMES, type Plan, type Profile, type Session, type S
 
 export const BACKUP_APP = 'simple-training';
 /**
+ * 6 — релиз 3.17: в подходе load / weightRKg / repsR, Settings.exerciseModes (необязательные поля).
  * 5 — релиз 3.15: Settings.pace и Settings.useHistory (оценка длительности, необязательные поля).
  * 4 — релиз 3.0: новый набор тем, Settings.motion. Копии версий 3 и 4 читаются (темы переводятся).
  */
-export const BACKUP_SCHEMA = 5;
-const READABLE_SCHEMAS = [3, 4, 5] as const;
+export const BACKUP_SCHEMA = 6;
+const READABLE_SCHEMAS = [3, 4, 5, 6] as const;
 /** Максимальный размер файла копии */
 export const MAX_BACKUP_BYTES = 10 * 1024 * 1024;
 
@@ -121,6 +122,10 @@ const SetSchema = v.strictObject({
   seconds: v.optional(int(0, 86400)),
   done: v.boolean(),
   doneAt: v.optional(iso),
+  // 3.17 (схема 6): гантели и стороны; в копиях до 3.17 полей нет — один вес, как раньше
+  load: v.optional(v.picklist(['x2', 'lr'] as const)),
+  weightRKg: v.optional(num(0, 2000)),
+  repsR: v.optional(int(0, 10000)),
 });
 const EntrySchema = v.strictObject({
   exerciseId: id,
@@ -189,6 +194,18 @@ const SettingsSchema = v.strictObject({
   // 3.15 (схема 5): оценка длительности; в копиях до 3.15 полей нет — обычный темп, с историей
   pace: v.optional(v.picklist(['slow', 'normal', 'fast'] as const)),
   useHistory: v.optional(v.boolean()),
+  exerciseModes: v.optional(
+    v.pipe(
+      v.record(
+        id,
+        v.strictObject({
+          load: v.optional(v.picklist(['one', 'x2', 'lr'] as const)),
+          count: v.optional(v.picklist(['side', 'total'] as const)),
+        }),
+      ),
+      v.maxEntries(500),
+    ),
+  ),
 });
 const DataSchema = v.strictObject({
   profile: v.nullable(ProfileSchema),

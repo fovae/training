@@ -1,3 +1,4 @@
+import { setTopWeightKg, setVolumeKg } from './dumbbell';
 import { findExercise } from '../data/exercises';
 import type { Session } from '../types';
 
@@ -17,7 +18,7 @@ export function sessionVolumeKg(s: Session): number {
   let v = 0;
   for (const e of s.entries) {
     if (e.skipped || findExercise(e.exerciseId)?.metric === 'time') continue;
-    for (const x of e.sets) if (x.done && x.weightKg && x.reps) v += x.weightKg * x.reps;
+    for (const x of e.sets) if (x.done && x.weightKg && x.reps) v += setVolumeKg(x);
   }
   return v;
 }
@@ -81,12 +82,13 @@ export function exerciseRecords(sessions: Session[], exerciseId: string): Exerci
       if (e.exerciseId !== exerciseId || e.skipped) continue;
       for (const x of e.sets) {
         if (!x.done) continue;
-        const w = x.weightKg ?? 0;
+        // у гантелей — вес одной (тяжёлой из двух): старые и новые записи сравнимы
+        const w = setTopWeightKg(x);
         const reps = (time ? x.seconds : x.reps) ?? 0;
         const rec = (value: number): Record_ => ({ value, weightKg: w, reps, at: s.startedAt });
         if (w > 0 && (!r.maxWeight || w > r.maxWeight.value)) r.maxWeight = rec(w);
         if (reps > 0 && (!r.maxReps || reps > r.maxReps.value)) r.maxReps = rec(reps);
-        const vol = w * reps;
+        const vol = time ? 0 : setVolumeKg(x);
         if (!time && vol > 0 && (!r.maxSetVolume || vol > r.maxSetVolume.value)) r.maxSetVolume = rec(vol);
       }
     }

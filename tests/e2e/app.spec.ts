@@ -236,7 +236,8 @@ test('workout: sets, timer, notes, reload, finish, history, prefill', async ({ p
   await page.getByRole('link', { name: /Chest \+ triceps/ }).click();
   await expect(page.getByText('Good session')).toBeVisible();
   await expect(page.getByText('Felt strong')).toBeVisible();
-  await expect(page.getByText('22.5×12 · 22.5×12 · 22.5×12')).toBeVisible();
+  // гантели «×2» (3.17): по 22,5 кг в каждой руке
+  await expect(page.getByText('(2×22.5)×12 · (2×22.5)×12 · (2×22.5)×12')).toBeVisible();
 
   // Предзаполнение и подсказка прогрессии на дне 1
   await page.getByRole('link', { name: 'Today' }).click();

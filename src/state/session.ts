@@ -3,8 +3,16 @@ import * as store from '../db';
 import { findExercise } from '../data/exercises';
 import type { Exercise, PlanItem, Session, SessionEntry, SessionSet } from '../types';
 import { compact, ms, uid, weekStart } from '../lib/format';
+import {
+  countModeOf,
+  defaultLoad,
+  loadModes,
+  setVolumeKg,
+  type CountMode,
+  type LoadMode,
+} from '../lib/dumbbell';
 import { findDay, plan, todayWeekday } from './plan';
-import { settings } from './settings';
+import { settings, updateSettings } from './settings';
 
 /** Текущая (незавершённая) тренировка */
 export const active = signal<Session | null>(null);
@@ -88,6 +96,11 @@ function prefillSets(item: PlanItem): SessionSet[] {
     const s: SessionSet = { done: false };
     const w = src?.weightKg ?? item.targetWeightKg;
     if (w != null && ex?.metric !== 'time') s.weightKg = w;
+    // гантели: режим записи — текущий для упражнения; правая гантель — из прошлой тренировки
+    const load = loadModeFor(ex);
+    if (load !== 'one') s.load = load;
+    if (load === 'lr' && src?.weightRKg != null) s.weightRKg = src.weightRKg;
+    if (load === 'lr' && src?.load !== 'lr' && s.weightKg != null) s.weightRKg = s.weightKg;
     if (ex?.metric === 'time') {
       if (src?.seconds != null) s.seconds = src.seconds;
     } else if (src?.reps != null) s.reps = src.reps;
@@ -101,7 +114,7 @@ export function sessionVolume(s: Session): number {
   let v = 0;
   for (const e of s.entries) {
     if (e.skipped || findExercise(e.exerciseId)?.metric === 'time') continue;
-    for (const x of e.sets) if (x.done && x.weightKg && x.reps) v += x.weightKg * x.reps;
+    for (const x of e.sets) if (x.done && x.weightKg && x.reps) v += setVolumeKg(x);
   }
   return Math.round(v);
 }
@@ -191,6 +204,43 @@ export function startSession(dayId: string): void {
   void persist(s);
 }
 
+// ---------- гантели и стороны (src/lib/dumbbell.ts) ----------
+
+/** Режим веса упражнения: выбранный человеком (запоминается) или по умолчанию */
+export function loadModeFor(ex: Exercise | undefined): LoadMode {
+  const modes = loadModes(ex);
+  if (!modes || !ex) return 'one';
+  const saved = settings.value.exerciseModes?.[ex.id]?.load;
+  return saved && modes.includes(saved) ? saved : defaultLoad(ex);
+}
+
+/** Счёт подходов «на сторону» или «всего» (только у упражнений «на руку / сторону») */
+export const countModeFor = (ex: Exercise | undefined): CountMode =>
+  countModeOf(ex, settings.value.exerciseModes?.[ex?.id ?? '']?.count);
+
+/** Сменить режим упражнения: запоминается; невыполненные подходы идущей тренировки — в новом режиме */
+export function setExerciseMode(
+  ex: Exercise,
+  entryIdx: number | null,
+  patch: { load?: LoadMode; count?: CountMode },
+): void {
+  const all = settings.value.exerciseModes ?? {};
+  updateSettings({ exerciseModes: { ...all, [ex.id]: { ...all[ex.id], ...patch } } });
+  if (patch.load == null || entryIdx == null) return;
+  const load = patch.load;
+  mutate((s) => {
+    const e = s.entries[entryIdx];
+    if (!e) return;
+    e.sets = e.sets.map((x) => {
+      if (x.done) return x;
+      const y: SessionSet = { ...x, load: load === 'one' ? undefined : load };
+      if (load === 'lr') y.weightRKg ??= y.weightKg;
+      else delete y.weightRKg;
+      return compact(y);
+    });
+  });
+}
+
 export function updateSet(entryIdx: number, setIdx: number, patch: Partial<SessionSet>): void {
   mutate((s) => {
     const e = s.entries[entryIdx];
@@ -256,6 +306,8 @@ export function addSet(entryIdx: number): void {
     const last = e.sets[e.sets.length - 1];
     const next: SessionSet = { done: false };
     if (last?.weightKg != null) next.weightKg = last.weightKg;
+    if (last?.load) next.load = last.load;
+    if (last?.weightRKg != null) next.weightRKg = last.weightRKg;
     if (last?.reps != null) next.reps = last.reps;
     if (last?.seconds != null) next.seconds = last.seconds;
     e.sets.push(next);

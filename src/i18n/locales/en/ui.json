@@ -263,7 +263,25 @@
     "setUndo": "{set}: uncheck",
     "addNote": "Note",
     "notePlaceholder": "Note for this exercise",
-    "noteFor": "Note: {name}"
+    "noteFor": "Note: {name}",
+    "loadLabel": "Dumbbells",
+    "load": {
+      "one": "One weight",
+      "x2": "× 2",
+      "lr": "L & R"
+    },
+    "countLabel": "Counting",
+    "countTotal": "Total",
+    "left": "L",
+    "right": "R",
+    "weightLeftOf": "{set}: left dumbbell, {unit}",
+    "weightRightOf": "{set}: right dumbbell, {unit}",
+    "totalOf": "{set}: reps in total, both sides",
+    "totalHint": "{total} total = {n} {per}",
+    "totalHintOdd": "{total} total = {l} left + {r} right",
+    "oddTitle": "{total} reps in total",
+    "oddBody": "An odd count can’t be split evenly. Which side did one more?",
+    "oddSplit": "Left {l}, right {r}"
   },
   "advice": {
     "progression": "If you like, you can add a little weight: last time you hit the top of the range in every set.",

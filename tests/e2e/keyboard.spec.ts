@@ -122,3 +122,40 @@ test('exercise search in the picker sheet: search field visible above the keyboa
   const visible = (await page.evaluate(() => innerHeight)) - KB;
   expect(box!.y + box!.height).toBeLessThanOrEqual(visible + 1);
 });
+
+test('dumbbells: ×2 by default, L & R gives two fields above the keyboard; alternating odd total asks', async ({
+  page,
+}) => {
+  await page.getByRole('button', { name: 'Start workout' }).click();
+  const card = page.getByRole('article', { name: 'Incline dumbbell press' });
+  await expect(card.getByRole('radio', { name: '× 2' })).toHaveAttribute('aria-checked', 'true');
+  await card.getByRole('radio', { name: 'L & R' }).click();
+  const l3 = card.getByLabel('Incline dumbbell press, set 3: left dumbbell, kg');
+  const r3 = card.getByLabel('Incline dumbbell press, set 3: right dumbbell, kg');
+  await l3.focus();
+  await openKeyboard(page);
+  await expectVisibleAboveKeyboard(
+    page,
+    l3,
+    r3,
+    card.getByRole('button', { name: 'Incline dumbbell press, set 3: done' }),
+  );
+  await l3.fill('20');
+  await l3.press('Enter');
+  await expect(r3).toBeFocused();
+  await r3.fill('22');
+  await r3.press('Enter');
+  await expect(card.getByLabel('Incline dumbbell press, set 3: reps')).toBeFocused();
+
+  // «по очереди»: общий счёт 15 — приложение спрашивает, какая сторона сделала больше
+  const push = page.getByRole('article', { name: 'Single-arm cable pushdown' });
+  await push.getByRole('radio', { name: 'Total' }).click();
+  const total1 = push.getByLabel('Single-arm cable pushdown, set 1: reps in total, both sides');
+  await total1.fill('15');
+  await total1.press('Tab');
+  await page.getByRole('alertdialog').getByRole('button', { name: 'Left 8, right 7' }).click();
+  await expect(push.locator('.set-hint').first()).toHaveText('15 total = 8 left + 7 right');
+  await total1.fill('16');
+  await total1.press('Tab');
+  await expect(push.locator('.set-hint').first()).toHaveText('16 total = 8 per arm');
+});

@@ -41,6 +41,17 @@ export function sanitizeSettings(raw: unknown): Settings {
   if (typeof r.flash === 'boolean') out.flash = r.flash;
   if (r.pace === 'slow' || r.pace === 'normal' || r.pace === 'fast') out.pace = r.pace;
   if (typeof r.useHistory === 'boolean') out.useHistory = r.useHistory;
+  if (r.exerciseModes && typeof r.exerciseModes === 'object') {
+    const modes: NonNullable<Settings['exerciseModes']> = {};
+    for (const [k, v] of Object.entries(r.exerciseModes as Record<string, unknown>).slice(0, 500)) {
+      const m = (v ?? {}) as { load?: unknown; count?: unknown };
+      const load = m.load === 'one' || m.load === 'x2' || m.load === 'lr' ? m.load : undefined;
+      const count = m.count === 'side' || m.count === 'total' ? m.count : undefined;
+      if (k.length <= 100 && (load || count))
+        modes[k] = { ...(load ? { load } : {}), ...(count ? { count } : {}) };
+    }
+    out.exerciseModes = modes;
+  }
   if (iso(r.lastBackupAt)) out.lastBackupAt = r.lastBackupAt as string;
   if (iso(r.backupReminderDismissedAt)) out.backupReminderDismissedAt = r.backupReminderDismissedAt as string;
   return out;
