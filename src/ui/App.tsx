@@ -2,12 +2,11 @@ import { computed, signal } from '@preact/signals';
 import type { ComponentType } from 'preact';
 import { useEffect, useLayoutEffect, useRef } from 'preact/hooks';
 import { t } from '../i18n';
-import { navDir, route, tabSide, pickedDayId, planDayId, todayDayId, toast } from '../state/ui';
+import { navDir, route, tabSide, pickedDayId, planDayId, todayDayId } from '../state/ui';
 import { booted, needsOnboarding } from '../state/app';
 import { active } from '../state/session';
 import { settings } from '../state/settings';
 import { startRest, timer, togglePause } from '../features/timer';
-import { offlineReady } from '../features/update';
 import { Nav } from './components/Nav';
 import { Flash, RestTimerBar } from './components/RestTimerBar';
 import { DialogHost, MenuHost, Toasts } from './components/Overlays';
@@ -113,10 +112,6 @@ export function App() {
     const id = window.setTimeout(() => delete m.dataset.enter, 1000);
     return () => window.clearTimeout(id);
   }, [screenKey, booted.value]);
-
-  useEffect(() => {
-    if (offlineReady.value) toast(t('app.offlineReady'));
-  }, [offlineReady.value]);
 
   if (!booted.value) return <div id="boot" aria-hidden="true" />;
   const onboarding =

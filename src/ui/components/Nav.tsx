@@ -13,7 +13,7 @@ const TABS: Exclude<Tab, 'legal'>[] = ['today', 'plan', 'library', 'history', 's
  * Плавная прокрутка через сотни ещё не нарисованных карточек (content-visibility) медленная, а
  * WebKit её обрывает, когда карточки по пути дорисовываются и меняют высоту.
  */
-function scrollToTop(): void {
+export function scrollToTop(): void {
   const b = scrollBehavior();
   if (b === 'smooth' && scrollY > innerHeight * 1.5)
     window.scrollTo({ top: innerHeight, behavior: 'instant' });

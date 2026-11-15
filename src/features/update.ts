@@ -4,9 +4,9 @@ import { signal } from '@preact/signals';
  * Обновления приложения (registerType: 'prompt').
  * Новая версия сервис-воркера ждёт, пока пользователь не нажмёт «Обновить».
  * Во время активной тренировки тост не показывается — см. UpdateToast.
+ * «Готово к работе офлайн» не показываем: одноразовый тост только перекрывал кнопки внизу экрана.
  */
 export const needRefresh = signal(false);
-export const offlineReady = signal(false);
 
 let doUpdate: ((reload?: boolean) => Promise<void>) | null = null;
 
@@ -23,9 +23,6 @@ export async function initSW(): Promise<void> {
     immediate: true,
     onNeedRefresh() {
       needRefresh.value = true;
-    },
-    onOfflineReady() {
-      offlineReady.value = true;
     },
     onRegisteredSW(_url, reg) {
       if (!reg) return;

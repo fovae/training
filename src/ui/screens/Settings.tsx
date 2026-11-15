@@ -315,6 +315,8 @@ export function Settings() {
         </button>
       </section>
 
+      <ContactCard />
+
       <section class="card group-card about">
         <h2 class="card-t">{t('about.title')}</h2>
         <div class="srow">
@@ -343,46 +345,66 @@ export function Settings() {
           </div>
         ) : null}
         <div class="srow">
-          <span>
-            {t('about.responsible')}
-            <small>{t('legal.responsible')}</small>
-          </span>
-        </div>
-        <div class="srow">
           <span>{t('about.contact')}</span>
           <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>
         </div>
-        <ul class="list">
-          {(['terms', 'privacy'] as const).map((d) => (
-            <li key={d}>
-              <a class="row" href={`#/legal/${d}`}>
-                <span class="row-main">
-                  <b>{t(`legal.${d}Title`)}</b>
-                  <span class="muted">
-                    {t('legal.versionLine', {
-                      version: LEGAL_META[d].version,
-                      date: fmtDocDate(LEGAL_META[d].updated),
-                    })}
+        <LegalDocs />
+        <p class="credits">{t('about.credits')}</p>
+      </section>
+    </div>
+  );
+}
+
+/**
+ * «Документы» в «О приложении»: одна строка вместо трёх — условия, политика и лицензии открываются
+ * нижним листом.
+ */
+function LegalDocs() {
+  const [open, setOpen] = useState(false);
+  return (
+    <>
+      <ul class="list">
+        <li>
+          <button type="button" class="row" aria-haspopup="dialog" onClick={() => setOpen(true)}>
+            <span class="row-main">
+              <b>{t('about.documents')}</b>
+              <span class="muted">{t('about.documentsHint')}</span>
+            </span>
+            <Icon name="chevron" size={18} />
+          </button>
+        </li>
+      </ul>
+      {open && (
+        <Sheet title={t('about.documents')} onClose={() => setOpen(false)}>
+          <ul class="list">
+            {(['terms', 'privacy'] as const).map((d) => (
+              <li key={d}>
+                <a class="row" href={`#/legal/${d}`}>
+                  <span class="row-main">
+                    <b>{t(`legal.${d}Title`)}</b>
+                    <span class="muted">
+                      {t('legal.versionLine', {
+                        version: LEGAL_META[d].version,
+                        date: fmtDocDate(LEGAL_META[d].updated),
+                      })}
+                    </span>
                   </span>
+                  <Icon name="chevron" size={18} />
+                </a>
+              </li>
+            ))}
+            <li>
+              <a class="row" href="#/legal/licenses">
+                <span class="row-main">
+                  <b>{t('legal.licensesTitle')}</b>
                 </span>
                 <Icon name="chevron" size={18} />
               </a>
             </li>
-          ))}
-          <li>
-            <a class="row" href="#/legal/licenses">
-              <span class="row-main">
-                <b>{t('legal.licensesTitle')}</b>
-              </span>
-              <Icon name="chevron" size={18} />
-            </a>
-          </li>
-        </ul>
-        <p class="credits">{t('about.credits')}</p>
-      </section>
-
-      <ContactCard />
-    </div>
+          </ul>
+        </Sheet>
+      )}
+    </>
   );
 }
 

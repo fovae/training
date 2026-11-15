@@ -28,7 +28,12 @@ test('no third-party requests and no external links', async ({ page, baseURL }) 
     for (const l of links) {
       // Исключения — внешние https-ссылки в тексте Privacy и Terms и профили в «Contact Me»
       if (l.href.startsWith('https:')) {
-        if ((!l.inLegal && !l.inContact) || l.target !== '_blank' || !/noopener/.test(l.rel) || !/noreferrer/.test(l.rel))
+        if (
+          (!l.inLegal && !l.inContact) ||
+          l.target !== '_blank' ||
+          !/noopener/.test(l.rel) ||
+          !/noreferrer/.test(l.rel)
+        )
           external.push(l.href);
         continue;
       }
@@ -62,5 +67,6 @@ test('no third-party requests and no external links', async ({ page, baseURL }) 
   expect(hrefs).toContain('mailto:fovae.work@gmail.com');
   await page.goto('./#/settings');
   await expect(page.getByText('Created by Fovae & Claude')).toBeVisible();
-  await expect(page.getByText('Fovae, a project of Vladyslav N.')).toBeVisible();
+  // «Ответственное лицо» убрано из «О приложении»: автор — в подписи и в документах
+  await expect(page.getByText('Fovae, a project of Vladyslav N.')).toHaveCount(0);
 });

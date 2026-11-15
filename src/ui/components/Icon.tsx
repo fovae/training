@@ -31,6 +31,7 @@ const PATHS = {
   skip: 'M5 5l10 7-10 7zM19 5v14',
   clock: 'M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18zM12 7.5V12l3 2',
   more: 'M5.5 12h.01M12 12h.01M18.5 12h.01',
+  up: 'M12 19V5M6 11l6-6 6 6',
 } as const;
 
 export type IconName = keyof typeof PATHS;

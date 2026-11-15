@@ -13,6 +13,8 @@ export function Pic({ pic, live, auto }: { pic?: string | undefined; live?: bool
   const html = pic ? picMarkup(pic) : null;
   if (!html) return null;
   if (!live) return <div class="pic" dangerouslySetInnerHTML={{ __html: html }} />;
+  // Значок касания в углу: схема живая — по нажатию позы меняются местами. Сама схема — в обёртке
+  // display: contents (раскладка .pic та же), значок — иконка маской в цвете акцента темы.
   return (
     <button
       type="button"
@@ -20,7 +22,9 @@ export function Pic({ pic, live, auto }: { pic?: string | undefined; live?: bool
       aria-label={t('pic.swap')}
       aria-pressed={swap}
       onClick={() => setSwap(!swap)}
-      dangerouslySetInnerHTML={{ __html: html }}
-    />
+    >
+      <span class="pic-art" dangerouslySetInnerHTML={{ __html: html }} />
+      <span class="pic-tap" aria-hidden="true" />
+    </button>
   );
 }

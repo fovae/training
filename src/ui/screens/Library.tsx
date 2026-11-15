@@ -1,9 +1,10 @@
-import { useEffect, useRef } from 'preact/hooks';
+import { useEffect, useRef, useState } from 'preact/hooks';
 import { findExercise } from '../../data/exercises';
 import { blink, useProgressive } from '../../lib/motion';
 import { t } from '../../i18n';
 import { navDir } from '../../state/ui';
 import { Icon } from '../components/Icon';
+import { scrollToTop } from '../components/Nav';
 import { Pic } from '../components/Pic';
 import { ExerciseFilters, libraryFilter, useExerciseFilter } from '../components/ExerciseFilters';
 import { exName, muscleName } from '../labels';
@@ -13,6 +14,18 @@ export function Library() {
   const grid = useRef<HTMLUListElement>(null);
   const first = useRef(true);
   const shown = useProgressive(list.length, navDir.peek() === 'pop');
+  // «Наверх» появляется, когда поиск, фильтры и счётчик ушли за верх экрана
+  const count = useRef<HTMLParagraphElement>(null);
+  const [away, setAway] = useState(false);
+  useEffect(() => {
+    const el = count.current;
+    if (!el || typeof IntersectionObserver === 'undefined') return;
+    const io = new IntersectionObserver(([e]) => {
+      if (e) setAway(!e.isIntersecting && e.boundingClientRect.bottom <= 0);
+    });
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
   // Поиск и фильтры: список обновляется коротким затуханием (без анимации высоты)
   useEffect(() => {
     if (first.current) first.current = false;
@@ -25,7 +38,7 @@ export function Library() {
         <h1 class="screen-title">{t('library.title')}</h1>
       </header>
       <ExerciseFilters f={f} setF={setF} idPrefix="lib" />
-      <p class="muted small" aria-live="polite">
+      <p class="muted small" aria-live="polite" ref={count}>
         {t('library.found', { count: list.length })}
       </p>
       <ul class="lib-grid" ref={grid}>
@@ -46,6 +59,18 @@ export function Library() {
           <p>{t('library.nothing')}</p>
         </div>
       )}
+      <div class="to-top-wrap">
+        <button
+          type="button"
+          class={'to-top' + (away ? ' on' : '')}
+          aria-hidden={!away}
+          tabIndex={away ? 0 : -1}
+          onClick={scrollToTop}
+        >
+          <Icon name="up" size={16} />
+          {t('library.toTop')}
+        </button>
+      </div>
     </div>
   );
 }

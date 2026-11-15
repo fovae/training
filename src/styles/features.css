@@ -1418,3 +1418,118 @@ button.back {
 .next-time .card-t {
   margin: 0 var(--space-1);
 }
+
+/* ---------- «Упражнения»: кнопка «Наверх» ----------
+ * Появляется, когда поиск и фильтры ушли за верх экрана. Капсула по центру колонки над таб-баром,
+ * стекло в оттенке темы (как у таб-бара), текст и стрелка — акцентом темы. Обёртка нулевой высоты
+ * и sticky — кнопка не занимает места в списке и центрируется по колонке и на телефоне, и на ПК.
+ */
+.to-top-wrap {
+  position: sticky;
+  z-index: 25;
+  bottom: calc(var(--nav-space) + var(--vp-c, 0px) + var(--timer-h) + var(--space-3));
+  height: 0;
+  display: flex;
+  justify-content: center;
+  pointer-events: none;
+}
+.to-top {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 36px;
+  padding: 0 14px 0 11px;
+  border-radius: 999px;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--accent-ink);
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--card) 82%, transparent),
+    color-mix(in srgb, var(--card) 70%, transparent)
+  );
+  -webkit-backdrop-filter: blur(18px) saturate(1.8);
+  backdrop-filter: blur(18px) saturate(1.8);
+  border: 1px solid color-mix(in srgb, var(--ink) 8%, transparent);
+  box-shadow:
+    0 8px 24px -8px rgba(0, 0, 0, 0.22),
+    0 1px 3px rgba(0, 0, 0, 0.06);
+  transform: translateY(calc(-100% + 10px)) scale(0.94);
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    opacity var(--dur-fast) var(--ease-out),
+    transform var(--dur-release) var(--ease-soft);
+}
+.to-top.on {
+  pointer-events: auto;
+  transform: translateY(-100%);
+  opacity: 1;
+}
+.to-top.on:active {
+  transform: translateY(-100%) scale(0.95);
+  transition-duration: var(--dur-press);
+}
+.to-top .icon {
+  flex: none;
+}
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .to-top {
+    background: var(--card);
+  }
+}
+
+/* ---------- живая схема упражнения: значок касания ----------
+ * Схему на открытой карточке можно нажать — позы меняются местами. Значок в углу подсказывает это:
+ * кружок цвета карточки, в нём палец с «волной» касания цветом акцента темы; от кружка периодически
+ * расходится кольцо (без анимаций — просто значок). Иконка — маской, чтобы красилась в цвет темы.
+ */
+.pic-live {
+  position: relative;
+}
+.pic-art {
+  display: contents;
+}
+.pic-tap {
+  --tap-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M10 13V7.5a1.5 1.5 0 0 1 3 0V12'/%3E%3Cpath d='M13 11.5a1.5 1.5 0 0 1 3 0V13'/%3E%3Cpath d='M16 12.5a1.5 1.5 0 0 1 3 0V16a6 6 0 0 1-6 6h-1a5 5 0 0 1-3.8-1.8l-2.9-3.4a1.5 1.5 0 0 1 2.2-2L10 17.5V13'/%3E%3Cpath d='M7.4 5.4a5 5 0 0 1 8.2 0'/%3E%3Cpath d='M4.8 3.6a8.5 8.5 0 0 1 13.4 0'/%3E%3C/svg%3E");
+  position: absolute;
+  right: 8px;
+  bottom: 8px;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--card) 90%, transparent);
+  border: 1px solid color-mix(in srgb, var(--ink) 8%, transparent);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  pointer-events: none;
+}
+.pic-tap::before {
+  content: '';
+  position: absolute;
+  inset: 5px;
+  background: var(--accent-ink);
+  -webkit-mask: var(--tap-icon) center / contain no-repeat;
+  mask: var(--tap-icon) center / contain no-repeat;
+}
+/* кольцо от значка расходится и тает — «касание» */
+.pic-tap::after {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: 50%;
+  border: 1.5px solid var(--accent);
+  opacity: 0;
+  animation: m-tap 1.8s var(--ease-out) 1s infinite;
+}
+@keyframes m-tap {
+  0% {
+    transform: scale(1);
+    opacity: 0.6;
+  }
+  70%,
+  100% {
+    transform: scale(1.6);
+    opacity: 0;
+  }
+}

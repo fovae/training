@@ -309,3 +309,34 @@ test('workout clock is live: ticks every second from the start', async ({ page }
   const first = await clock.textContent();
   await expect.poll(() => clock.textContent(), { timeout: 4000 }).not.toBe(first);
 });
+
+test('library: "Back to top" appears after scrolling past filters; live pic shows a tap badge', async ({
+  page,
+}) => {
+  await fresh(page);
+  await onboard(page);
+  await page.getByRole('link', { name: 'Exercises' }).click();
+  const toTop = page.getByRole('button', { name: 'Back to top' });
+  // пока поиск и фильтры видны — кнопки нет
+  await expect(toTop).toHaveCount(0);
+  // список дорисовывается порциями — ждём карточки и прокручиваем, пока страница не станет длинной
+  await expect(page.locator('.lib-card').nth(30)).toBeAttached();
+  await expect.poll(() => page.evaluate(() => (window.scrollTo(0, 1500), scrollY))).toBeGreaterThan(600);
+  await expect(toTop).toBeVisible();
+  // по центру колонки и над таб-баром
+  const btn = (await toTop.boundingBox())!;
+  const vw = page.viewportSize()!.width;
+  expect(Math.abs(btn.x + btn.width / 2 - vw / 2)).toBeLessThan(3);
+  const nav = (await page.getByRole('navigation', { name: 'Sections' }).boundingBox())!;
+  expect(btn.y + btn.height).toBeLessThanOrEqual(nav.y);
+  await toTop.click();
+  await expect.poll(() => page.evaluate(() => scrollY)).toBe(0);
+  await expect(toTop).toHaveCount(0);
+
+  // Открытая карточка: схема живая — в углу значок «Tap»
+  await page.locator('.lib-card').first().click();
+  const pic = page.locator('.pic-live');
+  // значок без текста — только иконка
+  await expect(pic.locator('.pic-tap')).toBeVisible();
+  await expect(pic.locator('.pic-tap')).toHaveText('');
+});

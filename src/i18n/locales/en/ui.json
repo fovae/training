@@ -2,7 +2,6 @@
   "app": {
     "name": "Simple Training",
     "skipToContent": "Skip to content",
-    "offlineReady": "The app is ready to work offline",
     "storageError": "Couldn't open storage. Private browsing may be on, so your log won't be saved."
   },
   "nav": {
@@ -377,6 +376,7 @@
       "one": "{count} exercise",
       "other": "{count} exercises"
     },
+    "toTop": "Back to top",
     "nothing": "Nothing found. Try another search or filter.",
     "notFound": "Exercise not found",
     "primary": "Main muscles",
@@ -606,7 +606,8 @@
     "privacy": "Works offline. No accounts, ads, cookies or tracking. Your data stays only on this device.",
     "contact": "Contact",
     "credits": "Created by Fovae & Claude",
-    "responsible": "Responsible"
+    "documents": "Documents",
+    "documentsHint": "Terms, privacy, licences"
   },
   "legal": {
     "adultLabel": "I am at least 16 years old and I accept the {terms} and the {privacy}",
@@ -632,7 +633,6 @@
     "updatedTitle": "We updated our documents",
     "updatedBody": "Please review the updated Terms of Use and Privacy Policy. You can read them first; to keep using the app, accept them.",
     "accept": "Accept",
-    "responsible": "Fovae, a project of Vladyslav N.",
     "termsLink": "Terms of Use",
     "privacyLink": "Privacy Policy"
   },

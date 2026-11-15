@@ -297,9 +297,19 @@ test('legal: documents accepted in onboarding; a new version asks again; licence
   await expect(gh).toHaveAttribute('target', '_blank');
   await expect(gh).toHaveAttribute('rel', 'noopener noreferrer');
 
-  // Лицензии — из «About», собраны при сборке
+  // «About»: документы — одна строка, открывает лист с тремя документами; «Contact Me» — над «About»;
+  // строки «Responsible» больше нет (автор указан внизу и в документах)
   await page.goto('./#/settings');
-  await page.getByRole('link', { name: 'Open-source licences' }).click();
+  const titles = await page.locator('.settings .card-t').allTextContents();
+  expect(titles.indexOf('Contact Me')).toBe(titles.indexOf('About') - 1);
+  await expect(page.locator('.about').getByText('Responsible')).toHaveCount(0);
+  await expect(page.locator('.about').getByRole('link', { name: /Terms of Use/ })).toHaveCount(0);
+  await page.getByRole('button', { name: /Documents/ }).click();
+  const docs = page.getByRole('dialog', { name: 'Documents' });
+  for (const name of [/Terms of Use/, /Privacy Policy/, /Open-source licences/])
+    await expect(docs.getByRole('link', { name })).toBeVisible();
+  // Лицензии — собраны при сборке
+  await docs.getByRole('link', { name: 'Open-source licences' }).click();
   for (const name of ['preact', '@fontsource-variable/manrope', 'idb', 'workbox-precaching'])
     await expect(page.getByText(name, { exact: true })).toBeVisible();
   await expect(page.getByText(/OFL-1\.1/)).toBeVisible();
