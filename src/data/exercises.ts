@@ -1,6 +1,6 @@
 import { signal } from '@preact/signals';
 import type { Equipment, Exercise, Muscle } from '../types';
-import { makeDoc, rankByQuery, type SearchFields } from './search';
+import { makeDoc, makeLexicon, rankByQuery, type SearchFields, type TagLexicon } from './search';
 
 /**
  * Доступ к базе упражнений. Сами записи и схемы — в ленивом чанке ./catalog
@@ -114,14 +114,36 @@ export function tagSynonyms(tag: Muscle | Equipment, lang: 'ru' | 'en'): string[
  * (по языку), английские синонимы и id (на остальных языках тоже), мышцы и инвентарь с
  * разговорными названиями. labels — подписи на языке интерфейса.
  */
+export type SearchFieldsFn = ((e: Exercise) => SearchFields) & {
+  /** Словарь мышц и инвентаря на этом языке — для уровней поиска (src/data/search.ts) */
+  lexicon: () => TagLexicon;
+};
+
 export function exerciseSearchFields(
   lang: string,
   labels: { name: (id: string) => string; muscle: (m: Muscle) => string; equip: (q: Equipment) => string },
-): (e: Exercise) => SearchFields {
+): SearchFieldsFn {
   const own = lang === 'ru' ? 'ru' : 'en';
   const tag = (label: string, syn: string[]) => [label, ...syn].join(', ');
   const muscle = (m: Muscle) => tag(labels.muscle(m), tagSynonyms(m, own));
-  return (e) => ({
+  const lexicon = () => {
+    let lx = lexicons.get(lang);
+    if (!lx) {
+      const ids = Object.keys(cat?.TAG_SYNONYMS ?? {}) as (Muscle | Equipment)[];
+      const muscles = new Set<string>(MUSCLES);
+      lx = makeLexicon(
+        ids.map((id) => {
+          const m = muscles.has(id);
+          const label = m ? labels.muscle(id as Muscle) : labels.equip(id as Equipment);
+          // английские названия мышц понимаются на всех языках («biceps», «back»)
+          return { id, muscle: m, names: [label, ...tagSynonyms(id, own), ...tagSynonyms(id, 'en')] };
+        }),
+      );
+      if (cat) lexicons.set(lang, lx);
+    }
+    return lx;
+  };
+  const fn = (e: Exercise): SearchFields => ({
     name: labels.name(e.id),
     alt: lang === 'ru' || lang === 'en' ? exerciseAliases(e.id, own) : [],
     en: [e.id.replace(/-/g, ' '), ...(lang === 'en' ? [] : exerciseAliases(e.id, 'en'))],
@@ -130,8 +152,22 @@ export function exerciseSearchFields(
       ...e.equipment.map((q) => tag(labels.equip(q), tagSynonyms(q, own))),
     ],
     minor: e.secondaryMuscles.map(muscle),
+    order: catalogIndex().get(e.id) ?? 0,
+    primaryIds: e.primaryMuscles,
+    equipIds: e.equipment,
+    minorIds: e.secondaryMuscles,
   });
+  return Object.assign(fn, { lexicon });
 }
+
+const lexicons = new Map<string, TagLexicon>();
+
+/** Постоянный порядок каталога: базовые упражнения раньше вариаций */
+let catIndex: Map<string, number> | null = null;
+const catalogIndex = (): Map<string, number> => {
+  if (!catIndex && cat) catIndex = new Map(cat.EXERCISES.map((e, i) => [e.id, i]));
+  return catIndex ?? new Map();
+};
 
 /**
  * Отбор по мышце и оборудованию + поиск (src/data/search.ts): опечатки, словоформы, синонимы,
@@ -141,7 +177,7 @@ export function exerciseSearchFields(
 export function filterExercises(
   list: Exercise[],
   f: ExerciseFilter,
-  fields: (e: Exercise) => SearchFields,
+  fields: ((e: Exercise) => SearchFields) & { lexicon?: () => TagLexicon },
   /** Ключ кэша поисковых записей (язык): записи строятся один раз на язык */
   cacheKey?: string,
 ): Exercise[] {
@@ -161,7 +197,12 @@ export function filterExercises(
     if (!d) docs.set(k, (d = makeDoc(fields(e))));
     return d;
   };
-  return rankByQuery(out, q, doc);
+  const m = f.muscle;
+  return rankByQuery(out, q, doc, {
+    lexicon: fields.lexicon?.(),
+    // выбран фильтр мышцы: при равенстве — где она главная, затем основная, затем второстепенная
+    tiebreak: m ? (e) => muscleRank(e, m) : undefined,
+  });
 }
 
 const docs = new Map<string, ReturnType<typeof makeDoc>>();
@@ -171,15 +212,16 @@ const docs = new Map<string, ReturnType<typeof makeDoc>>();
  * затем — где она одна из основных, затем — где второстепенная, и дальше по месту в списке
  * второстепенных. Внутри одного уровня — прежний порядок каталога (сортировка устойчивая).
  */
+function muscleRank(e: Exercise, m: Muscle): number {
+  const p = e.primaryMuscles.indexOf(m);
+  if (p >= 0) return p === 0 ? 0 : 1;
+  const s = e.secondaryMuscles.indexOf(m);
+  return s >= 0 ? 2 + s : 99;
+}
+
 function sortByMuscle(list: Exercise[], m: Muscle): Exercise[] {
-  const rank = (e: Exercise) => {
-    const p = e.primaryMuscles.indexOf(m);
-    if (p >= 0) return p === 0 ? 0 : 1;
-    const s = e.secondaryMuscles.indexOf(m);
-    return s >= 0 ? 2 + s : 99;
-  };
   return list
-    .map((e, i) => ({ e, i, r: rank(e) }))
+    .map((e, i) => ({ e, i, r: muscleRank(e, m) }))
     .sort((a, b) => a.r - b.r || a.i - b.i)
     .map((x) => x.e);
 }

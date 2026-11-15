@@ -155,7 +155,7 @@ export function Settings() {
           </span>
           <Seg<MotionPref>
             label={t('settings.motion')}
-            value={s.motion ?? 'system'}
+            value={s.motion ?? 'on'}
             options={(['system', 'on', 'off'] as const).map((v) => ({ v, t: t(`settings.motionOpt.${v}`) }))}
             onChange={(v) => set('motion', v)}
           />
@@ -245,6 +245,31 @@ export function Settings() {
             on={s.wakeLock && wakeSupported}
             disabled={!wakeSupported}
             onChange={(v) => set('wakeLock', v)}
+          />
+        </div>
+      </section>
+
+      <section class="card group-card">
+        <h2 class="card-t">{t('settings.duration')}</h2>
+        <div class="field">
+          <span class="field-lb">{t('settings.pace')}</span>
+          <small>{t('settings.paceHint')}</small>
+          <Seg<NonNullable<S['pace']>>
+            label={t('settings.pace')}
+            value={s.pace ?? 'normal'}
+            options={(['slow', 'normal', 'fast'] as const).map((v) => ({ v, t: t(`settings.paceOpt.${v}`) }))}
+            onChange={(v) => set('pace', v)}
+          />
+        </div>
+        <div class="srow">
+          <span>
+            {t('settings.useHistory')}
+            <small>{t('settings.useHistoryHint')}</small>
+          </span>
+          <Toggle
+            label={t('settings.useHistory')}
+            on={s.useHistory !== false}
+            onChange={(v) => set('useHistory', v)}
           />
         </div>
       </section>

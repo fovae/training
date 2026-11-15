@@ -22,7 +22,8 @@ export function sanitizeSettings(raw: unknown): Settings {
   }
   const out: Settings = {
     theme: migrateTheme(r.theme),
-    motion: r.motion === 'on' || r.motion === 'off' ? r.motion : 'system',
+    motion:
+      r.motion === 'on' || r.motion === 'off' || r.motion === 'system' ? r.motion : DEFAULT_SETTINGS.motion,
     tipsEnabled: bool(r.tipsEnabled, DEFAULT_SETTINGS.tipsEnabled),
     restBaseSec: num(r.restBaseSec, DEFAULT_SETTINGS.restBaseSec),
     restIsoSec: num(r.restIsoSec, DEFAULT_SETTINGS.restIsoSec),
@@ -38,6 +39,8 @@ export function sanitizeSettings(raw: unknown): Settings {
       : [],
   };
   if (typeof r.flash === 'boolean') out.flash = r.flash;
+  if (r.pace === 'slow' || r.pace === 'normal' || r.pace === 'fast') out.pace = r.pace;
+  if (typeof r.useHistory === 'boolean') out.useHistory = r.useHistory;
   if (iso(r.lastBackupAt)) out.lastBackupAt = r.lastBackupAt as string;
   if (iso(r.backupReminderDismissedAt)) out.backupReminderDismissedAt = r.backupReminderDismissedAt as string;
   return out;

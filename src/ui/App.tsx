@@ -113,7 +113,13 @@ export function App() {
     return () => window.clearTimeout(id);
   }, [screenKey, booted.value]);
 
-  if (!booted.value) return <div id="boot" aria-hidden="true" />;
+  // Загрузочный экран (#boot в index.html, вне корня Preact) уходит в том же кадре, когда приложение
+  // готово, — не дожидаясь конца своей анимации. При смене вкладок его уже нет в документе.
+  useLayoutEffect(() => {
+    if (booted.value) document.getElementById('boot')?.remove();
+  }, [booted.value]);
+
+  if (!booted.value) return null;
   const onboarding =
     needsOnboarding.value || ((gateVisible.value || legalPending.value) && route.value.tab !== 'legal');
 

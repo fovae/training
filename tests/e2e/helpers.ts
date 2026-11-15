@@ -4,7 +4,18 @@ import { expect, type Locator, type Page } from '@playwright/test';
 export const SKIP_KEY = 'tp-install-skip';
 
 /** Чистый старт: без базы и localStorage, экран установки пропущен. */
-export async function fresh(page: Page, opts: { gate?: boolean } = {}): Promise<void> {
+export async function fresh(
+  page: Page,
+  opts: {
+    gate?: boolean;
+    /**
+     * «Анимации» в настройках. С 3.15 у нового пользователя они включены ('default'). Тесты по умолчанию
+     * ставят «как в системе», как было раньше: так emulateMedia({ reducedMotion: 'reduce' }) выключает
+     * анимации и вёрстка меряется в покое.
+     */
+    motion?: 'system' | 'default';
+  } = {},
+): Promise<void> {
   await page.goto('./');
   await page.evaluate(async (skip) => {
     localStorage.clear();
@@ -14,6 +25,29 @@ export async function fresh(page: Page, opts: { gate?: boolean } = {}): Promise<
       r.onsuccess = r.onerror = r.onblocked = () => res();
     });
   }, !opts.gate);
+  await page.reload();
+  if (opts.motion === 'default') return;
+  // приложение создало базу — записываем выбор и перезагружаем
+  await page.locator('#boot').waitFor({ state: 'detached' });
+  await page.evaluate(
+    () =>
+      new Promise<void>((res, rej) => {
+        const boot = JSON.parse(localStorage.getItem('tp-boot') || '{}') as object;
+        localStorage.setItem('tp-boot', JSON.stringify({ ...boot, motion: 'system' }));
+        const r = indexedDB.open('training-pwa');
+        r.onerror = () => rej(r.error);
+        r.onsuccess = () => {
+          const db = r.result;
+          const tx = db.transaction('kv', 'readwrite');
+          tx.objectStore('kv').put({ motion: 'system' }, 'settings');
+          tx.oncomplete = () => {
+            db.close();
+            res();
+          };
+          tx.onerror = () => rej(tx.error);
+        };
+      }),
+  );
   await page.reload();
 }
 
@@ -91,7 +125,9 @@ export async function choose(field: Locator, v: string | { index: number }): Pro
   await field.click();
   const list = page.locator('.select-layer:not(.leaving) .select-list');
   const opt =
-    typeof v === 'string' ? list.locator(`[role="option"][data-value="${v}"]`) : list.getByRole('option').nth(v.index);
+    typeof v === 'string'
+      ? list.locator(`[role="option"][data-value="${v}"]`)
+      : list.getByRole('option').nth(v.index);
   await opt.click();
   await expect(page.locator('.select-layer')).toHaveCount(0);
 }

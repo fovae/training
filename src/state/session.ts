@@ -74,7 +74,7 @@ export function targetFor(dayId: string, exId: string): PlanItem {
   return { exerciseId: exId, ...(ex?.defaults ?? { sets: 3, repsMin: 8, repsMax: 12 }) };
 }
 
-export function restFor(ex: Exercise | undefined, item?: PlanItem): number {
+export function restFor(ex: Pick<Exercise, 'type'> | undefined, item?: Pick<PlanItem, 'restSec'>): number {
   if (item?.restSec) return item.restSec;
   const s = settings.value;
   return ex?.type === 'compound' ? s.restBaseSec : s.restIsoSec;

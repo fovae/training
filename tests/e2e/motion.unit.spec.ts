@@ -104,3 +104,25 @@ test('hover styles only for devices with hover', () => {
     });
   }
 });
+
+test('boot screen (index.html): transform/opacity only, delayed start, own reduced-motion fallback', () => {
+  const html = readFileSync(new URL('../../index.html', import.meta.url), 'utf8');
+  const style = /<style>([\s\S]*?)<\/style>/.exec(html)?.[1] ?? '';
+  expect(style).toContain('#boot');
+  const bad: string[] = [];
+  for (const m of style.matchAll(/@keyframes\s+([\w-]+)\s*\{([\s\S]*?)\n {6}\}/g)) {
+    for (const d of m[2]!.matchAll(/([a-z-]+)\s*:/g))
+      if (!/^(transform|opacity)$/.test(d[1]!)) bad.push(`@keyframes ${m[1]} → ${d[1]}`);
+  }
+  expect(bad).toEqual([]);
+  // вся последовательность — не дольше ~1,5 с, и ничего не видно первые 150 мс (быстрый запуск)
+  for (const m of style.matchAll(/animation:\s*boot-[\w-]+ (\d+)ms [^;]*? (\d+)ms both/g)) {
+    expect(Number(m[1]) + Number(m[2])).toBeLessThanOrEqual(1500);
+    expect(Number(m[2])).toBeGreaterThanOrEqual(150);
+  }
+  // без анимаций — только проявление, и для настройки, и для системы
+  expect(style).toMatch(/:root\[data-motion='off'\] #boot \.boot-in \*\s*\{\s*animation: none !important/);
+  expect(style).toMatch(
+    /@media \(prefers-reduced-motion: reduce\)\s*\{\s*:root:not\(\[data-motion='on'\]\) #boot \.boot-in\s*\{\s*animation: boot-fade/,
+  );
+});

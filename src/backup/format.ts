@@ -14,9 +14,12 @@ import { DEFAULT_SETTINGS, THEMES, type Plan, type Profile, type Session, type S
  */
 
 export const BACKUP_APP = 'simple-training';
-/** 4 — релиз 3.0: новый набор тем, Settings.motion. Копии версии 3 читаются (темы переводятся). */
-export const BACKUP_SCHEMA = 4;
-const READABLE_SCHEMAS = [3, 4] as const;
+/**
+ * 5 — релиз 3.15: Settings.pace и Settings.useHistory (оценка длительности, необязательные поля).
+ * 4 — релиз 3.0: новый набор тем, Settings.motion. Копии версий 3 и 4 читаются (темы переводятся).
+ */
+export const BACKUP_SCHEMA = 5;
+const READABLE_SCHEMAS = [3, 4, 5] as const;
 /** Максимальный размер файла копии */
 export const MAX_BACKUP_BYTES = 10 * 1024 * 1024;
 
@@ -183,6 +186,9 @@ const SettingsSchema = v.strictObject({
   backupReminderDismissedAt: v.optional(iso),
   tipState: v.record(v.pipe(v.string(), v.maxLength(120)), v.strictObject({ dismissedAt: iso })),
   weightWarningIgnored: v.pipe(v.array(id), v.maxLength(500)),
+  // 3.15 (схема 5): оценка длительности; в копиях до 3.15 полей нет — обычный темп, с историей
+  pace: v.optional(v.picklist(['slow', 'normal', 'fast'] as const)),
+  useHistory: v.optional(v.boolean()),
 });
 const DataSchema = v.strictObject({
   profile: v.nullable(ProfileSchema),

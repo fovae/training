@@ -3,6 +3,7 @@ import { fmtNum, has, t, weekdayShort } from '../i18n';
 import { fmtDuration, fmtRest, fmtTimeRange } from '../lib/format';
 import { dayIndex, findDay, shownWeekday } from '../state/plan';
 import { restFor } from '../state/session';
+import { estimateForDay } from '../state/estimate';
 import type { Day, Exercise, Muscle, PlanItem } from '../types';
 
 /** Переведённые подписи, общие для экранов */
@@ -56,24 +57,17 @@ export const dayMeta = (day: Day): string => {
 };
 
 /**
- * Примерная длительность тренировки дня: работа в подходах (по повторам ~4 с, упражнения на время —
- * по заданному времени; «на каждую сторону» — вдвое), отдых между подходами (таймер отдыха) и ~1 мин
- * на переход к следующему упражнению. Округление до 5 минут. Необязательные упражнения не считаем.
+ * Примерная длительность тренировки дня, минуты (typical). Обёртка над моделью src/lib/duration.ts
+ * (работа, отдых с надбавкой, подготовка к подходам, разминка, переходы; «Мой темп» и личный
+ * коэффициент по истории — src/state/estimate.ts). Необязательные упражнения — только в верхней
+ * границе диапазона. Пустой день — 0.
  */
-export function dayMinutes(day: Day): number {
-  let sec = 0;
-  const items = day.items.filter((i) => !i.optional);
-  for (const item of items) {
-    const ex = findExercise(item.exerciseId);
-    const avg = (item.repsMin + item.repsMax) / 2;
-    const work = (ex?.metric === 'time' ? avg : Math.max(20, avg * 4)) * (ex?.per === 'side' ? 2 : 1);
-    sec += item.sets * work + Math.max(0, item.sets - 1) * restFor(ex, item) + 60;
-  }
-  return items.length ? Math.max(5, Math.round(sec / 300) * 5) : 0;
-}
+export const dayMinutes = (day: Day): number => estimateForDay(day).typicalMin;
 
-/** «примерно 45 мин» — или пусто, если в дне нет упражнений */
+/** «примерно 1 ч (50–75 мин)» — или пусто, если в дне нет упражнений */
 export const dayEstimate = (day: Day): string => {
-  const min = dayMinutes(day);
-  return min ? t('today.approx', { time: fmtDuration(min * 60000) }) : '';
+  const e = estimateForDay(day);
+  return e.typicalMin
+    ? t('estimate.label', { time: fmtDuration(e.typicalMin * 60000), from: e.minMin, to: e.maxMin })
+    : '';
 };

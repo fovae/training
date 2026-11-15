@@ -837,7 +837,7 @@ export const TAG_SYNONYMS: Record<Muscle | Equipment, [ru: string, en: string]> 
   chest: ['грудь, грудные, грудак, грудные мышцы', 'chest, pecs, pectorals'],
   lats: ['спина, широчайшие, крылья, ширина спины', 'back, lats, wings, latissimus'],
   'upper-back': ['спина, верх спины, ромбовидные, толщина спины', 'back, upper back, rhomboids, mid back'],
-  traps: ['трапеция, трапы, трапеции, шея', 'traps, trapezius, neck'],
+  traps: ['трапеция, трапы, трапеции, шея, спина', 'traps, trapezius, neck, back'],
   'front-delts': [
     'плечи, дельты, передняя дельта, передние дельты',
     'shoulders, delts, front delt, anterior delt',
@@ -858,7 +858,7 @@ export const TAG_SYNONYMS: Record<Muscle | Equipment, [ru: string, en: string]> 
   'deep-core': ['кор, корпус, мышцы кора, стабилизаторы', 'core, stability, stabilizers'],
   'lower-back': [
     'поясница, низ спины, разгибатели спины, спина',
-    'lower back, low back, erectors, spinal erectors',
+    'lower back, low back, erectors, spinal erectors, back',
   ],
   'hip-flexors': ['сгибатели бедра, подвздошная, пах', 'hip flexors, psoas, iliopsoas'],
   quads: ['ноги, квадрицепс, квадры, передняя поверхность бедра, бедра', 'legs, quads, quadriceps, thighs'],

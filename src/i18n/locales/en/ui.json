@@ -233,6 +233,17 @@
     "duration": "Workout time",
     "approx": "about {time}"
   },
+  "estimate": {
+    "label": "about {time} ({from}–{to} min)",
+    "title": "Estimated duration",
+    "work": "Sets",
+    "rest": "Rest",
+    "setup": "Setup and logging",
+    "warmup": "Warm-up",
+    "transitions": "Moving between exercises",
+    "upTo": "Up to {to} min with optional exercises",
+    "calibrated": "Adjusted to your past workouts"
+  },
   "ex": {
     "optional": "optional",
     "skipped": "skipped",
@@ -479,7 +490,17 @@
       "system": "As in system",
       "on": "On",
       "off": "Off"
-    }
+    },
+    "duration": "Workout duration",
+    "pace": "My pace",
+    "paceHint": "Adjusts the time estimate for a workout",
+    "paceOpt": {
+      "slow": "Slower",
+      "normal": "Normal",
+      "fast": "Faster"
+    },
+    "useHistory": "Learn from my workouts",
+    "useHistoryHint": "The estimate adapts to how long your finished workouts take"
   },
   "backup": {
     "save": "Save a copy",

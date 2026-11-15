@@ -1,4 +1,5 @@
 import { signal } from '@preact/signals';
+import type { ComponentChildren } from 'preact';
 import { useId, useLayoutEffect, useRef, useState } from 'preact/hooks';
 import { t } from '../../i18n';
 
@@ -16,7 +17,16 @@ const EDGE = 12;
 const GAP = 8;
 const MAX_W = 320;
 
-export function HelpTip({ topic, text }: { topic: string; text: string }) {
+export function HelpTip({
+  topic,
+  text,
+  label,
+}: {
+  topic: string;
+  text: ComponentChildren;
+  /** Текст кнопки вместо «?» (расшифровка оценки времени по нажатию на саму оценку) */
+  label?: string;
+}) {
   const id = useId();
   const btn = useRef<HTMLButtonElement>(null);
   const box = useRef<HTMLDivElement>(null);
@@ -81,13 +91,13 @@ export function HelpTip({ topic, text }: { topic: string; text: string }) {
       <button
         ref={btn}
         type="button"
-        class={'help-btn' + (open ? ' on' : '')}
-        aria-label={t('common.helpAbout', { what: topic })}
+        class={(label ? 'help-txt' : 'help-btn') + (open ? ' on' : '')}
+        aria-label={label ? undefined : t('common.helpAbout', { what: topic })}
         aria-expanded={open}
         aria-controls={open ? id : undefined}
         onClick={() => (openTip.value = open ? null : id)}
       >
-        <span aria-hidden="true">?</span>
+        {label ?? <span aria-hidden="true">?</span>}
       </button>
       {open && (
         <div

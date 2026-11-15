@@ -461,6 +461,30 @@ section {
   bottom: -6px;
   transform: rotate(225deg);
 }
+/* Оценка времени в шапке дня — текст-кнопка с расшифровкой (DayHead) */
+.help-txt {
+  display: inline-block;
+  min-height: 24px;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  text-decoration: underline dotted;
+  text-decoration-thickness: 1.5px;
+  text-underline-offset: 3px;
+}
+.help-txt:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+.est-parts {
+  display: grid;
+  gap: 2px;
+}
+.est-parts small {
+  color: var(--muted);
+  font-size: 13px;
+}
 
 /* Contact Me (Настройки): значки в мягкой плашке цветами темы, строки — как остальные списки */
 .contact-list {

@@ -137,10 +137,16 @@ export interface Settings {
   tipState: Record<string, TipMark>;
   /** id упражнений с «Больше не предупреждать» о весе */
   weightWarningIgnored: string[];
+  /** «Мой темп» — ручная поправка к оценке длительности (3.15). Нет поля — обычный */
+  pace?: 'slow' | 'normal' | 'fast';
+  /** Подстраивать оценку длительности под историю тренировок (3.15). Нет поля — да */
+  useHistory?: boolean;
 }
 
 export const DEFAULT_SETTINGS: Settings = {
   theme: 'auto',
+  /** 3.15: у новых пользователей анимации включены; сохранённый выбор («как в системе») не меняем */
+  motion: 'on',
   tipsEnabled: true,
   restBaseSec: 150,
   restIsoSec: 90,

@@ -88,7 +88,9 @@
           var th = old.hasOwnProperty(b.theme) ? old[b.theme] : b.theme;
           var ok = typeof th === 'string' && (' ' + known + ' ').indexOf(' ' + th + ' ') >= 0;
           if (ok) d.dataset.theme = th;
+          // анимации по умолчанию включены (3.15); «как в системе» — только если выбрано так
           if (b.motion === 'on' || b.motion === 'off') d.dataset.motion = b.motion;
+          else if (b.motion !== 'system') d.dataset.motion = 'on';
           if (b.locale) d.lang = b.locale;
           // theme-color: у «Авто» — два мета-тега по системной теме, у выбранной темы — её фон
           var tc = b.themeColor;
@@ -99,10 +101,136 @@
         } catch (e) {}
       })();
     </script>
+    <!--
+      Загрузочный экран (#boot): виден, пока идёт начальная загрузка (скрипты, база, язык), и убирается
+      в тот же кадр, когда приложение готово (App.tsx) — анимацию не дожидаемся. Разметка и стили здесь,
+      а не в бандле: рисуются с первого кадра, до скриптов, и офлайн — index.html в кэше service worker.
+      Знак — гантель из иконки (public/icons/favicon.svg, три фигуры): там же, где на iOS-заставке
+      (26% меньшей стороны, центр чуть выше середины). Цвета — из темы: гантель --ink, диски --accent.
+      Быстрый запуск ничего не показывает: всё проявляется с задержкой 180 мс. Сборка: гриф с дисками
+      проявляется, внешние диски приезжают по оси грифа, знак делает один мягкий подъём и опускается,
+      ниже проявляется название; дальше — неподвижно. Только transform и opacity (motion.unit.spec).
+      Без анимаций (настройка или система) — то же проявление одной прозрачностью, без движения.
+    -->
+    <style>
+      #boot {
+        position: fixed;
+        inset: 0;
+        z-index: 100;
+        background: var(--bg, #f6f6f7);
+        color: var(--ink, #1c1c20);
+        --s: clamp(88px, 26vmin, 148px);
+      }
+      .boot-in {
+        position: absolute;
+        inset: calc(50% - var(--s) * 0.62) 0 auto;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      .boot-mark {
+        display: block;
+        width: var(--s);
+        height: var(--s);
+        overflow: visible;
+      }
+      .boot-name {
+        margin-top: 4px;
+        font: 700 20px/1.2 var(--font, system-ui, sans-serif);
+        letter-spacing: -0.01em;
+      }
+      .boot-bar {
+        transform-box: fill-box;
+        transform-origin: center;
+        animation: boot-bar 400ms var(--ease-out, ease-out) 180ms both;
+      }
+      .boot-r,
+      .boot-l {
+        fill: var(--accent, currentColor);
+        animation: boot-r 440ms var(--ease-out, ease-out) 320ms both;
+      }
+      .boot-l {
+        animation-name: boot-l;
+      }
+      .boot-lift {
+        animation: boot-lift 720ms var(--ease-in-out, ease-in-out) 760ms both;
+      }
+      .boot-name {
+        animation: boot-rise 460ms var(--ease-out, ease-out) 620ms both;
+      }
+      @keyframes boot-bar {
+        from {
+          opacity: 0;
+          transform: scale(0.84);
+        }
+      }
+      @keyframes boot-r {
+        from {
+          opacity: 0;
+          transform: translate(30px, -15px);
+        }
+      }
+      @keyframes boot-l {
+        from {
+          opacity: 0;
+          transform: translate(-30px, 15px);
+        }
+      }
+      @keyframes boot-lift {
+        45% {
+          transform: translateY(-22px);
+        }
+      }
+      @keyframes boot-rise {
+        from {
+          opacity: 0;
+          transform: translateY(6px);
+        }
+      }
+      @keyframes boot-fade {
+        from {
+          opacity: 0;
+        }
+      }
+      /* без анимаций: общее правило motion.css обнулило бы и задержку — здесь она своя */
+      :root[data-motion='off'] #boot .boot-in {
+        animation: boot-fade 280ms ease-out 180ms both !important;
+      }
+      :root[data-motion='off'] #boot .boot-in * {
+        animation: none !important;
+      }
+      @media (prefers-reduced-motion: reduce) {
+        :root:not([data-motion='on']) #boot .boot-in {
+          animation: boot-fade 280ms ease-out 180ms both !important;
+        }
+        :root:not([data-motion='on']) #boot .boot-in * {
+          animation: none !important;
+        }
+      }
+    </style>
   </head>
   <body>
-    <div id="app">
-      <div id="boot" aria-hidden="true"></div>
+    <div id="app"></div>
+    <div id="boot" aria-hidden="true">
+      <div class="boot-in">
+        <svg class="boot-mark" viewBox="0 0 512 512" width="112" height="112" fill="currentColor">
+          <g class="boot-lift">
+            <path
+              class="boot-bar"
+              d="M200.3 262.0L312.0 205.6L313.2 204.0L292.0 164.0L289.8 158.0L289.5 154.0L290.0 147.8L292.0 143.2L296.0 137.7L300.0 133.9L303.6 132.0L310.0 129.9L316.0 129.5L322.0 130.1L329.1 134.0L334.5 140.0L398.8 262.0L400.5 266.0L401.4 274.0L400.7 280.0L398.1 286.0L395.0 290.0L390.0 294.8L380.0 298.9L370.0 298.6L362.0 294.7L355.7 288.0L338.6 254.0L330.0 238.9L328.0 239.0L312.0 247.0L202.0 303.1L201.4 304.0L222.6 346.0L224.4 352.0L224.8 358.0L223.0 366.0L221.0 370.0L217.8 374.0L212.0 378.8L208.0 380.9L200.0 382.6L196.0 382.5L188.0 380.4L182.0 376.2L177.3 370.0L116.0 245.9L114.0 239.0L113.8 236.0L116.0 226.4L120.6 220.0L122.8 218.0L128.6 214.0L134.0 211.9L142.0 211.3L147.5 212.0L154.0 215.2L160.5 222.0L184.0 268.4L186.0 268.9Z"
+            />
+            <path
+              class="boot-r"
+              d="M351.7 140.0L356.0 132.3L361.2 128.0L366.0 125.8L372.0 125.1L378.0 125.8L382.0 127.5L388.0 132.6L392.2 138.0L434.3 216.0L436.7 222.0L437.5 228.0L437.6 232.0L436.5 238.0L434.8 242.0L430.0 247.7L426.0 250.9L422.0 252.7L416.0 253.3L410.0 252.8L406.0 250.8L402.0 247.4L399.4 244.0L364.7 176.0L353.6 156.0L351.7 152.0L350.9 148.0Z"
+            />
+            <path
+              class="boot-l"
+              d="M73.8 274.0L76.0 267.7L78.0 264.7L85.2 258.0L89.1 256.0L98.0 254.7L104.0 255.3L108.0 257.4L112.0 260.9L114.3 264.0L120.5 276.0L158.6 352.0L161.4 360.0L161.5 368.0L160.7 372.0L158.7 376.0L156.0 379.5L150.0 384.6L146.0 386.3L138.0 387.4L132.0 386.5L128.0 384.8L121.9 380.0L117.4 374.0L75.8 290.0L73.5 282.0Z"
+            />
+          </g>
+        </svg>
+        <span class="boot-name">Simple Training</span>
+      </div>
     </div>
     <noscript>Simple Training needs JavaScript to run.</noscript>
     <script type="module" src="/src/main.tsx"></script>

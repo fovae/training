@@ -14,23 +14,36 @@ const durations = (page: Page) =>
     };
   });
 
-test('animations follow the system by default and can be turned on / off in Settings', async ({ page }) => {
-  await page.emulateMedia({ reducedMotion: 'no-preference' });
-  await fresh(page);
+test('animations are on by default (even with reduced motion in the system) and can be changed in Settings', async ({
+  page,
+}) => {
+  // новый пользователь, в системе «уменьшение движения» — анимации всё равно включены, с первого кадра
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await fresh(page, { motion: 'default' });
+  await expect(page.locator('html')).toHaveAttribute('data-motion', 'on');
   await onboard(page);
   let d = await durations(page);
   expect(d.screen).toBeGreaterThanOrEqual(150);
   expect(d.screen).toBeLessThanOrEqual(480);
   expect(d.button).toBeGreaterThan(0);
 
-  // система: «уменьшение движения» — всё мгновенно, прокрутка без плавности
-  await page.emulateMedia({ reducedMotion: 'reduce' });
-  d = await durations(page);
-  expect(d).toEqual({ screen: 0, button: 0 });
-
   await page.getByRole('link', { name: 'Settings', exact: true }).click();
   const seg = page.getByRole('radiogroup', { name: 'Animations' });
-  await expect(seg.getByRole('radio', { name: 'As in system' })).toHaveAttribute('aria-checked', 'true');
+  await expect(seg.getByRole('radio', { name: 'On', exact: true })).toHaveAttribute('aria-checked', 'true');
+  await expect.poll(async () => (await kv<{ motion: string }>(page, 'settings'))?.motion ?? 'on').toBe('on');
+
+  // «Как в системе» — следует системному «уменьшению движения»: всё мгновенно
+  await seg.getByRole('radio', { name: 'As in system' }).click();
+  await expect(page.locator('html')).not.toHaveAttribute('data-motion', /.*/);
+  d = await durations(page);
+  expect(d).toEqual({ screen: 0, button: 0 });
+  // выбор сохраняется: после перезагрузки не возвращается к «включены»
+  await expect.poll(async () => (await kv<{ motion: string }>(page, 'settings'))?.motion).toBe('system');
+  await page.reload();
+  await expect(page.locator('html')).not.toHaveAttribute('data-motion', /.*/);
+  expect(await durations(page)).toEqual({ screen: 0, button: 0 });
+  await page.getByRole('link', { name: 'Settings', exact: true }).click();
+
   // «Включены» — вопреки системной настройке
   await seg.getByRole('radio', { name: 'On', exact: true }).click();
   await expect(page.locator('html')).toHaveAttribute('data-motion', 'on');
@@ -86,12 +99,18 @@ test('screen transitions: nested screen comes from the right, back from the left
   await page.locator('.lib-card').first().click();
   await expect(page.locator('main')).toHaveAttribute('data-nav', 'push');
   expect(
-    await page.locator('main > .screen > *').first().evaluate((el) => getComputedStyle(el).animationName),
+    await page
+      .locator('main > .screen > *')
+      .first()
+      .evaluate((el) => getComputedStyle(el).animationName),
   ).toBe('m-soft-r');
   await page.locator('a.back').click();
   await expect(page.locator('main')).toHaveAttribute('data-nav', 'pop');
   expect(
-    await page.locator('main > .screen > *').first().evaluate((el) => getComputedStyle(el).animationName),
+    await page
+      .locator('main > .screen > *')
+      .first()
+      .evaluate((el) => getComputedStyle(el).animationName),
   ).toBe('m-soft-l');
   // ни одного кадра без экрана
   await expect(page.locator('main > .screen')).toHaveCount(1);
@@ -190,11 +209,45 @@ test('fast taps on days are not lost: every tap switches the day at once, withou
   for (const i of seq) await tabs.nth(i).click({ delay: 0 });
   await expect(tabs.nth(seq.at(-1)!)).toHaveAttribute('aria-selected', 'true');
   // содержимое нового дня: короткое проявление без задержки (не каскад со сдвигом)
-  const anim = await page.locator('main .screen > *').last().evaluate((el) => {
-    const cs = getComputedStyle(el);
-    return { name: cs.animationName, delay: cs.animationDelay };
-  });
+  const anim = await page
+    .locator('main .screen > *')
+    .last()
+    .evaluate((el) => {
+      const cs = getComputedStyle(el);
+      return { name: cs.animationName, delay: cs.animationDelay };
+    });
   expect(anim.delay.split(',').every((d) => parseFloat(d) === 0)).toBe(true);
   // не каскад: то же короткое проявление, что и при входе экрана
   if (anim.name !== 'none') expect(anim.name).toBe('m-soft');
+});
+
+test.describe('boot screen', () => {
+  // без service worker: иначе скрипты придут из его кэша мимо page.route
+  test.use({ serviceWorkers: 'block' });
+
+  test('shown only while the app loads, gone the moment it is ready, never on tab switches', async ({
+    page,
+  }) => {
+    await fresh(page);
+    await onboard(page);
+    // медленная загрузка: скрипты приходят с задержкой — виден знак и название
+    await page.route(/\/(assets|src|node_modules|@)\/.*\.(js|tsx?|mjs)(\?.*)?$/, async (r) => {
+      await new Promise((res) => setTimeout(res, 1200));
+      await r.continue();
+    });
+    await page.reload({ waitUntil: 'commit' });
+    const boot = page.locator('#boot');
+    await expect(boot).toBeVisible();
+    await expect(boot.locator('.boot-name')).toHaveText('Simple Training');
+    await expect(boot.locator('.boot-mark path')).toHaveCount(3);
+    // фон — фон темы, без фальшивого процента
+    expect(await boot.evaluate((el) => /\d+\s*%/.test(el.textContent ?? ''))).toBe(false);
+    // приложение готово — экрана загрузки больше нет в документе
+    await expect(page.getByRole('link', { name: 'Settings', exact: true })).toBeVisible({ timeout: 20_000 });
+    await expect(boot).toHaveCount(0);
+    await page.unrouteAll({ behavior: 'ignoreErrors' });
+    await page.getByRole('link', { name: 'Settings', exact: true }).click();
+    await page.getByRole('link', { name: 'Plan', exact: true }).click();
+    await expect(page.locator('#boot')).toHaveCount(0);
+  });
 });

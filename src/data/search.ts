@@ -6,9 +6,25 @@
  *    «грудь» ≈ «груди», «curls» ≈ «curl»), подстрока внутри слова;
  *  - опечатка: 1 ошибка в слове от 4 букв, 2 — от 8 (замена, пропуск, лишняя, перестановка букв);
  *  - слово, набранное не в той раскладке («ghbctl» → «присед», «ыйгфе» → «squat»).
- * Поля с весами: название, синонимы/сленг на языке интерфейса, английские названия и id, основные
- * и второстепенные мышцы с инвентарём. Предлоги («на», «от», «with»…) не обязательны.
- * Все остальные слова запроса должны найтись; результаты — по убыванию релевантности.
+ * Поля с весами: название 1, синонимы/сленг на языке интерфейса 0.9, английские названия и id 0.75,
+ * основные мышцы с инвентарём 0.7 (точное название мышцы — 0.9, совпадение с основной мышцей или
+ * инвентарём с учётом словоформ — ещё +0.2), второстепенные мышцы 0.3. Целиком совпавший запрос —
+ * бонус: равен названию ×2, начало названия ×1.5, часть фразы ×0.8 (у синонимов — с их весом).
+ * Предлоги («на», «от», «with»…) не обязательны; все остальные слова запроса должны найтись.
+ *
+ * Уровни (tiers). Если каждое значимое слово запроса называет мышцу, группу мышц или инвентарь
+ * (словарь — TagLexicon: подписи на языке интерфейса + синонимы из catalog/aliases.ts; многословные
+ * синонимы ищутся первыми: «бицепс бедра» — это hamstrings, а не biceps), результаты идут блоками:
+ *  0 — запрос равен названию или синониму упражнения («кроссовер», «брусья», «bench»);
+ *  1 — мышца или инвентарь ОСНОВНЫЕ (primaryMuscles / equipment);
+ *  2 — слово есть в названии или синониме, но мышца не основная («тяга с акцентом на бицепс»);
+ *  3 — мышца второстепенная;
+ *  4 — остальные совпадения.
+ * «Мышца + инвентарь» («бицепс гантели»): уровни сравниваются сначала по мышце, затем по инвентарю;
+ * упражнения на основную мышцу с другим инвентарём тоже показываются (после подходящих).
+ * Внутри уровня: мышца главная (первая в основных) → очки → порядок фильтра мышц → место в каталоге
+ * (базовые раньше вариаций) → название → id. Запрос-название («молотки», «жим лёжа») — по очкам, при равенстве — так же. Порядок
+ * переданного списка на результат не влияет.
  */
 
 export interface SearchFields {
@@ -22,6 +38,33 @@ export interface SearchFields {
   tags?: string[];
   /** Второстепенные мышцы */
   minor?: string[];
+  /** Постоянное место упражнения в каталоге (не в переданном списке) — порядок при равенстве */
+  order?: number;
+  /** id основных мышц (по порядку), инвентаря и второстепенных мышц — для уровней */
+  primaryIds?: string[];
+  equipIds?: string[];
+  minorIds?: string[];
+}
+
+/** Мышцы и инвентарь с их названиями — чтобы понять, что запрос называет мышцу (см. уровни) */
+export interface TagEntry {
+  id: string;
+  muscle: boolean;
+  /** Подпись и синонимы, каждая фраза отдельно: «бицепс», «бицепс бедра», «biceps» */
+  names: string[];
+}
+export interface TagLexicon {
+  entries: { id: string; muscle: boolean; phrases: Tok[][] }[];
+}
+
+export function makeLexicon(list: TagEntry[]): TagLexicon {
+  return {
+    entries: list.map((e) => ({
+      id: e.id,
+      muscle: e.muscle,
+      phrases: [...new Set(e.names.map(phraseOf))].filter(Boolean).map((p) => p.split(' ').map(tok)),
+    })),
+  };
 }
 
 const W_NAME = 1;
@@ -180,10 +223,18 @@ interface Field {
   toks: Tok[];
   strict: boolean;
 }
-interface Doc {
+export interface Doc {
   fields: Field[];
   /** Целые фразы (название и синонимы) — бонус за совпадение всего запроса */
   phrases: { text: string; weight: number }[];
+  primary: string[];
+  equip: string[];
+  minor: string[];
+  /** Для устойчивого порядка при равенстве: место в каталоге (базовые упражнения раньше вариаций),
+   *  затем название и id */
+  order: number;
+  sortName: string;
+  key: string;
 }
 
 const phraseOf = (s: string) => words(s).join(' ');
@@ -207,6 +258,12 @@ export function makeDoc(f: SearchFields): Doc {
       ...(f.alt ?? []).map((a) => ({ text: phraseOf(a), weight: 0.9 })),
       ...(f.en ?? []).map((a) => ({ text: phraseOf(a), weight: 0.7 })),
     ],
+    primary: f.primaryIds ?? [],
+    equip: f.equipIds ?? [],
+    minor: f.minorIds ?? [],
+    order: f.order ?? 0,
+    sortName: normText(f.name),
+    key: f.en?.[0] ?? '',
   };
 }
 
@@ -269,7 +326,7 @@ export function scoreDoc(doc: Doc, q: Query): number {
     total += best;
     // запрос называет основную мышцу или инвентарь упражнения («грудь», «спина», «турник») — оно
     // выше тех, где это слово просто встречается в названии («тяга с упором в грудь»)
-    if (tags && qw.variants.some((v) => tags.toks.some((t) => t.w === v.t.w))) total += 0.2;
+    if (tags && qw.variants.some((v) => tags.toks.some((t) => t.w === v.t.w || t.s === v.t.s))) total += 0.2;
   }
   // Весь запрос — начало или часть названия / синонима: «молотки», «жим от груди»
   let bonus = 0;
@@ -287,13 +344,137 @@ export function scoreDoc(doc: Doc, q: Query): number {
   return total + bonus;
 }
 
-/** Отбор и сортировка по релевантности (при равенстве — исходный порядок) */
-export function rankByQuery<T>(list: T[], raw: string, doc: (x: T) => Doc): T[] {
+// ---------- уровни: запрос называет мышцу или инвентарь ----------
+
+/** Что называет слово (или несколько слов подряд) запроса: набор мышц или инвентаря */
+export interface Concept {
+  ids: Set<string>;
+  muscle: boolean;
+  words: QWord[];
+}
+
+/** Похожесть слова запроса на слово из словаря мышц: без подстрок; опечатки — от 4 букв */
+function tagQuality(qw: QWord, t: Tok): number {
+  let best = 0;
+  for (const v of qw.variants) {
+    const s = quality(v.t, t) * v.k;
+    if (s > best) best = s;
+  }
+  return best >= 0.55 ? best : 0;
+}
+
+/**
+ * Если каждое значимое слово запроса — мышца, группа мышц или инвентарь, возвращает их по порядку;
+ * иначе null (запрос-название, уровни не нужны). Многословные названия — первыми и целиком.
+ */
+export function tagConcepts(q: Query, lex: TagLexicon): Concept[] | null {
+  const out: Concept[] = [];
+  const ws = q.words;
+  let i = 0;
+  while (i < ws.length) {
+    if (ws[i]!.stop) {
+      i++;
+      continue;
+    }
+    // лучшая длина фразы, начиная с i (сначала длинные), и все записи с этой длиной
+    let len = 0;
+    let found: { id: string; muscle: boolean; s: number }[] = [];
+    for (const e of lex.entries) {
+      for (const p of e.phrases) {
+        if (p.length < len || i + p.length > ws.length) continue;
+        let s = 1;
+        for (let j = 0; j < p.length && s; j++) s = Math.min(s, tagQuality(ws[i + j]!, p[j]!));
+        if (!s) continue;
+        if (p.length > len) {
+          len = p.length;
+          found = [];
+        }
+        found.push({ id: e.id, muscle: e.muscle, s });
+      }
+    }
+    if (!found.length) return null;
+    // точные и словоформы важнее опечаток: «бицепс» не тянет похожие по опечатке мышцы
+    const top = Math.max(...found.map((f) => f.s));
+    const keep = found.filter((f) => f.s >= Math.min(top, 0.8));
+    out.push({
+      ids: new Set(keep.map((f) => f.id)),
+      muscle: keep.some((f) => f.muscle),
+      words: ws.slice(i, i + len),
+    });
+    i += len;
+  }
+  return out.length ? out.sort((a, b) => Number(b.muscle) - Number(a.muscle)) : null;
+}
+
+const NAMED = new Set([W_NAME, W_ALT, W_EN]);
+
+/** Уровень упражнения для одного понятия запроса: 1 основная … 4 остальное */
+function conceptLevel(doc: Doc, c: Concept): number {
+  if (doc.primary.some((m) => c.ids.has(m)) || doc.equip.some((m) => c.ids.has(m))) return 1;
+  const named = doc.fields.filter((f) => NAMED.has(f.weight));
+  const inName = c.words.every((qw) =>
+    qw.variants.some((v) => named.some((f) => f.toks.some((t) => quality(v.t, t, true) >= 0.8))),
+  );
+  if (inName) return 2;
+  if (doc.minor.some((m) => c.ids.has(m))) return 3;
+  return 4;
+}
+
+const collator = typeof Intl === 'object' ? new Intl.Collator(undefined, { sensitivity: 'base' }) : null;
+const byText = (a: string, b: string) => (collator ? collator.compare(a, b) : a < b ? -1 : a > b ? 1 : 0);
+
+export interface RankOptions<T> {
+  /** Словарь мышц и инвентаря — для уровней; без него только очки */
+  lexicon?: TagLexicon;
+  /** Дополнительный порядок при равных уровне и очках (например, выбранный фильтр мышцы) */
+  tiebreak?: (x: T) => number;
+}
+
+/**
+ * Отбор и сортировка: уровень (если запрос называет мышцу/инвентарь) → главная мышца → очки →
+ * tiebreak → название → id. От исходного порядка списка результат не зависит.
+ */
+export function rankByQuery<T>(list: T[], raw: string, doc: (x: T) => Doc, opts: RankOptions<T> = {}): T[] {
   const q = parseQuery(raw);
   if (!q.words.length) return list;
-  return list
-    .map((x, i) => ({ x, i, s: scoreDoc(doc(x), q) }))
-    .filter((r) => r.s > 0)
-    .sort((a, b) => b.s - a.s || a.i - b.i)
+  const concepts = opts.lexicon ? tagConcepts(q, opts.lexicon) : null;
+  const firstMuscle = concepts?.find((c) => c.muscle);
+  const rows: { x: T; d: Doc; s: number; tier: number[]; main: number; tb: number }[] = [];
+  for (const x of list) {
+    const d = doc(x);
+    const s = scoreDoc(d, q);
+    let tier: number[] = [];
+    let main = 0;
+    if (concepts) {
+      const exact = d.phrases.some(
+        (p) => p.weight >= 0.9 && (p.text === q.phrase || p.text === q.phraseSwapped),
+      );
+      tier = exact ? [0] : concepts.map((c) => conceptLevel(d, c));
+      // основная мышца без нужного инвентаря («бицепс гантели» → подъём штанги) — тоже показываем
+      if (!s && !(firstMuscle && !exact && tier[concepts.indexOf(firstMuscle)] === 1)) continue;
+      const c0 = concepts[0]!;
+      const list0 = c0.muscle ? d.primary : d.equip;
+      main = c0.ids.has(list0[0] ?? '') ? 0 : 1;
+    } else if (!s) continue;
+    rows.push({ x, d, s, tier, main, tb: opts.tiebreak?.(x) ?? 0 });
+  }
+  const cmpTier = (a: number[], b: number[]) => {
+    for (let k = 0; k < Math.max(a.length, b.length); k++) {
+      const v = (a[k] ?? 0) - (b[k] ?? 0);
+      if (v) return v;
+    }
+    return 0;
+  };
+  return rows
+    .sort(
+      (a, b) =>
+        cmpTier(a.tier, b.tier) ||
+        a.main - b.main ||
+        b.s - a.s ||
+        a.tb - b.tb ||
+        a.d.order - b.d.order ||
+        byText(a.d.sortName, b.d.sortName) ||
+        byText(a.d.key, b.d.key),
+    )
     .map((r) => r.x);
 }

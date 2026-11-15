@@ -13,13 +13,13 @@ const reduceMq = typeof matchMedia === 'function' ? matchMedia('(prefers-reduced
 
 /** Анимации сейчас выключены (настройкой или системой) */
 export function motionOff(): boolean {
-  const m = settings.value.motion ?? 'system';
+  const m = settings.value.motion ?? 'on';
   return m === 'off' || (m === 'system' && !!reduceMq?.matches);
 }
 
 effect(() => {
   if (!settingsReady.value) return;
-  const m = settings.value.motion ?? 'system';
+  const m = settings.value.motion ?? 'on';
   const root = document.documentElement;
   if (m === 'system') delete root.dataset.motion;
   else root.dataset.motion = m;

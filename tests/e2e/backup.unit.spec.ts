@@ -167,7 +167,21 @@ test('release 3.0: copies of schema 3 with removed themes are read, the theme is
     { ...d, settings: { ...d.settings, theme: 'sun-paper', motion: 'off' } },
     '3.0.0',
   );
-  expect(now.schemaVersion).toBe(4);
+  expect(now.schemaVersion).toBe(BACKUP_SCHEMA);
+  // 3.15: «Мой темп» и «Учитывать мою историю» — переживают копию; копия формата 4 без них читается
+  const paced = await buildBackup(
+    { ...d, settings: { ...d.settings, pace: 'slow', useHistory: false } },
+    '3.15.0',
+  );
+  expect((await parseBackup(JSON.stringify(paced))).data.settings).toMatchObject({
+    pace: 'slow',
+    useHistory: false,
+  });
+  const v4 = structuredClone(await buildBackup(d, '3.14.0')) as unknown as { schemaVersion: number };
+  v4.schemaVersion = 4;
+  const read4 = await parseBackup(JSON.stringify(v4));
+  expect(read4.data.settings.pace).toBeUndefined();
+  expect(read4.data.settings.useHistory).toBeUndefined();
   expect((await parseBackup(JSON.stringify(now))).data.settings).toMatchObject({
     theme: 'sun-paper',
     motion: 'off',
@@ -181,7 +195,9 @@ test('reminder: every 14 days after the last export, dismissed — until the nex
   expect(backupReminderDue({}, 1, now)).toBe(true);
   expect(backupReminderDue({ lastBackupAt: ago(13) }, 5, now)).toBe(false);
   expect(backupReminderDue({ lastBackupAt: ago(14) }, 5, now)).toBe(true);
-  expect(backupReminderDue({ lastBackupAt: ago(20), backupReminderDismissedAt: ago(13) }, 5, now)).toBe(false);
+  expect(backupReminderDue({ lastBackupAt: ago(20), backupReminderDismissedAt: ago(13) }, 5, now)).toBe(
+    false,
+  );
   expect(backupReminderDue({ lastBackupAt: ago(30), backupReminderDismissedAt: ago(14) }, 5, now)).toBe(true);
   // копии не было: закрытое напоминание тоже молчит до следующего срока
   expect(backupReminderDue({ backupReminderDismissedAt: ago(5) }, 3, now)).toBe(false);
