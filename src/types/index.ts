@@ -127,6 +127,19 @@ export interface TipMark {
 /** Анимации: как в системе («уменьшение движения»), всегда включены, выключены */
 export type MotionPref = 'system' | 'on' | 'off';
 
+/** Ответы мастера помощника; значения проверяет sanitizeAnswers (src/lib/planner) */
+export interface PlannerAnswers {
+  priorities: string[];
+  full: boolean;
+  place: 'gym' | 'home' | 'outdoor';
+  equipment: Equipment[];
+  days: number;
+  mode: Plan['mode'];
+  minutes: number;
+  level: Level;
+  restrict: string[];
+}
+
 export interface Settings {
   theme: ThemeId;
   /** Необязательно: копии до 3.0 его не содержат */
@@ -148,6 +161,8 @@ export interface Settings {
   weightWarningIgnored: string[];
   /** 3.17: как вводить подходы упражнения — режим гантелей и счёт «на сторону / всего» (по id) */
   exerciseModes?: Record<string, { load?: 'one' | 'x2' | 'lr'; count?: 'side' | 'total' }>;
+  /** 3.18: последние ответы помощника «Собрать за меня» (src/lib/planner, sanitizeAnswers) */
+  planner?: PlannerAnswers;
   /** «Мой темп» — ручная поправка к оценке длительности (3.15). Нет поля — обычный */
   pace?: 'slow' | 'normal' | 'fast';
   /** Подстраивать оценку длительности под историю тренировок (3.15). Нет поля — да */

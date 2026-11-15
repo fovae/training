@@ -41,6 +41,7 @@ import { Icon } from '../components/Icon';
 import { Pic } from '../components/Pic';
 import { SwipeRow, type RowAction } from '../components/SwipeRow';
 import { Sheet } from '../components/Sheet';
+import { openPlanner } from '../../state/planner';
 import { dayMeta, dayTitle, exName, muscleName, schemeText } from '../labels';
 
 const REST_OPTIONS = [30, 45, 60, 75, 90, 120, 150, 180, 240, 300];
@@ -67,6 +68,14 @@ export function Plan() {
         <div class="eyebrow">{t('plan.eyebrow')}</div>
         <h1 class="screen-title">{t('plan.title')}</h1>
       </header>
+
+      <section class="card planner-cta">
+        <h2 class="card-t">{t('planner.ctaTitle')}</h2>
+        <p class="muted small">{t('planner.ctaText')}</p>
+        <button type="button" class="btn" onClick={() => openPlanner()}>
+          {t('planner.cta')}
+        </button>
+      </section>
 
       <section>
         <div class="sec-h">
@@ -200,7 +209,10 @@ function DayTools({ day }: { day: Day }) {
           onKeyDown={(e) => {
             if (e.key !== 'Enter' || e.isComposing) return;
             e.preventDefault();
-            e.currentTarget.closest('.modal')?.querySelector<HTMLButtonElement>('.modal-actions .btn')?.click();
+            e.currentTarget
+              .closest('.modal')
+              ?.querySelector<HTMLButtonElement>('.modal-actions .btn')
+              ?.click();
           }}
         />
       ),

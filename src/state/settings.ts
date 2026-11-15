@@ -41,6 +41,9 @@ export function sanitizeSettings(raw: unknown): Settings {
   if (typeof r.flash === 'boolean') out.flash = r.flash;
   if (r.pace === 'slow' || r.pace === 'normal' || r.pace === 'fast') out.pace = r.pace;
   if (typeof r.useHistory === 'boolean') out.useHistory = r.useHistory;
+  // ответы помощника — как есть; значения проверяет sanitizeAnswers при открытии мастера
+  if (r.planner && typeof r.planner === 'object' && !Array.isArray(r.planner))
+    out.planner = r.planner as NonNullable<Settings['planner']>;
   if (r.exerciseModes && typeof r.exerciseModes === 'object') {
     const modes: NonNullable<Settings['exerciseModes']> = {};
     for (const [k, v] of Object.entries(r.exerciseModes as Record<string, unknown>).slice(0, 500)) {

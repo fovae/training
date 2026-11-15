@@ -13,6 +13,7 @@ import { Rich } from '../components/Rich';
 import { currentAcceptance } from '../../content/legal';
 import { ProfileForm, draftFrom, validateProfile, type ProfileDraft } from '../components/ProfileForm';
 import { Icon } from '../components/Icon';
+import { openPlanner } from '../../state/planner';
 
 const STEPS = ['language', 'terms', 'profile', 'level', 'plan'] as const;
 type Step = (typeof STEPS)[number];
@@ -84,7 +85,7 @@ export function Onboarding() {
       {
         await setPlan(
           buildPlan({
-            templateId: start.value === 'empty' ? null : start.value,
+            templateId: start.value === 'empty' || start.value === 'planner' ? null : start.value,
             days: dayCount.value,
             mode: mode.value,
             level: level.value,
@@ -99,10 +100,14 @@ export function Onboarding() {
         confirmedAt: new Date().toISOString(),
         legalAccepted: accepted.value ?? currentAcceptance(),
       });
+      // «Собрать за меня» — после онбординга открывается помощник с теми же днями, режимом и уровнем
+      const planner =
+        start.value === 'planner' ? { days: dayCount.value, mode: mode.value, level: level.value } : null;
       resetOnboarding();
       const empty = !plan.value?.days.some((d) => d.items.length);
       go(empty ? 'plan' : 'today');
-      if (empty) toast(t('onb.emptyPlanToast'));
+      if (planner) openPlanner(planner);
+      else if (empty) toast(t('onb.emptyPlanToast'));
     } catch (e) {
       console.error(e);
       toast(t('common.saveFailed'));
@@ -328,6 +333,15 @@ function PlanStep() {
         </div>
       }
       <h2 class="ob-sub">{t('onb.plan.start')}</h2>
+      <button
+        type="button"
+        class={'card planner-cta' + (start.value === 'planner' ? ' on' : '')}
+        aria-pressed={start.value === 'planner'}
+        onClick={() => (start.value = 'planner')}
+      >
+        <b>{t('planner.ctaTitle')}</b>
+        <span class="muted small">{t('planner.ctaOnb')}</span>
+      </button>
       <Choice
         label={t('onb.plan.start')}
         value={start.value}

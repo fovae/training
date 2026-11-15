@@ -92,7 +92,9 @@ export async function onboard(page: Page, o: OnboardOpts = {}): Promise<void> {
     while (Number(await out.textContent()) < o.days) await inc.click();
     while (Number(await out.textContent()) > o.days) await dec.click();
   }
-  await page.getByRole('radio', { name: o.start ?? /Split 3\+1|Сплит 3\+1/ }).click();
+  // «Собрать за меня» — отдельная карточка над шаблонами (3.18)
+  if (o.start === 'Build it for me') await page.getByRole('button', { name: /^Build it for me/ }).click();
+  else await page.getByRole('radio', { name: o.start ?? /Split 3\+1|Сплит 3\+1/ }).click();
   await page.getByRole('button', { name: L.finish }).click();
   await expect(page.getByRole('navigation')).toBeVisible();
 }

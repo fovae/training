@@ -1551,3 +1551,116 @@ button.back {
   font-size: 12.5px;
   color: var(--muted);
 }
+
+/* ---------- помощник «Собрать за меня» (3.18, ui/components/Planner.tsx) ---------- */
+.planner-cta {
+  display: grid;
+  gap: var(--space-2);
+  margin-bottom: var(--space-4);
+}
+.planner-cta p {
+  margin: 0;
+}
+button.planner-cta {
+  width: 100%;
+  text-align: left;
+  border: 1.5px solid transparent;
+  transition: border-color var(--dur-fast) var(--ease-out);
+}
+button.planner-cta.on {
+  border-color: var(--accent);
+}
+.planner-h {
+  font-size: 20px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  margin: var(--space-1) 0 var(--space-3);
+}
+.planner-step {
+  display: grid;
+  gap: var(--space-3);
+}
+.planner-step > p {
+  margin: 0;
+}
+.planner-sec h3 {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--muted);
+  margin-bottom: var(--space-2);
+}
+.picks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+.pick {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  min-height: 44px;
+  padding: 0 var(--space-4);
+  border-radius: 99px;
+  border: 1.5px solid transparent;
+  background: var(--soft);
+  color: var(--ink);
+  font-size: 15px;
+  font-weight: 700;
+  transition:
+    background-color var(--dur-fast) var(--ease-out),
+    border-color var(--dur-fast) var(--ease-out);
+}
+.pick.on {
+  background: var(--card);
+  border-color: var(--accent);
+  color: var(--accent-ink);
+}
+.pick:disabled {
+  opacity: 0.4;
+}
+.planner-day {
+  margin: 0;
+}
+.planner-items {
+  list-style: none;
+  display: grid;
+  gap: var(--space-2);
+  margin-top: var(--space-2);
+}
+.planner-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+.planner-name {
+  flex: 1;
+  min-width: 0;
+  display: grid;
+}
+.planner-name small {
+  color: var(--muted);
+  font-size: 13px;
+}
+.planner-items .opt .planner-name b {
+  font-weight: 600;
+  color: var(--muted);
+}
+.planner-row .icon-btn.on {
+  color: var(--accent-ink);
+}
+.planner-alt {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1);
+  margin-top: var(--space-2);
+  padding-left: var(--space-2);
+}
+.planner-f {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+.planner-f .btn.primary {
+  flex: 1;
+}

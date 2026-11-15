@@ -1,4 +1,5 @@
 import * as v from 'valibot';
+import { EQUIPMENT_CHOICES, GROUPS, RESTRICTIONS } from '../data/planner';
 import { migrateSettingsV2, migrateTheme, THEME_MIGRATION } from '../db/migrations';
 import { DEFAULT_SETTINGS, THEMES, type Plan, type Profile, type Session, type Settings } from '../types';
 
@@ -15,12 +16,13 @@ import { DEFAULT_SETTINGS, THEMES, type Plan, type Profile, type Session, type S
 
 export const BACKUP_APP = 'simple-training';
 /**
+ * 7 — релиз 3.18: Settings.planner — ответы помощника (необязательное поле).
  * 6 — релиз 3.17: в подходе load / weightRKg / repsR, Settings.exerciseModes (необязательные поля).
  * 5 — релиз 3.15: Settings.pace и Settings.useHistory (оценка длительности, необязательные поля).
  * 4 — релиз 3.0: новый набор тем, Settings.motion. Копии версий 3 и 4 читаются (темы переводятся).
  */
-export const BACKUP_SCHEMA = 6;
-const READABLE_SCHEMAS = [3, 4, 5, 6] as const;
+export const BACKUP_SCHEMA = 7;
+const READABLE_SCHEMAS = [3, 4, 5, 6, 7] as const;
 /** Максимальный размер файла копии */
 export const MAX_BACKUP_BYTES = 10 * 1024 * 1024;
 
@@ -194,6 +196,20 @@ const SettingsSchema = v.strictObject({
   // 3.15 (схема 5): оценка длительности; в копиях до 3.15 полей нет — обычный темп, с историей
   pace: v.optional(v.picklist(['slow', 'normal', 'fast'] as const)),
   useHistory: v.optional(v.boolean()),
+  // 3.18 (схема 7): последние ответы помощника «Собрать за меня»
+  planner: v.optional(
+    v.strictObject({
+      priorities: v.pipe(v.array(v.picklist(GROUPS)), v.maxLength(4)),
+      full: v.boolean(),
+      place: v.picklist(['gym', 'home', 'outdoor'] as const),
+      equipment: v.pipe(v.array(v.picklist(EQUIPMENT_CHOICES)), v.maxLength(20)),
+      days: int(1, 7),
+      mode: v.picklist(['weekdays', 'cycle'] as const),
+      minutes: v.picklist([30, 45, 60, 75, 90] as const),
+      level: v.picklist(['first', 'few', 'intermediate', 'veteran'] as const),
+      restrict: v.pipe(v.array(v.picklist(RESTRICTIONS)), v.maxLength(10)),
+    }),
+  ),
   exerciseModes: v.optional(
     v.pipe(
       v.record(

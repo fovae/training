@@ -11,6 +11,7 @@ import { Nav } from './components/Nav';
 import { Flash, RestTimerBar } from './components/RestTimerBar';
 import { DialogHost, MenuHost, Toasts } from './components/Overlays';
 import { SelectHost } from './components/Select';
+import { PlannerHost } from './components/Planner';
 import { shiftDay } from './components/DaySwitcher';
 import { Today } from './screens/Today';
 import { Plan } from './screens/Plan';
@@ -144,6 +145,7 @@ export function App() {
       <Toasts />
       <MenuHost />
       <SelectHost />
+      <PlannerHost />
       <DialogHost />
       <Flash />
     </div>
