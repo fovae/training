@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/test';
 import { EXERCISES } from '../../src/data/catalog';
-import { fresh, onboard, choose } from './helpers';
+import { fresh, onboard, choose, openSettings } from './helpers';
 
 const INCLINE = 'Incline dumbbell press';
 
@@ -82,7 +82,7 @@ test('layout: tab bar, safe area meta, no horizontal scroll, 44pt targets', asyn
 test('language switch applies to the whole UI at once', async ({ page }) => {
   await fresh(page);
   await onboard(page);
-  await page.getByRole('link', { name: 'Settings' }).click();
+  await openSettings(page, 'look');
   await choose(page.getByLabel('Language'), 'ru');
   await expect(page.locator('html')).toHaveAttribute('lang', 'ru');
   await expect(page.getByRole('heading', { name: 'Настройки', level: 1 })).toBeVisible();
@@ -298,8 +298,8 @@ test('backup: save a copy (download fallback), delete all data, restore, undo', 
   await page.getByRole('button', { name: 'Finish', exact: true }).click();
   await page.getByRole('alertdialog').getByRole('button', { name: 'Finish' }).click();
 
-  await page.getByRole('link', { name: 'Settings', exact: true }).click();
   // Подписи из Terms и Privacy — буквально: «Settings → About», «Settings → Delete all data»
+  await page.getByRole('link', { name: 'Settings', exact: true }).click();
   await expect(page.getByRole('heading', { name: 'About', exact: true })).toBeVisible();
   await expect(page.getByText('not exported yet')).toBeVisible();
   // Нет системного «Поделиться» с файлом — обычная загрузка
@@ -324,7 +324,7 @@ test('backup: save a copy (download fallback), delete all data, restore, undo', 
   await expect(page.getByRole('heading', { name: 'Language' })).toBeVisible();
 
   await onboard(page, { start: /Full body/ });
-  await page.getByRole('link', { name: 'Settings', exact: true }).click();
+  await openSettings(page, 'data');
   await page.getByTestId('import-input').setInputFiles(path);
   const dlg = page.getByRole('alertdialog');
   await expect(dlg).toContainText('1 workout');
@@ -335,7 +335,7 @@ test('backup: save a copy (download fallback), delete all data, restore, undo', 
   await expect(page.getByRole('link', { name: /Chest \+ triceps/ })).toBeVisible();
 
   // Откат восстановления — до следующего изменения данных
-  await page.getByRole('link', { name: 'Settings', exact: true }).click();
+  await openSettings(page, 'data');
   await page.getByRole('button', { name: 'Undo restore' }).click();
   await expect(page.getByText('Restore undone')).toBeVisible();
   await page.getByRole('link', { name: 'History' }).click();
@@ -367,8 +367,10 @@ test('schedule switch lives in Settings; weekday labels follow the mode', async 
   await fresh(page);
   await onboard(page); // Сплит 3+1, цикл
   const switchTo = async (btn: string) => {
-    await page.getByRole('link', { name: 'Settings', exact: true }).click();
-    await page.getByRole('button', { name: btn }).click();
+    await openSettings(page, 'training');
+    // строка «Расписание» (3.22): окно подтверждения называет новый режим — «Switch to …?»
+    await page.locator('#schedule button').click();
+    await expect(page.getByRole('alertdialog')).toContainText(btn + '?');
     await page.getByRole('alertdialog').getByRole('button', { name: 'Switch' }).click();
   };
   const weekdayMarks = () => page.locator('.seg .seg-num', { hasText: /^(Mon|Tue|Wed|Thu|Fri|Sat|Sun)$/ });

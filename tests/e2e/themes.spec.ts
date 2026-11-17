@@ -1,5 +1,5 @@
 import { expect, test, type Page } from '@playwright/test';
-import { fresh, kv, onboard } from './helpers';
+import { fresh, kv, onboard, openSettings, openThemes } from './helpers';
 
 /**
  * Темы (релиз 3.0): 12 пунктов — «Авто» и 11 тем. Название в настройках, id, фон темы.
@@ -33,7 +33,8 @@ test('new user gets Auto; Auto follows the system light / dark theme without a r
   expect(await bodyBg(page)).toBe(rgb('#f6f6f7'));
   await onboard(page);
   await expect(page.locator('html')).toHaveAttribute('data-theme', 'auto');
-  await page.getByRole('link', { name: 'Settings', exact: true }).click();
+  await openSettings(page, 'look');
+  await openThemes(page);
   const picker = page.getByRole('radiogroup', { name: 'Theme' });
   await expect(picker.getByRole('radio')).toHaveCount(12);
   await expect(picker.getByRole('radio', { name: 'System', exact: true })).toHaveAttribute(
@@ -60,7 +61,8 @@ test('all 12 themes: names, apply, checkmark, theme-color, persist after reload'
   await page.emulateMedia({ colorScheme: 'light', reducedMotion: 'reduce' });
   await fresh(page);
   await onboard(page);
-  await page.getByRole('link', { name: 'Settings', exact: true }).click();
+  await openSettings(page, 'look');
+  await openThemes(page);
   const picker = page.getByRole('radiogroup', { name: 'Theme' });
   expect(await picker.getByRole('radio').allTextContents()).toEqual(THEMES.map(([name]) => name));
 
@@ -79,6 +81,7 @@ test('all 12 themes: names, apply, checkmark, theme-color, persist after reload'
     await expect.poll(async () => (await kv<{ theme: string }>(page, 'settings'))?.theme).toBe(id);
     await page.reload();
     await expect(page.locator('html')).toHaveAttribute('data-theme', id);
+    await openThemes(page);
     await expect(
       page.getByRole('radiogroup', { name: 'Theme' }).getByRole('radio', { name, exact: true }),
     ).toHaveAttribute('aria-checked', 'true');
@@ -92,6 +95,7 @@ test('Russian theme names', async ({ page }, info) => {
   await fresh(page);
   await onboard(page, { lang: 'ru' });
   await page.getByRole('link', { name: 'Настройки', exact: true }).click();
+  await openThemes(page);
   await expect(page.getByRole('radiogroup', { name: 'Тема' })).toBeVisible();
   expect(await page.getByRole('radiogroup', { name: 'Тема' }).getByRole('radio').allTextContents()).toEqual([
     // короткие названия тем — одинаковые на всех языках

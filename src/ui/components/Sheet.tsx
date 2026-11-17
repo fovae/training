@@ -11,11 +11,14 @@ export function Sheet({
   onClose,
   children,
   footer,
+  tall,
 }: {
   title: string;
   onClose: () => void;
   children: ComponentChildren;
   footer?: ComponentChildren;
+  /** Постоянная высота: верх листа не прыгает, когда содержимое меняется (мастер помощника) */
+  tall?: boolean;
 }) {
   const ref = useRef<HTMLDivElement>(null);
   const scrim = useRef<HTMLDivElement>(null);
@@ -74,7 +77,7 @@ export function Sheet({
   return (
     <div class="scrim sheet-scrim" ref={scrim} onClick={(e) => e.target === e.currentTarget && close()}>
       <div
-        class="sheet"
+        class={'sheet' + (tall ? ' tall' : '')}
         role="dialog"
         aria-modal="true"
         aria-labelledby="sheet-t"

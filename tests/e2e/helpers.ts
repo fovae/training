@@ -145,3 +145,21 @@ export async function optionTexts(field: Locator): Promise<string[]> {
   await expect(page.locator('.select-layer')).toHaveCount(0);
   return texts;
 }
+
+/**
+ * Настройки (3.22) — один экран-список, как в iOS. section — где на экране нужный пункт (для чтения
+ * теста); тема открывается листом: openThemes.
+ */
+export async function openSettings(
+  page: Page,
+  section?: 'training' | 'tips' | 'look' | 'data' | 'about',
+): Promise<void> {
+  await page.getByRole('link', { name: 'Settings', exact: true }).click();
+  if (section) await expect(page.getByRole('heading', { name: 'Settings', level: 1 })).toBeVisible();
+}
+
+/** Лист выбора темы в настройках (строка «Тема» / «Theme») */
+export async function openThemes(page: Page): Promise<void> {
+  await page.locator('.settings button.ir[aria-haspopup="dialog"]', { hasText: /^(Theme|Тема)/ }).click();
+  await expect(page.locator('.sheet .tp, .sheet [role="radiogroup"]').first()).toBeVisible();
+}

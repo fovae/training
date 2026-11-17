@@ -2,7 +2,7 @@ import { writeFileSync } from 'node:fs';
 import { expect, test, type Page } from '@playwright/test';
 import { buildBackup } from '../../src/backup/format';
 import { DEFAULT_SETTINGS } from '../../src/types';
-import { fresh, kv, onboard, choose } from './helpers';
+import { fresh, kv, onboard, choose, openSettings } from './helpers';
 
 const INCLINE = 'Incline dumbbell press';
 
@@ -91,7 +91,7 @@ test('weight warning: unrealistic weight on a confirmed exercise; normal values 
   await expect(page.getByRole('alertdialog')).toHaveCount(0);
 
   // Станок (жим ногами) — данных нет, предупреждения нет даже на 900 кг
-  await page.getByRole('link', { name: 'Settings', exact: true }).click();
+  await openSettings(page, 'tips');
   await expect(page.getByText('Weight warnings are off for 1 exercise')).toBeVisible();
 });
 
@@ -125,13 +125,13 @@ test('tips: progression shows after top reps, can be dismissed, switch turns all
   await page.getByRole('link', { name: /Chest \+ triceps/ }).click();
   await expect(page.getByRole('heading', { name: 'For next time' })).toBeVisible();
 
-  await page.getByRole('link', { name: 'Settings', exact: true }).click();
+  await openSettings(page, 'tips');
   await page.getByRole('switch', { name: 'Show tips' }).click();
   await page.getByRole('link', { name: 'Today' }).click();
   await page.getByRole('tab', { name: /Day 1/ }).click();
   await expect(tip).toHaveCount(0);
 
-  await page.getByRole('link', { name: 'Settings', exact: true }).click();
+  await openSettings(page, 'tips');
   await page.getByRole('switch', { name: 'Show tips' }).click();
   await page.getByRole('link', { name: 'Today' }).click();
   await page.getByRole('tab', { name: /Day 1/ }).click();
@@ -222,7 +222,7 @@ test('restore: strings with <script> and <img onerror> are shown as text', async
   );
   const path = info.outputPath('evil.json');
   writeFileSync(path, JSON.stringify(file));
-  await page.getByRole('link', { name: 'Settings', exact: true }).click();
+  await openSettings(page, 'data');
   await page.getByTestId('import-input').setInputFiles(path);
   await page.getByRole('alertdialog').getByRole('button', { name: 'Replace current data' }).click();
   await page.getByRole('link', { name: 'History' }).click();
@@ -235,7 +235,7 @@ test('restore: strings with <script> and <img onerror> are shown as text', async
   // Битая контрольная сумма — вежливый отказ
   const broken = { ...file, checksum: 'sha256:' + '0'.repeat(64) };
   writeFileSync(path, JSON.stringify(broken));
-  await page.getByRole('link', { name: 'Settings', exact: true }).click();
+  await openSettings(page, 'data');
   await page.getByTestId('import-input').setInputFiles(path);
   await expect(page.getByText('checksum mismatch')).toBeVisible();
 });
@@ -300,7 +300,7 @@ test('legal: documents accepted in onboarding; a new version asks again; licence
   // «About»: документы — одна строка, открывает лист с тремя документами; «Contact Me» — над «About»;
   // строки «Responsible» больше нет (автор указан внизу и в документах)
   await page.goto('./#/settings');
-  const titles = await page.locator('.settings .card-t').allTextContents();
+  const titles = await page.locator('.settings .ig-h').allTextContents();
   expect(titles.indexOf('Contact Me')).toBe(titles.indexOf('About') - 1);
   await expect(page.locator('.about').getByText('Responsible')).toHaveCount(0);
   await expect(page.locator('.about').getByRole('link', { name: /Terms of Use/ })).toHaveCount(0);
@@ -333,7 +333,7 @@ test('restore points: one before an import, restoring brings data back, delete a
 }, info) => {
   await fresh(page);
   await onboard(page);
-  await page.getByRole('link', { name: 'Settings', exact: true }).click();
+  await openSettings(page, 'data');
   const points = page.locator('#data');
   await expect(points).toContainText('Restore points');
   await expect(points).toContainText('None yet');

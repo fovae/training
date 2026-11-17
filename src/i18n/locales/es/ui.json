@@ -531,7 +531,13 @@
     "useHistory": "Aprender de mis entrenamientos",
     "useHistoryHint": "La estimación se adapta a lo que duran tus entrenamientos",
     "showRules": "Reglas en la pantalla Plan",
-    "showRulesHint": "Cuatro tarjetas: calentamiento, reps en reserva, progresión y descanso. Las señales de alarma siempre se ven."
+    "showRulesHint": "Cuatro tarjetas: calentamiento, reps en reserva, progresión y descanso. Las señales de alarma siempre se ven.",
+    "sec": {
+      "training": "Entrenamiento",
+      "tips": "Consejos y reglas",
+      "look": "Apariencia"
+    },
+    "secRest": "Durante el descanso"
   },
   "backup": {
     "save": "Guardar una copia",

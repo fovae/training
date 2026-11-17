@@ -543,7 +543,13 @@
     "useHistory": "Ucz się z moich treningów",
     "useHistoryHint": "Szacunek dopasowuje się do długości twoich treningów",
     "showRules": "Zasady na ekranie Plan",
-    "showRulesHint": "Cztery karty: rozgrzewka, zapas powtórzeń, progresja, odpoczynek. Sygnały ostrzegawcze są widoczne zawsze."
+    "showRulesHint": "Cztery karty: rozgrzewka, zapas powtórzeń, progresja, odpoczynek. Sygnały ostrzegawcze są widoczne zawsze.",
+    "sec": {
+      "training": "Trening",
+      "tips": "Wskazówki i zasady",
+      "look": "Wygląd"
+    },
+    "secRest": "Podczas odpoczynku"
   },
   "backup": {
     "save": "Zapisz kopię",

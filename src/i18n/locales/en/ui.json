@@ -519,7 +519,13 @@
     "useHistory": "Learn from my workouts",
     "useHistoryHint": "The estimate adapts to how long your finished workouts take",
     "showRules": "Rules on the Plan screen",
-    "showRulesHint": "Four cards: warm-up, reps in reserve, progress, rest. Stop signs always stay visible."
+    "showRulesHint": "Four cards: warm-up, reps in reserve, progress, rest. Stop signs always stay visible.",
+    "sec": {
+      "training": "Training",
+      "tips": "Tips and rules",
+      "look": "Appearance"
+    },
+    "secRest": "During rest"
   },
   "backup": {
     "save": "Save a copy",

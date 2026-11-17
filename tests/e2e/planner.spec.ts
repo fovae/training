@@ -1,6 +1,6 @@
 import AxeBuilder from '@axe-core/playwright';
 import { expect, test, type Page } from '@playwright/test';
-import { fresh, onboard } from './helpers';
+import { fresh, onboard, openSettings } from './helpers';
 
 /** Помощник «Подбор плана»: мастер, предпросмотр, замена, закрепление, применение с отменой */
 
@@ -47,8 +47,8 @@ async function walkToPreview(page: Page, w = 390) {
 test('wizard builds a draft; replace, pin, rebuild; apply replaces the plan with undo', async ({ page }) => {
   await fresh(page);
   await onboard(page);
-  await page.getByRole('link', { name: 'Settings', exact: true }).click();
-  await page.getByRole('region', { name: 'Assistant' }).getByRole('button', { name: 'Build a plan' }).click();
+  await openSettings(page, 'training');
+  await page.getByRole('button', { name: 'Assistant Build a plan' }).click();
   const sheet = await walkToPreview(page);
 
   await expect(
@@ -100,11 +100,8 @@ for (const w of [375, 430]) {
     await page.setViewportSize({ width: w, height: 800 });
     await fresh(page);
     await onboard(page);
-    await page.getByRole('link', { name: 'Settings', exact: true }).click();
-    await page
-      .getByRole('region', { name: 'Assistant' })
-      .getByRole('button', { name: 'Build a plan' })
-      .click();
+    await openSettings(page, 'training');
+    await page.getByRole('button', { name: 'Assistant Build a plan' }).click();
     await walkToPreview(page, w);
     expect(await noOverflow(page)).toEqual({ scroll: true, bad: [] });
   });
@@ -138,8 +135,8 @@ test('3.20: day menu keeps off the edge; active segment text is readable; no 4-g
   await cancel.click();
 
   // выбранная плашка переключателя в мастере: текст отличается от фона
-  await page.getByRole('link', { name: 'Settings', exact: true }).click();
-  await page.getByRole('region', { name: 'Assistant' }).getByRole('button', { name: 'Build a plan' }).click();
+  await openSettings(page, 'training');
+  await page.getByRole('button', { name: 'Assistant Build a plan' }).click();
   const sheet = page.getByRole('dialog', { name: 'Plan builder' });
   await sheet.getByRole('button', { name: 'Next' }).click();
   for (const place of ['Home', 'Gym', 'Outdoors']) {
@@ -217,9 +214,42 @@ test('3.20: rules — four cards; can be hidden in Settings; stop signs stay at 
   await page.getByRole('link', { name: 'Plan', exact: true }).click();
   await expect(page.locator('.rules .rule')).toHaveCount(4);
   await expect(page.locator('.stop-note')).toBeVisible();
-  await page.getByRole('link', { name: 'Settings', exact: true }).click();
+  await openSettings(page, 'tips');
   await page.getByRole('switch', { name: 'Rules on the Plan screen' }).click();
   await page.getByRole('link', { name: 'Plan', exact: true }).click();
   await expect(page.locator('.rules')).toHaveCount(0);
   await expect(page.locator('.stop-note')).toBeVisible();
+});
+
+test('3.22: wizard sheet does not jump — top edge stays put across steps and picks', async ({ page }) => {
+  await fresh(page);
+  await onboard(page);
+  await page.getByRole('link', { name: 'Settings', exact: true }).click();
+  await page.getByRole('button', { name: 'Assistant Build a plan' }).click();
+  const sheet = page.getByRole('dialog', { name: 'Plan builder' });
+  await expect(sheet).toBeVisible();
+  await page.waitForTimeout(600);
+  const top = async () => Math.round((await sheet.boundingBox())!.y);
+  const t0 = await top();
+  // отметки на шаге «фокус»: плашки не меняют ширину, лист не двигается
+  const chest = sheet.getByRole('button', { name: 'Chest', exact: true });
+  const w0 = (await chest.boundingBox())!.width;
+  await chest.click();
+  expect(Math.round((await chest.boundingBox())!.width)).toBe(Math.round(w0));
+  await sheet.getByRole('button', { name: 'Biceps', exact: true }).click();
+  expect(await top()).toBe(t0);
+  // шаг «место»: «Дом» добавляет «Популярное», инвентарь меняется — верх на месте
+  await sheet.getByRole('button', { name: 'Next' }).click();
+  expect(await top()).toBe(t0);
+  await sheet.getByRole('radio', { name: 'Home' }).click();
+  expect(await top()).toBe(t0);
+  await sheet.getByRole('button', { name: 'Dumbbells + bench' }).click();
+  await sheet.getByRole('radio', { name: 'Gym' }).click();
+  expect(await top()).toBe(t0);
+  for (let k = 0; k < 3; k++) {
+    await sheet.getByRole('button', { name: 'Next' }).click();
+    expect(await top()).toBe(t0);
+  }
+  await sheet.getByRole('button', { name: 'Build' }).click();
+  expect(await top()).toBe(t0);
 });

@@ -1,5 +1,5 @@
 import { expect, test, type Page } from '@playwright/test';
-import { fresh, kv, onboard, choose } from './helpers';
+import { fresh, kv, onboard, choose, openSettings } from './helpers';
 
 /** Длительность появления экрана (его первый блок) и переходов кнопок (мс) — по вычисленному стилю */
 const durations = (page: Page) =>
@@ -7,7 +7,7 @@ const durations = (page: Page) =>
     const ms = (v: string) =>
       Math.max(...v.split(',').map((x) => parseFloat(x) * (x.includes('ms') ? 1 : 1000)));
     const screen = document.querySelector('main > .screen > *')!;
-    const btn = document.querySelector('.btn')!;
+    const btn = document.querySelector('.btn, .seg-btn')!;
     return {
       screen: ms(getComputedStyle(screen).animationDuration),
       button: ms(getComputedStyle(btn).transitionDuration),
@@ -27,7 +27,7 @@ test('animations are on by default (even with reduced motion in the system) and 
   expect(d.screen).toBeLessThanOrEqual(480);
   expect(d.button).toBeGreaterThan(0);
 
-  await page.getByRole('link', { name: 'Settings', exact: true }).click();
+  await openSettings(page, 'look');
   const seg = page.getByRole('radiogroup', { name: 'Animations' });
   await expect(seg.getByRole('radio', { name: 'On', exact: true })).toHaveAttribute('aria-checked', 'true');
   await expect.poll(async () => (await kv<{ motion: string }>(page, 'settings'))?.motion ?? 'on').toBe('on');
@@ -42,7 +42,7 @@ test('animations are on by default (even with reduced motion in the system) and 
   await page.reload();
   await expect(page.locator('html')).not.toHaveAttribute('data-motion', /.*/);
   expect(await durations(page)).toEqual({ screen: 0, button: 0 });
-  await page.getByRole('link', { name: 'Settings', exact: true }).click();
+  await openSettings(page, 'look');
 
   // «Включены» — вопреки системной настройке
   await seg.getByRole('radio', { name: 'On', exact: true }).click();
@@ -185,7 +185,7 @@ test('sheets: open from the bottom, close with Escape, focus returns to the open
   await expect(opener).toBeFocused();
 
   // окно подтверждения: «Отмена» возвращает фокус на кнопку
-  await page.getByRole('link', { name: 'Settings', exact: true }).click();
+  await openSettings(page, 'data');
   const reset = page.getByRole('button', { name: /Delete all data/ });
   await reset.click();
   await expect(page.getByRole('alertdialog')).toBeVisible();

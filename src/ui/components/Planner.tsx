@@ -70,7 +70,7 @@ function Pick({
       disabled={disabled}
       onClick={onClick}
     >
-      {on && <Icon name="check" size={14} />} {children}
+      {children}
     </button>
   );
 }
@@ -407,6 +407,7 @@ function PlannerSheet() {
   };
   return (
     <Sheet
+      tall
       title={plannerDay.value ? t('planner.dayTitle') : t('planner.title')}
       onClose={close}
       footer={

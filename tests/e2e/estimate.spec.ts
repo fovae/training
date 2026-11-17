@@ -1,5 +1,5 @@
 import { expect, test } from '@playwright/test';
-import { fresh, onboard } from './helpers';
+import { fresh, onboard, openSettings } from './helpers';
 
 /** Оценка длительности тренировки: диапазон в шапке дня, расшифровка, «Мой темп» (src/lib/duration.ts) */
 test('day estimate: range on Today and Plan, breakdown on tap, "My pace" changes it', async ({ page }) => {
@@ -22,7 +22,7 @@ test('day estimate: range on Today and Plan, breakdown on tap, "My pace" changes
   await expect(page.locator('.dayhead .help-txt').first()).toHaveText(/^about .+ \(\d+–\d+ min\)$/);
 
   // «Мой темп: медленнее» — оценка растёт
-  await page.getByRole('link', { name: 'Settings', exact: true }).click();
+  await openSettings(page, 'training');
   await page.getByRole('radiogroup', { name: 'My pace' }).getByRole('radio', { name: 'Slower' }).click();
   await page.getByRole('link', { name: 'Today', exact: true }).click();
   await expect(est).not.toHaveText(before!);

@@ -1,4 +1,5 @@
 import { expect, test, type Page } from '@playwright/test';
+import { openSettings, openThemes } from './helpers';
 
 /**
  * Миграция v2 → v3 → v4 на фикстуре в формате этапа 1 (у владельца уже стоит v2):
@@ -242,20 +243,35 @@ test('v3 → v4: saved classic-orange becomes Gradient, other settings and histo
         r.onsuccess = () => {
           const q = r.result.transaction('restorePoints').objectStore('restorePoints').getAll();
           q.onsuccess = () => {
-            const p = (q.result as { reason: string; dbVersion: number; data: { settings: { theme: unknown }; sessions: unknown[] } }[]).find(
-              (x) => x.reason === 'upgrade',
+            const p = (
+              q.result as {
+                reason: string;
+                dbVersion: number;
+                data: { settings: { theme: unknown }; sessions: unknown[] };
+              }[]
+            ).find((x) => x.reason === 'upgrade');
+            res(
+              p
+                ? {
+                    reason: p.reason,
+                    dbVersion: p.dbVersion,
+                    theme: p.data.settings.theme,
+                    sessions: p.data.sessions.length,
+                  }
+                : null,
             );
-            res(p ? { reason: p.reason, dbVersion: p.dbVersion, theme: p.data.settings.theme, sessions: p.data.sessions.length } : null);
           };
         };
       }),
   );
   expect(point).toEqual({ reason: 'upgrade', dbVersion: 3, theme: 'classic-orange', sessions: 1 });
 
-  await page.getByRole('link', { name: 'Settings', exact: true }).click();
+  await openSettings(page, 'look');
+  await openThemes(page);
   await expect(
     page.getByRole('radiogroup', { name: 'Theme' }).getByRole('radio', { name: 'Gradient', exact: true }),
   ).toHaveAttribute('aria-checked', 'true');
+  await page.keyboard.press('Escape');
   await expect(page.getByRole('group', { name: 'Compound exercises' }).locator('output')).toHaveText('3:00');
   await expect(page.getByRole('switch', { name: 'Sound' })).toHaveAttribute('aria-checked', 'false');
   await page.getByRole('link', { name: 'History' }).click();
@@ -292,7 +308,8 @@ test('v3 → v4: theme was never chosen (no saved settings) → Auto, the new de
   await expect(page.locator('html')).toHaveAttribute('data-theme', 'auto');
   // «Авто» при тёмной системной теме — Classic Dark
   expect(await page.evaluate(() => getComputedStyle(document.body).backgroundColor)).toBe('rgb(17, 17, 20)');
-  await page.getByRole('link', { name: 'Settings', exact: true }).click();
+  await openSettings(page, 'look');
+  await openThemes(page);
   await expect(
     page.getByRole('radiogroup', { name: 'Theme' }).getByRole('radio', { name: 'System', exact: true }),
   ).toHaveAttribute('aria-checked', 'true');

@@ -625,3 +625,116 @@ section {
   display: grid;
   gap: var(--space-4);
 }
+
+/* ---------- настройки: группы и строки как в iOS (3.22) ---------- */
+.ig-h {
+  margin: var(--space-6) var(--space-4) var(--space-2);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.ig-card {
+  overflow: hidden;
+  border-radius: var(--r-md);
+  background: var(--card);
+  box-shadow: var(--shadow);
+}
+.ig-foot {
+  margin: var(--space-2) var(--space-4) 0;
+  font-size: 13px;
+  line-height: 1.4;
+  color: var(--muted);
+}
+.ir {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  width: 100%;
+  min-height: 52px;
+  padding: var(--space-2) var(--space-4);
+  text-align: left;
+  color: var(--ink);
+  text-decoration: none;
+}
+/* линия между строками — от текста, а не от края */
+.ig-card > * + * {
+  background: linear-gradient(var(--hairline), var(--hairline)) no-repeat
+    calc(var(--space-4) + 30px + var(--space-3)) 0 / 100% 1px;
+}
+.ir-wrap {
+  outline: none;
+}
+.ir.tall {
+  flex-wrap: wrap;
+  padding-bottom: var(--space-3);
+}
+.ir.tall .ir-ctl {
+  flex: 1 0 100%;
+  padding-left: calc(30px + var(--space-3));
+}
+.ir.tall .ir-ctl > * {
+  flex: 1;
+}
+.ir.indent {
+  padding-left: calc(var(--space-4) + 30px + var(--space-3));
+  min-height: 48px;
+}
+.ir-ic {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+  color: var(--on-fill);
+}
+.ir-ic.soft {
+  color: var(--ink);
+}
+.ir-txt {
+  flex: 1;
+  min-width: 0;
+  display: grid;
+  gap: 1px;
+}
+.ir-lb {
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.3;
+}
+.ir-txt small {
+  font-size: 12.5px;
+  line-height: 1.35;
+  color: var(--muted);
+}
+.ir-val {
+  flex: none;
+  max-width: 50%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 15px;
+  color: var(--muted);
+}
+.ir-ctl {
+  flex: none;
+  display: flex;
+  align-items: center;
+}
+.ir-chev {
+  flex: none;
+  color: var(--muted);
+}
+.ir.danger .ir-lb {
+  color: var(--danger);
+}
+@media (hover: hover) {
+  .ir.tap:hover {
+    background-color: var(--soft);
+  }
+}
+.settings > .credits {
+  margin-top: var(--space-4);
+}

@@ -90,5 +90,7 @@ test.describe('installed app (navigator.standalone)', () => {
 test('browser tab (not installed): page height is not forced', async ({ page }) => {
   await fresh(page);
   await expect(page.locator('html')).not.toHaveAttribute('data-standalone', '');
-  expect(await page.evaluate(() => getComputedStyle(document.documentElement).minHeight)).toMatch(/^(0px|auto)$/);
+  expect(await page.evaluate(() => getComputedStyle(document.documentElement).minHeight)).toMatch(
+    /^(0px|auto)$/,
+  );
 });

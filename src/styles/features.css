@@ -373,6 +373,17 @@
   animation: rest-in var(--dur-slow) var(--ease-glide);
   outline: none;
 }
+/* мастер помощника: высота не зависит от шага и отметок — верх листа стоит на месте */
+.sheet.tall {
+  height: min(88dvh, 820px);
+}
+html[data-kb] .sheet.tall {
+  height: auto;
+}
+.sheet.tall .sheet-body {
+  flex: 1;
+  min-height: 0;
+}
 .sheet-grip {
   width: 40px;
   height: 5px;
@@ -1680,7 +1691,8 @@ button.planner-box.on .choice-dot {
     border-color var(--dur-fast) var(--ease-out);
 }
 .pick.on {
-  background: var(--card);
+  /* без галочки: ширина плашки не меняется — строки не перестраиваются при выборе */
+  background: color-mix(in srgb, var(--accent) 12%, var(--card));
   border-color: var(--accent);
   color: var(--accent-ink);
 }

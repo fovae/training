@@ -531,7 +531,13 @@
     "useHistory": "Impara dai miei allenamenti",
     "useHistoryHint": "La stima si adatta alla durata dei tuoi allenamenti",
     "showRules": "Regole nella schermata Piano",
-    "showRulesHint": "Quattro schede: riscaldamento, ripetizioni di riserva, progressione, recupero. I segnali di allarme restano sempre visibili."
+    "showRulesHint": "Quattro schede: riscaldamento, ripetizioni di riserva, progressione, recupero. I segnali di allarme restano sempre visibili.",
+    "sec": {
+      "training": "Allenamento",
+      "tips": "Consigli e regole",
+      "look": "Aspetto"
+    },
+    "secRest": "Durante il recupero"
   },
   "backup": {
     "save": "Salva una copia",

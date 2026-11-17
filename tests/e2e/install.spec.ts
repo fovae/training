@@ -198,7 +198,8 @@ test('iOS: ?ios=27 / ?ios=26 force the instruction; without it Version/ from UA 
   });
   // ошибки скриптов; сетевые сообщения WebKit о загрузке ресурсов (service worker, ленивые картинки) не считаем
   page.on('console', (m) => {
-    if (m.type() === 'error' && !/Failed to load resource|service ?worker/i.test(m.text())) errors.push(m.text());
+    if (m.type() === 'error' && !/Failed to load resource|service ?worker/i.test(m.text()))
+      errors.push(m.text());
   });
   await fresh(page, { gate: true });
   // Инструкция 2 (iOS 27+): ≡ → Share → View More → Add to Home Screen → подтвердить → Домой

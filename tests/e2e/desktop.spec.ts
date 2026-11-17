@@ -1,12 +1,12 @@
 import { expect, test } from '@playwright/test';
-import { fresh, onboard } from './helpers';
+import { fresh, onboard, openSettings } from './helpers';
 
 test('desktop: no install gate; install row in About when the browser offers it', async ({ page }) => {
   await fresh(page, { gate: true });
   await expect(page.getByRole('heading', { name: 'Language' })).toBeVisible();
   await expect(page.getByRole('heading', { name: 'Install Simple Training' })).toHaveCount(0);
   await onboard(page);
-  await page.getByRole('link', { name: 'Settings', exact: true }).click();
+  await openSettings(page, 'about');
   const about = page.locator('.about');
   await expect(about.getByRole('button', { name: 'Install app' })).toHaveCount(0);
   await page.evaluate(() => {

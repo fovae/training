@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/test';
 import { EXERCISES } from '../../src/data/catalog';
-import { fresh, kv, onboard, choose, optionTexts } from './helpers';
+import { fresh, kv, onboard, choose, optionTexts, openSettings } from './helpers';
 
 /** Этап 3А: база упражнений (253: этап 4 + «паук» со штангой), штанга, шаблоны, документы */
 
@@ -246,7 +246,7 @@ test('time exercises: plan editor accepts minutes, up to 3 hours per set', async
 test('rest timer: "?" tips open and close, steppers keep working', async ({ page }) => {
   await fresh(page);
   await onboard(page);
-  await page.getByRole('link', { name: 'Settings' }).click();
+  await openSettings(page, 'training');
   const help = page.getByRole('button', { name: 'About: Compound exercises' });
   const tip = page.locator('.help-tip');
   await help.click();
@@ -292,7 +292,7 @@ test('select closes on a second tap of its button; full reset clears the library
   await expect(muscle).toHaveAttribute('aria-expanded', 'false');
 
   await page.getByRole('searchbox').fill('squat');
-  await page.getByRole('link', { name: 'Settings', exact: true }).click();
+  await openSettings(page, 'data');
   await page.getByRole('button', { name: 'Delete all data' }).click();
   await page.getByRole('alertdialog').getByRole('button', { name: 'Delete everything' }).click();
   await onboard(page);

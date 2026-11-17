@@ -1,3 +1,4 @@
+import type { ComponentChildren, Ref } from 'preact';
 import { useEffect, useRef, useState } from 'preact/hooks';
 import { LOCALES, fmtDate, fmtTime, locale, setLocale, t } from '../../i18n';
 import { CONTACT_EMAIL } from '../../lib/meta';
@@ -35,7 +36,7 @@ import {
   showInstructions,
 } from '../../features/install';
 import type { Level, MotionPref, Settings as S } from '../../types';
-import { Icon } from '../components/Icon';
+import { Icon, type IconName } from '../components/Icon';
 import { Seg, Stepper, Toggle } from '../components/Controls';
 import { ThemePicker } from '../components/ThemePicker';
 import { ProfileForm, draftFrom, validateProfile, type ProfileDraft } from '../components/ProfileForm';
@@ -124,6 +125,30 @@ export function Settings() {
   };
 
   const standalone = installed.value || isStandalone();
+  const p = plan.value;
+  const weekdays = p?.mode === 'weekdays';
+  const schedRef = useRef<HTMLDivElement>(null);
+  const [themes, setThemes] = useState(false);
+  const [docs, setDocs] = useState(false);
+
+  // #/settings/schedule — прокрутить к строке расписания (переход с экрана «План»)
+  useEffect(() => {
+    if (route.value.sub?.id === 'schedule' && schedRef.current) {
+      schedRef.current.scrollIntoView({ block: 'center', behavior: scrollBehavior() });
+      schedRef.current.focus({ preventScroll: true });
+    }
+  }, [route.value.sub?.id, !!p]);
+
+  const onSwitchMode = async () => {
+    const r = await ask({
+      title: t(weekdays ? 'settings.toCycleTitle' : 'settings.toWeekdaysTitle'),
+      body: t(weekdays ? 'settings.toCycleBody' : 'settings.toWeekdaysBody'),
+      confirm: t('settings.switch'),
+    });
+    if (r !== 'confirm') return;
+    setMode(weekdays ? 'cycle' : 'weekdays');
+    toast(t('settings.switched', { mode: t(weekdays ? 'plan.modeCycle' : 'plan.modeWeekdays') }));
+  };
 
   return (
     <div class="screen settings">
@@ -133,101 +158,85 @@ export function Settings() {
       </header>
 
       <ProfileCard />
-      <ScheduleCard />
-      <AssistantCard />
 
-      <section class="card group-card">
-        <h2 class="card-t">{t('settings.languageAndLook')}</h2>
-        <div class="srow">
-          <span>{t('settings.language')}</span>
-          <Select
-            label={t('settings.language')}
-            value={locale.value}
-            onChange={(code) => void setLocale(code).then(() => updateProfile({ locale: code }))}
-            options={LOCALES.map((l) => ({ value: l.code, label: l.native, lang: l.code }))}
+      <Group title={t('settings.sec.training')}>
+        {p && (
+          <Row
+            icon="plan"
+            c="c1"
+            label={t('plan.mode')}
+            value={t(weekdays ? 'plan.modeWeekdays' : 'plan.modeCycle')}
+            onClick={() => void onSwitchMode()}
+            rowRef={schedRef}
+            id="schedule"
           />
-        </div>
-        <div class="field">
-          <span class="field-lb">{t('settings.theme')}</span>
-          <ThemePicker value={s.theme} onChange={(v) => set('theme', v)} />
-        </div>
-        <div class="field">
-          <span class="field-lb" id="motion-lb">
-            {t('settings.motion')}
-          </span>
-          <Seg<MotionPref>
-            label={t('settings.motion')}
-            value={s.motion ?? 'on'}
-            options={(['system', 'on', 'off'] as const).map((v) => ({ v, t: t(`settings.motionOpt.${v}`) }))}
-            onChange={(v) => set('motion', v)}
-          />
-        </div>
-      </section>
-
-      <section class="card group-card">
-        <h2 class="card-t">{t('settings.tips')}</h2>
-        <div class="srow">
-          <span>
-            {t('settings.showTips')}
-            <small>{t('settings.tipsHint')}</small>
-          </span>
-          <Toggle label={t('settings.showTips')} on={s.tipsEnabled} onChange={(v) => set('tipsEnabled', v)} />
-        </div>
-        <div class="srow">
-          <span>
-            {t('settings.showRules')}
-            <small>{t('settings.showRulesHint')}</small>
-          </span>
-          <Toggle label={t('settings.showRules')} on={!s.hideRules} onChange={(v) => set('hideRules', !v)} />
-        </div>
-        {s.weightWarningIgnored.length > 0 && (
-          <div class="srow">
-            <span>
-              {t('settings.weightWarnOff', { count: s.weightWarningIgnored.length })}
-              <small>{t('settings.weightWarnOffHint')}</small>
-            </span>
-            <button type="button" class="btn-ghost sm" onClick={() => set('weightWarningIgnored', [])}>
-              {t('settings.weightWarnReset')}
-            </button>
-          </div>
         )}
-      </section>
-
-      <section class="card group-card">
-        <h2 class="card-t">{t('settings.timer')}</h2>
-        <div class="srow">
-          <span>
+        {p && (
+          <Row
+            icon="spark"
+            c="c2"
+            label={t('planner.assistant')}
+            value={t('planner.cta')}
+            onClick={() => openPlanner()}
+          />
+        )}
+        <Row
+          icon="clock"
+          c="c3"
+          label={
             <span class="srow-title">
               {t('settings.restBase')}
               <HelpTip topic={t('settings.restBase')} text={t('settings.restBaseHelp')} />
             </span>
-            <small>{t('settings.restBaseHint')}</small>
-          </span>
+          }
+        >
           <Stepper
             label={t('settings.restBase')}
             value={s.restBaseSec}
             onChange={(v) => set('restBaseSec', v)}
           />
-        </div>
-        <div class="srow">
-          <span>
+        </Row>
+        <Row
+          icon="clock"
+          c="c4"
+          label={
             <span class="srow-title">
               {t('settings.restIso')}
               <HelpTip topic={t('settings.restIso')} text={t('settings.restIsoHelp')} />
             </span>
-            <small>{t('settings.restIsoHint')}</small>
-          </span>
+          }
+        >
           <Stepper
             label={t('settings.restIso')}
             value={s.restIsoSec}
             onChange={(v) => set('restIsoSec', v)}
           />
-        </div>
-        <div class="srow">
-          <span>
-            {t('settings.sound')}
-            <small>{audioAvailable() ? t('settings.soundHint') : t('settings.soundNone')}</small>
-          </span>
+        </Row>
+        <Row icon="trend" c="c5" label={t('settings.pace')} tall>
+          <Seg<NonNullable<S['pace']>>
+            label={t('settings.pace')}
+            value={s.pace ?? 'normal'}
+            mini={false}
+            options={(['slow', 'normal', 'fast'] as const).map((v) => ({ v, t: t(`settings.paceOpt.${v}`) }))}
+            onChange={(v) => set('pace', v)}
+          />
+        </Row>
+        <Row icon="history" c="c6" label={t('settings.useHistory')}>
+          <Toggle
+            label={t('settings.useHistory')}
+            on={s.useHistory !== false}
+            onChange={(v) => set('useHistory', v)}
+          />
+        </Row>
+      </Group>
+
+      <Group title={t('settings.secRest')}>
+        <Row
+          icon="sound"
+          c="c1"
+          label={t('settings.sound')}
+          sub={audioAvailable() ? undefined : t('settings.soundNone')}
+        >
           <span class="srow-act">
             {s.sound && audioAvailable() && (
               <button type="button" class="btn-ghost sm" onClick={beep}>
@@ -236,180 +245,172 @@ export function Settings() {
             )}
             <Toggle label={t('settings.sound')} on={s.sound} onChange={(v) => set('sound', v)} />
           </span>
-        </div>
-        <div class="srow">
-          <span>
-            {t('settings.flash')}
-            <small>{t('settings.flashHint')}</small>
-          </span>
+        </Row>
+        <Row icon="flash" c="c2" label={t('settings.flash')}>
           <Toggle label={t('settings.flash')} on={!!s.flash} onChange={(v) => set('flash', v)} />
-        </div>
-        <div class="srow">
-          <span>
-            {t('settings.wake')}
-            <small>{t(`settings.wake_${wakeStatus.value}`)}</small>
-          </span>
+        </Row>
+        <Row
+          icon="sun"
+          c="c3"
+          label={t('settings.wake')}
+          sub={wakeSupported ? undefined : t(`settings.wake_${wakeStatus.value}`)}
+        >
           <Toggle
             label={t('settings.wakeLabel')}
             on={s.wakeLock && wakeSupported}
             disabled={!wakeSupported}
             onChange={(v) => set('wakeLock', v)}
           />
-        </div>
-      </section>
+        </Row>
+      </Group>
 
-      <section class="card group-card">
-        <h2 class="card-t">{t('settings.duration')}</h2>
-        <div class="field">
-          <span class="field-lb">{t('settings.pace')}</span>
-          <small>{t('settings.paceHint')}</small>
-          <Seg<NonNullable<S['pace']>>
-            label={t('settings.pace')}
-            value={s.pace ?? 'normal'}
-            options={(['slow', 'normal', 'fast'] as const).map((v) => ({ v, t: t(`settings.paceOpt.${v}`) }))}
-            onChange={(v) => set('pace', v)}
-          />
-        </div>
-        <div class="srow">
-          <span>
-            {t('settings.useHistory')}
-            <small>{t('settings.useHistoryHint')}</small>
-          </span>
-          <Toggle
-            label={t('settings.useHistory')}
-            on={s.useHistory !== false}
-            onChange={(v) => set('useHistory', v)}
-          />
-        </div>
-      </section>
-
-      <section class="card group-card" id="data">
-        <h2 class="card-t">{t('settings.data')}</h2>
-        <p class="muted small">{t('legal.backupNote')}</p>
-        <div class="srow">
-          <span>
-            {t('backup.lastCopy')}
-            <small>{s.lastBackupAt ? when(s.lastBackupAt) : t('backup.never')}</small>
-          </span>
-        </div>
-        <div class="btn-row">
-          <button type="button" class="btn primary" onClick={() => void onSave()}>
-            <Icon name="share" size={18} /> {t('backup.save')}
-          </button>
-          <button type="button" class="btn secondary" onClick={() => fileRef.current?.click()}>
-            <Icon name="upload" size={18} /> {t('backup.restore')}
-          </button>
-          <input
-            ref={fileRef}
-            type="file"
-            accept="application/json,.json"
-            hidden
-            onChange={(e) => void onRestoreFile(e)}
-            data-testid="import-input"
-          />
-        </div>
-        {undoAvailable.value && (
-          <button type="button" class="btn secondary block" onClick={() => void onUndo()}>
-            {t('backup.undo')}
-          </button>
+      <Group title={t('settings.sec.tips')}>
+        <Row icon="bulb" c="c4" label={t('settings.showTips')}>
+          <Toggle label={t('settings.showTips')} on={s.tipsEnabled} onChange={(v) => set('tipsEnabled', v)} />
+        </Row>
+        <Row icon="check" c="c5" label={t('settings.showRules')}>
+          <Toggle label={t('settings.showRules')} on={!s.hideRules} onChange={(v) => set('hideRules', !v)} />
+        </Row>
+        {s.weightWarningIgnored.length > 0 && (
+          <Row
+            icon="shield"
+            c="c6"
+            label={t('settings.weightWarnOff', { count: s.weightWarningIgnored.length })}
+          >
+            <button type="button" class="btn-ghost sm" onClick={() => set('weightWarningIgnored', [])}>
+              {t('settings.weightWarnReset')}
+            </button>
+          </Row>
         )}
-        <div class="srow">
-          <span>
-            {t('backup.pointsTitle')}
-            <small>
-              {restorePoints.value.length === 0 ? t('backup.pointsNone') : t('backup.pointsNote')}
-            </small>
-          </span>
-        </div>
-        {restorePoints.value.length > 0 &&
-          restorePoints.value.map((p) => (
-            <div class="srow" key={p.id}>
-              <span>
-                {when(p.takenAt)}
-                <small>{t(`backup.pointReason.${p.reason}`)}</small>
-              </span>
-              <button type="button" class="btn-ghost sm" onClick={() => void onRestorePoint(p.id, p.takenAt)}>
-                {t('backup.pointsRestore')}
-              </button>
-            </div>
-          ))}
-        <div class="srow">
-          <span>
-            {t('settings.persist')}
-            <small>{t(`settings.persist_${persistStatus.value}`)}</small>
-          </span>
+      </Group>
+
+      <Group title={t('settings.sec.look')}>
+        <Row icon="globe" c="c1" label={t('settings.language')}>
+          <Select
+            label={t('settings.language')}
+            value={locale.value}
+            onChange={(code) => void setLocale(code).then(() => updateProfile({ locale: code }))}
+            options={LOCALES.map((l) => ({ value: l.code, label: l.native, lang: l.code }))}
+          />
+        </Row>
+        <Row
+          icon="palette"
+          c="c2"
+          label={t('settings.theme')}
+          value={t(`theme.${s.theme}`)}
+          haspopup
+          onClick={() => setThemes(true)}
+        />
+        <Row icon="play" c="c3" label={t('settings.motion')} tall>
+          <Seg<MotionPref>
+            label={t('settings.motion')}
+            value={s.motion ?? 'on'}
+            mini={false}
+            options={(['system', 'on', 'off'] as const).map((v) => ({ v, t: t(`settings.motionOpt.${v}`) }))}
+            onChange={(v) => set('motion', v)}
+          />
+        </Row>
+      </Group>
+
+      <Group title={t('settings.data')} id="data" foot={t('legal.backupNote')}>
+        <Row
+          icon="share"
+          c="c4"
+          label={t('backup.save')}
+          sub={s.lastBackupAt ? when(s.lastBackupAt) : t('backup.never')}
+          onClick={() => void onSave()}
+        />
+        <Row icon="upload" c="c5" label={t('backup.restore')} onClick={() => fileRef.current?.click()} />
+        <input
+          ref={fileRef}
+          type="file"
+          accept="application/json,.json"
+          hidden
+          onChange={(e) => void onRestoreFile(e)}
+          data-testid="import-input"
+        />
+        {undoAvailable.value && (
+          <Row icon="back" c="c6" label={t('backup.undo')} onClick={() => void onUndo()} />
+        )}
+        <Row
+          icon="history"
+          c="c7"
+          label={t('backup.pointsTitle')}
+          sub={restorePoints.value.length === 0 ? t('backup.pointsNone') : t('backup.pointsNote')}
+        />
+        {restorePoints.value.map((pt) => (
+          <Row key={pt.id} sub={t(`backup.pointReason.${pt.reason}`)} label={when(pt.takenAt)} indent>
+            <button type="button" class="btn-ghost sm" onClick={() => void onRestorePoint(pt.id, pt.takenAt)}>
+              {t('backup.pointsRestore')}
+            </button>
+          </Row>
+        ))}
+        <Row
+          icon="shield"
+          c="c1"
+          label={t('settings.persist')}
+          sub={t(`settings.persist_${persistStatus.value}`)}
+        >
           {persistStatus.value === 'not-persisted' && (
             <button type="button" class="btn-ghost sm" onClick={() => void requestPersist()}>
               {t('settings.request')}
             </button>
           )}
-        </div>
-        <button type="button" class="btn danger-ghost block" onClick={() => void onReset()}>
-          <Icon name="trash" size={18} /> {t('reset.button')}
-        </button>
-      </section>
+        </Row>
+        <Row icon="trash" c="danger" label={t('reset.button')} danger onClick={() => void onReset()} />
+      </Group>
 
-      <ContactCard />
+      <Group title={t('contact.title')} cls="contact-list" foot={t('contact.desc')}>
+        {CONTACTS.map((c) => (
+          <Row
+            key={c.id}
+            icon={c.id}
+            c="soft"
+            label={t(`contact.${c.id}`)}
+            value={c.handle}
+            href={c.href}
+            external
+          />
+        ))}
+        <Row
+          icon="mail"
+          c="soft"
+          label={t('about.contact')}
+          value={CONTACT_EMAIL}
+          href={`mailto:${CONTACT_EMAIL}`}
+        />
+      </Group>
 
-      <section class="card group-card about">
-        <h2 class="card-t">{t('about.title')}</h2>
-        <div class="srow">
-          <span>{t('about.version')}</span>
-          <b>{__APP_VERSION__}</b>
-        </div>
-        <p class="muted small">{t('about.privacy')}</p>
+      <Group title={t('about.title')} cls="about" foot={t('about.privacy')}>
+        <Row icon="info" c="c2" label={t('about.version')} value={__APP_VERSION__} />
         {standalone ? (
-          <div class="srow">
-            <span>{t('install.title')}</span>
-            <span class="muted small">{t('install.installed')}</span>
-          </div>
+          <Row icon="download" c="c3" label={t('install.title')} value={t('install.installed')} />
         ) : installPrompt.value ? (
-          <div class="srow">
-            <span>{t('install.title')}</span>
+          <Row icon="download" c="c3" label={t('install.title')}>
             <button type="button" class="btn-ghost sm" onClick={() => void promptInstall()}>
-              <Icon name="download" size={16} /> {t('install.app')}
+              {t('install.app')}
             </button>
-          </div>
+          </Row>
         ) : platform !== 'desktop' ? (
-          <div class="srow">
-            <span>{t('install.title')}</span>
-            <button type="button" class="btn-ghost sm" onClick={() => showInstructions(true)}>
-              {t('install.howTo')}
-            </button>
-          </div>
+          <Row
+            icon="download"
+            c="c3"
+            label={t('install.title')}
+            value={t('install.howTo')}
+            onClick={() => showInstructions(true)}
+          />
         ) : null}
-        <div class="srow">
-          <span>{t('about.contact')}</span>
-          <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>
-        </div>
-        <LegalDocs />
-        <p class="credits">{t('about.credits')}</p>
-      </section>
-    </div>
-  );
-}
+        <Row icon="library" c="c4" label={t('about.documents')} haspopup onClick={() => setDocs(true)} />
+      </Group>
+      <p class="credits">{t('about.credits')}</p>
 
-/**
- * «Документы» в «О приложении»: одна строка вместо трёх — условия, политика и лицензии открываются
- * нижним листом.
- */
-function LegalDocs() {
-  const [open, setOpen] = useState(false);
-  return (
-    <>
-      <ul class="list">
-        <li>
-          <button type="button" class="row" aria-haspopup="dialog" onClick={() => setOpen(true)}>
-            <span class="row-main">
-              <b>{t('about.documents')}</b>
-              <span class="muted">{t('about.documentsHint')}</span>
-            </span>
-            <Icon name="chevron" size={18} />
-          </button>
-        </li>
-      </ul>
-      {open && (
-        <Sheet title={t('about.documents')} onClose={() => setOpen(false)}>
+      {themes && (
+        <Sheet title={t('settings.theme')} onClose={() => setThemes(false)}>
+          <ThemePicker value={s.theme} onChange={(v) => set('theme', v)} />
+        </Sheet>
+      )}
+      {docs && (
+        <Sheet title={t('about.documents')} onClose={() => setDocs(false)}>
           <ul class="list">
             {(['terms', 'privacy'] as const).map((d) => (
               <li key={d}>
@@ -438,7 +439,7 @@ function LegalDocs() {
           </ul>
         </Sheet>
       )}
-    </>
+    </div>
   );
 }
 
@@ -449,31 +450,118 @@ const CONTACTS = [
   { id: 'discord', href: 'https://discord.com/users/1468713991852396557', handle: 'fovae' },
 ] as const;
 
-function ContactCard() {
+/**
+ * Группа настроек как в iOS (3.22): маленький заголовок, карточка со строками, подпись снизу.
+ * Всё на одном экране — без вложенных экранов.
+ */
+function Group({
+  title,
+  foot,
+  id,
+  cls,
+  children,
+}: {
+  title: string;
+  foot?: string;
+  id?: string;
+  cls?: string;
+  children: ComponentChildren;
+}) {
   return (
-    <section class="card group-card contact-card" aria-labelledby="contact-t">
-      <h2 class="card-t" id="contact-t">
-        {t('contact.title')}
-      </h2>
-      <p class="muted small">{t('contact.desc')}</p>
-      <ul class="list contact-list">
-        {CONTACTS.map((c) => (
-          <li key={c.id}>
-            <a class="row" href={c.href} target="_blank" rel="noopener noreferrer">
-              <span class="contact-ic">
-                <Icon name={c.id} size={22} />
-              </span>
-              <span class="row-main">
-                <b>{t(`contact.${c.id}`)}</b>
-                <span class="muted">{c.handle}</span>
-              </span>
-              <span class="sr-only">{t('contact.newTab')}</span>
-              <Icon name="external" size={18} />
-            </a>
-          </li>
-        ))}
-      </ul>
+    <section class={'ig' + (cls ? ' ' + cls : '')} id={id} aria-label={title}>
+      <h2 class="ig-h">{title}</h2>
+      <div class="ig-card">{children}</div>
+      {foot && <p class="ig-foot">{foot}</p>}
     </section>
+  );
+}
+
+/**
+ * Строка: цветной значок, подпись (и пояснение мелко), справа — значение, переключатель или кнопка.
+ * onClick / href — вся строка нажимается (со стрелкой). tall — элемент управления под подписью.
+ */
+function Row({
+  icon,
+  c,
+  label,
+  sub,
+  value,
+  children,
+  onClick,
+  href,
+  external,
+  haspopup,
+  danger,
+  tall,
+  indent,
+  id,
+  rowRef,
+}: {
+  icon?: IconName;
+  /** цвет значка: cN — заливка цвета темы, soft — нейтральный, danger — красный */
+  c?: string;
+  label: ComponentChildren;
+  sub?: string | undefined;
+  value?: string;
+  children?: ComponentChildren;
+  onClick?: () => void;
+  href?: string;
+  external?: boolean;
+  haspopup?: boolean;
+  danger?: boolean;
+  tall?: boolean;
+  indent?: boolean;
+  id?: string;
+  rowRef?: Ref<HTMLDivElement>;
+}) {
+  const cls = 'ir' + (danger ? ' danger' : '') + (tall ? ' tall' : '') + (indent ? ' indent' : '');
+  const bg =
+    c === 'soft' ? 'var(--soft)' : c === 'danger' ? 'var(--danger-fill)' : c ? `var(--${c}-fill)` : '';
+  const head = (
+    <>
+      {icon && (
+        <span class={'ir-ic' + (c === 'soft' ? ' soft' : '')} style={{ background: bg }} aria-hidden="true">
+          <Icon name={icon} size={17} />
+        </span>
+      )}
+      <span class="ir-txt">
+        <span class="ir-lb">{label}</span>
+        {sub && <small>{sub}</small>}
+      </span>
+      {value && <span class="ir-val">{value}</span>}
+    </>
+  );
+  if (href)
+    return (
+      <a
+        class={cls + ' tap'}
+        href={href}
+        {...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+      >
+        {head}
+        {external && <span class="sr-only">{t('contact.newTab')}</span>}
+        <Icon name={external ? 'external' : 'chevron'} size={16} class="ir-chev" />
+      </a>
+    );
+  if (onClick)
+    return (
+      <div class="ir-wrap" id={id} ref={rowRef} tabIndex={id ? -1 : undefined}>
+        <button
+          type="button"
+          class={cls + ' tap'}
+          aria-haspopup={haspopup ? 'dialog' : undefined}
+          onClick={onClick}
+        >
+          {head}
+          {!danger && <Icon name="chevron" size={16} class="ir-chev" />}
+        </button>
+      </div>
+    );
+  return (
+    <div class={cls} id={id}>
+      {head}
+      {children && <span class="ir-ctl">{children}</span>}
+    </div>
   );
 }
 
@@ -589,68 +677,5 @@ function ProfileEditor({ onClose }: { onClose: () => void }) {
         </div>
       </div>
     </Sheet>
-  );
-}
-
-/** Режим расписания: переключение с подтверждением, чтобы не сменить его случайно */
-function ScheduleCard() {
-  const p = plan.value;
-  const ref = useRef<HTMLElement>(null);
-  // #/settings/schedule — прокрутить к карточке (переход с экрана «План»)
-  useEffect(() => {
-    if (route.value.sub?.id === 'schedule' && ref.current) {
-      ref.current.scrollIntoView({ block: 'center', behavior: scrollBehavior() });
-      ref.current.focus({ preventScroll: true });
-    }
-  }, [route.value.sub?.id, !!p]);
-  if (!p) return null;
-  const weekdays = p.mode === 'weekdays';
-  const target = weekdays ? 'cycle' : 'weekdays';
-
-  const onSwitch = async () => {
-    const r = await ask({
-      title: t(weekdays ? 'settings.toCycleTitle' : 'settings.toWeekdaysTitle'),
-      body: t(weekdays ? 'settings.toCycleBody' : 'settings.toWeekdaysBody'),
-      confirm: t('settings.switch'),
-    });
-    if (r !== 'confirm') return;
-    setMode(target);
-    toast(t('settings.switched', { mode: t(weekdays ? 'plan.modeCycle' : 'plan.modeWeekdays') }));
-  };
-
-  return (
-    <section class="card group-card" id="schedule" ref={ref} tabIndex={-1}>
-      <h2 class="card-t">{t('plan.mode')}</h2>
-      <div class="srow">
-        <span>
-          {t(weekdays ? 'plan.modeWeekdays' : 'plan.modeCycle')}
-          <small>{t(weekdays ? 'plan.modeWeekdaysHint' : 'plan.modeCycleHint')}</small>
-        </span>
-      </div>
-      <button type="button" class="btn secondary block" onClick={() => void onSwitch()}>
-        {t(weekdays ? 'settings.switchToCycle' : 'settings.switchToWeekdays')}
-      </button>
-    </section>
-  );
-}
-
-/** Помощник «Подбор плана» — всегда здесь, даже когда на экране «План» его карточки нет */
-function AssistantCard() {
-  if (!plan.value) return null;
-  return (
-    <section class="card planner-cta planner-box assistant-card" aria-labelledby="assistant-h">
-      <div class="planner-box-h">
-        <span class="planner-box-ic" aria-hidden="true">
-          <Icon name="spark" size={20} />
-        </span>
-        <h2 class="card-t" id="assistant-h">
-          {t('planner.assistant')}
-        </h2>
-      </div>
-      <p class="muted small">{t('planner.assistantText')}</p>
-      <button type="button" class="btn secondary block" onClick={() => openPlanner()}>
-        {t('planner.cta')}
-      </button>
-    </section>
   );
 }
