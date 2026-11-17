@@ -14,6 +14,8 @@ export async function fresh(
      * анимации и вёрстка меряется в покое.
      */
     motion?: 'system' | 'default';
+    /** Показывать ли тур после онбординга (3.24). По умолчанию тесты его пропускают */
+    tour?: boolean;
   } = {},
 ): Promise<void> {
   await page.goto('./');
@@ -30,7 +32,7 @@ export async function fresh(
   // приложение создало базу — записываем выбор и перезагружаем
   await page.locator('#boot').waitFor({ state: 'detached' });
   await page.evaluate(
-    () =>
+    (tour) =>
       new Promise<void>((res, rej) => {
         const boot = JSON.parse(localStorage.getItem('tp-boot') || '{}') as object;
         localStorage.setItem('tp-boot', JSON.stringify({ ...boot, motion: 'system' }));
@@ -39,7 +41,10 @@ export async function fresh(
         r.onsuccess = () => {
           const db = r.result;
           const tx = db.transaction('kv', 'readwrite');
-          tx.objectStore('kv').put({ motion: 'system' }, 'settings');
+          tx.objectStore('kv').put(
+            tour ? { motion: 'system' } : { motion: 'system', tourSeen: 99 },
+            'settings',
+          );
           tx.oncomplete = () => {
             db.close();
             res();
@@ -47,6 +52,7 @@ export async function fresh(
           tx.onerror = () => rej(tx.error);
         };
       }),
+    !!opts.tour,
   );
   await page.reload();
   // заставка холодного старта (3.23) держится ~1,4 с поверх экрана — тесты начинают после неё
@@ -62,6 +68,8 @@ export interface OnboardOpts {
   days?: number;
   /** Подпись уровня, как на экране (по умолчанию — средний) */
   level?: string;
+  /** Не закрывать тур после онбординга (тесты самого тура) */
+  keepTour?: boolean;
 }
 
 /** Проходит онбординг на английском (или выбирает русский на первом шаге) */
@@ -99,7 +107,27 @@ export async function onboard(page: Page, o: OnboardOpts = {}): Promise<void> {
   else await page.getByRole('radio', { name: o.start ?? /Split 3\+1|Сплит 3\+1/ }).click();
   await page.getByRole('button', { name: L.finish }).click();
   await expect(page.getByRole('navigation')).toBeVisible();
+  // тур (3.24): тесты, в чьих настройках он не отмечен (сброс данных, motion 'default'), — закрываем
+  if (!o.keepTour && (await tourSeen(page)) < 1) await page.locator('.tour-skip').click();
 }
+
+/** Какая версия тура отмечена в настройках (IndexedDB) */
+export const tourSeen = (page: Page): Promise<number> =>
+  page.evaluate(
+    () =>
+      new Promise<number>((res) => {
+        const r = indexedDB.open('training-pwa');
+        r.onerror = () => res(0);
+        r.onsuccess = () => {
+          const q = r.result.transaction('kv').objectStore('kv').get('settings');
+          q.onsuccess = () => {
+            res((q.result as { tourSeen?: number } | undefined)?.tourSeen ?? 0);
+            r.result.close();
+          };
+          q.onerror = () => res(0);
+        };
+      }),
+  );
 
 /** Значение из IndexedDB kv (для ожидания записи перед перезагрузкой страницы) */
 export function kv<T = unknown>(page: Page, key: string): Promise<T | null> {
@@ -164,4 +192,10 @@ export async function openSettings(
 export async function openThemes(page: Page): Promise<void> {
   await page.locator('.settings button.ir[aria-haspopup="dialog"]', { hasText: /^(Theme|Тема)/ }).click();
   await expect(page.locator('.sheet .tp, .sheet [role="radiogroup"]').first()).toBeVisible();
+}
+
+/** Закрыть тур (тесты с собственными данными без отметки tourSeen: миграции) */
+export async function skipTour(page: Page): Promise<void> {
+  await page.locator('.tour-skip').click();
+  await expect(page.locator('.tour')).toHaveCount(0);
 }

@@ -1,3 +1,4 @@
+import { TOUR_VERSION } from '../lib/tour';
 import { computed, signal } from '@preact/signals';
 import * as store from '../db';
 import type { BackupSummary, ParsedBackup } from '../backup/format';
@@ -127,7 +128,12 @@ export async function applyRestore(r: ReadyRestore): Promise<void> {
       // Копия без профиля (старый формат) — оставляем текущий профиль
       profile: d.profile ?? cur.profile,
       plan: d.plan ?? cur.plan,
-      settings: { ...d.settings, lastBackupAt: settings.value.lastBackupAt ?? d.settings.lastBackupAt },
+      settings: {
+        ...d.settings,
+        lastBackupAt: settings.value.lastBackupAt ?? d.settings.lastBackupAt,
+        // восстановил копию — не новичок: тур (3.24) не показываем
+        tourSeen: Math.max(d.settings.tourSeen ?? 0, TOUR_VERSION),
+      },
       active: null,
       sessions: d.sessions,
     },
@@ -229,7 +235,9 @@ export async function restoreFromPoint(id: string): Promise<boolean> {
     {
       ...data,
       // дата экспорта — текущая: точка не делает внешнюю копию свежее или старее
-      settings: data.settings ? { ...data.settings, lastBackupAt: settings.value.lastBackupAt } : data.settings,
+      settings: data.settings
+        ? { ...data.settings, lastBackupAt: settings.value.lastBackupAt }
+        : data.settings,
     },
     null,
   );

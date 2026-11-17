@@ -127,3 +127,18 @@ test('boot screen (index.html): transform/opacity only, delayed start, own reduc
     /@media \(prefers-reduced-motion: reduce\)\s*\{\s*:root:not\(\[data-motion='on'\]\) #boot \.boot-in\s*\{\s*animation: boot-fade/,
   );
 });
+
+test('tour (tour.css, 3.24): only transform, opacity and stroke-dashoffset; pause stops it all', () => {
+  const tour = css('tour.css');
+  const bad: string[] = [];
+  for (const m of tour.matchAll(/@keyframes\s+([\w-]+)\s*\{([\s\S]*?)\n\}/g))
+    for (const d of m[2]!.matchAll(/([a-z-]+)\s*:/g))
+      if (!/^(transform|opacity|stroke-dashoffset)$/.test(d[1]!)) bad.push(`@keyframes ${m[1]} → ${d[1]}`);
+  expect(bad).toEqual([]);
+  expect(tour).not.toMatch(/transition:/);
+  // полоска слайда — та же длительность, что SLIDE_MS
+  const ts = readFileSync(new URL('../../src/lib/tour.ts', import.meta.url), 'utf8');
+  const ms = Number(/SLIDE_MS = (\d+)/.exec(ts)?.[1]);
+  expect(tour).toContain(`tour-fill ${ms / 1000}s linear`);
+  expect(tour).toMatch(/\.tour\.paused[\s\S]*?animation-play-state: paused/);
+});

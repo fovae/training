@@ -16,14 +16,15 @@ import { DEFAULT_SETTINGS, THEMES, type Plan, type Profile, type Session, type S
 
 export const BACKUP_APP = 'simple-training';
 /**
+ * 9 — релиз 3.24: Settings.tourSeen — просмотренная версия тура (необязательное поле).
  * 8 — релиз 3.20: Settings.hideRules — скрыть правила на экране «План» (необязательное поле).
  * 7 — релиз 3.18: Settings.planner — ответы помощника (необязательное поле).
  * 6 — релиз 3.17: в подходе load / weightRKg / repsR, Settings.exerciseModes (необязательные поля).
  * 5 — релиз 3.15: Settings.pace и Settings.useHistory (оценка длительности, необязательные поля).
  * 4 — релиз 3.0: новый набор тем, Settings.motion. Копии версий 3 и 4 читаются (темы переводятся).
  */
-export const BACKUP_SCHEMA = 8;
-const READABLE_SCHEMAS = [3, 4, 5, 6, 7, 8] as const;
+export const BACKUP_SCHEMA = 9;
+const READABLE_SCHEMAS = [3, 4, 5, 6, 7, 8, 9] as const;
 /** Максимальный размер файла копии */
 export const MAX_BACKUP_BYTES = 10 * 1024 * 1024;
 
@@ -199,6 +200,8 @@ const SettingsSchema = v.strictObject({
   useHistory: v.optional(v.boolean()),
   // 3.20 (схема 8): скрыть правила на экране «План»
   hideRules: v.optional(v.boolean()),
+  // 3.24 (схема 9): просмотренная версия тура
+  tourSeen: v.optional(int(0, 100)),
   // 3.18 (схема 7): последние ответы помощника «Подбор плана»
   planner: v.optional(
     v.strictObject({

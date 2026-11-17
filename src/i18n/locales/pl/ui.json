@@ -549,7 +549,8 @@
       "tips": "Wskazówki i zasady",
       "look": "Wygląd"
     },
-    "secRest": "Podczas odpoczynku"
+    "secRest": "Podczas odpoczynku",
+    "showTour": "Pokaż przewodnik"
   },
   "backup": {
     "save": "Zapisz kopię",
@@ -941,5 +942,31 @@
     "menuDay": "Asystent: ułóż dzień",
     "assistant": "Asystent",
     "assistantText": "Ułoży plan albo jeden dzień pod twoje cele, sprzęt i czas. Potem wszystko poprawisz ręcznie."
+  },
+  "tour": {
+    "skip": "Pomiń",
+    "close": "Zamknij przewodnik",
+    "finish": "Do treningu",
+    "progress": "Slajd {n} z {total}",
+    "plan": {
+      "title": "Twój plan jest gotowy",
+      "body": "Oto twój tydzień — zmieniaj go w „{plan}” kiedy chcesz. Nie wiesz, od czego zacząć? {assistant} ułoży plan albo jeden dzień."
+    },
+    "log": {
+      "title": "Zapisuj serie",
+      "body": "Otwórz „{today}”: ciężar i powtórzenia przejdą z poprzedniego razu. Stuknij „gotowe” — ruszy odpoczynek."
+    },
+    "timer": {
+      "title": "Minutnik i wskazówki",
+      "body": "Minutnik sam odliczy odpoczynek. Wskazówki wyłączysz w „{settings}”."
+    },
+    "more": {
+      "title": "Ćwiczenia i historia",
+      "body": "W „{library}” technika każdego ruchu, w „{history}” treningi, wykresy i rekordy."
+    },
+    "data": {
+      "title": "Twoje dane są tylko twoje",
+      "body": "Wszystko jest na tym urządzeniu. Raz w tygodniu zapisz kopię: „{settings} → {data}”."
+    }
   }
 }

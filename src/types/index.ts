@@ -169,6 +169,8 @@ export interface Settings {
   useHistory?: boolean;
   /** 3.20: скрыть карточки правил на экране «План». Нет поля — правила показываются */
   hideRules?: boolean;
+  /** 3.24: какую версию тура человек уже видел (lib/tour → TOUR_VERSION). Нет поля — не видел */
+  tourSeen?: number;
 }
 
 export const DEFAULT_SETTINGS: Settings = {

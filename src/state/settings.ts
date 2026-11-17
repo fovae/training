@@ -42,6 +42,8 @@ export function sanitizeSettings(raw: unknown): Settings {
   if (r.pace === 'slow' || r.pace === 'normal' || r.pace === 'fast') out.pace = r.pace;
   if (typeof r.useHistory === 'boolean') out.useHistory = r.useHistory;
   if (typeof r.hideRules === 'boolean') out.hideRules = r.hideRules;
+  if (typeof r.tourSeen === 'number' && Number.isInteger(r.tourSeen) && r.tourSeen >= 0 && r.tourSeen <= 100)
+    out.tourSeen = r.tourSeen;
   // ответы помощника — как есть; значения проверяет sanitizeAnswers при открытии мастера
   if (r.planner && typeof r.planner === 'object' && !Array.isArray(r.planner))
     out.planner = r.planner as NonNullable<Settings['planner']>;

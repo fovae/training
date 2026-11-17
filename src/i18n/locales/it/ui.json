@@ -537,7 +537,8 @@
       "tips": "Consigli e regole",
       "look": "Aspetto"
     },
-    "secRest": "Durante il recupero"
+    "secRest": "Durante il recupero",
+    "showTour": "Mostra il tour"
   },
   "backup": {
     "save": "Salva una copia",
@@ -928,5 +929,31 @@
     "menuDay": "Assistente: crea il giorno",
     "assistant": "Assistente",
     "assistantText": "Crea un piano o un solo giorno in base a obiettivi, attrezzi e tempo. Poi puoi modificarlo a mano."
+  },
+  "tour": {
+    "skip": "Salta",
+    "close": "Chiudi il tour",
+    "finish": "Ad allenarsi",
+    "progress": "Slide {n} di {total}",
+    "plan": {
+      "title": "Il tuo piano è pronto",
+      "body": "Ecco la tua settimana: modificala in «{plan}» quando vuoi. Non sai da dove iniziare? L’{assistant} crea un piano o un giorno."
+    },
+    "log": {
+      "title": "Registra le serie",
+      "body": "Apri «{today}»: peso e ripetizioni arrivano dall’ultima volta. Tocca «fatto» e parte il recupero."
+    },
+    "timer": {
+      "title": "Timer e consigli",
+      "body": "Il timer conta il recupero al posto tuo. I consigli si disattivano in «{settings}»."
+    },
+    "more": {
+      "title": "Esercizi e storico",
+      "body": "In «{library}» la tecnica di ogni movimento, in «{history}» allenamenti, grafici e record."
+    },
+    "data": {
+      "title": "I tuoi dati restano tuoi",
+      "body": "Tutto è salvato su questo dispositivo. Fai un backup ogni settimana: «{settings} → {data}»."
+    }
   }
 }

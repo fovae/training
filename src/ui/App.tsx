@@ -1,4 +1,4 @@
-import { computed, signal } from '@preact/signals';
+import { computed, effect, signal } from '@preact/signals';
 import type { ComponentType } from 'preact';
 import { useEffect, useLayoutEffect, useRef } from 'preact/hooks';
 import { t } from '../i18n';
@@ -25,6 +25,8 @@ import { LegalUpdate } from './screens/LegalUpdate';
 import { needsAcceptance } from '../content/legal';
 import { profile } from '../state/settings';
 import { gateVisible } from '../features/install';
+import { shouldShowTour } from '../lib/tour';
+import { openTour, tourOpen } from '../state/tour';
 
 /** Профиль есть, но текущие версии документов не приняты */
 const legalPending = computed(() => !!profile.value && needsAcceptance(profile.value.legalAccepted));
@@ -39,6 +41,32 @@ function InstallGateLazy() {
   const C = GateScreen.value;
   return C ? <C /> : <div class="screen" aria-busy="true" />;
 }
+
+/**
+ * Тур после онбординга (3.24): отдельный чанк — нужен один раз. Показ — один раз после онбординга
+ * (lib/tour → shouldShowTour) и по «Показать тур» в настройках.
+ */
+const TourScreen = signal<ComponentType | null>(null);
+function TourHost() {
+  // во время онбординга (в т.ч. после «Удалить все данные») тура нет
+  if (!tourOpen.value || needsOnboarding.value) return null;
+  if (!TourScreen.value) void import('./tour/Tour').then((m) => (TourScreen.value = m.Tour));
+  const C = TourScreen.value;
+  return C ? <C /> : null;
+}
+const wantsTour = computed(() =>
+  shouldShowTour({
+    hasProfile: !!profile.value,
+    legalPending: legalPending.value,
+    gateVisible: gateVisible.value,
+    seen: settings.value.tourSeen,
+  }),
+);
+effect(() => {
+  if (needsOnboarding.value) tourOpen.value = false;
+  // peek: эффект следит за условиями показа, а не за самим туром
+  else if (booted.value && wantsTour.value && !tourOpen.peek()) openTour();
+});
 
 const isTyping = (el: EventTarget | null) =>
   el instanceof HTMLElement && !!el.closest('input, textarea, select, [contenteditable="true"]');
@@ -148,6 +176,7 @@ export function App() {
       <SelectHost />
       <PlannerHost />
       <DialogHost />
+      <TourHost />
       <Flash />
     </div>
   );

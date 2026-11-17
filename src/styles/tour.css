@@ -1,0 +1,573 @@
+/*
+ * Тур после онбординга (3.24, ui/tour/Tour.tsx) — свой чанк стилей, грузится вместе с туром.
+ * Цвета — только токены темы. Движение — transform, opacity и stroke-dashoffset (кольцо отдыха).
+ * Пауза (удержание, свёрнутое приложение) останавливает и полоску, и анимации макетов.
+ */
+.tour-scrim {
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  display: grid;
+  place-items: center;
+  background: var(--bg);
+  animation: m-fade var(--dur-slow) var(--ease-fade);
+}
+.tour {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  padding: calc(var(--safe-t) + var(--space-3)) calc(var(--safe-r) + var(--space-4))
+    calc(var(--safe-b) + var(--space-3)) calc(var(--safe-l) + var(--space-4));
+  background: var(--bg);
+  touch-action: pan-y;
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+}
+/* ПК и планшет: карточка «истории» по центру, вокруг — затемнение */
+@media (min-width: 760px) {
+  .tour-scrim {
+    background: var(--scrim);
+  }
+  .tm-phone {
+    height: clamp(200px, calc(min(860px, 100dvh - 48px) - 420px), 420px);
+  }
+  .tour {
+    width: min(430px, 100%);
+    height: min(860px, calc(100dvh - 48px));
+    border-radius: var(--r-lg);
+    box-shadow: var(--shadow-pop);
+  }
+}
+
+/* ---------- полоски прогресса ---------- */
+.tour-bars {
+  display: flex;
+  gap: var(--space-1);
+}
+.tour-bar {
+  flex: 1;
+  height: 4px;
+  overflow: hidden;
+  border-radius: 2px;
+  background: var(--line);
+}
+.tour-bar i {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: left center;
+}
+.tour-bar i.full {
+  transform: none;
+}
+.tour-bar i.run {
+  animation: tour-fill 5.5s linear forwards;
+}
+@keyframes tour-fill {
+  to {
+    transform: none;
+  }
+}
+.tour.paused .tour-bar i.run,
+.tour.paused .tour-art * {
+  animation-play-state: paused !important;
+}
+
+/* ---------- верх: «Пропустить» и крестик ---------- */
+.tour-top {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--space-1);
+  margin-top: var(--space-2);
+}
+.tour-skip {
+  min-height: 44px;
+  padding: 0 var(--space-3);
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--muted);
+}
+
+/* ---------- слайд ---------- */
+.tour-slide {
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  animation:
+    m-fade var(--dur-slow) var(--ease-fade) backwards,
+    m-lift var(--dur-slow) var(--ease-glide) backwards;
+}
+.tour-art {
+  flex: 1;
+  min-height: 0;
+  width: 100%;
+  display: grid;
+  place-items: center;
+  padding: var(--space-3) 0;
+}
+.tour-txt {
+  /* постоянная высота текста: заголовок в 1–2 строки не сдвигает картинку между слайдами */
+  flex: none;
+  height: 188px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.tour-h {
+  margin: 0;
+  font-size: 26px;
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+  overflow-wrap: anywhere;
+  hyphens: auto;
+  outline: none;
+}
+.tour-b {
+  margin: var(--space-3) 0 var(--space-4);
+  max-width: 34ch;
+  font-size: 17px;
+  line-height: 1.45;
+  color: var(--muted);
+  text-wrap: pretty;
+  overflow-wrap: anywhere;
+  hyphens: auto;
+}
+.tour-f {
+  display: flex;
+  gap: var(--space-3);
+}
+.tour-f .btn {
+  flex: none;
+}
+.tour-f .btn.primary {
+  flex: 1;
+}
+.tour-f .btn:disabled {
+  visibility: hidden;
+}
+
+/* ---------- макет телефона ---------- */
+.tm-phone {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  /* один размер на всех слайдах: высота — от высоты экрана (полоски, текст и кнопки всегда видны;
+     на низких экранах вроде iPhone SE телефон меньше), ширина — по пропорции телефона */
+  height: clamp(200px, calc(100dvh - var(--safe-t) - var(--safe-b) - 420px), 420px);
+  aspect-ratio: 9 / 15;
+  max-width: 72vw;
+  padding: var(--space-3);
+  border-radius: 30px;
+  background: var(--card);
+  box-shadow:
+    0 0 0 6px color-mix(in srgb, var(--ink) 8%, transparent),
+    var(--shadow-pop);
+}
+.tm-screen {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  text-align: left;
+}
+.tm-h {
+  font-size: 18px;
+  font-weight: 800;
+}
+.tm-nav {
+  display: flex;
+  justify-content: space-around;
+  margin-top: var(--space-2);
+  padding: 6px;
+  border-radius: 99px;
+  background: var(--soft);
+  color: var(--muted);
+}
+.tm-tab {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+}
+.tm-tab.hl {
+  color: var(--accent-ink);
+  background: color-mix(in srgb, var(--accent) 16%, transparent);
+}
+
+/* подсветка: спокойное пульсирующее кольцо вокруг нужного места */
+.tour .hl {
+  position: relative;
+}
+.tour .hl::after {
+  content: '';
+  position: absolute;
+  inset: -5px;
+  border-radius: inherit;
+  border: 2px solid var(--accent);
+  pointer-events: none;
+  animation: tour-pulse 1.6s var(--ease-in-out) infinite;
+}
+@keyframes tour-pulse {
+  0% {
+    opacity: 0;
+    transform: scale(0.92);
+  }
+  45% {
+    opacity: 1;
+    transform: none;
+  }
+  100% {
+    opacity: 0.85;
+    transform: none;
+  }
+}
+
+/* полоски-заглушки текста */
+.tm-line {
+  display: block;
+  height: 8px;
+  border-radius: 4px;
+  background: var(--line);
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  font-size: 0;
+}
+.tm-line.w55 {
+  width: 55%;
+}
+.tm-line.w70 {
+  width: 70%;
+}
+.tm-line.w80 {
+  width: 80%;
+}
+
+/* 1. план: дни цветными плашками */
+.tm-days {
+  display: grid;
+  gap: var(--space-2);
+}
+.tm-day {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: 34px;
+  padding: 0 var(--space-3);
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--d) 14%, var(--card));
+  animation:
+    m-fade var(--dur-slow) var(--ease-fade) backwards,
+    m-lift var(--dur-slow) var(--ease-glide) backwards;
+  animation-delay: calc(200ms + var(--i) * 90ms);
+}
+.tm-day i {
+  flex: none;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--d);
+}
+.tm-day b {
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  font-size: 13px;
+  font-weight: 700;
+}
+.tm-assist {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  align-self: flex-start;
+  margin-top: auto;
+  padding: 6px 10px;
+  border-radius: 99px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--accent-ink);
+  background: color-mix(in srgb, var(--accent) 12%, var(--card));
+}
+
+/* 2. сегодня: подход — вес и повторы появляются, «готово» нажимается, запускается отдых */
+.tm-head {
+  padding: var(--space-3);
+  border-radius: 14px;
+  background: var(--accent-bg);
+  color: var(--on-fill);
+  font-size: 14px;
+}
+.tm-ex {
+  display: grid;
+  gap: var(--space-2);
+  padding: var(--space-3);
+  border-radius: 14px;
+  background: var(--soft);
+}
+.tm-ex .tm-line {
+  height: 10px;
+  background: color-mix(in srgb, var(--ink) 18%, transparent);
+}
+.tm-set {
+  display: grid;
+  grid-template-columns: 14px 1fr 1fr 30px;
+  align-items: center;
+  gap: 6px;
+}
+.tm-set.dim {
+  opacity: 0.45;
+}
+.tm-n {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--muted);
+}
+.tm-field {
+  display: grid;
+  place-items: center;
+  height: 28px;
+  border-radius: 8px;
+  background: var(--card);
+  border: 1px solid var(--line);
+  font-size: 13px;
+  font-weight: 800;
+}
+.tm-type {
+  font-style: normal;
+  animation: m-fade var(--dur-slow) var(--ease-fade) 600ms backwards;
+}
+.tm-type.d2 {
+  animation-delay: 1000ms;
+}
+.tm-done {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 10px;
+  border: 1.5px solid var(--line);
+  color: transparent;
+}
+.tm-done.hl {
+  color: var(--on-fill);
+  background: var(--accent-fill);
+  border-color: transparent;
+  animation: tour-press 600ms var(--ease-out) 1500ms backwards;
+}
+@keyframes tour-press {
+  0% {
+    opacity: 0;
+    transform: scale(1);
+  }
+  40% {
+    opacity: 1;
+    transform: scale(0.86);
+  }
+}
+.tm-rest {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  align-self: center;
+  margin-top: auto;
+  padding: 6px 14px 6px 6px;
+  border-radius: 99px;
+  background: var(--soft);
+  font-size: 15px;
+  animation: m-fade var(--dur-slow) var(--ease-fade) 1900ms backwards;
+}
+.tm-ring {
+  width: 28px;
+  height: 28px;
+  transform: rotate(-90deg);
+}
+.tm-ring.big {
+  width: 64px;
+  height: 64px;
+}
+.tm-ring circle {
+  fill: none;
+  stroke: var(--line);
+  stroke-width: 4;
+}
+.tm-ring .tm-ring-v {
+  stroke: var(--accent);
+  stroke-linecap: round;
+  stroke-dasharray: 94.25;
+  stroke-dashoffset: 30;
+  animation: tour-ring 2.4s linear 2000ms backwards;
+}
+.tm-ring .tm-ring-v.slow {
+  animation-delay: 300ms;
+}
+@keyframes tour-ring {
+  from {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* 3. таймер и подсказка */
+.tm-tip {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-3);
+  border-radius: 14px;
+  background: color-mix(in srgb, var(--accent) 10%, var(--card));
+  animation:
+    m-fade var(--dur-slow) var(--ease-fade) 300ms backwards,
+    m-lift var(--dur-slow) var(--ease-glide) 300ms backwards;
+}
+.tm-tip-ic {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  color: var(--accent-ink);
+  background: var(--card);
+}
+.tm-lines {
+  flex: 1;
+  display: grid;
+  gap: 6px;
+}
+.tm-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: auto;
+  padding: var(--space-2);
+  border-radius: 22px;
+  background: var(--soft);
+}
+.tm-adj {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 12px;
+  background: var(--card);
+  font-size: 18px;
+  font-weight: 800;
+}
+.tm-time {
+  position: relative;
+  display: grid;
+  place-items: center;
+}
+.tm-time b {
+  position: absolute;
+  font-size: 15px;
+}
+
+/* 4. упражнения и история */
+.tm-pair {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-2);
+}
+.tm-card {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: var(--space-2);
+  border-radius: 14px;
+  background: var(--soft);
+}
+.tm-search {
+  display: flex;
+  align-items: center;
+  height: 22px;
+  padding: 0 6px;
+  border-radius: 8px;
+  background: var(--card);
+  color: var(--muted);
+}
+.tm-thumb {
+  flex: 1;
+  min-height: 60px;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  border-radius: 10px;
+  background: var(--card);
+}
+.tm-thumb .pic {
+  width: 100%;
+}
+.tm-chart {
+  flex: 1;
+  min-height: 70px;
+  display: flex;
+  align-items: flex-end;
+  gap: 4px;
+}
+.tm-chart i {
+  flex: 1;
+  height: calc(var(--h) * 100%);
+  border-radius: 4px 4px 2px 2px;
+  background: var(--accent);
+  transform-origin: bottom;
+  animation: tour-grow var(--dur-slow) var(--ease-glide) backwards;
+  animation-delay: calc(300ms + var(--i) * 90ms);
+}
+@keyframes tour-grow {
+  from {
+    transform: scaleY(0);
+  }
+}
+.tm-pr {
+  align-self: flex-end;
+  color: var(--accent-ink);
+}
+
+/* 5. данные: только на устройстве, копия — «поделиться» */
+.tm-safe {
+  position: relative;
+  flex: 1;
+  display: grid;
+  place-items: center;
+}
+.tm-lock {
+  display: grid;
+  place-items: center;
+  width: 96px;
+  height: 96px;
+  border-radius: 30px;
+  color: var(--accent-ink);
+  background: color-mix(in srgb, var(--accent) 14%, var(--card));
+  animation: m-float var(--dur-slow) var(--ease-glide) 200ms backwards;
+}
+.tm-share {
+  position: absolute;
+  right: 22%;
+  bottom: 28%;
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  color: var(--on-fill);
+  background: var(--accent-fill);
+  animation: m-float var(--dur-slow) var(--ease-glide) 700ms backwards;
+}

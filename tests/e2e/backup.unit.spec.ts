@@ -202,3 +202,15 @@ test('reminder: every 14 days after the last export, dismissed — until the nex
   // копии не было: закрытое напоминание тоже молчит до следующего срока
   expect(backupReminderDue({ backupReminderDismissedAt: ago(5) }, 3, now)).toBe(false);
 });
+
+test('3.24: tourSeen survives a round trip; copies without it still parse', async () => {
+  const d = data();
+  const withTour = await buildBackup({ ...d, settings: { ...d.settings, tourSeen: 1 } }, '3.24.0');
+  expect((await parseBackup(JSON.stringify(withTour))).data.settings.tourSeen).toBe(1);
+  const without = await buildBackup(d, '3.23.0');
+  expect((await parseBackup(JSON.stringify(without))).data.settings.tourSeen).toBeUndefined();
+  // мусор вместо версии — копия отклоняется (строгая проверка), а не ломает приложение
+  const bad = await buildBackup({ ...d, settings: { ...d.settings, tourSeen: 1 } }, '3.24.0');
+  (bad.data.settings as { tourSeen: unknown }).tourSeen = 'x';
+  await expect(parseBackup(JSON.stringify(bad))).rejects.toThrow();
+});

@@ -1,5 +1,5 @@
 import { expect, test, type Page } from '@playwright/test';
-import { openSettings, openThemes } from './helpers';
+import { openSettings, openThemes, skipTour } from './helpers';
 
 /**
  * Миграция v2 → v3 → v4 на фикстуре в формате этапа 1 (у владельца уже стоит v2):
@@ -99,6 +99,8 @@ test('v2 data survives the upgrade to the current schema; documents must be acce
   await expect(page.getByRole('heading', { name: 'Мы обновили документы' })).toBeVisible();
   await expect(page.getByRole('navigation')).toHaveCount(0);
   await page.getByRole('button', { name: 'Принять' }).click();
+  // тур (3.24) — данные этапа 1 без отметки о нём
+  await skipTour(page);
   await expect(page.getByRole('heading', { name: 'Следующая по очереди' })).toBeVisible();
 
   // Тема v2 «dark» → classic-dark, настройки отдыха и звук сохранились
@@ -226,6 +228,7 @@ test('v3 → v4: saved classic-orange becomes Gradient, other settings and histo
   // тема применена до загрузки приложения (загрузочный скрипт) и после неё — та же
   await expect(page.locator('html')).toHaveAttribute('data-theme', 'gradient');
   await expect(page.getByRole('navigation')).toBeVisible();
+  await skipTour(page);
   await expect(page.locator('html')).toHaveAttribute('data-theme', 'gradient');
   expect(await page.evaluate(() => getComputedStyle(document.body).backgroundColor)).toBe(
     'rgb(243, 241, 236)',
@@ -233,7 +236,8 @@ test('v3 → v4: saved classic-orange becomes Gradient, other settings and histo
 
   const db = await dbState(page);
   expect(db.version).toBe(5);
-  expect(db.settings).toEqual({ ...SETTINGS_V3, theme: 'gradient', motion: 'system' });
+  // tourSeen — тур закрыт выше (3.24)
+  expect(db.settings).toEqual({ ...SETTINGS_V3, theme: 'gradient', motion: 'system', tourSeen: 1 });
   expect(db.sessions).toBe(1);
   // перед обновлением схемы — локальная точка восстановления с данными ДО миграции
   const point = await page.evaluate(
@@ -305,6 +309,7 @@ test('v3 → v4: theme was never chosen (no saved settings) → Auto, the new de
   await page.goto('./');
   await expect(page.locator('html')).toHaveAttribute('data-theme', 'auto');
   await expect(page.getByRole('navigation')).toBeVisible();
+  await skipTour(page);
   await expect(page.locator('html')).toHaveAttribute('data-theme', 'auto');
   // «Авто» при тёмной системной теме — Classic Dark
   expect(await page.evaluate(() => getComputedStyle(document.body).backgroundColor)).toBe('rgb(17, 17, 20)');

@@ -525,7 +525,8 @@
       "tips": "Tips and rules",
       "look": "Appearance"
     },
-    "secRest": "During rest"
+    "secRest": "During rest",
+    "showTour": "Show the tour"
   },
   "backup": {
     "save": "Save a copy",
@@ -915,5 +916,31 @@
     "menuDay": "Assistant: build the day",
     "assistant": "Assistant",
     "assistantText": "Builds a plan or a single day around your goals, equipment and time. Edit anything by hand afterwards."
+  },
+  "tour": {
+    "skip": "Skip",
+    "close": "Close the tour",
+    "finish": "Start training",
+    "progress": "Slide {n} of {total}",
+    "plan": {
+      "title": "Your plan is ready",
+      "body": "Here’s your week — change it in “{plan}” any time. Not sure where to start? The {assistant} builds a plan or a single day."
+    },
+    "log": {
+      "title": "Log your sets",
+      "body": "Open “{today}”: weight and reps carry over from last time. Tap “done” and the rest timer starts."
+    },
+    "timer": {
+      "title": "Timer and tips",
+      "body": "The timer counts your rest for you. Tips can be turned off in “{settings}”."
+    },
+    "more": {
+      "title": "Exercises and history",
+      "body": "“{library}” shows the technique for any movement, “{history}” your workouts, charts and records."
+    },
+    "data": {
+      "title": "Your data stays with you",
+      "body": "Everything is stored on this device. Save a backup once a week: “{settings} → {data}”."
+    }
   }
 }

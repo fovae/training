@@ -9,6 +9,7 @@ import { ask, pickedDayId, planDayId, route, toast } from '../../state/ui';
 import { stopRest } from '../../features/timer';
 import { plan, setMode } from '../../state/plan';
 import { openPlanner } from '../../state/planner';
+import { openTour } from '../../state/tour';
 import {
   applyRestore,
   checkPersist,
@@ -401,6 +402,7 @@ export function Settings() {
           />
         ) : null}
         <Row icon="library" c="c4" label={t('about.documents')} haspopup onClick={() => setDocs(true)} />
+        <Row icon="play" c="c5" label={t('settings.showTour')} onClick={openTour} />
       </Group>
       <p class="credits">{t('about.credits')}</p>
 

@@ -537,7 +537,8 @@
       "tips": "Consejos y reglas",
       "look": "Apariencia"
     },
-    "secRest": "Durante el descanso"
+    "secRest": "Durante el descanso",
+    "showTour": "Ver el tour"
   },
   "backup": {
     "save": "Guardar una copia",
@@ -928,5 +929,31 @@
     "menuDay": "Asistente: crear el día",
     "assistant": "Asistente",
     "assistantText": "Crea un plan o un solo día según tus objetivos, material y tiempo. Luego puedes editarlo a mano."
+  },
+  "tour": {
+    "skip": "Omitir",
+    "close": "Cerrar el tour",
+    "finish": "A entrenar",
+    "progress": "Diapositiva {n} de {total}",
+    "plan": {
+      "title": "Tu plan está listo",
+      "body": "Esta es tu semana: cámbiala en «{plan}» cuando quieras. ¿No sabes por dónde empezar? El {assistant} crea un plan o un día."
+    },
+    "log": {
+      "title": "Registra tus series",
+      "body": "Abre «{today}»: el peso y las reps se copian de la última vez. Pulsa «hecho» y empieza el descanso."
+    },
+    "timer": {
+      "title": "Temporizador y consejos",
+      "body": "El temporizador cuenta el descanso por ti. Los consejos se pueden desactivar en «{settings}»."
+    },
+    "more": {
+      "title": "Ejercicios e historial",
+      "body": "En «{library}», la técnica de cada movimiento; en «{history}», tus entrenos, gráficos y récords."
+    },
+    "data": {
+      "title": "Tus datos son solo tuyos",
+      "body": "Todo se guarda en este dispositivo. Haz una copia cada semana: «{settings} → {data}»."
+    }
   }
 }
