@@ -72,12 +72,12 @@ export function safariVersion(ua: string): number | null {
 }
 
 /**
- * Мажорная версия iOS по «OS 16_7» в UA (есть и у Safari, и у установленного приложения).
- * С iOS 26 там заморожено 18_x — для «старше 17» этого достаточно. null — не iOS / неизвестно.
+ * Мажорная версия iOS. У Safari — «Version/N» (= версия iOS и движка; «OS 18_x» с iOS 26 заморожено),
+ * у установленного приложения «Version/» нет — тогда «OS 16_7». null — не iOS / неизвестно.
  */
 export function iosMajor(ua: string): number | null {
   if (!/iPhone|iPad|iPod/.test(ua)) return null;
-  const m = /OS (\d+)_\d+/.exec(ua);
+  const m = /Version\/(\d+)/.exec(ua) ?? /OS (\d+)_\d+/.exec(ua);
   return m ? Number(m[1]) : null;
 }
 

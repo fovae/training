@@ -230,7 +230,7 @@ test('workout: sets, timer, notes, reload, finish, history, prefill', async ({ p
   await page.getByRole('button', { name: 'Finish', exact: true }).click();
   await page.getByRole('alertdialog').getByRole('button', { name: 'Finish' }).click();
   await expect(page.getByText('Workout saved')).toBeVisible();
-  // Следующая по циклу — день 2
+  // Следующая по очереди — день 2
   await expect(page.getByRole('heading', { name: 'Back + biceps + forearms' })).toBeVisible();
 
   await page.getByRole('link', { name: 'History' }).click();

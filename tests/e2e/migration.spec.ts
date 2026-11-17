@@ -98,7 +98,7 @@ test('v2 data survives the upgrade to the current schema; documents must be acce
   await expect(page.getByRole('heading', { name: 'Мы обновили документы' })).toBeVisible();
   await expect(page.getByRole('navigation')).toHaveCount(0);
   await page.getByRole('button', { name: 'Принять' }).click();
-  await expect(page.getByRole('heading', { name: 'Следующая по циклу' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Следующая по очереди' })).toBeVisible();
 
   // Тема v2 «dark» → classic-dark, настройки отдыха и звук сохранились
   await expect(page.locator('html')).toHaveAttribute('data-theme', 'classic-dark');
