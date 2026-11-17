@@ -73,8 +73,9 @@ test('only transform and opacity are animated', () => {
         if (!okProps.test(prop)) bad.push(`${f}: transition ${prop}`);
       }
     }
-    // keyframes: только transform и opacity
+    // keyframes: только transform и opacity (исключение — vt-wave: волна смены темы, clip-path снимка)
     for (const m of text.matchAll(/@keyframes\s+([\w-]+)\s*\{([\s\S]*?)\n\}/g)) {
+      if (f === 'motion.css' && m[1] === 'vt-wave') continue;
       for (const d of m[2]!.matchAll(/([a-z-]+)\s*:/g)) {
         if (!/^(transform|opacity)$/.test(d[1]!)) bad.push(`${f}: @keyframes ${m[1]} → ${d[1]}`);
       }

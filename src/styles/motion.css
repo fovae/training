@@ -568,6 +568,25 @@ details[open] > :not(summary) {
   animation-duration: 260ms;
   animation-timing-function: var(--ease-out);
 }
+/*
+ * Смена темы из плитки (3.23): новая тема растекается кругом от нажатой плитки, старая стоит под
+ * ней. Исключение из правила «только transform и opacity» — clip-path одного снимка страницы на
+ * 420 мс (View Transitions рисует его отдельным слоем; motion.unit.spec знает об исключении).
+ */
+html.vt-wave::view-transition-old(root) {
+  animation: none;
+}
+html.vt-wave::view-transition-new(root) {
+  animation: vt-wave 420ms var(--ease-in-out);
+}
+@keyframes vt-wave {
+  from {
+    clip-path: circle(0 at var(--vt-x) var(--vt-y));
+  }
+  to {
+    clip-path: circle(var(--vt-r) at var(--vt-x) var(--vt-y));
+  }
+}
 
 /* 10. Подсказки и плашки: плавно появляются, уходят вправо */
 .tip,

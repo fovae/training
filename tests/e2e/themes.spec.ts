@@ -204,3 +204,37 @@ test.describe('boot script', () => {
     }
   });
 });
+
+test('3.23: toggles do not trigger the theme crossfade; only a theme change does', async ({ page }) => {
+  await fresh(page);
+  await onboard(page);
+  await openSettings(page, 'training');
+  // считаем вызовы View Transitions (на время перехода страница — снимок: «прыгал» переключатель,
+  // прозрачнела нижняя панель)
+  await page.evaluate(() => {
+    const w = window as unknown as { vtCount: number };
+    w.vtCount = 0;
+    const d = document as unknown as { startViewTransition?: (cb: () => void) => unknown };
+    const orig = d.startViewTransition?.bind(document);
+    d.startViewTransition = (cb: () => void) => {
+      w.vtCount++;
+      if (orig) return orig(cb);
+      cb();
+      return undefined;
+    };
+  });
+  const count = () => page.evaluate(() => (window as unknown as { vtCount: number }).vtCount);
+  await page.getByRole('switch', { name: 'Show tips' }).click();
+  await page.getByRole('switch', { name: 'Sound' }).click();
+  await page.getByRole('radiogroup', { name: 'My pace' }).getByRole('radio', { name: 'Slower' }).click();
+  expect(await count()).toBe(0);
+  await openThemes(page);
+  await page
+    .getByRole('radiogroup', { name: 'Theme' })
+    .getByRole('radio', { name: 'Classic Dark', exact: true })
+    .click();
+  await expect(page.locator('html')).toHaveAttribute('data-theme', 'classic-dark');
+  expect(await count()).toBe(1);
+  // после перехода панель снова стеклянная
+  await expect(page.locator('html')).not.toHaveClass(/vt-swap/);
+});

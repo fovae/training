@@ -1,4 +1,5 @@
-import { computed, signal } from '@preact/signals';
+import { computed, effect, signal } from '@preact/signals';
+import { saveBoot } from '../i18n';
 import * as store from '../db';
 import { findExercise } from '../data/exercises';
 import type { Exercise, PlanItem, Session, SessionEntry, SessionSet } from '../types';
@@ -16,6 +17,8 @@ import { settings, updateSettings } from './settings';
 
 /** Текущая (незавершённая) тренировка */
 export const active = signal<Session | null>(null);
+// Зеркало для заставки (index.html): идёт тренировка — при перезапуске сразу к таймеру (3.23)
+effect(() => saveBoot({ active: !!active.value }));
 /** Завершённые тренировки, новые первыми */
 export const history = signal<Session[]>([]);
 export const loadError = signal(false);

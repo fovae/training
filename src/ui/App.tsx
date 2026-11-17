@@ -4,6 +4,7 @@ import { useEffect, useLayoutEffect, useRef } from 'preact/hooks';
 import { t } from '../i18n';
 import { navDir, route, tabSide, pickedDayId, planDayId, todayDayId } from '../state/ui';
 import { booted, needsOnboarding } from '../state/app';
+import { hideBoot } from '../lib/boot';
 import { active } from '../state/session';
 import { settings } from '../state/settings';
 import { startRest, timer, togglePause } from '../features/timer';
@@ -114,10 +115,10 @@ export function App() {
     return () => window.clearTimeout(id);
   }, [screenKey, booted.value]);
 
-  // Загрузочный экран (#boot в index.html, вне корня Preact) уходит в том же кадре, когда приложение
-  // готово, — не дожидаясь конца своей анимации. При смене вкладок его уже нет в документе.
+  // Загрузочный экран (#boot в index.html, вне корня Preact): на холодном старте доигрывает
+  // анимацию и гаснет; во время тренировки и без анимаций — уходит сразу (lib/boot.ts)
   useLayoutEffect(() => {
-    if (booted.value) document.getElementById('boot')?.remove();
+    if (booted.value) hideBoot();
   }, [booted.value]);
 
   if (!booted.value) return null;

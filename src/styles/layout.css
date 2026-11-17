@@ -118,6 +118,10 @@ main {
   background: linear-gradient(180deg, var(--glass-gloss), transparent 55%);
   pointer-events: none;
 }
+/* смена темы (View Transitions, lib/motion.ts → crossfade): на снимке нет размытия — сплошной фон */
+html.vt-swap .nav {
+  background: var(--card);
+}
 /* нет размытия или «уменьшение прозрачности» — непрозрачный фон темы, панель остаётся читаемой */
 @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
   .nav {

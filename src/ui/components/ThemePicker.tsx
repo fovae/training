@@ -2,6 +2,7 @@ import { t } from '../../i18n';
 import { THEME_OPTIONS, themeData } from '../../themes';
 import type { ThemeId } from '../../types';
 import { Icon } from './Icon';
+import { setWaveOrigin } from '../../lib/motion';
 
 /**
  * Мини-образец темы из её цветов: фон, поверхность (карточка), главная карточка с градиентом,
@@ -36,7 +37,10 @@ export function ThemePicker({ value, onChange }: { value: ThemeId; onChange: (v:
           aria-checked={value === id}
           class={'tp' + (value === id ? ' on' : '')}
           data-theme-id={id}
-          onClick={() => onChange(id)}
+          onClick={(e) => {
+            setWaveOrigin(e.currentTarget);
+            onChange(id);
+          }}
         >
           {id === 'auto' ? (
             <span class="tp-auto">

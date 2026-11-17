@@ -75,6 +75,8 @@ export function saveBoot(patch: {
   theme?: string;
   motion?: string;
   themeColor?: string | undefined;
+  /** 3.23: идёт тренировка — при перезапуске без заставки, сразу к таймеру */
+  active?: boolean;
 }): void {
   try {
     const cur = JSON.parse(localStorage.getItem(BOOT_KEY) ?? '{}') as object;

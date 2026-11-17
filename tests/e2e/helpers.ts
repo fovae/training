@@ -49,6 +49,8 @@ export async function fresh(
       }),
   );
   await page.reload();
+  // заставка холодного старта (3.23) держится ~1,4 с поверх экрана — тесты начинают после неё
+  await page.locator('#boot').waitFor({ state: 'detached' });
 }
 
 export interface OnboardOpts {

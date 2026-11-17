@@ -81,7 +81,7 @@
             'gradient-2': 'golden-hour',
             'ocean-night': 'golden-hour',
             'teal-night': 'pine-dusk',
-            'crimson-night': 'coffee-dusk'
+            'crimson-night': 'coffee-dusk',
           };
           var known =
             'classic-light classic-dark monochrome gradient pine-dusk golden-hour violet-dusk rose-dusk slate-blue sun-paper coffee-dusk';
@@ -92,6 +92,13 @@
           if (b.motion === 'on' || b.motion === 'off') d.dataset.motion = b.motion;
           else if (b.motion !== 'system') d.dataset.motion = 'on';
           if (b.locale) d.lang = b.locale;
+          // Заставка (3.23): полная анимация — на холодном старте с включёнными анимациями; во время
+          // тренировки (b.active) — сразу к таймеру, без заставки; без анимаций — только проявление
+          var m = d.dataset.motion;
+          var calm =
+            m === 'off' ||
+            (m !== 'on' && window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches);
+          d.dataset.boot = b.active ? 'quick' : calm ? 'calm' : 'full';
           // theme-color: у «Авто» — два мета-тега по системной теме, у выбранной темы — её фон
           var tc = b.themeColor;
           if (ok && th === b.theme && typeof tc === 'string' && /^#[0-9a-f]{6}$/i.test(tc))
@@ -107,10 +114,13 @@
       а не в бандле: рисуются с первого кадра, до скриптов, и офлайн — index.html в кэше service worker.
       Знак — гантель из иконки (public/icons/favicon.svg, три фигуры): там же, где на iOS-заставке
       (26% меньшей стороны, центр чуть выше середины). Цвета — из темы: гантель --ink, диски --accent.
-      Быстрый запуск ничего не показывает: всё проявляется с задержкой 180 мс. Сборка: гриф с дисками
-      проявляется, внешние диски приезжают по оси грифа, знак делает один мягкий подъём и опускается,
-      ниже проявляется название; дальше — неподвижно. Только transform и opacity (motion.unit.spec).
-      Без анимаций (настройка или система) — то же проявление одной прозрачностью, без движения.
+      3.23 — фирменная анимация холодного старта (html[data-boot], скрипт выше): за знаком проявляется
+      свечение цвета темы (--c2), гриф проявляется, диски (--accent) надеваются по оси грифа с лёгким
+      «щелчком», знак делает одно «повторение» вверх-вниз, по дискам пробегает блик, ниже — название.
+      Одна анимация, палитра — из темы пользователя. Держится, пока не доиграет (~1,15 с), но не меньше
+      загрузки; затем гаснет по прозрачности (lib/boot.ts). Во время тренировки — без заставки
+      (data-boot=quick); без анимаций (calm) — только проявление и только пока идёт загрузка.
+      Только transform и opacity (motion.unit.spec).
     -->
     <style>
       #boot {
@@ -139,24 +149,56 @@
         font: 700 20px/1.2 var(--font, system-ui, sans-serif);
         letter-spacing: -0.01em;
       }
+      .boot-glow {
+        position: absolute;
+        top: calc(var(--s) * -0.35);
+        left: 50%;
+        width: calc(var(--s) * 1.7);
+        height: calc(var(--s) * 1.7);
+        margin-left: calc(var(--s) * -0.85);
+        border-radius: 50%;
+        background: radial-gradient(
+          circle,
+          color-mix(in srgb, var(--c2, #3b82f6) 34%, transparent),
+          transparent 68%
+        );
+        pointer-events: none;
+        animation: boot-glow 900ms var(--ease-out, ease-out) 150ms both;
+      }
       .boot-bar {
         transform-box: fill-box;
         transform-origin: center;
-        animation: boot-bar 400ms var(--ease-out, ease-out) 180ms both;
+        animation: boot-bar 380ms var(--ease-out, ease-out) 150ms both;
       }
       .boot-r,
       .boot-l {
         fill: var(--accent, currentColor);
-        animation: boot-r 440ms var(--ease-out, ease-out) 320ms both;
+        transform-box: fill-box;
+        transform-origin: center;
+        animation: boot-r 420ms cubic-bezier(0.3, 1.25, 0.5, 1) 280ms both;
       }
       .boot-l {
         animation-name: boot-l;
       }
       .boot-lift {
-        animation: boot-lift 720ms var(--ease-in-out, ease-in-out) 760ms both;
+        animation: boot-lift 560ms var(--ease-in-out, ease-in-out) 700ms both;
+      }
+      .boot-shine {
+        fill: url(#boot-shine);
+        animation: boot-shine 520ms var(--ease-out, ease-out) 760ms both;
       }
       .boot-name {
-        animation: boot-rise 460ms var(--ease-out, ease-out) 620ms both;
+        animation: boot-rise 420ms var(--ease-out, ease-out) 560ms both;
+      }
+      /* уход: заставка гаснет, под ней уже проявился интерфейс (lib/boot.ts) */
+      #boot.out {
+        opacity: 0;
+        transition: opacity 260ms ease-out;
+        pointer-events: none;
+      }
+      /* во время тренировки — без заставки: только фон темы, пока грузится */
+      :root[data-boot='quick'] #boot .boot-in {
+        display: none;
       }
       @keyframes boot-bar {
         from {
@@ -178,7 +220,26 @@
       }
       @keyframes boot-lift {
         45% {
-          transform: translateY(-22px);
+          transform: translateY(-20px);
+        }
+      }
+      @keyframes boot-glow {
+        from {
+          opacity: 0;
+          transform: scale(0.6);
+        }
+      }
+      @keyframes boot-shine {
+        from {
+          opacity: 0;
+          transform: translateX(-260px);
+        }
+        40% {
+          opacity: 1;
+        }
+        to {
+          opacity: 0;
+          transform: translateX(260px);
         }
       }
       @keyframes boot-rise {
@@ -213,20 +274,37 @@
     <div id="app"></div>
     <div id="boot" aria-hidden="true">
       <div class="boot-in">
+        <span class="boot-glow"></span>
         <svg class="boot-mark" viewBox="0 0 512 512" width="112" height="112" fill="currentColor">
+          <defs>
+            <linearGradient id="boot-shine" x1="0" x2="1" y1="0" y2="0">
+              <stop offset="0" stop-color="#fff" stop-opacity="0" />
+              <stop offset="0.5" stop-color="#fff" stop-opacity="0.55" />
+              <stop offset="1" stop-color="#fff" stop-opacity="0" />
+            </linearGradient>
+            <clipPath id="boot-plates">
+              <use href="#boot-pr" />
+              <use href="#boot-pl" />
+            </clipPath>
+          </defs>
           <g class="boot-lift">
             <path
               class="boot-bar"
               d="M200.3 262.0L312.0 205.6L313.2 204.0L292.0 164.0L289.8 158.0L289.5 154.0L290.0 147.8L292.0 143.2L296.0 137.7L300.0 133.9L303.6 132.0L310.0 129.9L316.0 129.5L322.0 130.1L329.1 134.0L334.5 140.0L398.8 262.0L400.5 266.0L401.4 274.0L400.7 280.0L398.1 286.0L395.0 290.0L390.0 294.8L380.0 298.9L370.0 298.6L362.0 294.7L355.7 288.0L338.6 254.0L330.0 238.9L328.0 239.0L312.0 247.0L202.0 303.1L201.4 304.0L222.6 346.0L224.4 352.0L224.8 358.0L223.0 366.0L221.0 370.0L217.8 374.0L212.0 378.8L208.0 380.9L200.0 382.6L196.0 382.5L188.0 380.4L182.0 376.2L177.3 370.0L116.0 245.9L114.0 239.0L113.8 236.0L116.0 226.4L120.6 220.0L122.8 218.0L128.6 214.0L134.0 211.9L142.0 211.3L147.5 212.0L154.0 215.2L160.5 222.0L184.0 268.4L186.0 268.9Z"
             />
             <path
+              id="boot-pr"
               class="boot-r"
               d="M351.7 140.0L356.0 132.3L361.2 128.0L366.0 125.8L372.0 125.1L378.0 125.8L382.0 127.5L388.0 132.6L392.2 138.0L434.3 216.0L436.7 222.0L437.5 228.0L437.6 232.0L436.5 238.0L434.8 242.0L430.0 247.7L426.0 250.9L422.0 252.7L416.0 253.3L410.0 252.8L406.0 250.8L402.0 247.4L399.4 244.0L364.7 176.0L353.6 156.0L351.7 152.0L350.9 148.0Z"
             />
             <path
+              id="boot-pl"
               class="boot-l"
               d="M73.8 274.0L76.0 267.7L78.0 264.7L85.2 258.0L89.1 256.0L98.0 254.7L104.0 255.3L108.0 257.4L112.0 260.9L114.3 264.0L120.5 276.0L158.6 352.0L161.4 360.0L161.5 368.0L160.7 372.0L158.7 376.0L156.0 379.5L150.0 384.6L146.0 386.3L138.0 387.4L132.0 386.5L128.0 384.8L121.9 380.0L117.4 374.0L75.8 290.0L73.5 282.0Z"
             />
+            <g clip-path="url(#boot-plates)">
+              <rect class="boot-shine" x="60" y="110" width="140" height="300" />
+            </g>
           </g>
         </svg>
         <span class="boot-name">Simple Training</span>

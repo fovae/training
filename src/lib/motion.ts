@@ -69,14 +69,48 @@ export function blink(el: Element | null | undefined): void {
   });
 }
 
-/** Смена темы: короткое перекрёстное затухание (View Transitions API), иначе — сразу */
+/**
+ * Смена темы: из плитки — волна (новая тема растекается кругом от нажатия), иначе короткое
+ * перекрёстное затухание (View Transitions API); без поддержки или без анимаций — сразу. На время
+ * перехода html.vt-swap: стеклянная нижняя панель — со сплошным фоном (размытие на снимке страницы
+ * не рисуется, и панель на миг становилась прозрачной).
+ */
+/** Откуда «растекается» новая тема (центр нажатой плитки); null — обычное затухание */
+let waveFrom: { x: number; y: number } | null = null;
+
+/** Плитка темы нажата (ThemePicker): следующая смена темы — волной из её центра (3.23) */
+export function setWaveOrigin(el: Element): void {
+  const r = el.getBoundingClientRect();
+  waveFrom = { x: Math.round(r.left + r.width / 2), y: Math.round(r.top + r.height / 2) };
+}
+
 export function crossfade(apply: () => void): void {
-  const d = document as Document & { startViewTransition?: (cb: () => void) => unknown };
+  const d = document as Document & {
+    startViewTransition?: (cb: () => void) => { finished?: Promise<unknown> };
+  };
+  const from = waveFrom;
+  waveFrom = null;
   if (motionOff() || typeof d.startViewTransition !== 'function') return apply();
+  const root = document.documentElement;
+  // волна: новая тема — круг, растущий от плитки до углов экрана (motion.css, vt-wave)
+  if (from) {
+    const r = Math.ceil(
+      Math.hypot(Math.max(from.x, innerWidth - from.x), Math.max(from.y, innerHeight - from.y)),
+    );
+    root.style.setProperty('--vt-x', from.x + 'px');
+    root.style.setProperty('--vt-y', from.y + 'px');
+    root.style.setProperty('--vt-r', r + 'px');
+    root.classList.add('vt-wave');
+  }
+  root.classList.add('vt-swap');
+  const done = () => root.classList.remove('vt-swap', 'vt-wave');
   try {
-    d.startViewTransition(apply);
+    const vt = d.startViewTransition(apply);
+    if (vt?.finished) void vt.finished.then(done, done);
+    else setTimeout(done, 400);
   } catch {
     apply();
+    done();
   }
 }
 
