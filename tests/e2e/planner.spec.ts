@@ -89,10 +89,11 @@ test('wizard builds a draft; replace, pin, rebuild; apply replaces the plan with
   await expect(page.getByText('Plan updated')).toBeVisible();
   await expect(page.getByRole('tab', { name: /Day 1 Whole body A/ })).toBeVisible();
   await expect(page.getByRole('tab')).toHaveCount(4);
+  // «Отменить» — сразу, пока уведомление на экране (в медленном CI проверки ниже съедали его время)
+  await page.locator('.toast', { hasText: 'Plan updated' }).getByRole('button', { name: 'Undo' }).click();
+  await expect(page.getByRole('tab', { name: /Whole body A/ })).toHaveCount(0);
   // план правится как обычно
   await expect(page.getByRole('button', { name: 'Add exercise' })).toBeVisible();
-  await page.getByRole('button', { name: 'Undo' }).click();
-  await expect(page.getByRole('tab', { name: /Whole body A/ })).toHaveCount(0);
 });
 
 for (const w of [375, 430]) {

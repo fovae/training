@@ -355,6 +355,8 @@ async function onApplyDay() {
   go('plan');
   toasts.value = [];
   toast(t('planner.dayApplied'), {
+    // план только что сменился целиком — человеку нужно время посмотреть, прежде чем отменять
+    ttl: 10000,
     action: { label: t('common.undo'), run: () => void undoApply(prev) },
   });
 }
@@ -379,6 +381,8 @@ async function onApply() {
   // «Отменить замену» из мастера после применения уже не нужна — остаётся одна отмена: всего плана
   toasts.value = [];
   toast(dropped ? t('planner.appliedDropped', { count: dropped }) : t('planner.applied'), {
+    // план только что сменился целиком — человеку нужно время посмотреть, прежде чем отменять
+    ttl: 10000,
     action: { label: t('common.undo'), run: () => void undoApply(prev) },
   });
 }
