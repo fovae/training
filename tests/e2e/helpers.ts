@@ -56,7 +56,7 @@ export interface OnboardOpts {
   lang?: 'en' | 'ru';
   /** Название варианта старта плана, как на экране */
   start?: string | RegExp;
-  mode?: 'Weekdays' | 'Cycle';
+  mode?: 'Fixed weekdays' | 'In order';
   days?: number;
   /** Подпись уровня, как на экране (по умолчанию — средний) */
   level?: string;
@@ -92,8 +92,8 @@ export async function onboard(page: Page, o: OnboardOpts = {}): Promise<void> {
     while (Number(await out.textContent()) < o.days) await inc.click();
     while (Number(await out.textContent()) > o.days) await dec.click();
   }
-  // «Собрать за меня» — отдельная карточка над шаблонами (3.18)
-  if (o.start === 'Build it for me') await page.getByRole('button', { name: /^Build it for me/ }).click();
+  // «Подбор плана» — отдельная карточка над шаблонами (3.18)
+  if (o.start === 'Plan builder') await page.getByRole('button', { name: /^Plan builder/ }).click();
   else await page.getByRole('radio', { name: o.start ?? /Split 3\+1|Сплит 3\+1/ }).click();
   await page.getByRole('button', { name: L.finish }).click();
   await expect(page.getByRole('navigation')).toBeVisible();

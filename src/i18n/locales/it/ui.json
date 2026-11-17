@@ -150,12 +150,13 @@
         "other": "{count} giorni."
       },
       "later": "Puoi modificare tutto in seguito nella scheda Piano.",
-      "levelNote": "Le serie, e per i principianti anche gli esercizi, dipendono dal tuo livello. I carichi li aggiungi tu."
+      "levelNote": "Le serie, e per i principianti anche gli esercizi, dipendono dal tuo livello. I carichi li aggiungi tu.",
+      "orPick": "Oppure scegli un’opzione"
     },
     "restore": {
-      "lead": "Hai un file di backup?",
-      "hint": "Ripristina profilo, piano, storico e impostazioni invece di compilare tutto di nuovo.",
-      "button": "Ho un file",
+      "lead": "Non è la prima volta?",
+      "hint": "Se hai un file di backup, caricalo: profilo, piano, storico e impostazioni tornano senza ricompilare tutto.",
+      "button": "Carica backup",
       "title": "Ripristinare dal backup?",
       "body": "Profilo, piano, allenamenti e impostazioni verranno presi dal file. Puoi cambiare qualsiasi cosa in seguito nelle Impostazioni.",
       "confirm": "Ripristina",
@@ -198,7 +199,7 @@
   },
   "today": {
     "inProgress": "Allenamento in corso",
-    "nextInCycle": "Il prossimo del ciclo",
+    "nextInCycle": "Il prossimo in ordine",
     "scheduled": "Allenamento di oggi",
     "offSchedule": "Fuori programma",
     "restDay": "Giorno di riposo",
@@ -310,10 +311,10 @@
     "eyebrow": "La tua settimana",
     "title": "Piano",
     "mode": "Programma",
-    "modeWeekdays": "Giorni della settimana",
-    "modeCycle": "Ciclo",
-    "modeWeekdaysHint": "Ogni allenamento è legato a un giorno della settimana.",
-    "modeCycleHint": "Gli allenamenti si ripetono a ciclo: dopo l’ultimo viene il primo. Hai saltato un giorno? Prosegui e basta.",
+    "modeWeekdays": "Giorni fissi",
+    "modeCycle": "In ordine",
+    "modeWeekdaysHint": "Ogni allenamento ha il suo giorno della settimana, ad es. lun, mer, ven. Ideale con orari fissi.",
+    "modeCycleHint": "Senza giorni fissi: allenati quando vuoi e l’app ti propone il prossimo in ordine. Saltare un giorno non cambia nulla.",
     "days": {
       "one": "{count} giorno",
       "many": "{count} giorni",
@@ -497,12 +498,12 @@
     "persist_unsupported": "Non supportata da questo browser. Usa regolarmente «Salva una copia».",
     "persist_unknown": "Verifica in corso…",
     "request": "Richiedi",
-    "switchToWeekdays": "Passa ai giorni della settimana",
-    "switchToCycle": "Passa al ciclo",
+    "switchToWeekdays": "Passa ai giorni fissi",
+    "switchToCycle": "Passa all’ordine",
     "switch": "Cambia",
-    "toWeekdaysTitle": "Passare ai giorni della settimana?",
+    "toWeekdaysTitle": "Passare ai giorni fissi?",
     "toWeekdaysBody": "Ogni giorno del piano verrà legato a un giorno della settimana. Puoi scegliere i giorni nella scheda Piano. Esercizi e storico restano invariati.",
-    "toCycleTitle": "Passare al ciclo?",
+    "toCycleTitle": "Passare all’ordine?",
     "toCycleBody": "Gli allenamenti si ripeteranno a ciclo senza legame con i giorni della settimana. I giorni scelti vengono conservati nel caso tu voglia tornare indietro. Esercizi e storico restano invariati.",
     "switched": "Programma: {mode}",
     "tips": "Consigli",
@@ -794,8 +795,8 @@
     "newTab": "(si apre in una nuova scheda)"
   },
   "planner": {
-    "title": "Fallo per me",
-    "ctaTitle": "Fallo per me",
+    "title": "Piano guidato",
+    "ctaTitle": "Piano guidato",
     "ctaText": "Rispondi a qualche domanda e ottieni una bozza di piano con la nostra libreria di esercizi. Poi puoi modificare tutto.",
     "ctaOnb": "Dopo la configurazione risponderai a qualche domanda e l’app preparerà una bozza di piano modificabile.",
     "cta": "Crea piano",
@@ -808,7 +809,7 @@
       "level": "Livello e limiti",
       "preview": "La tua bozza di piano"
     },
-    "focusHint": "Scegli fino a {n} gruppi muscolari o tutto il corpo.",
+    "focusHint": "Scegli i gruppi muscolari che vuoi o tutto il corpo. Se coprono tutte le sezioni, il piano sarà total body con più lavoro su di loro.",
     "full": "Tutto il corpo",
     "section": {
       "upper": "Parte superiore",
@@ -835,11 +836,19 @@
       "home": "Casa",
       "outdoor": "All’aperto"
     },
-    "presets": "Scelta rapida",
+    "presets": "Popolari",
     "preset": {
-      "nothing": "Niente",
+      "fullGym": "Palestra completa",
+      "freeWeights": "Pesi liberi",
+      "machines": "Macchine e cavi",
       "dumbbells": "Manubri + panca",
-      "bands": "Elastici"
+      "nothing": "Senza attrezzi",
+      "bands": "Elastici",
+      "barBands": "Sbarra + elastici",
+      "kettlebell": "Kettlebell",
+      "barDips": "Sbarra + parallele",
+      "barRope": "Sbarra, parallele, corda",
+      "barDipsBand": "Sbarra, parallele, elastico"
     },
     "equipment": "Attrezzi che hai",
     "equipmentHint": "Gli esercizi a corpo libero sono sempre inclusi.",

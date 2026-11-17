@@ -31,7 +31,7 @@ export function DaySwitcher({ value, onChange, suggested, disabled, label }: Pro
             aria-selected={on}
             aria-label={t('day.n', { n: i + 1 }) + (w != null ? `, ${weekdayShort(w)}` : '')}
             disabled={disabled && !on}
-            class={'seg-btn' + (on ? ' on' : '')}
+            class={'seg-btn tinted' + (on ? ' on' : '')}
             style={{ '--dc': `var(--${c})`, '--dcf': `var(--${c}-fill)` }}
             onClick={() => onChange(d.id)}
           >

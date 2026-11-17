@@ -71,6 +71,16 @@ export function safariVersion(ua: string): number | null {
   return m && /Safari\//.test(ua) && !/CriOS|FxiOS|EdgiOS/.test(ua) ? Number(m[1]) : null;
 }
 
+/**
+ * Мажорная версия iOS по «OS 16_7» в UA (есть и у Safari, и у установленного приложения).
+ * С iOS 26 там заморожено 18_x — для «старше 17» этого достаточно. null — не iOS / неизвестно.
+ */
+export function iosMajor(ua: string): number | null {
+  if (!/iPhone|iPad|iPod/.test(ua)) return null;
+  const m = /OS (\d+)_\d+/.exec(ua);
+  return m ? Number(m[1]) : null;
+}
+
 export const isMobile = (p: Platform): boolean => p !== 'desktop';
 
 export interface StandaloneEnv {

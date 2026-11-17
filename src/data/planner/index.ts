@@ -1,7 +1,7 @@
 import type { Equipment, Exercise, Muscle } from '../../types';
 
 /**
- * Данные помощника «Собрать за меня» (docs/ARCHITECTURE.md, «Помощник»). Только константы:
+ * Данные помощника «Подбор плана» (docs/ARCHITECTURE.md, «Помощник»). Только константы:
  * алгоритм — src/lib/planner, состояние и экран — src/state/planner.ts, ui/screens/Planner.tsx.
  * Подборка по правилам, без ИИ и сети, без «целей» и обещаний результата. Согласованность с
  * каталогом (каждый id существует) проверяет tests/e2e/planner.unit.spec.ts.
@@ -9,7 +9,7 @@ import type { Equipment, Exercise, Muscle } from '../../types';
 
 // ---------- группы мышц мастера ----------
 
-/** Группы, из которых человек выбирает приоритеты (до 4) — подписи planner.group.<id> */
+/** Группы, из которых человек выбирает приоритеты (сколько угодно) — подписи planner.group.<id> */
 export const GROUPS = [
   'chest',
   'back',
@@ -51,8 +51,6 @@ export const GROUP_SECTIONS: { key: 'upper' | 'arms' | 'legs' | 'core'; groups: 
 /** Крупные группы — первыми в дне и первыми получают второе упражнение */
 export const BIG_GROUPS: Group[] = ['quads', 'back', 'chest', 'hamstrings', 'glutes', 'shoulders'];
 
-export const MAX_PRIORITIES = 4;
-
 // ---------- место и инвентарь ----------
 
 export type Place = 'gym' | 'home' | 'outdoor';
@@ -87,11 +85,40 @@ export const PLACE_EQUIPMENT: Record<Place, Equipment[]> = {
   home: [],
   outdoor: ['pullup-bar', 'dip-station', 'jump-rope'],
 };
-export const HOME_PRESETS: { key: 'nothing' | 'dumbbells' | 'bands'; equipment: Equipment[] }[] = [
-  { key: 'nothing', equipment: [] },
-  { key: 'dumbbells', equipment: ['dumbbell', 'bench'] },
-  { key: 'bands', equipment: ['band'] },
-];
+/** «Популярное»: готовые наборы инвентаря для каждого места (до 5) — подписи planner.preset.<key> */
+export type PresetKey =
+  | 'fullGym'
+  | 'freeWeights'
+  | 'machines'
+  | 'dumbbells'
+  | 'nothing'
+  | 'bands'
+  | 'barBands'
+  | 'kettlebell'
+  | 'barDips'
+  | 'barDipsBand'
+  | 'barRope';
+export const PRESETS: Record<Place, { key: PresetKey; equipment: Equipment[] }[]> = {
+  gym: [
+    { key: 'fullGym', equipment: PLACE_EQUIPMENT.gym },
+    { key: 'freeWeights', equipment: ['dumbbell', 'barbell', 'bench', 'pullup-bar', 'dip-station'] },
+    { key: 'machines', equipment: ['machine', 'cable'] },
+    { key: 'dumbbells', equipment: ['dumbbell', 'bench'] },
+  ],
+  home: [
+    { key: 'nothing', equipment: [] },
+    { key: 'dumbbells', equipment: ['dumbbell', 'bench'] },
+    { key: 'bands', equipment: ['band'] },
+    { key: 'barBands', equipment: ['pullup-bar', 'band'] },
+    { key: 'kettlebell', equipment: ['kettlebell'] },
+  ],
+  outdoor: [
+    { key: 'barRope', equipment: PLACE_EQUIPMENT.outdoor },
+    { key: 'barDips', equipment: ['pullup-bar', 'dip-station'] },
+    { key: 'barDipsBand', equipment: ['pullup-bar', 'dip-station', 'band'] },
+    { key: 'nothing', equipment: [] },
+  ],
+};
 
 /**
  * Можно ли сделать упражнение с этим инвентарём. Список equipment у упражнения — варианты

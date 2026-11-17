@@ -241,7 +241,23 @@
 .ob-restore {
   display: grid;
   gap: var(--space-3);
-  margin: var(--space-2) 0 var(--space-3);
+}
+/* «Или выбери вариант» — отделяет карточку подбора от готовых вариантов */
+.ob-or {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin: var(--space-5) 0 var(--space-3);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--muted);
+}
+.ob-or::before,
+.ob-or::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--line);
 }
 .ob-restore-txt {
   display: grid;
@@ -294,6 +310,10 @@
 .choices {
   display: grid;
   gap: var(--space-2);
+}
+/* подписи под списком вариантов (онбординг) — не впритык к последней карточке */
+.choices + p {
+  margin-top: var(--space-4);
 }
 .choice {
   display: flex;
@@ -1552,7 +1572,7 @@ button.back {
   color: var(--muted);
 }
 
-/* ---------- помощник «Собрать за меня» (3.18, ui/components/Planner.tsx) ---------- */
+/* ---------- помощник «Подбор плана» (3.18, ui/components/Planner.tsx) ---------- */
 .planner-cta {
   display: grid;
   gap: var(--space-2);
@@ -1569,6 +1589,48 @@ button.planner-cta {
 }
 button.planner-cta.on {
   border-color: var(--accent);
+}
+/* экран «План»: карточка подбора внизу — рамка градиентом цветов темы и лёгкое свечение */
+.planner-box {
+  gap: var(--space-3);
+  margin-bottom: 0;
+  border: 1.5px solid transparent;
+  background:
+    linear-gradient(var(--card), var(--card)) padding-box,
+    linear-gradient(135deg, var(--c1), var(--c2) 55%, var(--c3)) border-box;
+  box-shadow: 0 8px 28px color-mix(in srgb, var(--c1) 16%, transparent);
+}
+.planner-box-h {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+.planner-box-h .card-t,
+.planner-box-h b {
+  flex: 1;
+  margin: 0;
+}
+/* онбординг: карточка-выбор — выбранная обводится сплошным акцентом и отмечается точкой */
+button.planner-box.on {
+  background: var(--card);
+  border-color: var(--accent);
+}
+.planner-box .choice-dot {
+  align-self: center;
+}
+button.planner-box.on .choice-dot {
+  border-color: var(--accent-fill);
+  background: radial-gradient(circle, var(--accent-fill) 0 5px, transparent 6px);
+}
+.planner-box-ic {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 12px;
+  background: var(--accent-bg);
+  color: var(--on-fill);
 }
 .planner-h {
   font-size: 20px;

@@ -20,7 +20,7 @@ import { restFor } from './session';
 import { profile, settings, updateSettings } from './settings';
 
 /**
- * Состояние помощника «Собрать за меня» (алгоритм — src/lib/planner, экран — ui/components/Planner.tsx).
+ * Состояние помощника «Подбор плана» (алгоритм — src/lib/planner, экран — ui/components/Planner.tsx).
  * Последние ответы сохраняются в настройках (Settings.planner): «повторить с теми же ответами».
  */
 export const plannerOpen = signal(false);

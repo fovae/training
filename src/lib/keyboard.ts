@@ -1,4 +1,5 @@
 import { motionOff } from './motion';
+import { iosMajor } from './platform';
 
 /**
  * Экранная клавиатура (docs/ARCHITECTURE.md, «Клавиатура»). Один механизм на всё приложение:
@@ -18,6 +19,15 @@ import { motionOff } from './motion';
 const MIN_KB = 120;
 /** Запас между плашкой поля и клавиатурой / верхним краем, px */
 const GAP = 12;
+/**
+ * iOS 16 и старше: своя прокрутка к полю, пока клавиатура выезжает, мешает системе — клавиатура
+ * не появлялась или появлялась пустой (жалоба владельца, 3.20, экран «Профиль»). Там поле к
+ * клавиатуре подводит сам Safari, а мы только ставим --kb-h / data-kb.
+ */
+const nativeReveal = (): boolean => {
+  const v = typeof navigator === 'undefined' ? null : iosMajor(navigator.userAgent);
+  return v != null && v < 17;
+};
 
 const isField = (el: Element | null): el is HTMLElement =>
   !!el &&
@@ -105,9 +115,10 @@ export function installKeyboard(): void {
     }
   };
 
+  const native = nativeReveal();
   const reveal = () => {
     const el = document.activeElement;
-    if (isField(el)) revealField(el);
+    if (!native && isField(el)) revealField(el);
   };
   const later = (ms: number) => {
     clearTimeout(revealT);

@@ -69,14 +69,6 @@ export function Plan() {
         <h1 class="screen-title">{t('plan.title')}</h1>
       </header>
 
-      <section class="card planner-cta">
-        <h2 class="card-t">{t('planner.ctaTitle')}</h2>
-        <p class="muted small">{t('planner.ctaText')}</p>
-        <button type="button" class="btn" onClick={() => openPlanner()}>
-          {t('planner.cta')}
-        </button>
-      </section>
-
       <section>
         <div class="sec-h">
           <h2>{t('plan.days', { count: p.days.length })}</h2>
@@ -163,6 +155,24 @@ export function Plan() {
         <a class="btn secondary" href="#/settings/schedule">
           {t('plan.changeInSettings')}
         </a>
+      </section>
+
+      <hr class="sec-div" />
+
+      {/* Подбор плана — внизу экрана, в цветной рамке темы */}
+      <section class="card planner-cta planner-box" aria-labelledby="planner-h">
+        <div class="planner-box-h">
+          <span class="planner-box-ic" aria-hidden="true">
+            <Icon name="spark" size={20} />
+          </span>
+          <h2 class="card-t" id="planner-h">
+            {t('planner.ctaTitle')}
+          </h2>
+        </div>
+        <p class="muted small">{t('planner.ctaText')}</p>
+        <button type="button" class="btn primary block" onClick={() => openPlanner()}>
+          {t('planner.cta')}
+        </button>
       </section>
 
       {picker && (

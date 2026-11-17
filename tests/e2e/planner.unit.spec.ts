@@ -27,7 +27,7 @@ import {
 } from '../../src/lib/planner';
 import type { Equipment } from '../../src/types';
 
-/** Помощник «Собрать за меня» (src/lib/planner): данные, выбор сплита, подбор, бюджет времени */
+/** Помощник «Подбор плана» (src/lib/planner): данные, выбор сплита, подбор, бюджет времени */
 
 let ctx: PlannerCtx;
 test.beforeAll(async () => {
@@ -95,6 +95,22 @@ test('split choice follows the approved rules', () => {
   const all = chooseSplit(A({ full: false, priorities: ['chest', 'biceps', 'quads', 'abs'], days: 3 }));
   expect(all.split.id).toBe('full-3');
   expect(all.warnings.map((w) => w.key)).toContain('spread');
+});
+
+test('no limit on priorities: 5+ groups build a valid plan that covers them', () => {
+  // без ограничения в 4 группы (3.20): шесть групп верха и рук — раздельные дни, все группы в плане
+  const six: Group[] = ['chest', 'back', 'shoulders', 'biceps', 'triceps', 'forearms'];
+  const a = A({ full: false, priorities: six, days: 3, minutes: 60 });
+  expect(chooseSplit(a).split.id).toBe('abl-3');
+  const d = buildDraft(a, ctx);
+  for (const g of six) expect(groupsIn(d).has(g), g).toBe(true);
+  // все группы сразу — всё тело, без падений и в пределах времени
+  const every = A({ full: false, priorities: [...GROUPS], days: 4, minutes: 45 });
+  expect(chooseSplit(every).split.id).toBe('ul-4');
+  expect(chooseSplit(every).warnings.map((w) => w.key)).toContain('spread');
+  for (const day of buildDraft(every, ctx).days) expect(day.estimate.typicalMin).toBeLessThanOrEqual(45);
+  // сохранённые ответы не обрезаются до 4
+  expect(sanitizeAnswers({ priorities: six }).priorities).toEqual(six);
 });
 
 test('deterministic; rebuild gives another valid plan; pins survive', () => {

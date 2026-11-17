@@ -34,6 +34,35 @@ export function Seg<T extends string | number>({
   );
 }
 
+/**
+ * Режим расписания: «По дням недели» / «По очереди» — подпись сверху, переключатель на всю ширину
+ * (длинные названия на любом языке) и пояснение выбранного режима. Онбординг и подбор плана.
+ */
+export function ScheduleSwitch({
+  value,
+  onChange,
+}: {
+  value: 'weekdays' | 'cycle';
+  onChange: (v: 'weekdays' | 'cycle') => void;
+}) {
+  return (
+    <div class="sched">
+      <span class="field-lb">{t('plan.mode')}</span>
+      <Seg
+        label={t('plan.mode')}
+        value={value}
+        mini={false}
+        onChange={onChange}
+        options={[
+          { v: 'weekdays', t: t('plan.modeWeekdays') },
+          { v: 'cycle', t: t('plan.modeCycle') },
+        ]}
+      />
+      <p class="muted small">{t(value === 'weekdays' ? 'plan.modeWeekdaysHint' : 'plan.modeCycleHint')}</p>
+    </div>
+  );
+}
+
 export function Toggle({
   on,
   onChange,

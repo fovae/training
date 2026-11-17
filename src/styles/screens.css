@@ -362,8 +362,22 @@ section {
   border-top: 1px solid var(--line);
 }
 .card-t + .srow,
-.small + .srow {
+.small + .srow,
+.srow:first-child {
   border-top: 0;
+}
+/* режим расписания (Controls → ScheduleSwitch): подпись, переключатель на всю ширину, пояснение */
+.sched {
+  display: grid;
+  gap: var(--space-2);
+  padding-bottom: var(--space-1);
+}
+.sched > p {
+  margin: 0;
+}
+.sched > .field-lb {
+  font-size: 15px;
+  color: var(--ink);
 }
 .srow > span:first-child {
   display: flex;

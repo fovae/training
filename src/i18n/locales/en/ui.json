@@ -148,12 +148,13 @@
         "other": "{count} days."
       },
       "later": "Everything can be edited later on the Plan tab.",
-      "levelNote": "Sets, and for beginners the exercises, follow your level. You add the weights yourself."
+      "levelNote": "Sets, and for beginners the exercises, follow your level. You add the weights yourself.",
+      "orPick": "Or pick an option"
     },
     "restore": {
-      "lead": "Have a backup file?",
-      "hint": "Restore your profile, plan, history and settings instead of filling everything in again.",
-      "button": "I have a file",
+      "lead": "Been here before?",
+      "hint": "If you have a backup file, load it: your profile, plan, history and settings come back — no need to fill everything in again.",
+      "button": "Load backup",
       "title": "Restore from the copy?",
       "body": "Your profile, plan, workouts and settings will be taken from the file. You can change anything later in Settings.",
       "confirm": "Restore",
@@ -196,7 +197,7 @@
   },
   "today": {
     "inProgress": "Workout in progress",
-    "nextInCycle": "Next in your cycle",
+    "nextInCycle": "Next in order",
     "scheduled": "Today's workout",
     "offSchedule": "Off schedule",
     "restDay": "Rest day",
@@ -307,10 +308,10 @@
     "eyebrow": "Your week",
     "title": "Plan",
     "mode": "Schedule",
-    "modeWeekdays": "Weekdays",
-    "modeCycle": "Cycle",
-    "modeWeekdaysHint": "Each workout is tied to a day of the week.",
-    "modeCycleHint": "Workouts go in a loop: after the last one comes the first. Skipped a day? Just carry on.",
+    "modeWeekdays": "Fixed weekdays",
+    "modeCycle": "In order",
+    "modeWeekdaysHint": "Each workout has its own weekday — e.g. Mon, Wed, Fri. Good for a steady routine.",
+    "modeCycleHint": "No set days: train whenever it suits you, and the app offers the next workout in order. Missing a day changes nothing.",
     "days": {
       "one": "{count} day",
       "other": "{count} days"
@@ -486,12 +487,12 @@
     "persist_unsupported": "Not supported by this browser. Use “Save a copy” regularly.",
     "persist_unknown": "Checking…",
     "request": "Request",
-    "switchToWeekdays": "Switch to weekdays",
-    "switchToCycle": "Switch to cycle",
+    "switchToWeekdays": "Switch to fixed weekdays",
+    "switchToCycle": "Switch to in-order",
     "switch": "Switch",
-    "toWeekdaysTitle": "Switch to weekdays?",
+    "toWeekdaysTitle": "Switch to fixed weekdays?",
     "toWeekdaysBody": "Each day of your plan will be tied to a day of the week. You can choose the days on the Plan tab. Your exercises and history stay as they are.",
-    "toCycleTitle": "Switch to cycle?",
+    "toCycleTitle": "Switch to in-order?",
     "toCycleBody": "Workouts will go in a loop without being tied to days of the week. Your chosen weekdays are kept in case you switch back. Your exercises and history stay as they are.",
     "switched": "Schedule: {mode}",
     "tips": "Tips",
@@ -781,8 +782,8 @@
     "newTab": "(opens in a new tab)"
   },
   "planner": {
-    "title": "Build it for me",
-    "ctaTitle": "Build it for me",
+    "title": "Plan builder",
+    "ctaTitle": "Plan builder",
     "ctaText": "Answer a few questions and get a draft plan from our exercise library. You can edit everything afterwards.",
     "ctaOnb": "Answer a few questions after setup — the app puts together a draft plan you can edit.",
     "cta": "Build a plan",
@@ -795,7 +796,7 @@
       "level": "Level and limits",
       "preview": "Your draft plan"
     },
-    "focusHint": "Pick up to {n} muscle groups, or the whole body.",
+    "focusHint": "Pick any muscle groups, or the whole body. If your picks cover every section, the plan trains the whole body with extra focus on them.",
     "full": "Whole body",
     "section": {
       "upper": "Upper body",
@@ -822,11 +823,19 @@
       "home": "Home",
       "outdoor": "Outdoors"
     },
-    "presets": "Quick choice",
+    "presets": "Popular",
     "preset": {
-      "nothing": "Nothing",
+      "fullGym": "Full gym",
+      "freeWeights": "Free weights",
+      "machines": "Machines + cables",
       "dumbbells": "Dumbbells + bench",
-      "bands": "Bands"
+      "nothing": "No equipment",
+      "bands": "Bands",
+      "barBands": "Pull-up bar + bands",
+      "kettlebell": "Kettlebell",
+      "barDips": "Bar + dips",
+      "barRope": "Bar, dips, jump rope",
+      "barDipsBand": "Bar, dips, band"
     },
     "equipment": "Equipment you have",
     "equipmentHint": "Bodyweight exercises are always included.",

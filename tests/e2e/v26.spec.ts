@@ -175,7 +175,7 @@ test('swipe no longer switches days on Today', async ({ page, browserName }) => 
   await expect(sel).toHaveText(before!);
 });
 
-test('onboarding: «I have a file» on the profile step restores everything and records acceptance', async ({
+test('onboarding: «Load backup» on the profile step restores everything and records acceptance', async ({
   page,
 }, info) => {
   const profile: Profile = {
@@ -213,7 +213,7 @@ test('onboarding: «I have a file» on the profile step restores everything and 
   await page.getByRole('checkbox').check();
   await page.getByRole('button', { name: 'Next' }).click();
   await expect(page.getByRole('heading', { name: 'Profile', level: 1 })).toBeVisible();
-  await expect(page.getByText('Have a backup file?')).toBeVisible();
+  await expect(page.getByText('Been here before?')).toBeVisible();
   await page.getByTestId('onb-import-input').setInputFiles(path);
   const dlg = page.getByRole('alertdialog');
   await expect(dlg).toContainText('Restore from the copy?');

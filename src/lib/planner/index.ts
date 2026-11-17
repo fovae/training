@@ -23,7 +23,7 @@ import type { Day, Equipment, Exercise, Level, Plan, PlanItem } from '../../type
 import { estimateItems, type DurationItem, type Estimate, type EstimateOptions } from '../duration';
 
 /**
- * Помощник «Собрать за меня» (docs/ARCHITECTURE.md, «Помощник»): по ответам мастера собирает
+ * Помощник «Подбор плана» (docs/ARCHITECTURE.md, «Помощник»): по ответам мастера собирает
  * черновик плана по заранее прописанным правилам. Чистые функции, без ИИ и сети; одинаковые
  * ответы и seed → одинаковый план; «Пересобрать» — следующий seed. Вес не подставляется никогда.
  */
@@ -32,7 +32,7 @@ export const MINUTES = [30, 45, 60, 75, 90] as const;
 export type Minutes = (typeof MINUTES)[number];
 
 export interface Answers {
-  /** Приоритетные группы (до 4); пусто или full — всё тело */
+  /** Приоритетные группы (любое число); пусто, full или все разделы сразу — всё тело */
   priorities: Group[];
   full: boolean;
   place: Place;
@@ -520,7 +520,7 @@ export function sanitizeAnswers(raw: unknown): Answers {
   const minutes = MINUTES.includes(r.minutes as Minutes) ? (r.minutes as Minutes) : d.minutes;
   const levels: Level[] = ['first', 'few', 'intermediate', 'veteran'];
   return {
-    priorities: arr(r.priorities, GROUPS).slice(0, 4),
+    priorities: arr(r.priorities, GROUPS),
     full: typeof r.full === 'boolean' ? r.full : d.full,
     place: r.place === 'home' || r.place === 'outdoor' || r.place === 'gym' ? r.place : d.place,
     equipment: Array.isArray(r.equipment) ? arr(r.equipment, EQUIPMENT_CHOICES) : [...d.equipment],

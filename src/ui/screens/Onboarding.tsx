@@ -8,7 +8,7 @@ import { applyRestore, readBackupFile } from '../../features/backup';
 import { askRestore } from '../components/RestoreDialog';
 import { go, toast } from '../../state/ui';
 import type { LegalAcceptance, Level, Plan } from '../../types';
-import { Choice, Seg, Stepper } from '../components/Controls';
+import { Choice, ScheduleSwitch, Stepper } from '../components/Controls';
 import { Rich } from '../components/Rich';
 import { currentAcceptance } from '../../content/legal';
 import { ProfileForm, draftFrom, validateProfile, type ProfileDraft } from '../components/ProfileForm';
@@ -100,7 +100,7 @@ export function Onboarding() {
         confirmedAt: new Date().toISOString(),
         legalAccepted: accepted.value ?? currentAcceptance(),
       });
-      // «Собрать за меня» — после онбординга открывается помощник с теми же днями, режимом и уровнем
+      // «Подбор плана» — после онбординга открывается помощник с теми же днями, режимом и уровнем
       const planner =
         start.value === 'planner' ? { days: dayCount.value, mode: mode.value, level: level.value } : null;
       resetOnboarding();
@@ -132,7 +132,6 @@ export function Onboarding() {
 
       {s === 'language' && <LanguageStep />}
       {s === 'terms' && <TermsStep />}
-      {s === 'profile' && <RestoreOffer />}
       {s === 'profile' && draft.value && (
         <section class="card">
           <p class="muted small">{t('onb.profile.lead')}</p>
@@ -143,6 +142,8 @@ export function Onboarding() {
           />
         </section>
       )}
+      {/* восстановление из копии — под основными параметрами: новому человеку сначала профиль */}
+      {s === 'profile' && <RestoreOffer />}
       {s === 'level' && (
         <section>
           <p class="muted">{t('onb.level.lead')}</p>
@@ -299,21 +300,7 @@ function PlanStep() {
     <section>
       {
         <div class="card group-card">
-          <div class="srow">
-            <span>{t('plan.mode')}</span>
-            <Seg
-              label={t('plan.mode')}
-              value={mode.value}
-              onChange={(v) => (mode.value = v)}
-              options={[
-                { v: 'weekdays', t: t('plan.modeWeekdays') },
-                { v: 'cycle', t: t('plan.modeCycle') },
-              ]}
-            />
-          </div>
-          <p class="muted small">
-            {t(mode.value === 'weekdays' ? 'plan.modeWeekdaysHint' : 'plan.modeCycleHint')}
-          </p>
+          <ScheduleSwitch value={mode.value} onChange={(v) => (mode.value = v)} />
           <div class="srow">
             <span>{t('onb.plan.days')}</span>
             {tpl?.fixedDays ? (
@@ -335,13 +322,20 @@ function PlanStep() {
       <h2 class="ob-sub">{t('onb.plan.start')}</h2>
       <button
         type="button"
-        class={'card planner-cta' + (start.value === 'planner' ? ' on' : '')}
+        class={'card planner-cta planner-box' + (start.value === 'planner' ? ' on' : '')}
         aria-pressed={start.value === 'planner'}
         onClick={() => (start.value = 'planner')}
       >
-        <b>{t('planner.ctaTitle')}</b>
+        <span class="planner-box-h">
+          <span class="planner-box-ic" aria-hidden="true">
+            <Icon name="spark" size={20} />
+          </span>
+          <b>{t('planner.ctaTitle')}</b>
+          <span class="choice-dot" aria-hidden="true" />
+        </span>
         <span class="muted small">{t('planner.ctaOnb')}</span>
       </button>
+      <p class="ob-or">{t('onb.plan.orPick')}</p>
       <Choice
         label={t('onb.plan.start')}
         value={start.value}

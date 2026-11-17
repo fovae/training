@@ -2,7 +2,7 @@ import AxeBuilder from '@axe-core/playwright';
 import { expect, test, type Page } from '@playwright/test';
 import { fresh, onboard } from './helpers';
 
-/** Помощник «Собрать за меня»: мастер, предпросмотр, замена, закрепление, применение с отменой */
+/** Помощник «Подбор плана»: мастер, предпросмотр, замена, закрепление, применение с отменой */
 
 /** Ничего не выходит за край листа по горизонтали */
 const noOverflow = (page: Page) =>
@@ -19,7 +19,7 @@ const noOverflow = (page: Page) =>
   });
 
 async function walkToPreview(page: Page, w = 390) {
-  const sheet = page.getByRole('dialog', { name: 'Build it for me' });
+  const sheet = page.getByRole('dialog', { name: 'Plan builder' });
   await expect(sheet).toBeVisible();
   const steps = [
     'What to focus on',
@@ -107,8 +107,59 @@ for (const w of [375, 430]) {
   });
 }
 
-test('onboarding: «Build it for me» card above templates opens the wizard after setup', async ({ page }) => {
+test('onboarding: «Plan builder» card above templates opens the wizard after setup', async ({ page }) => {
   await fresh(page);
-  await onboard(page, { start: 'Build it for me' });
-  await expect(page.getByRole('dialog', { name: 'Build it for me' })).toBeVisible();
+  await onboard(page, { start: 'Plan builder' });
+  await expect(page.getByRole('dialog', { name: 'Plan builder' })).toBeVisible();
+});
+
+test('3.20: helper card at the bottom of Plan; active segment text is readable; menu keeps off the edge', async ({
+  page,
+}) => {
+  await fresh(page);
+  await onboard(page);
+  await page.getByRole('link', { name: 'Plan', exact: true }).click();
+  // карточка подбора — последний блок экрана «План», в рамке
+  const box = page.locator('.screen.plan > .planner-box');
+  await expect(box).toBeVisible();
+  expect(
+    await page.evaluate(() => document.querySelector('.screen.plan > :last-child')?.className),
+  ).toContain('planner-box');
+
+  // меню «…» дня: «Отмена» не прилипает к низу и бокам экрана
+  await page.locator('.dayhead-more').click();
+  const cancel = page.locator('.action-sheet .as-cancel');
+  await expect(cancel).toBeVisible();
+  await page.waitForTimeout(400);
+  const r = (await cancel.boundingBox())!;
+  const vp = page.viewportSize()!;
+  expect(vp.height - (r.y + r.height)).toBeGreaterThanOrEqual(12);
+  expect(r.x).toBeGreaterThanOrEqual(6);
+  expect(vp.width - (r.x + r.width)).toBeGreaterThanOrEqual(6);
+  await cancel.click();
+
+  // выбранная плашка переключателя в мастере: текст отличается от фона
+  await box.getByRole('button', { name: 'Build a plan' }).click();
+  const sheet = page.getByRole('dialog', { name: 'Plan builder' });
+  await sheet.getByRole('button', { name: 'Next' }).click();
+  for (const place of ['Home', 'Gym', 'Outdoors']) {
+    const opt = sheet.getByRole('radio', { name: place });
+    if (!(await opt.count())) continue;
+    await opt.click();
+    const [fg, bg] = await opt.evaluate((el) => {
+      const s = getComputedStyle(el);
+      return [s.color, s.backgroundColor];
+    });
+    expect(fg, place).not.toBe(bg);
+    // у каждого места — «Популярное», не больше 5 плашек
+    const n = await sheet.locator('.planner-sec').first().locator('.pick').count();
+    expect(n).toBeGreaterThan(0);
+    expect(n).toBeLessThanOrEqual(5);
+  }
+  // ограничения в 4 группы больше нет
+  await sheet.getByRole('button', { name: 'Back' }).click();
+  for (const g of ['Chest', 'Back', 'Shoulders', 'Biceps', 'Triceps'])
+    await sheet.getByRole('button', { name: g, exact: true }).click();
+  await expect(sheet.locator('.pick.on')).toHaveCount(5);
+  await expect(sheet.locator('.pick:disabled')).toHaveCount(0);
 });

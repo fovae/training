@@ -4,9 +4,8 @@ import { findExercise } from '../../data/exercises';
 import {
   EQUIPMENT_CHOICES,
   GROUP_SECTIONS,
-  HOME_PRESETS,
-  MAX_PRIORITIES,
   PLACE_EQUIPMENT,
+  PRESETS,
   RESTRICTIONS,
   type Group,
   type Place,
@@ -29,14 +28,14 @@ import {
   undoApply,
 } from '../../state/planner';
 import { ask, go, toast, toasts } from '../../state/ui';
-import type { Equipment, Level, Plan } from '../../types';
+import type { Equipment, Level } from '../../types';
 import { exName, schemeText } from '../labels';
-import { Choice, Seg, Stepper } from './Controls';
+import { Choice, ScheduleSwitch, Seg, Stepper } from './Controls';
 import { Icon } from './Icon';
 import { Sheet } from './Sheet';
 
 /**
- * Мастер «Собрать за меня»: фокус → место и инвентарь → дни → время → уровень и ограничения →
+ * Мастер «Подбор плана»: фокус → место и инвентарь → дни → время → уровень и ограничения →
  * предпросмотр (заменить, закрепить, пересобрать) → применить к плану с отменой.
  * Подборка по правилам, не индивидуальная рекомендация (docs/CONCEPT.md).
  */
@@ -81,7 +80,7 @@ function FocusStep() {
   const full = a.full || !a.priorities.length;
   return (
     <div class="planner-step">
-      <p class="muted">{t('planner.focusHint', { n: MAX_PRIORITIES })}</p>
+      <p class="muted">{t('planner.focusHint')}</p>
       <div class="picks">
         <Pick on={full} onClick={() => set({ full: true, priorities: [] })}>
           {t('planner.full')}
@@ -92,12 +91,7 @@ function FocusStep() {
           <h3>{t(`planner.section.${s.key}`)}</h3>
           <div class="picks">
             {s.groups.map((g) => (
-              <Pick
-                key={g}
-                on={!full && a.priorities.includes(g)}
-                disabled={!a.priorities.includes(g) && a.priorities.length >= MAX_PRIORITIES}
-                onClick={() => toggle(g)}
-              >
+              <Pick key={g} on={!full && a.priorities.includes(g)} onClick={() => toggle(g)}>
                 {t(`planner.group.${g}`)}
               </Pick>
             ))}
@@ -121,25 +115,22 @@ function PlaceStep() {
         options={(['gym', 'home', 'outdoor'] as const).map((v) => ({ v, t: t(`planner.placeOpt.${v}`) }))}
         onChange={(v) => set({ place: v, equipment: [...PLACE_EQUIPMENT[v]] })}
       />
-      {a.place === 'home' && (
-        <div class="planner-sec">
-          <h3>{t('planner.presets')}</h3>
-          <div class="picks">
-            {HOME_PRESETS.map((p) => (
-              <Pick
-                key={p.key}
-                on={
-                  p.equipment.length === a.equipment.length &&
-                  p.equipment.every((q) => a.equipment.includes(q))
-                }
-                onClick={() => set({ equipment: [...p.equipment] })}
-              >
-                {t(`planner.preset.${p.key}`)}
-              </Pick>
-            ))}
-          </div>
+      <div class="planner-sec">
+        <h3>{t('planner.presets')}</h3>
+        <div class="picks">
+          {PRESETS[a.place].map((p) => (
+            <Pick
+              key={p.key}
+              on={
+                p.equipment.length === a.equipment.length && p.equipment.every((q) => a.equipment.includes(q))
+              }
+              onClick={() => set({ equipment: [...p.equipment] })}
+            >
+              {t(`planner.preset.${p.key}`)}
+            </Pick>
+          ))}
         </div>
-      )}
+      </div>
       <div class="planner-sec">
         <h3>{t('planner.equipment')}</h3>
         <p class="muted small">{t('planner.equipmentHint')}</p>
@@ -172,19 +163,7 @@ function DaysStep() {
         />
       </div>
       {a.days >= 5 && <p class="note">{t('planner.warn.recovery')}</p>}
-      <div class="srow">
-        <span>{t('plan.mode')}</span>
-        <Seg<Plan['mode']>
-          label={t('plan.mode')}
-          value={a.mode}
-          onChange={(v) => set({ mode: v })}
-          options={[
-            { v: 'weekdays', t: t('plan.modeWeekdays') },
-            { v: 'cycle', t: t('plan.modeCycle') },
-          ]}
-        />
-      </div>
-      <p class="muted small">{t(a.mode === 'weekdays' ? 'plan.modeWeekdaysHint' : 'plan.modeCycleHint')}</p>
+      <ScheduleSwitch value={a.mode} onChange={(v) => set({ mode: v })} />
     </div>
   );
 }

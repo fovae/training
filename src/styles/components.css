@@ -92,13 +92,14 @@
   white-space: nowrap;
 }
 .seg-btn.on {
-  background: var(--dcf, var(--card));
-  color: var(--on-fill);
-  box-shadow: var(--shadow);
-}
-.seg.mini .seg-btn.on {
   background: var(--card);
   color: var(--ink);
+  box-shadow: var(--shadow);
+}
+/* переключатель дней (DaySwitcher): активный день — заливкой своего цвета */
+.seg-btn.on.tinted {
+  background: var(--dcf);
+  color: var(--on-fill);
 }
 .seg-btn:disabled:not(.on) {
   opacity: 0.4;
@@ -1113,6 +1114,9 @@ section + .card {
   display: grid;
   gap: var(--space-2);
   width: min(440px, 100%);
+  /* лист-подложка (.sheet-scrim) без полей: отступ от краёв и от полоски «домой» — свой */
+  padding: 0 calc(var(--safe-r) + var(--space-2)) calc(max(var(--safe-b), var(--space-2)) + var(--space-2))
+    calc(var(--safe-l) + var(--space-2));
   animation: rest-in var(--dur-slow) var(--ease-glide);
 }
 .as-group {

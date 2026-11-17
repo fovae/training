@@ -150,12 +150,13 @@
         "other": "{count} días."
       },
       "later": "Todo se puede editar después en la pestaña Plan.",
-      "levelNote": "Las series, y para principiantes también los ejercicios, dependen de tu nivel. Los pesos los añades tú."
+      "levelNote": "Las series, y para principiantes también los ejercicios, dependen de tu nivel. Los pesos los añades tú.",
+      "orPick": "O elige una opción"
     },
     "restore": {
-      "lead": "¿Tienes un archivo de copia?",
-      "hint": "Restaura tu perfil, plan, historial y ajustes en lugar de rellenarlo todo de nuevo.",
-      "button": "Tengo un archivo",
+      "lead": "¿Ya has usado la app?",
+      "hint": "Si tienes un archivo de copia, cárgalo: recuperarás perfil, plan, historial y ajustes sin rellenar nada de nuevo.",
+      "button": "Cargar copia",
       "title": "¿Restaurar desde la copia?",
       "body": "Tu perfil, plan, entrenamientos y ajustes se tomarán del archivo. Puedes cambiar lo que quieras después en Ajustes.",
       "confirm": "Restaurar",
@@ -198,7 +199,7 @@
   },
   "today": {
     "inProgress": "Entrenamiento en curso",
-    "nextInCycle": "Siguiente en tu ciclo",
+    "nextInCycle": "Siguiente en orden",
     "scheduled": "Entrenamiento de hoy",
     "offSchedule": "Fuera de horario",
     "restDay": "Día de descanso",
@@ -310,10 +311,10 @@
     "eyebrow": "Tu semana",
     "title": "Plan",
     "mode": "Calendario",
-    "modeWeekdays": "Días de la semana",
-    "modeCycle": "Ciclo",
-    "modeWeekdaysHint": "Cada entrenamiento va ligado a un día de la semana.",
-    "modeCycleHint": "Los entrenamientos van en bucle: tras el último viene el primero. ¿Te saltaste un día? Simplemente sigue.",
+    "modeWeekdays": "Días fijos",
+    "modeCycle": "En orden",
+    "modeWeekdaysHint": "Cada entrenamiento tiene su día de la semana, p. ej. lun, mié, vie. Ideal con un horario fijo.",
+    "modeCycleHint": "Sin días fijos: entrena cuando te venga bien y la app te propone el siguiente en orden. Saltarte un día no cambia nada.",
     "days": {
       "one": "{count} día",
       "many": "{count} días",
@@ -497,12 +498,12 @@
     "persist_unsupported": "Este navegador no lo admite. Usa «Guardar una copia» con regularidad.",
     "persist_unknown": "Comprobando…",
     "request": "Solicitar",
-    "switchToWeekdays": "Cambiar a días de la semana",
-    "switchToCycle": "Cambiar a ciclo",
+    "switchToWeekdays": "Cambiar a días fijos",
+    "switchToCycle": "Cambiar a en orden",
     "switch": "Cambiar",
-    "toWeekdaysTitle": "¿Cambiar a días de la semana?",
+    "toWeekdaysTitle": "¿Cambiar a días fijos?",
     "toWeekdaysBody": "Cada día del plan quedará ligado a un día de la semana. Puedes elegir los días en la pestaña Plan. Tus ejercicios e historial no cambian.",
-    "toCycleTitle": "¿Cambiar a ciclo?",
+    "toCycleTitle": "¿Cambiar a en orden?",
     "toCycleBody": "Los entrenamientos irán en bucle sin estar ligados a días de la semana. Los días elegidos se guardan por si vuelves. Tus ejercicios e historial no cambian.",
     "switched": "Calendario: {mode}",
     "tips": "Consejos",
@@ -794,8 +795,8 @@
     "newTab": "(se abre en una pestaña nueva)"
   },
   "planner": {
-    "title": "Hazlo por mí",
-    "ctaTitle": "Hazlo por mí",
+    "title": "Asistente de plan",
+    "ctaTitle": "Asistente de plan",
     "ctaText": "Responde unas preguntas y obtén un borrador de plan con nuestra biblioteca de ejercicios. Después puedes editarlo todo.",
     "ctaOnb": "Tras la configuración responderás unas preguntas y la app preparará un borrador de plan editable.",
     "cta": "Crear plan",
@@ -808,7 +809,7 @@
       "level": "Nivel y límites",
       "preview": "Tu borrador de plan"
     },
-    "focusHint": "Elige hasta {n} grupos musculares o todo el cuerpo.",
+    "focusHint": "Elige los grupos musculares que quieras o todo el cuerpo. Si cubren todas las secciones, el plan será de cuerpo completo con énfasis en ellos.",
     "full": "Todo el cuerpo",
     "section": {
       "upper": "Tren superior",
@@ -835,11 +836,19 @@
       "home": "Casa",
       "outdoor": "Al aire libre"
     },
-    "presets": "Elección rápida",
+    "presets": "Populares",
     "preset": {
-      "nothing": "Nada",
+      "fullGym": "Gimnasio completo",
+      "freeWeights": "Peso libre",
+      "machines": "Máquinas y poleas",
       "dumbbells": "Mancuernas + banco",
-      "bands": "Bandas"
+      "nothing": "Sin material",
+      "bands": "Bandas",
+      "barBands": "Barra + bandas",
+      "kettlebell": "Pesa rusa",
+      "barDips": "Barra + paralelas",
+      "barRope": "Barra, paralelas, comba",
+      "barDipsBand": "Barra, paralelas, banda"
     },
     "equipment": "Material que tienes",
     "equipmentHint": "Los ejercicios con el propio peso siempre se incluyen.",

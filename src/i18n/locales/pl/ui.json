@@ -152,12 +152,13 @@
         "other": "{count} dnia."
       },
       "later": "Wszystko możesz później zmienić w zakładce Plan.",
-      "levelNote": "Serie, a dla początkujących także ćwiczenia, zależą od poziomu. Ciężary dodajesz sam."
+      "levelNote": "Serie, a dla początkujących także ćwiczenia, zależą od poziomu. Ciężary dodajesz sam.",
+      "orPick": "Albo wybierz wariant"
     },
     "restore": {
-      "lead": "Masz plik kopii?",
-      "hint": "Przywróć profil, plan, historię i ustawienia zamiast wypełniać wszystko od nowa.",
-      "button": "Mam plik",
+      "lead": "Nie pierwszy raz tutaj?",
+      "hint": "Jeśli masz plik kopii, wczytaj go: profil, plan, historia i ustawienia wrócą bez ponownego wypełniania.",
+      "button": "Wczytaj kopię",
       "title": "Przywrócić z kopii?",
       "body": "Profil, plan, treningi i ustawienia zostaną wzięte z pliku. Wszystko możesz później zmienić w ustawieniach.",
       "confirm": "Przywróć",
@@ -200,7 +201,7 @@
   },
   "today": {
     "inProgress": "Trwa trening",
-    "nextInCycle": "Następny w cyklu",
+    "nextInCycle": "Następny po kolei",
     "scheduled": "Dzisiejszy trening",
     "offSchedule": "Poza harmonogramem",
     "restDay": "Dzień odpoczynku",
@@ -313,10 +314,10 @@
     "eyebrow": "Twój tydzień",
     "title": "Plan",
     "mode": "Harmonogram",
-    "modeWeekdays": "Dni tygodnia",
-    "modeCycle": "Cykl",
-    "modeWeekdaysHint": "Każdy trening jest przypisany do dnia tygodnia.",
-    "modeCycleHint": "Treningi idą w kółko: po ostatnim przychodzi pierwszy. Opuściłeś dzień? Po prostu kontynuuj.",
+    "modeWeekdays": "Stałe dni",
+    "modeCycle": "Po kolei",
+    "modeWeekdaysHint": "Każdy trening ma swój dzień tygodnia, np. pon., śr., pt. Dobre przy stałym grafiku.",
+    "modeCycleHint": "Bez stałych dni: trenuj, kiedy ci pasuje, a aplikacja zaproponuje kolejny trening po kolei. Opuszczony dzień niczego nie psuje.",
     "days": {
       "one": "{count} dzień",
       "few": "{count} dni",
@@ -508,12 +509,12 @@
     "persist_unsupported": "Ta przeglądarka tego nie obsługuje. Regularnie używaj „Zapisz kopię”.",
     "persist_unknown": "Sprawdzanie…",
     "request": "Poproś",
-    "switchToWeekdays": "Przejdź na dni tygodnia",
-    "switchToCycle": "Przejdź na cykl",
+    "switchToWeekdays": "Przejdź na stałe dni",
+    "switchToCycle": "Przejdź na „po kolei”",
     "switch": "Przełącz",
-    "toWeekdaysTitle": "Przejść na dni tygodnia?",
+    "toWeekdaysTitle": "Przejść na stałe dni?",
     "toWeekdaysBody": "Każdy dzień planu zostanie przypisany do dnia tygodnia. Dni wybierzesz w zakładce Plan. Ćwiczenia i historia zostają bez zmian.",
-    "toCycleTitle": "Przejść na cykl?",
+    "toCycleTitle": "Przejść na „po kolei”?",
     "toCycleBody": "Treningi będą szły w kółko, bez przypisania do dni tygodnia. Wybrane dni tygodnia zostaną zachowane na wypadek powrotu. Ćwiczenia i historia zostają bez zmian.",
     "switched": "Harmonogram: {mode}",
     "tips": "Wskazówki",
@@ -807,8 +808,8 @@
     "newTab": "(otworzy się w nowej karcie)"
   },
   "planner": {
-    "title": "Ułóż za mnie",
-    "ctaTitle": "Ułóż za mnie",
+    "title": "Kreator planu",
+    "ctaTitle": "Kreator planu",
     "ctaText": "Odpowiedz na kilka pytań, a aplikacja ułoży szkic planu z naszej bazy ćwiczeń. Potem wszystko możesz zmienić.",
     "ctaOnb": "Po konfiguracji odpowiesz na kilka pytań, a aplikacja ułoży szkic planu do edycji.",
     "cta": "Ułóż plan",
@@ -821,7 +822,7 @@
       "level": "Poziom i ograniczenia",
       "preview": "Szkic planu"
     },
-    "focusHint": "Wybierz do {n} grup mięśni lub całe ciało.",
+    "focusHint": "Wybierz dowolne grupy mięśni lub całe ciało. Jeśli obejmują wszystkie sekcje, plan będzie na całe ciało z naciskiem na nie.",
     "full": "Całe ciało",
     "section": {
       "upper": "Góra ciała",
@@ -848,11 +849,19 @@
       "home": "Dom",
       "outdoor": "Na zewnątrz"
     },
-    "presets": "Szybki wybór",
+    "presets": "Popularne",
     "preset": {
-      "nothing": "Nic",
+      "fullGym": "Cała siłownia",
+      "freeWeights": "Wolne ciężary",
+      "machines": "Maszyny i wyciągi",
       "dumbbells": "Hantle + ławka",
-      "bands": "Gumy"
+      "nothing": "Bez sprzętu",
+      "bands": "Gumy",
+      "barBands": "Drążek + gumy",
+      "kettlebell": "Kettlebell",
+      "barDips": "Drążek + poręcze",
+      "barRope": "Drążek, poręcze, skakanka",
+      "barDipsBand": "Drążek, poręcze, guma"
     },
     "equipment": "Sprzęt, który masz",
     "equipmentHint": "Ćwiczenia z masą ciała są zawsze uwzględniane.",

@@ -161,7 +161,7 @@ export interface Settings {
   weightWarningIgnored: string[];
   /** 3.17: как вводить подходы упражнения — режим гантелей и счёт «на сторону / всего» (по id) */
   exerciseModes?: Record<string, { load?: 'one' | 'x2' | 'lr'; count?: 'side' | 'total' }>;
-  /** 3.18: последние ответы помощника «Собрать за меня» (src/lib/planner, sanitizeAnswers) */
+  /** 3.18: последние ответы помощника «Подбор плана» (src/lib/planner, sanitizeAnswers) */
   planner?: PlannerAnswers;
   /** «Мой темп» — ручная поправка к оценке длительности (3.15). Нет поля — обычный */
   pace?: 'slow' | 'normal' | 'fast';

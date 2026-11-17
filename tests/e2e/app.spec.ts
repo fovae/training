@@ -168,19 +168,21 @@ test('plan editor: empty days, picker with search and filters, edit, reorder, co
   await expect(page.getByRole('tab')).toHaveCount(7);
   await expect(page.getByRole('button', { name: 'Add day' })).toHaveCount(0);
   // Переключателя расписания на экране плана нет — он в настройках
-  await expect(page.getByRole('radio', { name: 'Weekdays' })).toHaveCount(0);
-  // Карточка расписания — в самом низу экрана, ниже правил
-  const card = page.getByRole('region', { name: 'Schedule: Cycle' });
+  await expect(page.getByRole('radio', { name: 'Fixed weekdays' })).toHaveCount(0);
+  // Карточка расписания — ниже правил; последний блок экрана — «Подбор плана» (3.20)
+  const card = page.getByRole('region', { name: 'Schedule: In order' });
   await expect(card).toBeVisible();
   const order = await page.evaluate(() => {
     const main = document.querySelector('main .screen')!;
     const kids = [...main.children];
     const rules = kids.findIndex((k) => k.querySelector('.rules'));
     const sched = kids.findIndex((k) => k.classList.contains('schedule-card'));
-    return { rules, sched, last: kids.length - 1 };
+    const box = kids.findIndex((k) => k.classList.contains('planner-box'));
+    return { rules, sched, box, last: kids.length - 1 };
   });
   expect(order.sched).toBeGreaterThan(order.rules);
-  expect(order.sched).toBe(order.last);
+  expect(order.box).toBeGreaterThan(order.sched);
+  expect(order.box).toBe(order.last);
   await card.getByRole('link', { name: 'Change in Settings' }).click();
   await expect(page).toHaveURL(/#\/settings\/schedule$/);
   await expect(page.locator('#schedule')).toBeInViewport();
@@ -280,7 +282,7 @@ test('weekdays mode: today follows the day of the week', async ({ page }) => {
   // 2026-11-11 — среда (weekday 2)
   await page.clock.setFixedTime(new Date('2026-11-11T10:00:00'));
   await fresh(page);
-  await onboard(page, { start: /Light maintenance/, mode: 'Weekdays' }); // 2 дня: пн и чт
+  await onboard(page, { start: /Light maintenance/, mode: 'Fixed weekdays' }); // 2 дня: пн и чт
   await expect(page.getByRole('heading', { name: 'Rest day' })).toBeVisible();
   await page.getByRole('button', { name: 'Train anyway' }).click();
   await expect(page.getByRole('button', { name: 'Start workout' })).toBeVisible();
@@ -377,16 +379,16 @@ test('schedule switch lives in Settings; weekday labels follow the mode', async 
   await expect(weekdayMarks()).toHaveCount(0);
 
   // Дни недели: подписи появились, выбираем свой день для дня 1
-  await switchTo('Switch to weekdays');
+  await switchTo('Switch to fixed weekdays');
   await page.getByRole('link', { name: 'Plan' }).click();
-  await expect(page.getByRole('region', { name: 'Schedule: Weekdays' })).toBeVisible();
+  await expect(page.getByRole('region', { name: 'Schedule: Fixed weekdays' })).toBeVisible();
   await choose(page.getByLabel('Day of week'), '5'); // суббота
   await page.getByRole('link', { name: 'Today' }).click();
   await expect(weekdayMarks()).toHaveCount(4);
   await expect(page.getByRole('tab', { name: 'Day 1, Sat' })).toBeVisible();
 
   // Обратно в цикл: подписи пропали везде (баг: оставались)
-  await switchTo('Switch to cycle');
+  await switchTo('Switch to in-order');
   await page.getByRole('link', { name: 'Today' }).click();
   await expect(weekdayMarks()).toHaveCount(0);
   await expect(page.getByRole('tab', { name: 'Day 1', exact: true })).toBeVisible();
@@ -395,7 +397,7 @@ test('schedule switch lives in Settings; weekday labels follow the mode', async 
   await expect(page.getByLabel('Day of week')).toHaveCount(0);
 
   // Снова дни недели: выбранная суббота сохранилась
-  await switchTo('Switch to weekdays');
+  await switchTo('Switch to fixed weekdays');
   await page.getByRole('link', { name: 'Today' }).click();
   await expect(page.getByRole('tab', { name: 'Day 1, Sat' })).toBeVisible();
 });
@@ -415,7 +417,7 @@ test('new profile: no "Keep my current plan" (only for v1 data)', async ({ page 
   await expect(first).toContainText('Empty days');
   await expect(first).toHaveAttribute('aria-checked', 'true');
   // Выбор расписания и числа дней — прямо в онбординге
-  await expect(page.getByRole('radio', { name: 'Cycle' })).toHaveAttribute('aria-checked', 'true');
+  await expect(page.getByRole('radio', { name: 'In order' })).toHaveAttribute('aria-checked', 'true');
   await expect(page.getByRole('group', { name: 'Workouts per week' }).locator('output')).toHaveText('3');
 });
 

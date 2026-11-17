@@ -196,10 +196,10 @@ const SettingsSchema = v.strictObject({
   // 3.15 (схема 5): оценка длительности; в копиях до 3.15 полей нет — обычный темп, с историей
   pace: v.optional(v.picklist(['slow', 'normal', 'fast'] as const)),
   useHistory: v.optional(v.boolean()),
-  // 3.18 (схема 7): последние ответы помощника «Собрать за меня»
+  // 3.18 (схема 7): последние ответы помощника «Подбор плана»
   planner: v.optional(
     v.strictObject({
-      priorities: v.pipe(v.array(v.picklist(GROUPS)), v.maxLength(4)),
+      priorities: v.pipe(v.array(v.picklist(GROUPS)), v.maxLength(GROUPS.length)),
       full: v.boolean(),
       place: v.picklist(['gym', 'home', 'outdoor'] as const),
       equipment: v.pipe(v.array(v.picklist(EQUIPMENT_CHOICES)), v.maxLength(20)),

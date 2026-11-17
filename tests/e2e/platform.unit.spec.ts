@@ -1,5 +1,11 @@
 import { expect, test } from '@playwright/test';
-import { detectBrowser, detectPlatform, isStandaloneEnv, safariVersion } from '../../src/lib/platform';
+import {
+  detectBrowser,
+  detectPlatform,
+  iosMajor,
+  isStandaloneEnv,
+  safariVersion,
+} from '../../src/lib/platform';
 
 const UA = {
   iphoneSafari26:
@@ -118,4 +124,16 @@ test('standalone detection', () => {
   expect(isStandaloneEnv({ matchMedia: mm([]), navigatorStandalone: true })).toBe(true);
   for (const m of ['standalone', 'fullscreen', 'minimal-ui'])
     expect(isStandaloneEnv({ matchMedia: mm([m]) }), m).toBe(true);
+});
+
+test('iosMajor: iOS version from the UA (Safari and the installed app)', () => {
+  const ios16 =
+    'Mozilla/5.0 (iPhone; CPU iPhone OS 16_7 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148';
+  expect(iosMajor(ios16)).toBe(16);
+  expect(
+    iosMajor(
+      'Mozilla/5.0 (iPhone; CPU iPhone OS 18_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.0 Mobile/15E148 Safari/604.1',
+    ),
+  ).toBe(18);
+  expect(iosMajor('Mozilla/5.0 (Linux; Android 14; Pixel 7) Chrome/130.0 Mobile Safari/537.36')).toBeNull();
 });
