@@ -17,6 +17,7 @@ import {
   DEFAULT_ANSWERS,
   MINUTES,
   buildDraft,
+  buildOneDay,
   chooseSplit,
   draftToDays,
   groupOf,
@@ -272,4 +273,24 @@ test('a single narrow priority is never dropped for lack of time (accent goes fi
             `${g} ${days}×${minutes} ${day.key}`,
           ).toBe(true);
       }
+});
+
+test('one day (3.20): chosen groups make the day, others are avoided, time fits', () => {
+  const a = A({ full: false, priorities: ['biceps', 'chest'], minutes: 45 });
+  const d = buildOneDay(a, ctx);
+  expect(d.days).toHaveLength(1);
+  expect(d.days[0]!.key).toBe('custom');
+  // крупная группа — первой в названии
+  expect(d.days[0]!.groups).toEqual(['chest', 'biceps']);
+  expect(groupsIn(d)).toEqual(new Set(['chest', 'biceps']));
+  expect(d.days[0]!.estimate.typicalMin).toBeLessThanOrEqual(45);
+  // упражнения других дней по возможности не повторяются
+  const used = d.days[0]!.items.filter((x) => !x.warmup).map((x) => x.exerciseId);
+  const other = buildOneDay(a, ctx, 0, [], used);
+  const again = other.days[0]!.items.filter((x) => !x.warmup && used.includes(x.exerciseId));
+  expect(again.length).toBeLessThan(used.length);
+  // без групп — день на всё тело; недельных подсказок об объёме нет
+  const full = buildOneDay(A({ minutes: 60 }), ctx);
+  expect(full.days[0]!.key).toBe('full');
+  expect(full.warnings.map((w) => w.key)).not.toContain('lowVolume');
 });

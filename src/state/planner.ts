@@ -4,6 +4,7 @@ import { roleOf } from '../data/planner';
 import {
   DEFAULT_ANSWERS,
   buildDraft,
+  buildOneDay,
   draftToDays,
   sanitizeAnswers,
   type Answers,
@@ -26,6 +27,8 @@ import { profile, settings, updateSettings } from './settings';
 export const plannerOpen = signal(false);
 export const answers = signal<Answers>(DEFAULT_ANSWERS);
 export const draft = signal<Draft | null>(null);
+/** 3.20: «Собрать день» — id дня плана, который собирает мастер (null — весь план) */
+export const plannerDay = signal<string | null>(null);
 
 export function plannerCtx(): PlannerCtx {
   return {
@@ -40,7 +43,8 @@ export function plannerCtx(): PlannerCtx {
 }
 
 /** Открыть мастер: прошлые ответы, уровень из профиля, число дней и режим — из плана (или seed) */
-export function openPlanner(seed: Partial<Answers> = {}): void {
+export function openPlanner(seed: Partial<Answers> = {}, dayId: string | null = null): void {
+  plannerDay.value = dayId;
   const saved = settings.value.planner;
   const base = sanitizeAnswers(saved ?? null);
   const p = plan.value;
@@ -56,13 +60,21 @@ export function openPlanner(seed: Partial<Answers> = {}): void {
 
 export const closePlanner = () => {
   plannerOpen.value = false;
+  plannerDay.value = null;
 };
+
+/** Упражнения других дней плана — чтобы собранный день по возможности их не повторял */
+const usedElsewhere = (dayId: string) =>
+  (plan.value?.days ?? []).filter((d) => d.id !== dayId).flatMap((d) => d.items.map((i) => i.exerciseId));
 
 /** Собрать черновик (seed — номер попытки; закреплённые упражнения остаются в своих днях) */
 export function buildPlanDraft(seed = 0): void {
   const pins = draft.value?.days.map((d) => d.items.filter((x) => x.pinned)) ?? [];
   // закрепления действуют, пока ответы не изменились (тот же сплит и число дней)
-  draft.value = buildDraft(answers.value, plannerCtx(), seed, seed ? pins : []);
+  const one = plannerDay.value;
+  draft.value = one
+    ? buildOneDay(answers.value, plannerCtx(), seed, seed ? (pins[0] ?? []) : [], usedElsewhere(one))
+    : buildDraft(answers.value, plannerCtx(), seed, seed ? pins : []);
   updateSettings({ planner: { ...answers.value } });
 }
 
@@ -144,8 +156,41 @@ export async function applyDraft(how: 'replace' | 'add'): Promise<{ prev: Plan |
   } else next = { mode, days: draftToDays(d, mode) };
   await setPlan(next);
   updateSettings({ planner: { ...answers.value } });
-  plannerOpen.value = false;
+  closePlanner();
   return { prev, dropped };
+}
+
+/**
+ * «Собрать день»: черновик одного дня — в выбранный день плана (id, день недели остаются).
+ * title — название дня из групп ('custom'); иначе ключ planner.day.<key>. Возвращает прежний план.
+ */
+export async function applyDraftDay(title: string): Promise<Plan | null> {
+  const d = draft.value;
+  const dayId = plannerDay.value;
+  const prev = plan.value ? structuredClone(plan.value) : null;
+  const dd = d?.days[0];
+  if (!prev || !dd || !dayId) return prev;
+  const [built] = draftToDays({ ...d, days: [dd] }, prev.mode);
+  const days = prev.days.map((x) => {
+    if (x.id !== dayId) return x;
+    const rest = { ...x };
+    delete rest.label;
+    delete rest.labelKey;
+    return {
+      ...rest,
+      items: built!.items,
+      // своё название дня, данное человеком, не трогаем
+      ...(x.label
+        ? { label: x.label }
+        : dd.key === 'custom'
+          ? { label: title }
+          : { labelKey: `planner.day.${dd.key}` }),
+    };
+  });
+  await setPlan({ ...prev, days });
+  updateSettings({ planner: { ...answers.value } });
+  closePlanner();
+  return prev;
 }
 
 export async function undoApply(prev: Plan | null): Promise<void> {

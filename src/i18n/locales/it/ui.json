@@ -391,12 +391,10 @@
   "rules": {
     "title": "Regole",
     "items": [
-      "Riscaldamento|5–8 minuti di cardio leggero più 1–3 serie di riscaldamento del primo esercizio. Non contano come serie allenanti.",
-      "Intensità|Chiudi la maggior parte delle serie con 1–3 ripetizioni di riserva. Non serve arrivare a cedimento ogni volta.",
-      "Progressione|Hai raggiunto il massimo dell’intervallo in ogni serie con una tecnica pulita? Aggiungi un po’ di carico e riparti dal basso dell’intervallo.",
-      "Recupero|Esercizi multiarticolari (spinte, rematori, leg press): 2–3 minuti. Isolamento: 60–120 secondi.",
-      "Recupero fisico|Molto indolenzito, tecnica che peggiora o articolazioni doloranti? Sposta l’allenamento a un altro giorno.",
-      "Giorni saltati|Hai saltato un paio di giorni? Non ricominciare da capo, prosegui con l’allenamento successivo."
+      "Riscaldamento|5–8 min di cardio leggero e un paio di serie leggere prima del primo esercizio.",
+      "Tieni 1–3 ripetizioni|Chiudi ogni serie poco prima del cedimento: la tecnica resta pulita.",
+      "Progressione|Arrivi in cima al range in tutte le serie? Aggiungi un po’ di peso.",
+      "Recupero|1–3 min tra le serie. Tanta stanchezza o dolori articolari? Sposta l’allenamento."
     ],
     "stopTitle": "Segnali per fermarsi.",
     "stopText": "Dolore acuto, dolore articolare, intorpidimento o qualsiasi sensazione insolita: interrompi l’esercizio e scopri la causa."
@@ -531,7 +529,9 @@
       "fast": "Più veloce"
     },
     "useHistory": "Impara dai miei allenamenti",
-    "useHistoryHint": "La stima si adatta alla durata dei tuoi allenamenti"
+    "useHistoryHint": "La stima si adatta alla durata dei tuoi allenamenti",
+    "showRules": "Regole nella schermata Piano",
+    "showRulesHint": "Quattro schede: riscaldamento, ripetizioni di riserva, progressione, recupero. I segnali di allarme restano sempre visibili."
   },
   "backup": {
     "save": "Salva una copia",
@@ -909,6 +909,18 @@
       "shoulders": "Spalle",
       "armsAbs": "Braccia + addome",
       "light": "Giorno leggero: mobilità e core"
-    }
+    },
+    "dayTitle": "Crea un giorno",
+    "dayReplaceTitle": "Sostituire gli esercizi del giorno?",
+    "dayReplaceBody": "Gli esercizi del giorno saranno sostituiti dalla nuova selezione. Puoi recuperarli con «Annulla».",
+    "dayApplied": "Giorno creato",
+    "dayOfferTitle": "Creare questo giorno?",
+    "dayOfferText": "Questo giorno è vuoto. L’assistente sceglie gli esercizi in base a gruppi muscolari, attrezzi e tempo; poi puoi modificare tutto.",
+    "dayCta": "Crea il giorno",
+    "notNow": "Non ora",
+    "offerHidden": "L’assistente è sempre a portata di mano: nel menu «…» del giorno e nelle Impostazioni.",
+    "menuDay": "Assistente: crea il giorno",
+    "assistant": "Assistente",
+    "assistantText": "Crea un piano o un solo giorno in base a obiettivi, attrezzi e tempo. Poi puoi modificarlo a mano."
   }
 }

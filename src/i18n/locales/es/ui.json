@@ -391,12 +391,10 @@
   "rules": {
     "title": "Reglas",
     "items": [
-      "Calentamiento|5–8 minutos de cardio suave y 1–3 series de calentamiento del primer ejercicio. No cuentan como series de trabajo.",
-      "Intensidad|Termina la mayoría de las series con 1–3 repeticiones en reserva. No hace falta llegar al fallo cada vez.",
-      "Progresión|¿Llegaste al máximo del rango en todas las series con buena técnica? Añade un poco de peso y vuelve a empezar desde abajo del rango.",
-      "Descanso|Ejercicios compuestos (presses, remos, prensa de piernas): 2–3 minutos. Aislamiento: 60–120 segundos.",
-      "Recuperación|¿Muchas agujetas, la técnica empeora o te duelen las articulaciones? Pasa el entrenamiento a otro día.",
-      "Días perdidos|¿Te saltaste un par de días? No empieces de cero: sigue con el siguiente entrenamiento."
+      "Calentamiento|5–8 min de cardio suave y un par de series ligeras antes del primer ejercicio.",
+      "Deja 1–3 reps|Termina cada serie un poco antes del fallo: la técnica sigue limpia.",
+      "Progresión|¿Llegas al tope del rango en todas las series? Sube un poco el peso.",
+      "Descanso|1–3 min entre series. ¿Mucho cansancio o dolor articular? Pasa el entreno a otro día."
     ],
     "stopTitle": "Señales para parar.",
     "stopText": "Dolor agudo, dolor articular, entumecimiento o cualquier sensación inusual: detén el ejercicio y averigua la causa."
@@ -531,7 +529,9 @@
       "fast": "Más rápido"
     },
     "useHistory": "Aprender de mis entrenamientos",
-    "useHistoryHint": "La estimación se adapta a lo que duran tus entrenamientos"
+    "useHistoryHint": "La estimación se adapta a lo que duran tus entrenamientos",
+    "showRules": "Reglas en la pantalla Plan",
+    "showRulesHint": "Cuatro tarjetas: calentamiento, reps en reserva, progresión y descanso. Las señales de alarma siempre se ven."
   },
   "backup": {
     "save": "Guardar una copia",
@@ -909,6 +909,18 @@
       "shoulders": "Hombros",
       "armsAbs": "Brazos + abdomen",
       "light": "Día suave: movilidad y core"
-    }
+    },
+    "dayTitle": "Crear un día",
+    "dayReplaceTitle": "¿Reemplazar los ejercicios del día?",
+    "dayReplaceBody": "Los ejercicios del día se sustituirán por la nueva selección. Puedes recuperarlos con «Deshacer».",
+    "dayApplied": "Día creado",
+    "dayOfferTitle": "¿Crear este día?",
+    "dayOfferText": "Este día está vacío. El asistente elige ejercicios según tus grupos musculares, material y tiempo; después puedes cambiarlo todo.",
+    "dayCta": "Crear el día",
+    "notNow": "Ahora no",
+    "offerHidden": "El asistente siempre está a mano: en el menú «…» del día y en Ajustes.",
+    "menuDay": "Asistente: crear el día",
+    "assistant": "Asistente",
+    "assistantText": "Crea un plan o un solo día según tus objetivos, material y tiempo. Luego puedes editarlo a mano."
   }
 }

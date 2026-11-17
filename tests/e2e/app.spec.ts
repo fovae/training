@@ -169,7 +169,7 @@ test('plan editor: empty days, picker with search and filters, edit, reorder, co
   await expect(page.getByRole('button', { name: 'Add day' })).toHaveCount(0);
   // Переключателя расписания на экране плана нет — он в настройках
   await expect(page.getByRole('radio', { name: 'Fixed weekdays' })).toHaveCount(0);
-  // Карточка расписания — ниже правил; последний блок экрана — «Подбор плана» (3.20)
+  // Порядок «Плана» (3.20): дни → тренировка дня → (помощник) → правила → расписание → стоп-сигналы
   const card = page.getByRole('region', { name: 'Schedule: In order' });
   await expect(card).toBeVisible();
   const order = await page.evaluate(() => {
@@ -177,12 +177,12 @@ test('plan editor: empty days, picker with search and filters, edit, reorder, co
     const kids = [...main.children];
     const rules = kids.findIndex((k) => k.querySelector('.rules'));
     const sched = kids.findIndex((k) => k.classList.contains('schedule-card'));
-    const box = kids.findIndex((k) => k.classList.contains('planner-box'));
-    return { rules, sched, box, last: kids.length - 1 };
+    const stop = kids.findIndex((k) => k.classList.contains('stop-note'));
+    return { rules, sched, stop, last: kids.length - 1 };
   });
   expect(order.sched).toBeGreaterThan(order.rules);
-  expect(order.box).toBeGreaterThan(order.sched);
-  expect(order.box).toBe(order.last);
+  expect(order.stop).toBeGreaterThan(order.sched);
+  expect(order.stop).toBe(order.last);
   await card.getByRole('link', { name: 'Change in Settings' }).click();
   await expect(page).toHaveURL(/#\/settings\/schedule$/);
   await expect(page.locator('#schedule')).toBeInViewport();

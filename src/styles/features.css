@@ -1622,6 +1622,13 @@ button.planner-box.on .choice-dot {
   border-color: var(--accent-fill);
   background: radial-gradient(circle, var(--accent-fill) 0 5px, transparent 6px);
 }
+/* «Не сейчас» на карточке помощника — тихая кнопка в углу */
+.planner-box-h .planner-x {
+  flex: none;
+  width: 36px;
+  height: 36px;
+  margin: calc(-1 * var(--space-2)) calc(-1 * var(--space-2)) calc(-1 * var(--space-2)) 0;
+}
 .planner-box-ic {
   flex: none;
   display: grid;

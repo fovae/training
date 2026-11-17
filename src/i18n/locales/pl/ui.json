@@ -399,12 +399,10 @@
   "rules": {
     "title": "Zasady",
     "items": [
-      "Rozgrzewka|5–8 minut lekkiego cardio i 1–3 serie rozgrzewkowe pierwszego ćwiczenia. Nie liczą się jako serie robocze.",
-      "Intensywność|Kończ większość serii z zapasem 1–3 powtórzeń. Nie musisz za każdym razem dochodzić do upadku.",
-      "Progresja|W każdej serii doszedłeś do górnej granicy zakresu z czystą techniką? Dodaj trochę ciężaru i zacznij znów od dołu zakresu.",
-      "Przerwa|Ćwiczenia wielostawowe (wyciskania, wiosłowania, wypychanie nogami): 2–3 minuty. Izolowane: 60–120 sekund.",
-      "Regeneracja|Mocne zakwasy, gorsza technika albo bolą stawy? Przełóż trening na inny dzień.",
-      "Przerwy w treningach|Opuściłeś kilka dni? Nie zaczynaj od nowa, po prostu kontynuuj następnym treningiem."
+      "Rozgrzewka|5–8 min lekkiego cardio i kilka lekkich serii przed pierwszym ćwiczeniem.",
+      "Zapas 1–3 powtórzeń|Kończ serię trochę przed upadkiem mięśniowym — technika zostaje czysta.",
+      "Progresja|Górny zakres we wszystkich seriach? Dodaj trochę ciężaru.",
+      "Odpoczynek|1–3 min między seriami. Duże zmęczenie lub ból stawów? Przełóż trening."
     ],
     "stopTitle": "Sygnały, by przerwać.",
     "stopText": "Ostry ból, ból stawów, drętwienie lub inne nietypowe odczucie: przerwij ćwiczenie i ustal przyczynę."
@@ -543,7 +541,9 @@
       "fast": "Szybciej"
     },
     "useHistory": "Ucz się z moich treningów",
-    "useHistoryHint": "Szacunek dopasowuje się do długości twoich treningów"
+    "useHistoryHint": "Szacunek dopasowuje się do długości twoich treningów",
+    "showRules": "Zasady na ekranie Plan",
+    "showRulesHint": "Cztery karty: rozgrzewka, zapas powtórzeń, progresja, odpoczynek. Sygnały ostrzegawcze są widoczne zawsze."
   },
   "backup": {
     "save": "Zapisz kopię",
@@ -922,6 +922,18 @@
       "shoulders": "Barki",
       "armsAbs": "Ręce + brzuch",
       "light": "Lekki dzień: mobilność i core"
-    }
+    },
+    "dayTitle": "Ułóż dzień",
+    "dayReplaceTitle": "Zastąpić ćwiczenia dnia?",
+    "dayReplaceBody": "Ćwiczenia tego dnia zostaną zastąpione nowym doborem. Możesz je przywrócić przyciskiem „Cofnij”.",
+    "dayApplied": "Dzień ułożony",
+    "dayOfferTitle": "Ułożyć ten dzień?",
+    "dayOfferText": "Ten dzień jest pusty. Asystent dobierze ćwiczenia do grup mięśni, sprzętu i czasu — potem wszystko możesz zmienić.",
+    "dayCta": "Ułóż dzień",
+    "notNow": "Nie teraz",
+    "offerHidden": "Asystent jest zawsze pod ręką: w menu „…” dnia i w Ustawieniach.",
+    "menuDay": "Asystent: ułóż dzień",
+    "assistant": "Asystent",
+    "assistantText": "Ułoży plan albo jeden dzień pod twoje cele, sprzęt i czas. Potem wszystko poprawisz ręcznie."
   }
 }

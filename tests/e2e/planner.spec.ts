@@ -47,8 +47,8 @@ async function walkToPreview(page: Page, w = 390) {
 test('wizard builds a draft; replace, pin, rebuild; apply replaces the plan with undo', async ({ page }) => {
   await fresh(page);
   await onboard(page);
-  await page.getByRole('link', { name: 'Plan', exact: true }).click();
-  await page.getByRole('button', { name: 'Build a plan' }).click();
+  await page.getByRole('link', { name: 'Settings', exact: true }).click();
+  await page.getByRole('region', { name: 'Assistant' }).getByRole('button', { name: 'Build a plan' }).click();
   const sheet = await walkToPreview(page);
 
   await expect(
@@ -100,8 +100,11 @@ for (const w of [375, 430]) {
     await page.setViewportSize({ width: w, height: 800 });
     await fresh(page);
     await onboard(page);
-    await page.getByRole('link', { name: 'Plan', exact: true }).click();
-    await page.getByRole('button', { name: 'Build a plan' }).click();
+    await page.getByRole('link', { name: 'Settings', exact: true }).click();
+    await page
+      .getByRole('region', { name: 'Assistant' })
+      .getByRole('button', { name: 'Build a plan' })
+      .click();
     await walkToPreview(page, w);
     expect(await noOverflow(page)).toEqual({ scroll: true, bad: [] });
   });
@@ -113,18 +116,14 @@ test('onboarding: «Plan builder» card above templates opens the wizard after s
   await expect(page.getByRole('dialog', { name: 'Plan builder' })).toBeVisible();
 });
 
-test('3.20: helper card at the bottom of Plan; active segment text is readable; menu keeps off the edge', async ({
+test('3.20: day menu keeps off the edge; active segment text is readable; no 4-group limit', async ({
   page,
 }) => {
   await fresh(page);
   await onboard(page);
   await page.getByRole('link', { name: 'Plan', exact: true }).click();
-  // карточка подбора — последний блок экрана «План», в рамке
-  const box = page.locator('.screen.plan > .planner-box');
-  await expect(box).toBeVisible();
-  expect(
-    await page.evaluate(() => document.querySelector('.screen.plan > :last-child')?.className),
-  ).toContain('planner-box');
+  // план собран — карточки помощника на экране нет, он в настройках и в меню дня
+  await expect(page.locator('.screen.plan .planner-box')).toHaveCount(0);
 
   // меню «…» дня: «Отмена» не прилипает к низу и бокам экрана
   await page.locator('.dayhead-more').click();
@@ -139,7 +138,8 @@ test('3.20: helper card at the bottom of Plan; active segment text is readable; 
   await cancel.click();
 
   // выбранная плашка переключателя в мастере: текст отличается от фона
-  await box.getByRole('button', { name: 'Build a plan' }).click();
+  await page.getByRole('link', { name: 'Settings', exact: true }).click();
+  await page.getByRole('region', { name: 'Assistant' }).getByRole('button', { name: 'Build a plan' }).click();
   const sheet = page.getByRole('dialog', { name: 'Plan builder' });
   await sheet.getByRole('button', { name: 'Next' }).click();
   for (const place of ['Home', 'Gym', 'Outdoors']) {
@@ -162,4 +162,64 @@ test('3.20: helper card at the bottom of Plan; active segment text is readable; 
     await sheet.getByRole('button', { name: g, exact: true }).click();
   await expect(sheet.locator('.pick.on')).toHaveCount(5);
   await expect(sheet.locator('.pick:disabled')).toHaveCount(0);
+});
+
+test('3.20: empty day — offer to build just that day; «Not now» hides it; day menu builds a day', async ({
+  page,
+}) => {
+  await fresh(page);
+  await onboard(page);
+  await page.getByRole('link', { name: 'Plan', exact: true }).click();
+  // новый пустой день — карточка «Собрать этот день?» под тренировкой дня
+  await page.getByRole('button', { name: 'Add day' }).click();
+  const offer = page.getByRole('region', { name: 'Build this day?' });
+  await expect(offer).toBeVisible();
+  await offer.getByRole('button', { name: 'Build the day' }).click();
+  const sheet = page.getByRole('dialog', { name: 'Build a day' });
+  // без шага «дни»: 5 шагов
+  await expect(sheet.getByText('Step 1 of 5')).toBeVisible();
+  await sheet.getByRole('button', { name: 'Chest', exact: true }).click();
+  await sheet.getByRole('button', { name: 'Biceps', exact: true }).click();
+  for (let k = 0; k < 3; k++) await sheet.getByRole('button', { name: 'Next' }).click();
+  await sheet.getByRole('button', { name: 'Build' }).click();
+  await expect(sheet.locator('.planner-day')).toHaveCount(1);
+  await expect(sheet.locator('.planner-day h3')).toHaveText('Chest + Biceps');
+  await sheet.getByRole('button', { name: 'Use this plan' }).click();
+  await expect(page.getByText('Day built')).toBeVisible();
+  // день заполнен — карточки нет, остальные дни не тронуты
+  await expect(offer).toHaveCount(0);
+  await expect(page.getByRole('tab', { name: /Day 5 Chest \+ Biceps/ })).toBeVisible();
+  await expect(page.getByRole('tab')).toHaveCount(5);
+
+  // ещё один пустой день — «Не сейчас» прячет карточку, подсказка — где искать помощника
+  await page.getByRole('button', { name: 'Add day' }).click();
+  await expect(offer).toBeVisible();
+  await offer.getByRole('button', { name: 'Not now' }).click();
+  await expect(offer).toHaveCount(0);
+  await expect(page.getByText('The assistant is always at hand', { exact: false })).toBeVisible();
+
+  // меню «…» дня: «Помощник: собрать день»; занятый день — спросить про замену
+  await page.getByRole('tab', { name: /Day 1/ }).click();
+  await page.locator('.dayhead-more').click();
+  await page.getByRole('button', { name: 'Assistant: build the day' }).click();
+  for (let k = 0; k < 3; k++) await sheet.getByRole('button', { name: 'Next' }).click();
+  await sheet.getByRole('button', { name: 'Build' }).click();
+  await sheet.getByRole('button', { name: 'Use this plan' }).click();
+  await page.getByRole('alertdialog').getByRole('button', { name: 'Replace plan' }).click();
+  await expect(page.getByText('Day built')).toBeVisible();
+});
+
+test('3.20: rules — four cards; can be hidden in Settings; stop signs stay at the bottom', async ({
+  page,
+}) => {
+  await fresh(page);
+  await onboard(page);
+  await page.getByRole('link', { name: 'Plan', exact: true }).click();
+  await expect(page.locator('.rules .rule')).toHaveCount(4);
+  await expect(page.locator('.stop-note')).toBeVisible();
+  await page.getByRole('link', { name: 'Settings', exact: true }).click();
+  await page.getByRole('switch', { name: 'Rules on the Plan screen' }).click();
+  await page.getByRole('link', { name: 'Plan', exact: true }).click();
+  await expect(page.locator('.rules')).toHaveCount(0);
+  await expect(page.locator('.stop-note')).toBeVisible();
 });

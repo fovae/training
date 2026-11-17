@@ -7,6 +7,7 @@ import { cmToFtIn, fmtWeight } from '../../lib/format';
 import { ask, pickedDayId, planDayId, route, toast } from '../../state/ui';
 import { stopRest } from '../../features/timer';
 import { plan, setMode } from '../../state/plan';
+import { openPlanner } from '../../state/planner';
 import {
   applyRestore,
   checkPersist,
@@ -133,6 +134,7 @@ export function Settings() {
 
       <ProfileCard />
       <ScheduleCard />
+      <AssistantCard />
 
       <section class="card group-card">
         <h2 class="card-t">{t('settings.languageAndLook')}</h2>
@@ -170,6 +172,13 @@ export function Settings() {
             <small>{t('settings.tipsHint')}</small>
           </span>
           <Toggle label={t('settings.showTips')} on={s.tipsEnabled} onChange={(v) => set('tipsEnabled', v)} />
+        </div>
+        <div class="srow">
+          <span>
+            {t('settings.showRules')}
+            <small>{t('settings.showRulesHint')}</small>
+          </span>
+          <Toggle label={t('settings.showRules')} on={!s.hideRules} onChange={(v) => set('hideRules', !v)} />
         </div>
         {s.weightWarningIgnored.length > 0 && (
           <div class="srow">
@@ -620,6 +629,27 @@ function ScheduleCard() {
       </div>
       <button type="button" class="btn secondary block" onClick={() => void onSwitch()}>
         {t(weekdays ? 'settings.switchToCycle' : 'settings.switchToWeekdays')}
+      </button>
+    </section>
+  );
+}
+
+/** Помощник «Подбор плана» — всегда здесь, даже когда на экране «План» его карточки нет */
+function AssistantCard() {
+  if (!plan.value) return null;
+  return (
+    <section class="card planner-cta planner-box assistant-card" aria-labelledby="assistant-h">
+      <div class="planner-box-h">
+        <span class="planner-box-ic" aria-hidden="true">
+          <Icon name="spark" size={20} />
+        </span>
+        <h2 class="card-t" id="assistant-h">
+          {t('planner.assistant')}
+        </h2>
+      </div>
+      <p class="muted small">{t('planner.assistantText')}</p>
+      <button type="button" class="btn secondary block" onClick={() => openPlanner()}>
+        {t('planner.cta')}
       </button>
     </section>
   );

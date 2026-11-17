@@ -167,6 +167,8 @@ export interface Settings {
   pace?: 'slow' | 'normal' | 'fast';
   /** Подстраивать оценку длительности под историю тренировок (3.15). Нет поля — да */
   useHistory?: boolean;
+  /** 3.20: скрыть карточки правил на экране «План». Нет поля — правила показываются */
+  hideRules?: boolean;
 }
 
 export const DEFAULT_SETTINGS: Settings = {

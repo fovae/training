@@ -148,44 +148,55 @@ section {
   pointer-events: none;
 }
 
-/* Правила — одна карточка-список: строки через тонкие линии, а не шесть отдельных карточек */
+/* Правила (3.20) — четыре карточки 2×2: значок в подкраске цвета дня, заголовок и короткий текст */
 .rules {
   display: grid;
-  background: var(--card);
-  border-radius: var(--r-md);
-  box-shadow: var(--shadow);
-  overflow: hidden;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-3);
+  list-style: none;
 }
 .rule {
   display: grid;
-  grid-template-columns: 34px minmax(0, 1fr);
-  column-gap: var(--space-3);
-  row-gap: 2px;
-  padding: var(--space-3) var(--space-4);
-}
-/* линия от текста, а не от края — как в списках iOS */
-.rule + .rule {
-  background: linear-gradient(var(--hairline), var(--hairline)) no-repeat
-    calc(var(--space-4) + 34px + var(--space-3)) 0 / 100% 1px;
+  align-content: start;
+  gap: var(--space-2);
+  padding: var(--space-4);
+  border-radius: var(--r-md);
+  background: var(--card);
+  box-shadow: var(--shadow);
 }
 .rule .ic {
-  grid-row: span 2;
-  width: 34px;
-  height: 34px;
-  border-radius: 11px;
+  width: 36px;
+  height: 36px;
+  border-radius: 12px;
   display: grid;
   place-items: center;
-  background: var(--soft);
-  font-size: 17px;
+  color: var(--rci, var(--accent-ink));
+  background: color-mix(in srgb, var(--rc, var(--accent)) 14%, var(--card));
 }
 .rule-t {
-  align-self: end;
-  font-size: 14.5px;
+  font-size: 15px;
   font-weight: 800;
+  line-height: 1.25;
 }
 .rule p {
+  margin: 0;
   font-size: 13.5px;
+  line-height: 1.4;
   color: var(--muted);
+}
+/* очень узкий экран — по одной в ряд */
+@media (max-width: 340px) {
+  .rules {
+    grid-template-columns: 1fr;
+  }
+}
+/* стоп-сигналы — мелко, в самом низу «Плана» */
+.note.stop-note {
+  margin-top: var(--space-6);
+  padding: var(--space-3) var(--space-4);
+  font-size: 12.5px;
+  line-height: 1.45;
+  box-shadow: none;
 }
 
 /* ---------- План: тонкие полупрозрачные разделители между разделами ---------- */

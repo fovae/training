@@ -76,8 +76,10 @@ export interface DraftItem extends PlanItem {
   warmup?: boolean;
 }
 export interface DraftDay {
-  /** Ключ названия дня: planner.day.<key> */
+  /** Ключ названия дня: planner.day.<key>; 'custom' — день на выбранные группы (название из групп) */
   key: string;
+  /** Группы дня 'custom' — для названия */
+  groups?: Group[];
   items: DraftItem[];
   estimate: Estimate;
 }
@@ -402,6 +404,42 @@ export function buildDraft(a: Answers, ctx: PlannerCtx, seed = 0, pins: DraftIte
     return { key: d.key, items, estimate: estimateItems(durationItems(items, ctx, p.byId), ctx.estimate) };
   });
   return { splitId: split.id, days, warnings: [...warnings, ...weekWarnings(a, days, ctx, p)], seed };
+}
+
+/**
+ * Один день (3.20, «Собрать день» для пустого дня плана). Выбраны группы — день на них (крупные
+ * первыми); всё тело или группы из всех разделов — день на всё тело по времени. used — упражнения
+ * других дней плана: по возможности не повторяются. Недельные подсказки об объёме здесь не нужны.
+ */
+export function buildOneDay(
+  a: Answers,
+  ctx: PlannerCtx,
+  seed = 0,
+  pins: DraftItem[] = [],
+  used: string[] = [],
+): Draft {
+  const pr = a.full ? [] : a.priorities;
+  const custom = pr.length > 0 && !spread(pr);
+  const day: SplitDay = custom
+    ? { key: 'custom', groups: [...pr].sort((x, y) => groupRank(x) - groupRank(y)) }
+    : SPLITS[a.minutes <= 45 ? 'full-1-short' : 'full-1-long']!.days[0]!;
+  const split: Split = { id: 'one-day', days: [day] };
+  const p = makePool(a, ctx);
+  const raw = buildDay(day, split, { ...a, days: 1 }, ctx, p, new Set(used), seed, pins, 0);
+  const items = orderDay(raw, p.byId);
+  const days: DraftDay[] = [
+    {
+      key: day.key,
+      ...(custom ? { groups: day.groups } : {}),
+      items,
+      estimate: estimateItems(durationItems(items, ctx, p.byId), ctx.estimate),
+    },
+  ];
+  const keep = new Set<Warning['key']>(['needsEquipment', 'restricted', 'missing']);
+  const warnings = weekWarnings({ ...a, priorities: custom ? pr : [] }, days, ctx, p).filter((w) =>
+    keep.has(w.key),
+  );
+  return { splitId: split.id, days, warnings, seed };
 }
 
 function weekWarnings(a: Answers, days: DraftDay[], ctx: PlannerCtx, p: Pool): Warning[] {

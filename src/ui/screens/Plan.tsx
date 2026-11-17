@@ -1,6 +1,7 @@
+import { signal } from '@preact/signals';
 import { useEffect, useRef, useState } from 'preact/hooks';
 import { levelBehavior } from '../../advice/levels';
-import { profile } from '../../state/settings';
+import { profile, settings } from '../../state/settings';
 import { findExercise } from '../../data/exercises';
 import { fmtNum, t, tList, weekdayLong, weekdayShort } from '../../i18n';
 import { useProgressive } from '../../lib/motion';
@@ -135,9 +136,14 @@ export function Plan() {
         </>
       </section>
 
-      <hr class="sec-div" />
+      <PlannerOffer day={day} />
 
-      <Rules />
+      {!settings.value.hideRules && (
+        <>
+          <hr class="sec-div" />
+          <Rules />
+        </>
+      )}
 
       <hr class="sec-div" />
 
@@ -157,23 +163,13 @@ export function Plan() {
         </a>
       </section>
 
-      <hr class="sec-div" />
-
-      {/* Подбор плана — внизу экрана, в цветной рамке темы */}
-      <section class="card planner-cta planner-box" aria-labelledby="planner-h">
-        <div class="planner-box-h">
-          <span class="planner-box-ic" aria-hidden="true">
-            <Icon name="spark" size={20} />
-          </span>
-          <h2 class="card-t" id="planner-h">
-            {t('planner.ctaTitle')}
-          </h2>
-        </div>
-        <p class="muted small">{t('planner.ctaText')}</p>
-        <button type="button" class="btn primary block" onClick={() => openPlanner()}>
-          {t('planner.cta')}
-        </button>
-      </section>
+      {/* стоп-сигналы — всегда, даже если правила скрыты; мелко, в самом низу */}
+      <p class="note warn stop-note">
+        <span aria-hidden="true">⚠️</span>
+        <span>
+          <b>{t('rules.stopTitle')}</b> {t('rules.stopText')}
+        </span>
+      </p>
 
       {picker && (
         <ExercisePicker
@@ -255,7 +251,11 @@ function DayTools({ day }: { day: Day }) {
   };
 
   // Управление днём — в карточке дня: «⋯» справа вверху открывает меню снизу (как у упражнений)
-  const actions: MenuAction[] = [{ label: t('plan.rename'), run: onRename }];
+  const actions: MenuAction[] = [
+    { label: t('plan.rename'), run: onRename },
+    // помощник собирает этот день (занятый — с подтверждением замены)
+    { label: t('planner.menuDay'), disabled: busy, run: () => openPlanner({}, day.id) },
+  ];
   if (p.days.length > 1)
     actions.push({ label: t('plan.copyTo'), disabled: !day.items.length, run: () => setCopying(true) });
   actions.push({ label: t('plan.clear'), disabled: !day.items.length, run: onClear });
@@ -604,33 +604,75 @@ function ExercisePicker({ day, onClose }: { day: Day; onClose: (added: number) =
 }
 
 /** Общие правила тренировок (были на странице «Программа») */
+/** Иконки и цвета карточек правил — по порядку rules.items */
+const RULE_ICONS = ['flame', 'target', 'trend', 'moon'] as const;
+
 function Rules() {
   const rules = tList('rules.items');
   return (
-    <section>
+    <section aria-labelledby="rules-h">
       <div class="sec-h">
-        <h2>{t('rules.title')}</h2>
+        <h2 id="rules-h">{t('rules.title')}</h2>
       </div>
-      <div class="rules">
+      <ul class="rules" role="list">
         {rules.map((r, i) => {
           const [title, text] = r.split('|');
           return (
-            <div class="rule" key={i}>
-              <div class="ic" aria-hidden="true">
-                {['🔥', '🎯', '📈', '⏱️', '🛌', '🔁'][i] ?? '•'}
-              </div>
+            <li class="rule" key={i} style={{ '--rc': `var(--c${i + 1})`, '--rci': `var(--c${i + 1}-ink)` }}>
+              <span class="ic" aria-hidden="true">
+                <Icon name={RULE_ICONS[i] ?? 'check'} size={20} />
+              </span>
               <h3 class="rule-t">{title}</h3>
               <p>{text}</p>
-            </div>
+            </li>
           );
         })}
-      </div>
-      <div class="note warn">
-        <span aria-hidden="true">⚠️</span>
-        <span>
-          <b>{t('rules.stopTitle')}</b> {t('rules.stopText')}
-        </span>
-      </div>
+      </ul>
     </section>
+  );
+}
+
+/** Сессия: где человек нажал «Не сейчас» ('plan' — весь план, иначе id дня) */
+const offerDismissed = signal<string[]>([]);
+
+/**
+ * Помощник на экране «План» — только когда он к месту: весь план пустой (собрать план) или
+ * выбранный день пустой (собрать день). День собран — карточки нет; «Не сейчас» прячет её до
+ * перезапуска. Всегда доступен в «Настройках» и в меню «…» дня.
+ */
+function PlannerOffer({ day }: { day: Day }) {
+  const p = plan.value!;
+  const whole = !p.days.some((d) => d.items.length);
+  const key = whole ? 'plan' : day.id;
+  if ((!whole && day.items.length) || offerDismissed.value.includes(key)) return null;
+  const dismiss = () => {
+    offerDismissed.value = [...offerDismissed.value, key];
+    toast(t('planner.offerHidden'));
+  };
+  return (
+    <>
+      <hr class="sec-div" />
+      <section class="card planner-cta planner-box" aria-labelledby="planner-h">
+        <div class="planner-box-h">
+          <span class="planner-box-ic" aria-hidden="true">
+            <Icon name="spark" size={20} />
+          </span>
+          <h2 class="card-t" id="planner-h">
+            {t(whole ? 'planner.ctaTitle' : 'planner.dayOfferTitle')}
+          </h2>
+          <button type="button" class="icon-btn planner-x" aria-label={t('planner.notNow')} onClick={dismiss}>
+            <Icon name="close" size={18} />
+          </button>
+        </div>
+        <p class="muted small">{t(whole ? 'planner.ctaText' : 'planner.dayOfferText')}</p>
+        <button
+          type="button"
+          class="btn primary block"
+          onClick={() => (whole ? openPlanner() : openPlanner({}, day.id))}
+        >
+          {t(whole ? 'planner.cta' : 'planner.dayCta')}
+        </button>
+      </section>
+    </>
   );
 }

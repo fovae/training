@@ -12,21 +12,24 @@ import {
 } from '../../data/planner';
 import { fmtNum, t } from '../../i18n';
 import { fmtDuration } from '../../lib/format';
-import { MINUTES, similar, type Answers, type Minutes, type Warning } from '../../lib/planner';
+import { MINUTES, similar, type Answers, type DraftDay, type Minutes, type Warning } from '../../lib/planner';
 import {
   answers,
   applyDraft,
+  applyDraftDay,
   buildPlanDraft,
   closePlanner,
   draft,
   planHasItems,
   plannerCtx,
+  plannerDay,
   plannerOpen,
   rebuildDraft,
   replaceDraftItem,
   togglePin,
   undoApply,
 } from '../../state/planner';
+import { plan } from '../../state/plan';
 import { ask, go, toast, toasts } from '../../state/ui';
 import type { Equipment, Level } from '../../types';
 import { exName, schemeText } from '../labels';
@@ -39,7 +42,9 @@ import { Sheet } from './Sheet';
  * предпросмотр (заменить, закрепить, пересобрать) → применить к плану с отменой.
  * Подборка по правилам, не индивидуальная рекомендация (docs/CONCEPT.md).
  */
-const STEPS = ['focus', 'place', 'days', 'time', 'level', 'preview'] as const;
+const ALL_STEPS = ['focus', 'place', 'days', 'time', 'level', 'preview'] as const;
+/** «Собрать день» — без шага «дни» */
+const stepsNow = () => (plannerDay.value ? ALL_STEPS.filter((x) => x !== 'days') : ALL_STEPS);
 const step = signal(0);
 /** Открытый список замен: день и строка */
 const replacing = signal<{ di: number; ii: number } | null>(null);
@@ -241,7 +246,7 @@ function Preview() {
       {d.days.map((day, di) => (
         <section key={di} class="card planner-day">
           <h3 class="card-t">
-            {t('day.n', { n: di + 1 })} · {t(`planner.day.${day.key}`)}
+            {plannerDay.value ? dayName(day) : `${t('day.n', { n: di + 1 })} · ${dayName(day)}`}
           </h3>
           <p class="muted small">
             {t('estimate.label', {
@@ -327,7 +332,35 @@ function Preview() {
   );
 }
 
+/** Название дня черновика: 'custom' — группы через «+», иначе planner.day.<key> */
+const dayName = (day: DraftDay) =>
+  day.key === 'custom'
+    ? (day.groups ?? []).map((g) => t(`planner.group.${g}`)).join(' + ')
+    : t(`planner.day.${day.key}`);
+
+async function onApplyDay() {
+  const d = draft.value?.days[0];
+  const target = plan.value?.days.find((x) => x.id === plannerDay.value);
+  if (!d || !target) return;
+  if (target.items.length) {
+    const res = await ask({
+      title: t('planner.dayReplaceTitle'),
+      body: t('planner.dayReplaceBody'),
+      confirm: t('planner.applyReplace'),
+    });
+    if (res !== 'confirm') return;
+  }
+  const prev = await applyDraftDay(dayName(d));
+  step.value = 0;
+  go('plan');
+  toasts.value = [];
+  toast(t('planner.dayApplied'), {
+    action: { label: t('common.undo'), run: () => void undoApply(prev) },
+  });
+}
+
 async function onApply() {
+  if (plannerDay.value) return onApplyDay();
   let how: 'replace' | 'add' = 'replace';
   if (planHasItems()) {
     const res = await ask({
@@ -357,7 +390,8 @@ export function PlannerHost() {
 
 function PlannerSheet() {
   const i = step.value;
-  const s = STEPS[i]!;
+  const STEPS = stepsNow();
+  const s = STEPS[i] ?? STEPS[STEPS.length - 1]!;
   const body = useRef<HTMLDivElement>(null);
   useLayoutEffect(() => {
     body.current?.closest('.sheet-body')?.scrollTo({ top: 0 });
@@ -373,7 +407,7 @@ function PlannerSheet() {
   };
   return (
     <Sheet
-      title={t('planner.title')}
+      title={plannerDay.value ? t('planner.dayTitle') : t('planner.title')}
       onClose={close}
       footer={
         <div class="planner-f">

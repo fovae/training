@@ -41,6 +41,7 @@ export function sanitizeSettings(raw: unknown): Settings {
   if (typeof r.flash === 'boolean') out.flash = r.flash;
   if (r.pace === 'slow' || r.pace === 'normal' || r.pace === 'fast') out.pace = r.pace;
   if (typeof r.useHistory === 'boolean') out.useHistory = r.useHistory;
+  if (typeof r.hideRules === 'boolean') out.hideRules = r.hideRules;
   // ответы помощника — как есть; значения проверяет sanitizeAnswers при открытии мастера
   if (r.planner && typeof r.planner === 'object' && !Array.isArray(r.planner))
     out.planner = r.planner as NonNullable<Settings['planner']>;
