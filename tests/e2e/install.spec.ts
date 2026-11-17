@@ -277,9 +277,11 @@ test('every install step is fully visible and not covered (scroll hint / sticky 
   const check = async () => {
     for (let i = 0; i < n; i++) {
       const step = steps.nth(i);
-      await step.scrollIntoViewIfNeeded();
       for (const part of ['.ig-num', '.ig-txt p', '.ig-scenes figure']) {
         const el = step.locator(part).first();
+        // каждую часть — в середину экрана, мгновенно: «прокрутить к шагу, если нужно» у высокого
+        // последнего шага оставляло картинку за краем, и в медленном WebKit в CI тест ждал до таймаута
+        await el.evaluate((node) => node.scrollIntoView({ block: 'center', behavior: 'instant' }));
         await expect(el).toBeInViewport({ ratio: 1 });
         // Сверху ничего не лежит: точка в центре принадлежит самому шагу
         const free = await el.evaluate((node) => {
