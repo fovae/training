@@ -1,3 +1,4 @@
+/*! Simple Training — exercise diagrams (pictograms). © 2026 Fovae & Claude. All rights reserved. Not licensed for reuse (see LICENSE, Terms of Use §6). */
 import type { PicDef, Pose } from '../engine';
 import { band, body, env, facing, shiftFront, withProps } from '../kit';
 
@@ -16,7 +17,16 @@ const lying = (arm: [number, number]): Pose =>
 
 // Лёжа грудью на наклонной скамье головой вправо, ноги упираются в пол
 const spider = (arm: [number, number]): Pose =>
-  body({ at: [60, 96], torso: 122, head: 118, arm, leg: [-60, -30], footAt: [30, 125], legBend: 1, hold: 'bb' });
+  body({
+    at: [60, 96],
+    torso: 122,
+    head: 118,
+    arm,
+    leg: [-60, -30],
+    footAt: [30, 125],
+    legBend: 1,
+    hold: 'bb',
+  });
 
 // Упор одной рукой и коленом в скамью (как тяга гантели одной рукой)
 const braced = (arm: [number, number]): Pose =>

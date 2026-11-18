@@ -1,6 +1,6 @@
 ---
-version: "1.0"
-updated: "2026-11-12"
+version: "1.1"
+updated: "2026-11-17"
 ---
 # Terms of Use
 
@@ -10,7 +10,7 @@ Simple Training is a free workout planner and logbook. It is currently a persona
 
 Contact: [fovae.work@gmail.com](mailto:fovae.work@gmail.com)
 
-The app is currently available at <https://fovae.github.io/training/>. A custom domain may be used in the future.
+The app is available at <https://simpletraining.app/>.
 
 ## 2. Acceptance and age requirement
 
@@ -26,7 +26,7 @@ If you are 16 or 17, you are responsible for deciding whether you understand the
 
 Simple Training is a self-guided tool for planning strength-training sessions, recording workouts and viewing basic progress information. It may include a fixed exercise library, exercise instructions, safety notes, timers, charts, rule-based hints and warnings about unusually heavy weights.
 
-The app is free. It has no account system, advertising or currently enabled analytics. It is designed to work offline after loading. Your profile, plans, workout records and notes are stored in your browser on your device and are not sent to Fovae. GitHub Pages hosts the app and may process technical information when your device requests it, as explained in the Privacy Policy.
+The app is free. It has no account system, advertising or currently enabled analytics. It is designed to work offline after loading. Your profile, plans, workout records and notes are stored in your browser on your device and are not sent to Fovae. Cloudflare hosts the app and processes technical information when your device requests it, as explained in the Privacy Policy.
 
 The app is not a medical, physiotherapy, rehabilitation or personal-training service. It does not diagnose conditions or provide advice tailored to your health or circumstances.
 
@@ -56,6 +56,8 @@ You may not copy, sell, sublicense or redistribute the app’s original content 
 ## 6. Intellectual property
 
 Unless a separate licence says otherwise, the app’s original text, exercise descriptions, illustrations, design and branding are owned by Fovae or used with permission. These Terms give you a limited, personal, non-exclusive and revocable permission to use the app as described here. They do not transfer ownership to you.
+
+Without Fovae’s prior written permission, you may not copy, mirror, frame, re-host or republish the app or substantial parts of it, and you may not use the exercise database, exercise descriptions, texts, illustrations or exercise diagrams in another app, website, product or dataset, including for training or building other software. This does not restrict personal use of the app as described in these Terms, rights granted by an open-source licence, or rights that cannot legally be restricted.
 
 The app includes open-source software and fonts that are subject to their own licence terms. Those licences govern your rights in those components and take priority where they differ from these Terms. Licence details are available in the app’s open-source licences page when provided.
 

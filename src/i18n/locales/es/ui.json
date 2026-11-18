@@ -563,7 +563,6 @@
       "other": "{count} entrenamientos"
     },
     "reminderLabel": "Recordatorio de copia",
-    "reminderDismiss": "Recordar más tarde",
     "err": {
       "too-big": "El archivo es demasiado grande para ser una copia.",
       "not-json": "Este archivo no parece una copia (no es JSON).",
@@ -587,7 +586,12 @@
       "upgrade": "Antes de una actualización de la app",
       "import": "Antes de una importación",
       "restore": "Antes de restaurar un punto"
-    }
+    },
+    "reminderLater": "Más tarde",
+    "reminderOff": "No recordar",
+    "reminderOffDone": "Recordatorios desactivados. Puedes activarlos en Ajustes → Datos.",
+    "remindToggle": "Recordar guardar una copia",
+    "remindToggleHint": "Una vez cada 7 entrenamientos"
   },
   "reset": {
     "button": "Eliminar todos los datos",
@@ -666,6 +670,7 @@
     "privacy": "Funciona sin conexión. Sin cuentas, anuncios, cookies ni rastreo. Tus datos se quedan solo en este dispositivo.",
     "contact": "Contacto",
     "credits": "Creado por Fovae & Claude",
+    "copyright": "© 2026 Fovae & Claude. Todos los derechos reservados.",
     "documents": "Documentos",
     "documentsHint": "Términos, privacidad, licencias"
   },
@@ -955,5 +960,13 @@
       "title": "Tus datos son solo tuyos",
       "body": "Todo se guarda en este dispositivo. Haz una copia cada semana: «{settings} → {data}»."
     }
+  },
+  "crash": {
+    "title": "Algo salió mal",
+    "body": "Tus datos están a salvo en este dispositivo. Reinicia la app; si vuelve a pasar, guarda una copia.",
+    "reload": "Reiniciar",
+    "save": "Guardar copia",
+    "saved": "Copia guardada",
+    "saveFailed": "No se pudo guardar la copia"
   }
 }

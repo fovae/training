@@ -90,24 +90,29 @@ function mark(): ScrollMark {
 /**
  * В Safari нет scroll anchoring: карточки над экраном дорисовываются позже (content-visibility) и
  * сдвигают видимое. Поэтому якорь возвращаем на место при каждом изменении размеров экрана, пока
- * список дорисовывается (до 5 с), и сразу перестаём, если человек сам начал прокручивать.
+ * список дорисовывается (до 5 с), и сразу перестаём, если человек сам что-то сделал (касание, ввод)
+ * или карточки-якоря больше нет в списке (поиск, фильтр).
  */
 function restore(m: ScrollMark, key: string): void {
   const main = document.querySelector('main');
   let frames = 12;
   let stopped = false;
+  // карточка-якорь: найденная однажды, держится та же; исчезла (поиск, фильтр) — возврат окончен
+  let anchor: HTMLElement | undefined;
   const fix = () => {
     if (stopped) return;
     if (curKey !== key) return stop();
-    const el = m.idx >= 0 ? document.querySelectorAll<HTMLElement>(ANCHORS)[m.idx] : undefined;
-    if (el) {
-      const d = el.getBoundingClientRect().top - m.top;
+    if (m.idx >= 0) {
+      anchor ??= document.querySelectorAll<HTMLElement>(ANCHORS)[m.idx];
+      if (!anchor) return;
+      if (!anchor.isConnected) return stop();
+      const d = anchor.getBoundingClientRect().top - m.top;
       if (Math.abs(d) > 1) window.scrollBy({ top: d, behavior: 'instant' });
-    } else if (m.idx < 0 && Math.abs(window.scrollY - m.y) > 1)
-      window.scrollTo({ top: m.y, behavior: 'instant' });
+    } else if (Math.abs(window.scrollY - m.y) > 1) window.scrollTo({ top: m.y, behavior: 'instant' });
   };
   const ro = typeof ResizeObserver === 'function' ? new ResizeObserver(fix) : null;
-  const events = ['touchstart', 'wheel', 'keydown'] as const;
+  // любое действие человека — касание, колесо, клавиша, ввод в поиск — и возврат больше не вмешивается
+  const events = ['touchstart', 'pointerdown', 'wheel', 'keydown', 'input'] as const;
   function stop() {
     stopped = true;
     ro?.disconnect();

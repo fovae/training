@@ -1,13 +1,12 @@
 import * as v from 'valibot';
 import { EQUIPMENT_CHOICES, GROUPS, RESTRICTIONS } from '../data/planner';
-import { migrateSettingsV2, migrateTheme, THEME_MIGRATION } from '../db/migrations';
-import { DEFAULT_SETTINGS, THEMES, type Plan, type Profile, type Session, type Settings } from '../types';
+import { THEMES, type Plan, type Profile, type Session, type Settings } from '../types';
 
 /**
  * Формат копии (docs/BACKUP.md). Чистые функции — без DOM и IndexedDB, покрыты юнит-тестами.
  *
  * {
- *   app: 'simple-training', schemaVersion: 4, createdAt: ISO, appVersion,
+ *   app: 'simple-training', schemaVersion: 1, createdAt: ISO, appVersion,
  *   data: { profile, plan, sessions, settings },
  *   checksum: 'sha256:<hex>' — SHA-256 от canonical(data)
  * }
@@ -16,15 +15,14 @@ import { DEFAULT_SETTINGS, THEMES, type Plan, type Profile, type Session, type S
 
 export const BACKUP_APP = 'simple-training';
 /**
- * 9 — релиз 3.24: Settings.tourSeen — просмотренная версия тура (необязательное поле).
- * 8 — релиз 3.20: Settings.hideRules — скрыть правила на экране «План» (необязательное поле).
- * 7 — релиз 3.18: Settings.planner — ответы помощника (необязательное поле).
- * 6 — релиз 3.17: в подходе load / weightRKg / repsR, Settings.exerciseModes (необязательные поля).
- * 5 — релиз 3.15: Settings.pace и Settings.useHistory (оценка длительности, необязательные поля).
- * 4 — релиз 3.0: новый набор тем, Settings.motion. Копии версий 3 и 4 читаются (темы переводятся).
+ * Версия формата. Нумерация начата заново с публичного релиза 0.1.0: копии тестовых версий
+ * (схемы 2–9, до 0.1.0) не читаются — при релизе все начинают с нуля (решение владельца).
+ *  1 — 0.1.0.
+ * При изменении формата увеличь BACKUP_SCHEMA, добавь прежнюю версию в READABLE_SCHEMAS и, если
+ * нужно, шаг перевода в parseBackup.
  */
-export const BACKUP_SCHEMA = 9;
-const READABLE_SCHEMAS = [3, 4, 5, 6, 7, 8, 9] as const;
+export const BACKUP_SCHEMA = 1;
+const READABLE_SCHEMAS = [1] as const;
 /** Максимальный размер файла копии */
 export const MAX_BACKUP_BYTES = 10 * 1024 * 1024;
 
@@ -126,7 +124,7 @@ const SetSchema = v.strictObject({
   seconds: v.optional(int(0, 86400)),
   done: v.boolean(),
   doneAt: v.optional(iso),
-  // 3.17 (схема 6): гантели и стороны; в копиях до 3.17 полей нет — один вес, как раньше
+  // гантели и стороны: нет поля — один вес
   load: v.optional(v.picklist(['x2', 'lr'] as const)),
   weightRKg: v.optional(num(0, 2000)),
   repsR: v.optional(int(0, 10000)),
@@ -181,28 +179,27 @@ const ProfileSchema = v.strictObject({
   legalAccepted: v.nullable(v.strictObject({ privacy: text(20), terms: text(20), at: iso })),
 });
 const SettingsSchema = v.strictObject({
-  // Темы, удалённые в 3.0 (копии версии 3), принимаем и переводим в новые после проверки суммы
-  theme: v.picklist(['auto', ...THEMES, ...Object.keys(THEME_MIGRATION)]),
+  theme: v.picklist(['auto', ...THEMES]),
   motion: v.optional(v.picklist(['system', 'on', 'off'] as const)),
   tipsEnabled: v.boolean(),
   restBaseSec: int(15, 600),
   restIsoSec: int(15, 600),
   sound: v.boolean(),
-  // копии до 3.3 поля не содержат — вспышка выключена
   flash: v.optional(v.boolean()),
   wakeLock: v.boolean(),
   lastBackupAt: v.optional(iso),
   backupReminderDismissedAt: v.optional(iso),
   tipState: v.record(v.pipe(v.string(), v.maxLength(120)), v.strictObject({ dismissedAt: iso })),
   weightWarningIgnored: v.pipe(v.array(id), v.maxLength(500)),
-  // 3.15 (схема 5): оценка длительности; в копиях до 3.15 полей нет — обычный темп, с историей
+  // оценка длительности: нет полей — обычный темп, с историей
   pace: v.optional(v.picklist(['slow', 'normal', 'fast'] as const)),
   useHistory: v.optional(v.boolean()),
-  // 3.20 (схема 8): скрыть правила на экране «План»
+  // скрыть правила на экране «План»
   hideRules: v.optional(v.boolean()),
-  // 3.24 (схема 9): просмотренная версия тура
+  backupReminderOff: v.optional(v.boolean()),
+  // просмотренная версия тура
   tourSeen: v.optional(int(0, 100)),
-  // 3.18 (схема 7): последние ответы помощника «Подбор плана»
+  // последние ответы помощника «Подбор плана»
   planner: v.optional(
     v.strictObject({
       priorities: v.pipe(v.array(v.picklist(GROUPS)), v.maxLength(GROUPS.length)),
@@ -261,25 +258,6 @@ export interface ParsedBackup {
   schemaVersion: number;
 }
 
-/** Копии этапа 1 (app 'training-pwa', schema 2) — переводим в текущий формат */
-function fromV2(r: Record<string, unknown>): ParsedBackup {
-  const settings = migrateSettingsV2(r.settings ?? DEFAULT_SETTINGS);
-  const candidate = {
-    profile: null,
-    plan: r.plan ?? null,
-    sessions: Array.isArray(r.sessions) ? r.sessions.filter((s) => (s as Session)?.endedAt) : [],
-    settings: { ...settings, tipState: {} },
-  };
-  const res = v.safeParse(DataSchema, candidate);
-  if (!res.success) throw new BackupReadError('invalid');
-  return {
-    data: res.output as BackupData,
-    createdAt: typeof r.exportedAt === 'string' ? r.exportedAt : null,
-    appVersion: typeof r.appVersion === 'string' ? r.appVersion.slice(0, 20) : null,
-    schemaVersion: 2,
-  };
-}
-
 /** Строгая проверка: размер, JSON, приложение, версия схемы, структура, контрольная сумма */
 export async function parseBackup(textContent: string, byteSize = textContent.length): Promise<ParsedBackup> {
   if (byteSize > MAX_BACKUP_BYTES) throw new BackupReadError('too-big');
@@ -291,18 +269,19 @@ export async function parseBackup(textContent: string, byteSize = textContent.le
   }
   if (!raw || typeof raw !== 'object' || Array.isArray(raw)) throw new BackupReadError('foreign');
   const r = raw as Record<string, unknown>;
-  if (r.app === 'training-pwa' && r.schema === 2) return fromV2(r);
   if (r.app !== BACKUP_APP) throw new BackupReadError('foreign');
   if (typeof r.schemaVersion !== 'number') throw new BackupReadError('invalid');
   if (r.schemaVersion > BACKUP_SCHEMA) throw new BackupReadError('newer');
+  // копия тестовой версии (до 0.1.0) — у неё другая нумерация схемы; не читаем
+  if (!(READABLE_SCHEMAS as readonly number[]).includes(r.schemaVersion) || typeof r.data !== 'object')
+    throw new BackupReadError('invalid');
   const res = v.safeParse(FileSchema, raw);
   if (!res.success) throw new BackupReadError('invalid');
   const file = res.output as BackupFile;
   const sum = 'sha256:' + (await sha256(canonical(file.data)));
   if (sum !== file.checksum) throw new BackupReadError('checksum');
-  const settings = { ...file.data.settings, theme: migrateTheme(file.data.settings.theme) };
   return {
-    data: { ...file.data, settings },
+    data: file.data,
     createdAt: file.createdAt,
     appVersion: file.appVersion,
     schemaVersion: file.schemaVersion,
@@ -328,4 +307,4 @@ export function summarize(p: ParsedBackup): BackupSummary {
   };
 }
 
-export { backupReminderDue, REMIND_EVERY_DAYS, REMIND_SNOOZE_DAYS } from './reminder';
+export { backupReminderDue, REMIND_EVERY } from './reminder';

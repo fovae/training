@@ -1,5 +1,5 @@
 import { render } from 'preact';
-import '@fontsource-variable/manrope/wght.css';
+import './styles/fonts.css';
 import 'virtual:themes.css';
 import './styles/tokens.css';
 import './styles/base.css';
@@ -10,6 +10,7 @@ import './styles/layout.css';
 import './styles/motion.css';
 
 import { App } from './ui/App';
+import { ErrorBoundary } from './ui/components/ErrorBoundary';
 import { initApp } from './state/app';
 import { installAudioUnlock } from './features/audio';
 import { installWakeLock } from './features/wakelock';
@@ -24,7 +25,12 @@ document.addEventListener('touchstart', () => {}, { passive: true });
 installAudioUnlock();
 installKeyboard();
 
-render(<App />, document.getElementById('app')!);
+render(
+  <ErrorBoundary full>
+    <App />
+  </ErrorBoundary>,
+  document.getElementById('app')!,
+);
 void initApp().then(() => {
   installWakeLock();
   void initUndo();

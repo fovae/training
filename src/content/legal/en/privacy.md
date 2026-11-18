@@ -1,6 +1,6 @@
 ---
-version: "1.2"
-updated: "2026-11-12"
+version: "1.3"
+updated: "2026-11-17"
 ---
 # Privacy Policy
 
@@ -10,7 +10,7 @@ Simple Training is a free workout planner and logbook. It is currently a persona
 
 Contact: [fovae.work@gmail.com](mailto:fovae.work@gmail.com)
 
-Simple Training is currently available at <https://fovae.github.io/training/>. If we move it to a custom domain, we will update this Policy and the app’s legal-document links.
+Simple Training is available at <https://simpletraining.app/>. It was previously available at <https://fovae.github.io/training/>; data stored in your browser for the previous address is not transferred to the new address.
 
 Fovae is responsible for personal information it receives, such as messages sent to the contact email. The app is designed so that your profile, plan, workout history and notes stay in your browser on your device and are not sent to Fovae.
 
@@ -20,7 +20,7 @@ Fovae is responsible for personal information it receives, such as messages sent
 - The app does not include advertising.
 - The app does not currently use analytics, advertising trackers or cookies.
 - Your profile, training plan, workout records and notes are stored locally in your browser. We do not receive or have access to them.
-- GitHub Pages hosts the app. When your device requests the site, GitHub may process technical request and security information, such as your IP address. We do not have access to GitHub’s hosting logs.
+- Cloudflare hosts the app. When your device requests the site, Cloudflare processes technical request and security information, such as your IP address. We do not use Cloudflare’s analytics features; Cloudflare may show us only aggregated traffic totals that do not identify you.
 - The app creates backup files in readable JSON format. It does not encrypt them or upload them to Fovae. You choose where to save or share them.
 
 ## 3. Who may use the app
@@ -56,11 +56,11 @@ If you email us, we receive the information in your message and the contact deta
 
 Our contact email uses Google Gmail. Google may process email information on servers outside the country where you live, including outside the European Economic Area. Please review [Google’s Privacy Policy](https://policies.google.com/privacy) and [information about Google’s data transfers](https://policies.google.com/privacy/frameworks).
 
-### Technical information handled by GitHub Pages
+### Technical information handled by Cloudflare
 
-The app is hosted by GitHub Pages, a service provided by GitHub. When you visit the app, your browser must make a network request to GitHub’s servers. GitHub may process technical information such as your IP address, request details, timestamps and security logs to deliver and protect the hosting service. Fovae does not operate GitHub’s servers and cannot see or retrieve those logs.
+The app is hosted on Cloudflare Pages, a service provided by Cloudflare, Inc. When you visit the app, your browser must make a network request to Cloudflare’s servers. Cloudflare processes technical information such as your IP address, request details, timestamps and security signals to deliver the app and protect it against abuse. Fovae does not operate Cloudflare’s servers and does not use Cloudflare’s web analytics or log-export features for the app. Cloudflare’s dashboard may show us aggregated totals, such as the number of requests or approximate countries, that do not identify you.
 
-GitHub handles this information under its own privacy information and terms. Please review [GitHub’s Privacy Statement](https://docs.github.com/en/site-policy/privacy-policies/github-privacy-statement). We do not control GitHub’s precise log retention, its use of service providers, or any international transfers it makes. We do not direct or access these logs, so we do not describe GitHub as our processor for them.
+Cloudflare processes this information as our service provider under its own terms and data processing commitments. Please review [Cloudflare’s Privacy Policy](https://www.cloudflare.com/privacypolicy/). Cloudflare operates a global network, so requests may be handled on servers outside the country where you live, including outside the European Economic Area.
 
 ## 6. Analytics
 

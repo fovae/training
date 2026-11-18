@@ -72,7 +72,7 @@ async function setTheme(theme) {
     (theme) =>
       new Promise((res) => {
         localStorage.setItem('tp-boot', JSON.stringify({ locale: 'en', theme }));
-        const r = indexedDB.open('training-pwa');
+        const r = indexedDB.open('simple-training');
         r.onsuccess = () => {
           const kv = r.result.transaction('kv', 'readwrite').objectStore('kv');
           const g = kv.get('settings');

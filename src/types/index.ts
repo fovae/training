@@ -156,6 +156,8 @@ export interface Settings {
   lastBackupAt?: string;
   /** ISO, когда закрыли напоминание о копии */
   backupReminderDismissedAt?: string;
+  /** «Не напоминать» о копии (0.1.0). Нет поля — напоминание раз в 7 тренировок */
+  backupReminderOff?: boolean;
   tipState: Record<string, TipMark>;
   /** id упражнений с «Больше не предупреждать» о весе */
   weightWarningIgnored: string[];

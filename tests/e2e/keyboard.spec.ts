@@ -117,10 +117,14 @@ test('exercise search in the picker sheet: search field visible above the keyboa
   await openKeyboard(page);
   await search.fill('curl');
   await expectVisibleAboveKeyboard(page, search);
-  // лист не выше видимой части окна
-  const box = await sheet.boundingBox();
+  // лист не выше видимой части окна (высота листа подстраивается под клавиатуру — ждём, пока встанет)
   const visible = (await page.evaluate(() => innerHeight)) - KB;
-  expect(box!.y + box!.height).toBeLessThanOrEqual(visible + 1);
+  await expect
+    .poll(async () => {
+      const box = await sheet.boundingBox();
+      return box ? box.y + box.height : Infinity;
+    })
+    .toBeLessThanOrEqual(visible + 1);
 });
 
 test('dumbbells: ×2 by default, L & R gives two fields above the keyboard; alternating odd total asks', async ({

@@ -3,10 +3,9 @@ import { defineConfig, devices } from '@playwright/test';
 /**
  * E2E на эмуляции iPhone (WebKit — движок Safari) и Pixel (Chromium).
  * locale ru-RU специально: приложение не должно подставлять язык телефона.
- * iPhone 17 Pro Max (440×956) временно убран из матрицы: тест «Назад» на нём расходится на ~18 px.
  * Тесты гоняются на production-сборке (vite preview), чтобы работал service worker.
  */
-const ALL_IPHONES = ['iPhone 11', 'iPhone 13', 'iPhone 15 Pro Max'] as const;
+const ALL_IPHONES = ['iPhone 11', 'iPhone 13', 'iPhone 15 Pro Max', 'iPhone 17 Pro Max'] as const;
 /**
  * На CI по умолчанию — сокращённая матрица (самый маленький и самый большой iPhone).
  * Полная: локально или в CI с FULL_MATRIX=1 (workflow_dispatch → full).
@@ -27,6 +26,12 @@ export default defineConfig({
     trace: 'retain-on-failure',
     locale: 'ru-RU',
     timezoneId: 'Europe/Moscow',
+    // Метка эпохи данных (index.html, tp-epoch) — как у установленного 0.1.0: без неё первый запуск
+    // очищает localStorage, и ключи, записанные тестом заранее (addInitScript), пропали бы
+    storageState: {
+      cookies: [],
+      origins: [{ origin: 'http://localhost:4173', localStorage: [{ name: 'tp-epoch', value: '1' }] }],
+    },
   },
   projects: [
     {
@@ -39,7 +44,12 @@ export default defineConfig({
       testIgnore: /(offline|desktop|\.unit)\.spec\.ts/,
       use: { ...devices[name], browserName: 'webkit' as const },
     })),
-    // Pixel 7 (Android, Chromium) временно убран: тест меню «Действия» на нём нестабилен
+    {
+      // Android: Chromium с эмуляцией Pixel
+      name: 'Pixel 7',
+      testIgnore: /(offline|desktop|a11y|\.unit)\.spec\.ts/,
+      use: { ...devices['Pixel 7'] },
+    },
     {
       // Service worker + офлайн надёжнее всего проверяются в Chromium; viewport как у iPhone
       name: 'offline-chromium',

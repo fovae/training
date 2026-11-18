@@ -25,7 +25,7 @@ import { DayHead } from '../components/DayHead';
 import { DaySwitcher } from '../components/DaySwitcher';
 import { ExerciseCard, TipCard } from '../components/ExerciseCard';
 import { dayTips } from '../../advice';
-import { dismissReminder, reminderDue, saveCopyFlow } from '../../features/backup';
+import { disableReminder, dismissReminder, reminderDue, saveCopyFlow } from '../../features/backup';
 import { Icon } from '../components/Icon';
 import { dayNumber, exName, muscleName } from '../labels';
 import { leave, scrollBehavior } from '../../lib/motion';
@@ -351,26 +351,37 @@ function exActions(
   return actions;
 }
 
-/** «Обнови копию»: раз в 14 дней после подтверждённого экспорта; закрыл — до следующего срока. Никаких push. */
+/**
+ * «Сохрани копию»: один раз на каждую 7-ю тренировку после последней копии (backup/reminder.ts).
+ * «Позже» — до следующей семёрки, «Не напоминать» — совсем (включить обратно — настройки → «Данные»).
+ */
 function BackupReminder() {
-  const onSave = () => saveCopyFlow();
+  const close = (el: EventTarget | null, fn: () => void) =>
+    leave((el as HTMLElement | null)?.closest('.backup-reminder') ?? null, fn);
   return (
     <aside class="card backup-reminder" aria-label={t('backup.reminderLabel')}>
       <div class="br-text">
         <b>{t('legal.backupReminder')}</b>
         <span class="muted small">{t('legal.backupReminderNote')}</span>
       </div>
+      <button type="button" class="btn primary" onClick={() => void saveCopyFlow()}>
+        <Icon name="share" size={18} /> {t('backup.save')}
+      </button>
       <div class="br-actions">
-        <button type="button" class="btn primary" onClick={() => void onSave()}>
-          <Icon name="share" size={18} /> {t('backup.save')}
+        <button type="button" class="btn-ghost" onClick={(e) => close(e.currentTarget, dismissReminder)}>
+          {t('backup.reminderLater')}
         </button>
         <button
           type="button"
-          class="icon-btn"
-          aria-label={t('backup.reminderDismiss')}
-          onClick={(e) => leave(e.currentTarget.closest('.backup-reminder'), dismissReminder)}
+          class="btn-ghost"
+          onClick={(e) =>
+            close(e.currentTarget, () => {
+              disableReminder();
+              toast(t('backup.reminderOffDone'));
+            })
+          }
         >
-          <Icon name="close" size={20} />
+          {t('backup.reminderOff')}
         </button>
       </div>
     </aside>

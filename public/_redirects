@@ -1,0 +1,4 @@
+# Cloudflare Pages. Маршруты приложения — после «#» (#/today), поэтому правило «всё → index.html»
+# не нужно: сервер всегда отдаёт корень. Старый путь GitHub Pages (/training/…) — на корень.
+/training /  301
+/training/* /:splat  301

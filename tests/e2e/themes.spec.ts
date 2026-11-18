@@ -141,7 +141,7 @@ test('no flash of a foreign colour at start: the first frames already use the sa
         (theme) =>
           new Promise<void>((res) => {
             localStorage.setItem('tp-boot', JSON.stringify({ locale: 'en', theme }));
-            const r = indexedDB.open('training-pwa');
+            const r = indexedDB.open('simple-training');
             r.onsuccess = () => {
               const store = r.result.transaction('kv', 'readwrite').objectStore('kv');
               const g = store.get('settings');
@@ -186,14 +186,11 @@ test.describe('boot script', () => {
     for (const [id, bg] of [
       ['pine-dusk', '#14201c'],
       ['coffee-dusk', '#211913'],
-      ['crimson-night', '#211913'],
       ['gradient', '#f3f1ec'],
-      // удалённые темы прошлых версий — сразу в новом цвете
-      ['classic-orange', '#f3f1ec'],
-      ['blue', '#14161a'],
-      ['gradient-2', '#211e16'],
-      // неизвестное значение — «Авто»
+      // неизвестное значение и темы тестовых версий (до 0.1.0, карты переноса больше нет) — «Авто»
       ['neon', '#f6f6f7'],
+      ['crimson-night', '#f6f6f7'],
+      ['classic-orange', '#f6f6f7'],
     ] as const) {
       await page.evaluate((theme) => localStorage.setItem('tp-boot', JSON.stringify({ theme })), id);
       await page.reload();

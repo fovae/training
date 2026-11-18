@@ -2,8 +2,11 @@ import { computed, effect, signal } from '@preact/signals';
 import * as store from '../db';
 import { saveBoot } from '../i18n';
 import { compact } from '../lib/format';
-import { migrateTheme } from '../db/migrations';
-import { DEFAULT_SETTINGS, type Profile, type Settings } from '../types';
+import { DEFAULT_SETTINGS, THEMES, type Profile, type Settings, type ThemeId } from '../types';
+
+/** Сохранённая тема → действующая; неизвестная или пустая — «Авто» (тема по умолчанию) */
+const knownTheme = (v: unknown): ThemeId =>
+  v === 'auto' || (THEMES as readonly unknown[]).includes(v) ? (v as ThemeId) : DEFAULT_SETTINGS.theme;
 
 // ---------- настройки ----------
 
@@ -21,7 +24,7 @@ export function sanitizeSettings(raw: unknown): Settings {
     }
   }
   const out: Settings = {
-    theme: migrateTheme(r.theme),
+    theme: knownTheme(r.theme),
     motion:
       r.motion === 'on' || r.motion === 'off' || r.motion === 'system' ? r.motion : DEFAULT_SETTINGS.motion,
     tipsEnabled: bool(r.tipsEnabled, DEFAULT_SETTINGS.tipsEnabled),
@@ -42,6 +45,7 @@ export function sanitizeSettings(raw: unknown): Settings {
   if (r.pace === 'slow' || r.pace === 'normal' || r.pace === 'fast') out.pace = r.pace;
   if (typeof r.useHistory === 'boolean') out.useHistory = r.useHistory;
   if (typeof r.hideRules === 'boolean') out.hideRules = r.hideRules;
+  if (typeof r.backupReminderOff === 'boolean') out.backupReminderOff = r.backupReminderOff;
   if (typeof r.tourSeen === 'number' && Number.isInteger(r.tourSeen) && r.tourSeen >= 0 && r.tourSeen <= 100)
     out.tourSeen = r.tourSeen;
   // ответы помощника — как есть; значения проверяет sanitizeAnswers при открытии мастера

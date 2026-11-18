@@ -1,3 +1,4 @@
+/*! Simple Training — exercise diagrams (pictograms). © 2026 Fovae & Claude. All rights reserved. Not licensed for reuse (see LICENSE, Terms of Use §6). */
 /**
  * Генератор SVG-схем движений. Порт функций side/front/picSvg из исходной одностраничной версии
  * без изменения геометрии — только типы.

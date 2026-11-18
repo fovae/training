@@ -321,6 +321,13 @@ export function Settings() {
           sub={s.lastBackupAt ? when(s.lastBackupAt) : t('backup.never')}
           onClick={() => void onSave()}
         />
+        <Row icon="bell" c="c3" label={t('backup.remindToggle')} sub={t('backup.remindToggleHint')}>
+          <Toggle
+            label={t('backup.remindToggle')}
+            on={!s.backupReminderOff}
+            onChange={(v) => set('backupReminderOff', !v)}
+          />
+        </Row>
         <Row icon="upload" c="c5" label={t('backup.restore')} onClick={() => fileRef.current?.click()} />
         <input
           ref={fileRef}
@@ -405,6 +412,7 @@ export function Settings() {
         <Row icon="play" c="c5" label={t('settings.showTour')} onClick={openTour} />
       </Group>
       <p class="credits">{t('about.credits')}</p>
+      <p class="copyright small muted">{t('about.copyright')}</p>
 
       {themes && (
         <Sheet title={t('settings.theme')} onClose={() => setThemes(false)}>

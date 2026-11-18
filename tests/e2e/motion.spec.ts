@@ -116,8 +116,8 @@ test('screen transitions: nested screen comes from the right, back from the left
   await expect(page.locator('main > .screen')).toHaveCount(1);
 });
 
-// Временно отключён: на широких iPhone (15/17 Pro Max) «Назад» расходится на ~18 px — разобрать после деплоя
-test.fixme('the whole catalog: scroll, search fades the list, "Back" restores the scroll position', async ({
+// 0.1.0: возвращён — возврат прокрутки держит ту же карточку и отпускает при поиске (state/ui.ts restore)
+test('the whole catalog: scroll, search fades the list, "Back" restores the scroll position', async ({
   page,
 }) => {
   await page.emulateMedia({ reducedMotion: 'reduce' });

@@ -28,21 +28,7 @@ import { MUSCLES, allExercises, findExercise, loadCatalog } from '../../src/data
 import { needsAcceptanceFor } from '../../src/content/legal/acceptance';
 import { EASIER, TEMPLATES, buildPlan, setsFor } from '../../src/data/templates';
 import { exerciseRecords, weeklyStats } from '../../src/lib/stats';
-import {
-  migrateProfileV2,
-  migrateSettingsV2,
-  migrateSettingsV3,
-  migrateTheme,
-  THEME_MIGRATION,
-} from '../../src/db/migrations';
-import {
-  DEFAULT_SETTINGS,
-  THEMES,
-  type PlanItem,
-  type Session,
-  type SessionSet,
-  type ThemeId,
-} from '../../src/types';
+import { DEFAULT_SETTINGS, THEMES, type PlanItem, type Session, type SessionSet } from '../../src/types';
 
 test.beforeAll(() => loadCatalog());
 
@@ -436,91 +422,19 @@ test.describe('legal acceptance', () => {
   });
 });
 
-test.describe('migration v2 → v3', () => {
-  test('settings and profile', () => {
-    // v2: «light» была оранжевой темой — теперь это «Градиент»
-    expect(migrateTheme('light')).toBe('gradient');
-    expect(migrateTheme('dark')).toBe('classic-dark');
-    expect(migrateTheme('system')).toBe('auto');
-    const s = migrateSettingsV2({ theme: 'dark', restBaseSec: 180, sound: false });
-    expect(s).toMatchObject({
-      theme: 'classic-dark',
-      restBaseSec: 180,
-      sound: false,
-      tipState: {},
-      weightWarningIgnored: [],
-    });
-    expect(migrateProfileV2({ weightKg: 80 })).toMatchObject({ weightKg: 80, legalAccepted: null });
-    expect(migrateProfileV2(null)).toBeNull();
-  });
-});
-
-test.describe('theme migration (release 3.0, v3 → v4)', () => {
-  // Решение владельца: каждая пара «старая тема → новая»
-  const PAIRS: [string, ThemeId][] = [
-    ['classic-orange', 'gradient'],
-    ['gradient-1', 'gradient'],
-    ['ember', 'gradient'],
-    ['blue', 'slate-blue'],
-    ['violet', 'violet-dusk'],
-    ['green', 'pine-dusk'],
-    ['rose', 'rose-dusk'],
-    ['gradient-2', 'golden-hour'],
-    ['classic-light', 'classic-light'],
-    ['classic-dark', 'classic-dark'],
-    ['monochrome', 'monochrome'],
-    ['auto', 'auto'],
-  ];
-  for (const [from, to] of PAIRS) {
-    test(`${from} → ${to}`, () => {
-      expect(migrateTheme(from)).toBe(to);
-      expect(migrateSettingsV3({ ...DEFAULT_SETTINGS, theme: from }).theme).toBe(to);
-    });
-  }
-
-  test('unknown or missing value → auto (the default)', () => {
-    for (const v of ['nonsense', '', 'Classic-Orange', '__proto__', 'constructor', null, undefined, 7, {}])
-      expect(migrateTheme(v), String(v)).toBe('auto');
-    expect(DEFAULT_SETTINGS.theme).toBe('auto');
-    expect(migrateSettingsV3(undefined).theme).toBe('auto');
-    expect(migrateSettingsV3({ restBaseSec: 200 })).toMatchObject({ theme: 'auto', restBaseSec: 200 });
-  });
-
-  test('current themes pass through; every migration target exists', () => {
-    for (const id of THEMES) expect(migrateTheme(id)).toBe(id);
-    for (const to of Object.values(THEME_MIGRATION)) expect(['auto', ...THEMES]).toContain(to);
-    // ни одна действующая тема не числится «удалённой»
-    for (const from of Object.keys(THEME_MIGRATION)) expect(THEMES as readonly string[]).not.toContain(from);
+test.describe('themes (0.1.0)', () => {
+  test('eleven themes, Auto by default', () => {
     expect(THEMES).toHaveLength(11);
+    expect(DEFAULT_SETTINGS.theme).toBe('auto');
   });
 
-  test('settings v3 → v4 keep everything else and get motion: system', () => {
-    const v3 = {
-      theme: 'blue',
-      tipsEnabled: false,
-      restBaseSec: 180,
-      restIsoSec: 75,
-      sound: false,
-      wakeLock: true,
-      lastBackupAt: '2026-11-10T10:00:00.000Z',
-      tipState: { 'progression:x': { dismissedAt: '2026-11-01T10:00:00.000Z' } },
-      weightWarningIgnored: ['hammer-curl'],
-    };
-    expect(migrateSettingsV3(v3)).toEqual({ ...v3, theme: 'slate-blue', motion: 'system' });
-    expect(migrateSettingsV3({ ...v3, theme: 'pine-dusk', motion: 'off' })).toMatchObject({
-      theme: 'pine-dusk',
-      motion: 'off',
-    });
-  });
-
-  test('boot script in index.html uses the same map and the same theme list', () => {
+  test('boot script in index.html knows the same theme list and has no map of removed themes', () => {
     const html = readFileSync(new URL('../../index.html', import.meta.url), 'utf8');
-    const map = /var old = (\{[\s\S]*?\});/.exec(html)?.[1];
-    expect(map).toBeTruthy();
-    const parsed = new Function(`return (${map});`)() as Record<string, string>;
-    expect(parsed).toEqual({ ...THEME_MIGRATION });
+    expect(html).not.toMatch(/var old = \{/);
     const known = /var known =\s*'([^']+)'/.exec(html)?.[1]?.split(' ');
     expect(known).toEqual([...THEMES]);
+    // эпоха данных: без метки локальное хранилище очищается (данные тестовых версий не переносятся)
+    expect(html).toContain("localStorage.getItem('tp-epoch') !== '1'");
   });
 });
 

@@ -550,7 +550,6 @@
       "other": "{count} workouts"
     },
     "reminderLabel": "Backup reminder",
-    "reminderDismiss": "Remind me later",
     "err": {
       "too-big": "The file is too large for a backup.",
       "not-json": "This file doesn't look like a backup (not JSON).",
@@ -574,7 +573,12 @@
       "upgrade": "Before an app update",
       "import": "Before an import",
       "restore": "Before restoring a point"
-    }
+    },
+    "reminderLater": "Later",
+    "reminderOff": "Don't remind me",
+    "reminderOffDone": "Reminders are off. Turn them back on in Settings → Data.",
+    "remindToggle": "Remind me to save a copy",
+    "remindToggleHint": "Once every 7 workouts"
   },
   "reset": {
     "button": "Delete all data",
@@ -653,6 +657,7 @@
     "privacy": "Works offline. No accounts, ads, cookies or tracking. Your data stays only on this device.",
     "contact": "Contact",
     "credits": "Created by Fovae & Claude",
+    "copyright": "© 2026 Fovae & Claude. All rights reserved.",
     "documents": "Documents",
     "documentsHint": "Terms, privacy, licences"
   },
@@ -942,5 +947,13 @@
       "title": "Your data stays with you",
       "body": "Everything is stored on this device. Save a backup once a week: “{settings} → {data}”."
     }
+  },
+  "crash": {
+    "title": "Something went wrong",
+    "body": "Your data is safe on this device. Restart the app; if it happens again, save a copy.",
+    "reload": "Restart",
+    "save": "Save a copy",
+    "saved": "Copy saved",
+    "saveFailed": "Could not save the copy"
   }
 }

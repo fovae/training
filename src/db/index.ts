@@ -1,21 +1,21 @@
 import { openDB, type DBSchema, type IDBPDatabase } from 'idb';
 import type { Plan, Profile, Session, Settings } from '../types';
-import { migrateProfileV2, migrateSettingsV2, migrateSettingsV3 } from './migrations';
 
 /**
- * IndexedDB. Версии схемы:
- *  v2 — этап 1: sessions + kv(profile, plan, settings, activeSession).
- *  v3 — этап 2: новые поля настроек и профиля (см. migrations.ts); удалены остатки v1
- *       (хранилище workouts, kv.legacyPrefs, kv.activeWorkout).
- *  v4 — релиз 3.0: новый набор тем (сохранённая тема переводится по карте), настройка «Анимации».
- *  v5 — 3.3: локальные точки восстановления (хранилище restorePoints, не больше трёх). Перед каждым
- *       обновлением схемы данные сохраняются точкой «перед обновлением» — до шагов миграции.
+ * IndexedDB. Схема начинается заново с публичного релиза 0.1.0: данные тестовых версий не переносятся
+ * (решение владельца — при релизе все начинают с нуля). Прежняя база `training-pwa` удаляется при
+ * первом запуске (dropLegacy), её данные не читаются.
  *
- * При изменении структуры увеличь DB_VERSION и добавь шаг `if (oldVersion < N)` в upgrade().
- * Шаги идут по порядку от старой версии к новой. Старые шаги не удаляются.
+ *  v1 — 0.1.0: sessions + kv(profile, plan, settings, activeSession, restoreSnapshot) + restorePoints.
+ *
+ * При изменении структуры увеличь DB_VERSION и добавь шаг `if (oldVersion < N)` в upgrade() — шаги
+ * идут по порядку от старой версии к новой. Перед шагом миграции данные сохраняются точкой
+ * восстановления «перед обновлением» (snapshotBeforeUpgrade) — до изменения данных.
  */
-export const DB_NAME = 'training-pwa';
-export const DB_VERSION = 5;
+export const DB_NAME = 'simple-training';
+export const DB_VERSION = 1;
+/** База тестовых версий (до 0.1.0) — удаляется, не читается */
+export const LEGACY_DB_NAMES = ['training-pwa'] as const;
 
 /** Снимок данных перед восстановлением из копии — для «Отменить восстановление» */
 export interface RestoreSnapshot {
@@ -57,9 +57,19 @@ interface TrainingDB extends DBSchema {
 
 let dbp: Promise<IDBPDatabase<TrainingDB>> | null = null;
 
+/** Удаляет базы тестовых версий (до 0.1.0). Без ожидания: открытие новой базы от этого не зависит */
+function dropLegacy(): void {
+  try {
+    for (const name of LEGACY_DB_NAMES) indexedDB.deleteDatabase(name);
+  } catch {
+    /* нет доступа к IndexedDB — тогда и старой базы нет */
+  }
+}
+
 export function db(): Promise<IDBPDatabase<TrainingDB>> {
+  if (!dbp) dropLegacy();
   dbp ??= openDB<TrainingDB>(DB_NAME, DB_VERSION, {
-    async upgrade(database, oldVersion, _newVersion, tx) {
+    upgrade(database) {
       const names = database.objectStoreNames as unknown as DOMStringList;
       if (!names.contains('kv')) database.createObjectStore('kv');
       if (!names.contains('sessions')) {
@@ -68,48 +78,8 @@ export function db(): Promise<IDBPDatabase<TrainingDB>> {
         s.createIndex('by-day', 'dayId');
       }
       if (!names.contains('restorePoints')) database.createObjectStore('restorePoints', { keyPath: 'id' });
-      if (oldVersion < 1) return; // новая установка
-
-      // Перед любым обновлением схемы — точка восстановления с данными ДО миграции (v2+)
-      if (oldVersion >= 2) {
-        const kv = tx.objectStore('kv');
-        const data: FullData = {
-          profile: ((await kv.get('profile')) as Profile | undefined) ?? null,
-          plan: ((await kv.get('plan')) as Plan | undefined) ?? null,
-          settings: ((await kv.get('settings')) as Settings | undefined) ?? null,
-          active: ((await kv.get('activeSession')) as Session | undefined) ?? null,
-          sessions: await tx.objectStore('sessions').getAll(),
-        };
-        const points = tx.objectStore('restorePoints');
-        // снимок «Отменить восстановление» прежних версий тоже становится точкой
-        const undo = (await kv.get('restoreSnapshot')) as RestoreSnapshot | undefined;
-        if (undo && oldVersion < 5) {
-          const { takenAt, ...rest } = undo;
-          await points.put({ id: 'p-' + Date.parse(takenAt), takenAt, reason: 'import', dbVersion: oldVersion, data: rest });
-        }
-        const now = new Date().toISOString();
-        await points.put({ id: 'p-' + Date.now(), takenAt: now, reason: 'upgrade', dbVersion: oldVersion, data });
-        const all = (await points.getAll()).sort((a, b) => a.takenAt.localeCompare(b.takenAt));
-        for (const old of all.slice(0, Math.max(0, all.length - MAX_RESTORE_POINTS))) await points.delete(old.id);
-      }
-
-      if (oldVersion < 3) {
-        // v2 → v3: новые поля настроек и профиля; остатки v1 больше не нужны
-        if (names.contains('workouts')) database.deleteObjectStore('workouts' as never);
-        const kv = tx.objectStore('kv');
-        const s = await kv.get('settings');
-        if (s !== undefined) await kv.put(migrateSettingsV2(s), 'settings');
-        const p = migrateProfileV2(await kv.get('profile'));
-        if (p) await kv.put(p, 'profile');
-        for (const k of ['legacyPrefs', 'activeWorkout'] as unknown as KvKey[]) await kv.delete(k);
-      }
-
-      if (oldVersion < 4) {
-        // v3 → v4: удалённые темы → новые; настроек нет (тему не выбирали) — останется «Авто»
-        const kv = tx.objectStore('kv');
-        const s = await kv.get('settings');
-        if (s !== undefined) await kv.put(migrateSettingsV3(s), 'settings');
-      }
+      // Шаги будущих версий: if (oldVersion >= 1) — сначала точка «перед обновлением», затем
+      // if (oldVersion < 2) { … } (см. комментарий к DB_VERSION)
     },
     blocked() {
       console.warn('[db] upgrade blocked by another tab');
@@ -254,19 +224,19 @@ export async function addRestorePoint(reason: RestoreReason, data?: FullData): P
   const tx = d.transaction('restorePoints', 'readwrite');
   const st = tx.objectStore('restorePoints');
   const takenAt = new Date().toISOString();
-  await st.put({ id: 'p-' + Date.now() + '-' + Math.random().toString(36).slice(2, 6), takenAt, reason, dbVersion: DB_VERSION, data: snap });
+  await st.put({
+    id: 'p-' + Date.now() + '-' + Math.random().toString(36).slice(2, 6),
+    takenAt,
+    reason,
+    dbVersion: DB_VERSION,
+    data: snap,
+  });
   const all = (await st.getAll()).sort((a, b) => a.takenAt.localeCompare(b.takenAt));
   for (const old of all.slice(0, Math.max(0, all.length - MAX_RESTORE_POINTS))) await st.delete(old.id);
   await tx.done;
 }
 
-/** Данные точки, снятой в старой схеме, — к текущей (те же шаги, что в upgrade()) */
+/** Данные точки, снятой в старой схеме, — к текущей. Схема одна (v1) — данные как есть */
 export function upgradePointData(p: RestorePoint): FullData {
-  const d = structuredClone(p.data);
-  if (p.dbVersion < 3) {
-    if (d.settings) d.settings = migrateSettingsV2(d.settings) as Settings;
-    d.profile = (migrateProfileV2(d.profile) as Profile | null) ?? d.profile;
-  }
-  if (p.dbVersion < 4 && d.settings) d.settings = migrateSettingsV3(d.settings) as Settings;
-  return d;
+  return structuredClone(p.data);
 }

@@ -1,3 +1,4 @@
+import { createHash } from 'node:crypto';
 import { readFileSync } from 'node:fs';
 import { defineConfig, type Plugin } from 'vite';
 import preact from '@preact/preset-vite';
@@ -11,6 +12,13 @@ const pkg = JSON.parse(readFileSync(new URL('./package.json', import.meta.url), 
 
 // Для GitHub Pages: BASE_PATH=/имя-репозитория/ (выставляется в workflow).
 const base = process.env.BASE_PATH ?? '/';
+
+/**
+ * Адрес сайта — одно место для canonical, og:url и картинок превью (index.html, %VITE_SITE_URL%).
+ * С 0.1.0 — свой домен на Cloudflare Pages, приложение в корне (docs/ARCHITECTURE.md, «Хостинг и защита»).
+ */
+const SITE_URL = 'https://simpletraining.app/';
+process.env.VITE_SITE_URL = SITE_URL;
 
 /**
  * virtual:legal-meta — версии и даты юридических документов из frontmatter
@@ -151,6 +159,92 @@ function preloadFont(): Plugin {
   };
 }
 
+/**
+ * Хостинг (Cloudflare Pages, 0.1.0): из публичной index.html убираются служебные комментарии (HTML и
+ * строки-комментарии встроенного загрузочного скрипта), а в dist/_headers пишутся заголовки
+ * безопасности и кэширования. CSP — только свой домен; встроенный загрузочный скрипт разрешён по
+ * SHA-256 его итогового текста (считается здесь, после всех правок HTML), без 'unsafe-inline'.
+ */
+const INLINE_SCRIPT = /<script(?![^>]*\bsrc=)[^>]*>([\s\S]*?)<\/script>/g;
+function hostingHeaders(scriptHashes: string[]): string {
+  const csp = [
+    "default-src 'self'",
+    `script-src 'self' ${scriptHashes.join(' ')}`,
+    // стили: встроенный <style> заставки и style у элементов (цвета образцов тем, схемы упражнений)
+    "style-src 'self' 'unsafe-inline'",
+    "img-src 'self' data: blob:",
+    "font-src 'self'",
+    "connect-src 'self'",
+    "manifest-src 'self'",
+    "worker-src 'self'",
+    "media-src 'self' data: blob:",
+    "object-src 'none'",
+    "base-uri 'self'",
+    "form-action 'none'",
+    "frame-ancestors 'none'",
+    'upgrade-insecure-requests',
+  ].join('; ');
+  return `# Создаётся при сборке (vite.config.ts, hostingHeaders) — не править вручную
+/*
+  Content-Security-Policy: ${csp}
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: DENY
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(), usb=(), bluetooth=(), serial=(), hid=(), midi=(), magnetometer=(), gyroscope=(), accelerometer=(), browsing-topics=(), screen-wake-lock=(self)
+  Cross-Origin-Opener-Policy: same-origin
+  Cross-Origin-Resource-Policy: same-origin
+  Strict-Transport-Security: max-age=63072000; includeSubDomains; preload
+
+# Файлы с хэшем в имени — навсегда
+/assets/*
+  Cache-Control: public, max-age=31536000, immutable
+/workbox-*.js
+  Cache-Control: public, max-age=31536000, immutable
+
+# Точка входа, service worker и манифест — всегда проверять новую версию
+/
+  Cache-Control: no-cache
+/index.html
+  Cache-Control: no-cache
+/sw.js
+  Cache-Control: no-cache
+/manifest.webmanifest
+  Cache-Control: no-cache
+
+# Служебный адрес Cloudflare (*.pages.dev) — не индексировать: основной адрес один
+https://:project.pages.dev/*
+  X-Robots-Tag: noindex
+`;
+}
+function hosting(): Plugin {
+  return {
+    name: 'hosting',
+    apply: 'build',
+    enforce: 'post',
+    transformIndexHtml: {
+      order: 'post',
+      handler: (html) =>
+        html.replace(/<!--[\s\S]*?-->\s*/g, '').replace(INLINE_SCRIPT, (tag: string, body: string) =>
+          tag.replace(
+            body,
+            body
+              .split('\n')
+              .filter((l) => !/^\s*\/\//.test(l))
+              .join('\n'),
+          ),
+        ),
+    },
+    generateBundle(_opts, bundle) {
+      const html = bundle['index.html'];
+      if (!html || html.type !== 'asset') return;
+      const hashes = [...String(html.source).matchAll(INLINE_SCRIPT)].map(
+        (m) => `'sha256-${createHash('sha256').update(m[1]!).digest('base64')}'`,
+      );
+      this.emitFile({ type: 'asset', fileName: '_headers', source: hostingHeaders(hashes) });
+    },
+  };
+}
+
 export default defineConfig({
   base,
   define: {
@@ -162,6 +256,7 @@ export default defineConfig({
     legalMeta(),
     themesCss(),
     preloadFont(),
+    hosting(),
     VitePWA({
       registerType: 'prompt',
       injectRegister: false,
@@ -198,7 +293,6 @@ export default defineConfig({
         // и их расширения для польского и украинского) + иконки + splash
         // (splash-экраны лёгкие, ~15 КБ каждый — пусть будут доступны офлайн).
         globPatterns: ['**/*.{js,css,html,woff2}'],
-        globIgnores: ['**/*-greek-*', '**/*-vietnamese-*'],
         navigateFallback: 'index.html',
         cleanupOutdatedCaches: true,
       },
@@ -206,6 +300,10 @@ export default defineConfig({
     }),
   ],
   build: {
+    // карты исходников в публичную сборку не попадают; код минифицируется (по умолчанию)
+    sourcemap: false,
+    // шрифты — всегда отдельными файлами (не data: в CSS): CSP font-src 'self' без data:
+    assetsInlineLimit: (file) => (file.endsWith('.woff2') ? false : undefined),
     target: ['es2022', 'safari16'],
     cssTarget: ['safari16'],
   },

@@ -2,6 +2,10 @@ import { expect, type Locator, type Page } from '@playwright/test';
 
 /** Ключ «Продолжить в браузере» (src/features/install.ts) — тесты обходят экран установки так же */
 export const SKIP_KEY = 'tp-install-skip';
+/** Имя базы IndexedDB приложения (src/db/index.ts DB_NAME) */
+export const DB = 'simple-training';
+/** Эпоха данных (index.html, tp-epoch): хранилище с другой меткой очищается при запуске */
+export const EPOCH = '1';
 
 /** Чистый старт: без базы и localStorage, экран установки пропущен. */
 export async function fresh(
@@ -19,24 +23,29 @@ export async function fresh(
   } = {},
 ): Promise<void> {
   await page.goto('./');
-  await page.evaluate(async (skip) => {
-    localStorage.clear();
-    if (skip) localStorage.setItem('tp-install-skip', new Date().toISOString());
-    await new Promise<void>((res) => {
-      const r = indexedDB.deleteDatabase('training-pwa');
-      r.onsuccess = r.onerror = r.onblocked = () => res();
-    });
-  }, !opts.gate);
+  await page.evaluate(
+    async ([skip, name, EPOCH]) => {
+      localStorage.clear();
+      // метка эпохи данных (index.html): без неё приложение при запуске очистит хранилище ещё раз
+      localStorage.setItem('tp-epoch', EPOCH);
+      if (skip) localStorage.setItem('tp-install-skip', new Date().toISOString());
+      await new Promise<void>((res) => {
+        const r = indexedDB.deleteDatabase(name as string);
+        r.onsuccess = r.onerror = r.onblocked = () => res();
+      });
+    },
+    [!opts.gate, DB, EPOCH] as const,
+  );
   await page.reload();
   if (opts.motion === 'default') return;
   // приложение создало базу — записываем выбор и перезагружаем
   await page.locator('#boot').waitFor({ state: 'detached' });
   await page.evaluate(
-    (tour) =>
+    ([tour, name]) =>
       new Promise<void>((res, rej) => {
         const boot = JSON.parse(localStorage.getItem('tp-boot') || '{}') as object;
         localStorage.setItem('tp-boot', JSON.stringify({ ...boot, motion: 'system' }));
-        const r = indexedDB.open('training-pwa');
+        const r = indexedDB.open(name as string);
         r.onerror = () => rej(r.error);
         r.onsuccess = () => {
           const db = r.result;
@@ -52,7 +61,7 @@ export async function fresh(
           tx.onerror = () => rej(tx.error);
         };
       }),
-    !!opts.tour,
+    [!!opts.tour, DB] as const,
   );
   await page.reload();
   // заставка холодного старта (3.23) держится ~1,4 с поверх экрана — тесты начинают после неё
@@ -114,9 +123,9 @@ export async function onboard(page: Page, o: OnboardOpts = {}): Promise<void> {
 /** Какая версия тура отмечена в настройках (IndexedDB) */
 export const tourSeen = (page: Page): Promise<number> =>
   page.evaluate(
-    () =>
+    (name) =>
       new Promise<number>((res) => {
-        const r = indexedDB.open('training-pwa');
+        const r = indexedDB.open(name);
         r.onerror = () => res(0);
         r.onsuccess = () => {
           const q = r.result.transaction('kv').objectStore('kv').get('settings');
@@ -127,14 +136,46 @@ export const tourSeen = (page: Page): Promise<number> =>
           q.onerror = () => res(0);
         };
       }),
+    DB,
   );
+
+/** Добавить n завершённых тренировок в IndexedDB (до перезагрузки — приложение их не видит). Пустые: только для счёта */
+export function addSessions(page: Page, n: number, dayId = 'day-1'): Promise<void> {
+  return page.evaluate(
+    ([n, dayId, name]) =>
+      new Promise<void>((res) => {
+        const r = indexedDB.open(name as string);
+        r.onsuccess = () => {
+          const db = r.result;
+          const tx = db.transaction('sessions', 'readwrite');
+          // заканчиваются «сейчас» (+ i·10 мс): позже копии и «Позже», сделанных до вызова
+          const base = Date.now();
+          for (let i = 0; i < (n as number); i++) {
+            const t = base + i * 10;
+            tx.objectStore('sessions').put({
+              id: `seed-${t}-${i}`,
+              dayId,
+              startedAt: new Date(t - 30 * 60_000).toISOString(),
+              endedAt: new Date(t).toISOString(),
+              entries: [],
+            });
+          }
+          tx.oncomplete = () => {
+            db.close();
+            res();
+          };
+        };
+      }),
+    [n, dayId, DB] as const,
+  );
+}
 
 /** Значение из IndexedDB kv (для ожидания записи перед перезагрузкой страницы) */
 export function kv<T = unknown>(page: Page, key: string): Promise<T | null> {
   return page.evaluate(
-    (k) =>
+    ([k, name]) =>
       new Promise<T | null>((res) => {
-        const r = indexedDB.open('training-pwa');
+        const r = indexedDB.open(name);
         r.onsuccess = () => {
           const db = r.result;
           const g = db.transaction('kv').objectStore('kv').get(k);
@@ -144,7 +185,7 @@ export function kv<T = unknown>(page: Page, key: string): Promise<T | null> {
           };
         };
       }),
-    key,
+    [key, DB] as const,
   );
 }
 

@@ -576,7 +576,6 @@
       "other": "{count} treningu"
     },
     "reminderLabel": "Przypomnienie o kopii",
-    "reminderDismiss": "Przypomnij później",
     "err": {
       "too-big": "Plik jest za duży jak na kopię.",
       "not-json": "Ten plik nie wygląda na kopię (to nie JSON).",
@@ -600,7 +599,12 @@
       "upgrade": "Przed aktualizacją aplikacji",
       "import": "Przed importem",
       "restore": "Przed przywróceniem punktu"
-    }
+    },
+    "reminderLater": "Później",
+    "reminderOff": "Nie przypominaj",
+    "reminderOffDone": "Przypomnienia wyłączone. Włączysz je w Ustawieniach → Dane.",
+    "remindToggle": "Przypominaj o kopii",
+    "remindToggleHint": "Raz na 7 treningów"
   },
   "reset": {
     "button": "Usuń wszystkie dane",
@@ -679,6 +683,7 @@
     "privacy": "Działa offline. Bez kont, reklam, cookies i śledzenia. Dane zostają tylko na tym urządzeniu.",
     "contact": "Kontakt",
     "credits": "Stworzone przez Fovae & Claude",
+    "copyright": "© 2026 Fovae & Claude. Wszelkie prawa zastrzeżone.",
     "documents": "Dokumenty",
     "documentsHint": "Warunki, prywatność, licencje"
   },
@@ -968,5 +973,13 @@
       "title": "Twoje dane są tylko twoje",
       "body": "Wszystko jest na tym urządzeniu. Raz w tygodniu zapisz kopię: „{settings} → {data}”."
     }
+  },
+  "crash": {
+    "title": "Coś poszło nie tak",
+    "body": "Twoje dane są bezpieczne na tym urządzeniu. Uruchom aplikację ponownie; jeśli to się powtórzy, zapisz kopię.",
+    "reload": "Uruchom ponownie",
+    "save": "Zapisz kopię",
+    "saved": "Kopia zapisana",
+    "saveFailed": "Nie udało się zapisać kopii"
   }
 }

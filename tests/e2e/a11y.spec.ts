@@ -79,7 +79,7 @@ test('accessibility in every theme on key screens', async ({ page }, info) => {
     await page.evaluate(
       (theme) =>
         new Promise<void>((res) => {
-          const r = indexedDB.open('training-pwa');
+          const r = indexedDB.open('simple-training');
           r.onsuccess = () => {
             const kv = r.result.transaction('kv', 'readwrite').objectStore('kv');
             const g = kv.get('settings');

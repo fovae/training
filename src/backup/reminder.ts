@@ -1,24 +1,23 @@
-import type { Settings } from '../types';
-
-/** Напоминание «Сохрани копию» — отдельно от формата копии (тот грузится лениво). */
-
-export const REMIND_EVERY_DAYS = 14;
-/** Закрытое напоминание не показывается до следующего срока — тоже 14 дней */
-export const REMIND_SNOOZE_DAYS = 14;
-const DAY = 86_400_000;
+import type { Session, Settings } from '../types';
 
 /**
- * Плашка «Обнови копию»: с последнего подтверждённого экспорта прошло ≥ 14 дней (или экспорта не было,
- * а сохранить уже есть что — завершённые тренировки), и её не закрывали последние 14 дней.
+ * Напоминание «Сохрани копию» (0.1.0) — отдельно от формата копии (тот грузится лениво).
+ * Не навязываем: плашка появляется один раз на каждую 7-ю тренировку после последней копии
+ * (7, 14, 21…). «Позже» или следующая тренировка — плашка уходит до следующей семёрки;
+ * «Не напоминать» — выключает совсем (включается обратно в настройках, раздел «Данные»).
  */
+export const REMIND_EVERY = 7;
+
+const end = (s: Pick<Session, 'startedAt' | 'endedAt'>) => Date.parse(s.endedAt ?? s.startedAt);
+
 export function backupReminderDue(
-  s: Pick<Settings, 'lastBackupAt' | 'backupReminderDismissedAt'>,
-  sessions: number,
-  now: number,
+  s: Pick<Settings, 'lastBackupAt' | 'backupReminderDismissedAt' | 'backupReminderOff'>,
+  sessions: readonly Pick<Session, 'startedAt' | 'endedAt'>[],
 ): boolean {
-  const last = s.lastBackupAt ? Date.parse(s.lastBackupAt) : NaN;
-  const due = Number.isFinite(last) ? now - last >= REMIND_EVERY_DAYS * DAY : sessions > 0;
-  if (!due) return false;
-  const dismissed = s.backupReminderDismissedAt ? Date.parse(s.backupReminderDismissedAt) : NaN;
-  return !(Number.isFinite(dismissed) && now - dismissed < REMIND_SNOOZE_DAYS * DAY);
+  if (s.backupReminderOff) return false;
+  const last = s.lastBackupAt ? Date.parse(s.lastBackupAt) : -Infinity;
+  const ends = sessions.map(end).filter((t) => Number.isFinite(t) && t > last);
+  if (ends.length === 0 || ends.length % REMIND_EVERY !== 0) return false;
+  const dismissed = s.backupReminderDismissedAt ? Date.parse(s.backupReminderDismissedAt) : -Infinity;
+  return !(dismissed >= Math.max(...ends));
 }

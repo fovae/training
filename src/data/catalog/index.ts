@@ -1,3 +1,4 @@
+/*! Simple Training — exercise database: names, descriptions, technique and safety texts. © 2026 Fovae & Claude. All rights reserved. Not licensed for reuse (see LICENSE, Terms of Use §6). */
 import { PICS as BASE_PICS } from '../../pics/defs';
 import { picSvg, type PicDef } from '../../pics/engine';
 import type { Exercise } from '../../types';

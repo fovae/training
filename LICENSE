@@ -1,0 +1,15 @@
+Copyright (c) 2026 Fovae & Claude. All rights reserved.
+
+Simple Training (https://simpletraining.app/) — the application source code, the exercise
+database, exercise descriptions, texts, illustrations, exercise diagrams, design and branding —
+is proprietary. No licence is granted to copy, modify, mirror, re-host, publish, distribute,
+sublicense or sell it, or to use any part of it in another product or dataset, without prior
+written permission from Fovae (fovae.work@gmail.com).
+
+Use of the app itself is governed by the Terms of Use available in the app
+(Settings → About → Documents).
+
+Third-party components (open-source libraries and the Manrope font) are distributed under their
+own licences, listed in the app (Settings → About → Documents → Open-source licences) and in
+src/content/generated/licenses.json. Nothing in this notice restricts the rights those licences
+grant.

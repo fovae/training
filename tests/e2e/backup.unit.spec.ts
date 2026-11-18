@@ -104,103 +104,74 @@ test('HTML-like strings are kept as plain text data (rendering is text-only)', a
   expect(parsed.data.sessions[0]!.note).toBe(d.sessions[0]!.note);
 });
 
-test('stage 1 backups (training-pwa, schema 2) are migrated', async () => {
-  const old = {
-    app: 'training-pwa',
-    schema: 2,
-    exportedAt: '2026-11-01T10:00:00.000Z',
-    appVersion: '2.1.0',
-    sessions: data().sessions,
-    active: null,
-    plan: data().plan,
-    settings: {
-      theme: 'dark',
-      tipsEnabled: true,
-      restBaseSec: 150,
-      restIsoSec: 90,
-      sound: true,
-      wakeLock: true,
-    },
-  };
-  const parsed = await parseBackup(JSON.stringify(old));
-  expect(parsed.schemaVersion).toBe(2);
-  expect(parsed.data.settings.theme).toBe('classic-dark');
-  expect(parsed.data.sessions).toHaveLength(1);
-  expect(parsed.data.profile).toBeNull();
-});
-
-test('release 3.0: copies of schema 3 with removed themes are read, the theme is migrated', async () => {
+test('0.1.0: copies of test versions (old schemas, training-pwa) are not read; optional fields round-trip', async () => {
   const d = data();
-  const file = await buildBackup(d, '2.6.0');
-  // файл версии 2.x: схема 3, тема из старого набора, поля motion ещё нет
-  const v3 = structuredClone(file) as unknown as {
-    schemaVersion: number;
+  // копия тестовой версии: app 'training-pwa', schema 2
+  await expect(
+    parseBackup(JSON.stringify({ app: 'training-pwa', schema: 2, sessions: [], settings: {} })),
+  ).rejects.toMatchObject({ code: 'foreign' });
+  // simple-training со схемой тестовых версий (3–9) — «новее», чем 0.1.0 умеет: не читаем
+  const old = structuredClone(await buildBackup(d, '3.24.0')) as unknown as { schemaVersion: number };
+  old.schemaVersion = 9;
+  await expect(parseBackup(JSON.stringify(old))).rejects.toMatchObject({ code: 'newer' });
+  // удалённая тема из тестовых версий — файл не принимается
+  const neon = structuredClone(await buildBackup(d, '0.1.0')) as unknown as {
     data: { settings: Record<string, unknown> };
     checksum: string;
   };
-  v3.schemaVersion = 3;
-  delete v3.data.settings.motion;
-  for (const [from, to] of [
-    ['classic-orange', 'gradient'],
-    ['gradient-1', 'gradient'],
-    ['blue', 'slate-blue'],
-    ['violet', 'violet-dusk'],
-    ['green', 'pine-dusk'],
-    ['rose', 'rose-dusk'],
-    ['gradient-2', 'golden-hour'],
-    ['classic-dark', 'classic-dark'],
-    ['auto', 'auto'],
-  ] as const) {
-    v3.data.settings.theme = from;
-    v3.checksum = 'sha256:' + (await sha256(canonical(v3.data)));
-    const parsed = await parseBackup(JSON.stringify(v3));
-    expect(parsed.schemaVersion).toBe(3);
-    expect(parsed.data.settings.theme, from).toBe(to);
-    expect(parsed.data.sessions).toHaveLength(1);
-  }
-  // неизвестная тема — файл не принимается
-  v3.data.settings.theme = 'neon';
-  v3.checksum = 'sha256:' + (await sha256(canonical(v3.data)));
-  await expect(parseBackup(JSON.stringify(v3))).rejects.toMatchObject({ code: 'invalid' });
-  // новая копия: схема 4, настройка «Анимации» сохраняется
+  neon.data.settings.theme = 'classic-orange';
+  neon.checksum = 'sha256:' + (await sha256(canonical(neon.data)));
+  await expect(parseBackup(JSON.stringify(neon))).rejects.toMatchObject({ code: 'invalid' });
+  // необязательные настройки переживают копию
   const now = await buildBackup(
-    { ...d, settings: { ...d.settings, theme: 'sun-paper', motion: 'off' } },
-    '3.0.0',
+    {
+      ...d,
+      settings: {
+        ...d.settings,
+        theme: 'sun-paper',
+        motion: 'off',
+        pace: 'slow',
+        useHistory: false,
+        hideRules: true,
+        backupReminderOff: true,
+      },
+    },
+    '0.1.0',
   );
   expect(now.schemaVersion).toBe(BACKUP_SCHEMA);
-  // 3.15: «Мой темп» и «Учитывать мою историю» — переживают копию; копия формата 4 без них читается
-  const paced = await buildBackup(
-    { ...d, settings: { ...d.settings, pace: 'slow', useHistory: false } },
-    '3.15.0',
-  );
-  expect((await parseBackup(JSON.stringify(paced))).data.settings).toMatchObject({
-    pace: 'slow',
-    useHistory: false,
-  });
-  const v4 = structuredClone(await buildBackup(d, '3.14.0')) as unknown as { schemaVersion: number };
-  v4.schemaVersion = 4;
-  const read4 = await parseBackup(JSON.stringify(v4));
-  expect(read4.data.settings.pace).toBeUndefined();
-  expect(read4.data.settings.useHistory).toBeUndefined();
+  expect(BACKUP_SCHEMA).toBe(1);
   expect((await parseBackup(JSON.stringify(now))).data.settings).toMatchObject({
     theme: 'sun-paper',
     motion: 'off',
+    pace: 'slow',
+    useHistory: false,
+    hideRules: true,
+    backupReminderOff: true,
   });
 });
 
-test('reminder: every 14 days after the last export, dismissed — until the next due date', () => {
-  const now = Date.parse('2026-11-12T10:00:00Z');
-  const ago = (d: number) => new Date(now - d * DAY).toISOString();
-  expect(backupReminderDue({}, 0, now)).toBe(false);
-  expect(backupReminderDue({}, 1, now)).toBe(true);
-  expect(backupReminderDue({ lastBackupAt: ago(13) }, 5, now)).toBe(false);
-  expect(backupReminderDue({ lastBackupAt: ago(14) }, 5, now)).toBe(true);
-  expect(backupReminderDue({ lastBackupAt: ago(20), backupReminderDismissedAt: ago(13) }, 5, now)).toBe(
-    false,
-  );
-  expect(backupReminderDue({ lastBackupAt: ago(30), backupReminderDismissedAt: ago(14) }, 5, now)).toBe(true);
-  // копии не было: закрытое напоминание тоже молчит до следующего срока
-  expect(backupReminderDue({ backupReminderDismissedAt: ago(5) }, 3, now)).toBe(false);
+test('reminder: once per 7 workouts after the last copy; «later» — until the next 7; off — never', () => {
+  const t0 = Date.parse('2026-11-01T10:00:00Z');
+  const at = (d: number) => new Date(t0 + d * DAY).toISOString();
+  const runs = (n: number, from = 0) =>
+    Array.from({ length: n }, (_, i) => ({ startedAt: at(from + i), endedAt: at(from + i + 0.05) }));
+  expect(backupReminderDue({}, [])).toBe(false);
+  expect(backupReminderDue({}, runs(1))).toBe(false);
+  expect(backupReminderDue({}, runs(6))).toBe(false);
+  expect(backupReminderDue({}, runs(7))).toBe(true);
+  // восьмая без ответа — плашка ушла сама, до 14-й
+  expect(backupReminderDue({}, runs(8))).toBe(false);
+  expect(backupReminderDue({}, runs(14))).toBe(true);
+  // «Позже» после 7-й — молчит на 7-й, снова на 14-й
+  expect(backupReminderDue({ backupReminderDismissedAt: at(6.5) }, runs(7))).toBe(false);
+  expect(backupReminderDue({ backupReminderDismissedAt: at(6.5) }, runs(14))).toBe(true);
+  // счёт идёт от последней копии
+  expect(backupReminderDue({ lastBackupAt: at(2.5) }, runs(7))).toBe(false);
+  expect(backupReminderDue({ lastBackupAt: at(2.5) }, runs(10))).toBe(true);
+  // «Не напоминать»
+  expect(backupReminderDue({ backupReminderOff: true }, runs(7))).toBe(false);
+  // незавершённая (нет endedAt) считается по началу
+  expect(backupReminderDue({}, [...runs(6), { startedAt: at(9) }])).toBe(true);
 });
 
 test('3.24: tourSeen survives a round trip; copies without it still parse', async () => {

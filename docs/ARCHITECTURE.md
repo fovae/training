@@ -82,26 +82,21 @@ tests/e2e/*.unit.spec.ts  юнит-тесты без браузера (прое�
 
 ## Данные и миграции
 
-База `training-pwa`, текущая версия — **4**.
+База `simple-training`, текущая версия — **1** (с публичного релиза 0.1.0).
 
 | Версия | Хранилища и поля |
 | ------ | ---------------- |
-| v2 | `sessions`, `kv.profile`, `kv.plan`, `kv.settings`, `kv.activeSession` (этап 1) |
-| v3 | то же + `Settings`: 10 тем и `auto`, `tipState`, `weightWarningIgnored`, `backupReminderDismissedAt`; `Profile.legalAccepted`; `kv.restoreSnapshot` (откат восстановления) |
-| v4 | релиз 3.0: новый набор тем (`Settings.theme` переводится по `THEME_MIGRATION`), `Settings.motion` |
+| v1 | `sessions` (индексы `by-started`, `by-day`), `kv.profile`, `kv.plan`, `kv.settings`, `kv.activeSession`, `kv.restoreSnapshot`, `restorePoints` |
 
-Шаг v2 → v3 (`upgrade()` в `src/db/index.ts`, чистые функции в `src/db/migrations.ts`):
+**Релиз 0.1.0 — все с нуля (решение владельца).** Данные тестовых версий не переносятся:
 
-- тема: `light` → `classic-orange` (с 3.0 — `gradient`), `dark` → `classic-dark`, `system` → `auto`;
-- в настройки добавляются новые поля со значениями по умолчанию;
-- у профиля `legalAccepted: null`, поэтому при запуске появляется «We updated our documents»;
-- остатки v1 (хранилище `workouts`, `kv.legacyPrefs`, `kv.activeWorkout`) удаляются.
+- `index.html`: без метки `localStorage['tp-epoch'] === '1'` локальное хранилище очищается и метка
+  ставится (тема, язык, пропуск экрана установки — заново);
+- `src/db`: прежняя база `training-pwa` удаляется при первом открытии (`dropLegacy`), не читается;
+- копии тестовых версий (`app: "training-pwa"` и схемы 2–9) не принимаются.
 
-Шаг v3 → v4 (`migrateSettingsV3`): тема по карте `THEME_MIGRATION` (`src/db/migrations.ts`), `motion:
-'system'`, остальное без изменений. Нет сохранённых настроек (тему не выбирали) — «Авто». Явный выбор
-не перетирается, кроме перевода удалённых тем. Неизвестное значение → «Авто». Та же карта — в
-загрузочном скрипте `index.html` (совпадение проверяет юнит-тест). Копии формата 3 читаются, тема
-переводится; новые копии — формат 4.
+Тест: `tests/e2e/release-wipe.spec.ts`. Эпоху менять не нужно — это разовый сброс; дальнейшие
+изменения структуры — обычные шаги миграции (ниже), данные пользователей сохраняются.
 
 Тест: `tests/e2e/migration.spec.ts` (фикстуры v2 и v3) и юнит-тесты в `logic.unit.spec.ts`,
 `backup.unit.spec.ts`.
@@ -112,7 +107,7 @@ tests/e2e/*.unit.spec.ts  юнит-тесты без браузера (прое�
 
 1. Увеличь `DB_VERSION`.
 2. Добавь блок `if (oldVersion < N)` в `upgrade()`.
-3. Добавь чистую функцию в `migrations.ts`.
+3. Чистые функции шага — в `src/db/migrations.ts` (создай заново: после 0.1.0 шагов пока нет).
 4. Добавь тест с фикстурой предыдущей версии.
 
 Старые шаги не удаляй.
@@ -536,3 +531,44 @@ sharp) заливает чёрные углы, вырезает гантель �
 - База 300+ (этап 4): новые файлы `catalog/b5-…ts` + `pics/sets/b5.ts`, контактный лист для проверки.
 - Русские переводы документов: `src/content/legal/ru/`.
 - Шифрование копии паролем — позже (не сейчас).
+
+## Хостинг и защита (0.1.0)
+
+**Адрес:** https://simpletraining.app/ — приложение в корне (`base: '/'`, манифест `scope: '/'`,
+`start_url: '/#/today'`). Адрес для canonical и превью — `SITE_URL` в `vite.config.ts`.
+
+**Хостинг:** Cloudflare Pages, проект `simple-training`, режим Direct Upload. Собирает и проверяет
+GitHub Actions (`.github/workflows/deploy.yml`): lint, переводы, темы, документы, все e2e — и только
+потом `wrangler pages deploy dist`. Cloudflare сам ничего не собирает. Секреты репозитория:
+`CLOUDFLARE_API_TOKEN` (права «Account → Cloudflare Pages → Edit»), `CLOUDFLARE_ACCOUNT_ID`.
+Старый адрес `fovae.github.io/training` больше не обновляется (остался на тестовой 3.24) и
+отключится, когда репозиторий станет приватным.
+
+**Файлы хостинга** (в `dist/`):
+
+- `_headers` — создаётся при сборке (`hosting()` в `vite.config.ts`). CSP только со своим доменом:
+  загрузочный скрипт в `index.html` разрешён по SHA-256 итогового текста (без `'unsafe-inline'` для
+  скриптов), стили — `'unsafe-inline'` (цвета образцов тем, схемы), шрифты — только файлы (встраивание
+  `.woff2` в CSS выключено). `frame-ancestors 'none'` и `X-Frame-Options: DENY` — сайт нельзя
+  встроить в чужую страницу. Плюс `nosniff`, `Referrer-Policy`, `Permissions-Policy` (разрешён только
+  `screen-wake-lock` — экран не гаснет на тренировке), HSTS. Кэш: `/assets/*` и `workbox-*.js` —
+  навсегда (хэш в имени), `/`, `index.html`, `sw.js`, манифест — `no-cache` (обновления приходят сразу).
+  `*.pages.dev` — `noindex`.
+- `_redirects` (`public/`) — старый путь `/training/…` → корень. Правило «всё → index.html» не нужно:
+  маршруты после `#`.
+- `robots.txt`, `sitemap.xml` (`public/`).
+
+Тест: `tests/e2e/hosting.spec.ts` — содержимое `dist` и запуск приложения под этой CSP без нарушений.
+Изменил встроенный скрипт или добавил внешний ресурс — тест покажет.
+
+**Защита от копирования.** Код веб-приложения всегда можно скачать из браузера, поэтому защита —
+юридическая и практическая, без обфускации и «ловушек»:
+
+- `LICENSE` — All rights reserved; `package.json` — `"license": "UNLICENSED"`; © в «Настройки → О
+  приложении» (под группами), README, `<meta name="author">` и `<meta name="copyright">`.
+- Terms of Use, раздел 6 (с версии 1.1) — запрет копировать, зеркалировать, встраивать приложение и
+  использовать базу упражнений, тексты, иллюстрации и схемы в других продуктах без письменного согласия.
+- Пометка авторства в начале файлов базы упражнений (`src/data/catalog`) и схем (`src/pics`);
+  история репозитория — доказательство авторства и дат.
+- В публичной сборке нет карт исходников (`sourcemap: false`), комментариев в `index.html` и
+  служебных `docs/*.md`; код минифицирован.

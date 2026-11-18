@@ -126,12 +126,19 @@ export function installKeyboard(): void {
     revealT = window.setTimeout(() => {
       update();
       reveal();
-      // повторная проверка после плавной прокрутки: её могла прервать перерисовка или сама
-      // клавиатура (iOS ещё двигает окно) — если поле уже видно, ничего не происходит
-      recheckT = window.setTimeout(() => {
-        update();
-        reveal();
-      }, 450);
+      // повторные проверки после плавной прокрутки: её могла прервать перерисовка или сама
+      // клавиатура (iOS ещё двигает окно), а на медленном телефоне прокрутка длиннее — проверяем
+      // через 450 и 1000 мс; если поле уже видно, ничего не происходит
+      const recheck = (left: number[]) => {
+        const [next, ...rest] = left;
+        if (next === undefined) return;
+        recheckT = window.setTimeout(() => {
+          update();
+          reveal();
+          recheck(rest);
+        }, next);
+      };
+      recheck([450, 550]);
     }, ms);
   };
 

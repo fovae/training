@@ -14,6 +14,7 @@ import { DialogHost, MenuHost, Toasts } from './components/Overlays';
 import { SelectHost } from './components/Select';
 import { PlannerHost } from './components/Planner';
 import { shiftDay } from './components/DaySwitcher';
+import { ErrorBoundary } from './components/ErrorBoundary';
 import { Today } from './screens/Today';
 import { Plan } from './screens/Plan';
 import { Library, LibraryDetail } from './screens/Library';
@@ -168,7 +169,9 @@ export function App() {
         data-nav={navDir.value}
         data-side={tabSide.value || undefined}
       >
-        <Screen key={screenKey} />
+        <ErrorBoundary key={screenKey}>
+          <Screen />
+        </ErrorBoundary>
       </main>
       <RestTimerBar />
       <Toasts />

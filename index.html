@@ -8,7 +8,7 @@
       name="description"
       content="Plan workouts, log sets, and track progress with a free, ad-free workout planner. Your training data stays on your device."
     />
-    <link rel="canonical" href="https://fovae.github.io/training/" />
+    <link rel="canonical" href="%VITE_SITE_URL%" />
 
     <!-- Предпросмотр ссылки (Open Graph, Twitter/X). Адрес сайта — GitHub Pages (README); при смене
          домена поменять og:url, canonical и оба адреса картинки. og-image.png — иконка icon-512.png без
@@ -20,8 +20,8 @@
       property="og:description"
       content="A simple workout planner to build your routine, log each session, and follow your progress. Your training data stays on your device."
     />
-    <meta property="og:url" content="https://fovae.github.io/training/" />
-    <meta property="og:image" content="https://fovae.github.io/training/og-image.png" />
+    <meta property="og:url" content="%VITE_SITE_URL%" />
+    <meta property="og:image" content="%VITE_SITE_URL%og-image.png" />
     <meta property="og:image:type" content="image/png" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
@@ -33,9 +33,10 @@
       name="twitter:description"
       content="A simple workout planner to build your routine, log each session, and follow your progress. Your training data stays on your device."
     />
-    <meta name="twitter:image" content="https://fovae.github.io/training/og-image.png" />
+    <meta name="twitter:image" content="%VITE_SITE_URL%og-image.png" />
     <meta name="twitter:image:alt" content="Simple Training app icon" />
     <meta name="author" content="Fovae &amp; Claude" />
+    <meta name="copyright" content="© 2026 Fovae &amp; Claude. All rights reserved." />
 
     <!-- Цвет системных панелей: по теме системы, затем уточняется скриптом по ручной теме -->
     <meta name="theme-color" content="#f6f6f7" media="(prefers-color-scheme: light)" />
@@ -58,34 +59,23 @@
     <script>
       // Тема, анимации и язык применяются до отрисовки, чтобы не было вспышки чужого цвета
       // (tp-boot — зеркало настроек). Темы нет или она неизвестна — «Авто» (по системной теме).
-      // Карта удалённых тем и список действующих — как THEME_MIGRATION (src/db/migrations.ts) и
-      // THEMES (src/types): совпадение проверяет юнит-тест.
+      // Список действующих тем — как THEMES (src/types): совпадение проверяет юнит-тест.
+      // 0.1.0: данные тестовых версий не переносятся — локальное хранилище с меткой эпохи меньше
+      // текущей очищается (прежняя база IndexedDB удаляется в src/db, dropLegacy).
       (function () {
         var d = document.documentElement;
         d.dataset.theme = 'auto';
         // iOS, запуск с экрана «Домой»: метка для стилей (src/styles/layout.css — высота страницы)
         if (navigator.standalone === true) d.dataset.standalone = '';
         try {
+          if (localStorage.getItem('tp-epoch') !== '1') {
+            localStorage.clear();
+            localStorage.setItem('tp-epoch', '1');
+          }
           var b = JSON.parse(localStorage.getItem('tp-boot') || '{}');
-          var old = {
-            light: 'gradient',
-            dark: 'classic-dark',
-            system: 'auto',
-            'classic-orange': 'gradient',
-            'gradient-1': 'gradient',
-            ember: 'gradient',
-            blue: 'slate-blue',
-            violet: 'violet-dusk',
-            green: 'pine-dusk',
-            rose: 'rose-dusk',
-            'gradient-2': 'golden-hour',
-            'ocean-night': 'golden-hour',
-            'teal-night': 'pine-dusk',
-            'crimson-night': 'coffee-dusk',
-          };
           var known =
             'classic-light classic-dark monochrome gradient pine-dusk golden-hour violet-dusk rose-dusk slate-blue sun-paper coffee-dusk';
-          var th = old.hasOwnProperty(b.theme) ? old[b.theme] : b.theme;
+          var th = b.theme;
           var ok = typeof th === 'string' && (' ' + known + ' ').indexOf(' ' + th + ' ') >= 0;
           if (ok) d.dataset.theme = th;
           // анимации по умолчанию включены (3.15); «как в системе» — только если выбрано так
@@ -149,21 +139,23 @@
         font: 700 20px/1.2 var(--font, system-ui, sans-serif);
         letter-spacing: -0.01em;
       }
+      /* мягкий ореол за знаком: тихий, без резкой границы (0.1.0 — было ярче и с кольцом) */
       .boot-glow {
         position: absolute;
-        top: calc(var(--s) * -0.35);
+        top: calc(var(--s) * -0.2);
         left: 50%;
-        width: calc(var(--s) * 1.7);
-        height: calc(var(--s) * 1.7);
-        margin-left: calc(var(--s) * -0.85);
+        width: calc(var(--s) * 1.4);
+        height: calc(var(--s) * 1.4);
+        margin-left: calc(var(--s) * -0.7);
         border-radius: 50%;
         background: radial-gradient(
-          circle,
-          color-mix(in srgb, var(--c2, #3b82f6) 34%, transparent),
-          transparent 68%
+          circle closest-side,
+          color-mix(in srgb, var(--c2, #3b82f6) 13%, transparent),
+          color-mix(in srgb, var(--c2, #3b82f6) 6%, transparent) 55%,
+          transparent
         );
         pointer-events: none;
-        animation: boot-glow 900ms var(--ease-out, ease-out) 150ms both;
+        animation: boot-glow 1100ms var(--ease-out, ease-out) 150ms both;
       }
       .boot-bar {
         transform-box: fill-box;
@@ -226,7 +218,7 @@
       @keyframes boot-glow {
         from {
           opacity: 0;
-          transform: scale(0.6);
+          transform: scale(0.85);
         }
       }
       @keyframes boot-shine {

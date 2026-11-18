@@ -738,3 +738,34 @@ section {
 .settings > .credits {
   margin-top: var(--space-4);
 }
+.settings > .copyright {
+  margin: var(--space-1) 0 0;
+  text-align: center;
+}
+
+/* ---------- запасной экран при сбое (0.1.0, components/ErrorBoundary.tsx) ---------- */
+.crash {
+  display: grid;
+  place-items: center;
+  min-height: 60dvh;
+  padding: var(--space-4);
+}
+.crash-full {
+  min-height: 100dvh;
+  padding: calc(var(--safe-t) + var(--space-4)) calc(var(--safe-r) + var(--space-4))
+    calc(var(--safe-b) + var(--space-4)) calc(var(--safe-l) + var(--space-4));
+  background: var(--bg);
+}
+.crash-card {
+  display: grid;
+  gap: var(--space-3);
+  width: min(420px, 100%);
+  text-align: center;
+}
+.crash-card h1 {
+  margin: 0;
+  font-size: 22px;
+}
+.crash-card p {
+  margin: 0;
+}

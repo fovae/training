@@ -172,12 +172,16 @@ export async function initUndo(): Promise<void> {
 
 // ---------- напоминание ----------
 
-export const reminderDue = computed(() =>
-  backupReminderDue(settings.value, history.value.length, Date.now()),
-);
+export const reminderDue = computed(() => backupReminderDue(settings.value, history.value));
 
+/** «Позже»: до следующей 7-й тренировки */
 export function dismissReminder(): void {
   updateSettings({ backupReminderDismissedAt: new Date().toISOString() });
+}
+
+/** «Не напоминать»: выключить совсем (обратно — в настройках) */
+export function disableReminder(): void {
+  updateSettings({ backupReminderOff: true, backupReminderDismissedAt: new Date().toISOString() });
 }
 
 // ---------- постоянное хранилище ----------

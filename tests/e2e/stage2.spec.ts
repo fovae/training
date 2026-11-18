@@ -2,7 +2,7 @@ import { writeFileSync } from 'node:fs';
 import { expect, test, type Page } from '@playwright/test';
 import { buildBackup } from '../../src/backup/format';
 import { DEFAULT_SETTINGS } from '../../src/types';
-import { fresh, kv, onboard, choose, openSettings } from './helpers';
+import { addSessions, fresh, kv, onboard, choose, openSettings } from './helpers';
 
 const INCLINE = 'Incline dumbbell press';
 
@@ -141,17 +141,27 @@ test('tips: progression shows after top reps, can be dismissed, switch turns all
   await expect(page.getByRole('note').filter({ hasText: 'you can add a little weight' })).toHaveCount(0);
 });
 
-test('backup via the share sheet; reminder every 14 days with a fake clock', async ({ page }) => {
-  await page.clock.install({ time: new Date('2026-11-12T10:00:00') });
+test("backup reminder: once per 7 workouts; later / save a copy / don't remind; toggle in Settings", async ({
+  page,
+}) => {
   await fresh(page);
   await onboard(page);
-  await doWorkout(page, 10);
-  // Тренировки есть, копии не было — напоминание
-  await page.getByRole('link', { name: 'Today' }).click();
   const reminder = page.getByRole('complementary', { name: 'Backup reminder' });
+  const reload = async () => {
+    await page.evaluate(() => localStorage.setItem('tp-install-skip', new Date().toISOString()));
+    await page.reload();
+    await page.getByRole('link', { name: 'Today' }).click();
+  };
+  // 6 тренировок — тихо; седьмая — напоминание
+  await addSessions(page, 6);
+  await reload();
+  await expect(page.getByRole('navigation')).toBeVisible();
+  await expect(reminder).toHaveCount(0);
+  await doWorkout(page, 10);
+  await page.getByRole('link', { name: 'Today' }).click();
   await expect(reminder).toContainText("Save a copy so you don't lose your progress");
-  // Закрыли — нет до следующего срока (14 дней)
-  await reminder.getByRole('button', { name: 'Remind me later' }).click();
+  // «Позже» — до 14-й
+  await reminder.getByRole('button', { name: 'Later' }).click();
   await expect(reminder).toHaveCount(0);
   await expect
     .poll(
@@ -159,13 +169,12 @@ test('backup via the share sheet; reminder every 14 days with a fake clock', asy
         (await kv<{ backupReminderDismissedAt?: string }>(page, 'settings'))?.backupReminderDismissedAt,
     )
     .toBeTruthy();
-  await page.clock.setFixedTime(new Date('2026-11-20T10:00:00'));
-  await page.evaluate(() => localStorage.setItem('tp-install-skip', new Date().toISOString()));
-  await page.reload();
+  await addSessions(page, 6);
+  await reload();
+  await expect(page.getByRole('navigation')).toBeVisible();
   await expect(reminder).toHaveCount(0);
-  await page.clock.setFixedTime(new Date('2026-11-26T11:00:00'));
-  await page.evaluate(() => localStorage.setItem('tp-install-skip', new Date().toISOString()));
-  await page.reload();
+  await doWorkout(page, 10);
+  await page.getByRole('link', { name: 'Today' }).click();
   await expect(reminder).toBeVisible();
 
   // «Сохранить копию» через системное меню «Поделиться» (подмена navigator.share)
@@ -187,13 +196,19 @@ test('backup via the share sheet; reminder every 14 days with a fake clock', asy
   await expect(reminder).toHaveCount(0);
   await expect
     .poll(async () => (await kv<{ lastBackupAt?: string }>(page, 'settings'))?.lastBackupAt)
-    .toMatch(/^2026-11-26/);
-  // Через 14 дней — снова
-  await page.clock.setFixedTime(new Date('2026-12-10T12:00:00'));
-  // за 10 дней истёк и недельный пропуск экрана установки — ставим заново
-  await page.evaluate(() => localStorage.setItem('tp-install-skip', new Date().toISOString()));
-  await page.reload();
+    .toBeTruthy();
+  // 7 тренировок после копии — снова; «Не напоминать» — больше никогда
+  await addSessions(page, 7);
+  await reload();
   await expect(reminder).toBeVisible();
+  await reminder.getByRole('button', { name: "Don't remind me" }).click();
+  await expect(page.getByText('Reminders are off')).toBeVisible();
+  await expect(reminder).toHaveCount(0);
+  await page.getByRole('link', { name: 'Settings', exact: true }).click();
+  const sw = page.getByRole('switch', { name: 'Remind me to save a copy' });
+  await expect(sw).not.toBeChecked();
+  await sw.click();
+  await expect(sw).toBeChecked();
 });
 
 test('restore: strings with <script> and <img onerror> are shown as text', async ({ page }, info) => {
@@ -250,7 +265,7 @@ test('legal: documents accepted in onboarding; a new version asks again; licence
     page.evaluate(
       () =>
         new Promise<{ privacy: string; terms: string } | null>((res) => {
-          const r = indexedDB.open('training-pwa');
+          const r = indexedDB.open('simple-training');
           r.onsuccess = () => {
             const g = r.result.transaction('kv').objectStore('kv').get('profile');
             g.onsuccess = () =>
@@ -258,13 +273,13 @@ test('legal: documents accepted in onboarding; a new version asks again; licence
           };
         }),
     );
-  expect(await accepted()).toMatchObject({ privacy: '1.2', terms: '1.0' });
+  expect(await accepted()).toMatchObject({ privacy: '1.3', terms: '1.1' });
 
   // Как будто раньше была принята Privacy 1.1 — после запуска просим принять снова
   await page.evaluate(
     () =>
       new Promise<void>((res) => {
-        const r = indexedDB.open('training-pwa');
+        const r = indexedDB.open('simple-training');
         r.onsuccess = () => {
           const kv = r.result.transaction('kv', 'readwrite').objectStore('kv');
           const g = kv.get('profile');
@@ -282,7 +297,7 @@ test('legal: documents accepted in onboarding; a new version asks again; licence
   // Читать можно без принятия
   await page.getByRole('link', { name: /Terms of Use/ }).click();
   await expect(page.getByRole('heading', { name: 'Terms of Use', level: 1 })).toBeVisible();
-  await expect(page.getByText('Version 1.0, updated 12 November 2026')).toBeVisible();
+  await expect(page.getByText('Version 1.1, updated 17 November 2026')).toBeVisible();
   await page.getByRole('link', { name: 'Back' }).click();
   await expect(page.getByRole('heading', { name: 'We updated our documents' })).toBeVisible();
   await page.getByRole('button', { name: 'Accept' }).click();
@@ -293,7 +308,7 @@ test('legal: documents accepted in onboarding; a new version asks again; licence
   // Документ: оглавление, внешние ссылки — в новой вкладке с noopener noreferrer
   await page.goto('./#/legal/privacy');
   await expect(page.getByRole('navigation', { name: 'Contents' })).toBeVisible();
-  const gh = page.getByRole('link', { name: 'GitHub’s Privacy Statement' });
+  const gh = page.getByRole('link', { name: 'Cloudflare’s Privacy Policy' });
   await expect(gh).toHaveAttribute('target', '_blank');
   await expect(gh).toHaveAttribute('rel', 'noopener noreferrer');
 
@@ -361,7 +376,7 @@ test('restore points: one before an import, restoring brings data back, delete a
     await page.evaluate(
       () =>
         new Promise<number>((res) => {
-          const r = indexedDB.open('training-pwa');
+          const r = indexedDB.open('simple-training');
           r.onsuccess = () => {
             const q = r.result.transaction('restorePoints').objectStore('restorePoints').count();
             q.onsuccess = () => res(q.result);

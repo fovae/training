@@ -1,5 +1,5 @@
 import { expect, test, type Page } from '@playwright/test';
-import { fresh, onboard } from './helpers';
+import { addSessions, fresh, onboard } from './helpers';
 
 // Вёрстку меряем в покое: анимация появления сдвигает блоки на время 240 мс
 test.use({ contextOptions: { reducedMotion: 'reduce' } });
@@ -105,7 +105,9 @@ for (const lang of ['en', 'ru'] as const) {
     await fresh(page);
     await scan(page, 'onboarding-language', issues);
     await onboard(page, { lang });
-    // Тренировка с подходом → история, рекорды, напоминание о копии (копии ещё не было)
+    // Тренировка с подходом → история, рекорды, напоминание о копии (седьмая тренировка без копии)
+    await addSessions(page, 6);
+    await page.reload();
     await page.goto('./#/today');
     await page.locator('main .btn.on-color').first().click();
     await page.locator('.set input[inputmode="decimal"]').first().fill('20');
@@ -125,6 +127,7 @@ for (const lang of ['en', 'ru'] as const) {
       'legal/terms',
     ]) {
       await page.goto('./#/' + r);
+      if (r === 'today') await expect(page.locator('.backup-reminder')).toBeVisible();
       if (r === 'plan') {
         await page.waitForSelector('.item summary');
         await page.locator('.item summary').first().click();

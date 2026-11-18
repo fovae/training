@@ -1,3 +1,4 @@
+/*! Simple Training — exercise diagrams (pictograms). © 2026 Fovae & Claude. All rights reserved. Not licensed for reuse (see LICENSE, Terms of Use §6). */
 import { front, type PicDef, type Pose, type Pt } from '../engine';
 import { band, body, env, facing, frontLegs, rope, withProps, type BodySpec } from '../kit';
 
